@@ -365,19 +365,23 @@ var nvD3 = (function() {
 		AppSimulator.prototype.setSmall = function() {
 			this.reqCount = 100;
 			this.reqConn = 4;
+            ga('send', 'event', 'Simulation', 'Configuration', 'Small Preset');
 		};
 		AppSimulator.prototype.setMedium = function() {
 			this.reqCount = 512;
 			this.reqConn = 16;
-		};
+            ga('send', 'event', 'Simulation', 'Configuration', 'Medium Preset');
+        };
 		AppSimulator.prototype.setLarge = function() {
 			this.reqCount = 1024;
 			this.reqConn = 64;
-		};
+            ga('send', 'event', 'Simulation', 'Configuration', 'Large Preset');
+        };
 		AppSimulator.prototype.setHuge = function() {
 			this.reqCount = 2048;
 			this.reqConn = 128;
-		};
+            ga('send', 'event', 'Simulation', 'Configuration', 'Huge Preset');
+        };
 		AppSimulator.prototype.perc = function(p) {
 			var curPerc = Math.ceil(this.reqOK * 12 / this.reqCount);
 			return (curPerc>=p);
@@ -497,7 +501,8 @@ var nvD3 = (function() {
 			//this.tpNode = parseInt(Math.ceil((this.reqCount-this.disregard)/(this.totNode/1000.0)));
 			this.tpNode = parseInt(Math.ceil(this.tpNginx*this.totNginx/this.totNode));
 			this.calculating = false;
-		};
+            ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
+        };
         AppSimulator.prototype.percValue = function() {
             return Math.ceil(this.reqOK * 100 / this.reqCount);
         };
