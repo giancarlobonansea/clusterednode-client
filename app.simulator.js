@@ -525,7 +525,7 @@ var nvD3 = (function() {
 			}
 			if (self.observableRequests) {
 				self.observableRequests.unsubscribe();
-				//self.observableRequests = undefined;
+				self.observableRequests = undefined;
 			}
 			self.observableRequests = Rx.Observable.forkJoin(arrReq).subscribe(
 				function(response) {
@@ -555,7 +555,7 @@ var nvD3 = (function() {
 				},
 				function() {
 					self.observableRequests.unsubscribe();
-					//self.observableRequests = undefined;
+					self.observableRequests = undefined;
 					if (!self.checkStop()) {
 						self.loopCon += self.reqConn;
 						self.throwHTTPrequests(self.loopCon);
