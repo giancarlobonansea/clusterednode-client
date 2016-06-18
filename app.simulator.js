@@ -502,7 +502,7 @@ var nvD3 = (function() {
             return Math.ceil(this.reqOK * 100 / this.reqCount);
         };
 		AppSimulator.prototype.calcPosition = function(hist) {
-			return Math.ceil(this.reqCount * hist / 100);
+			return Math.ceil(this.reqOK * hist / 100);
 		};
 		AppSimulator.prototype.checkStop = function() {
 			if (this.running >= this.reqCount) {
