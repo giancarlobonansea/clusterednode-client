@@ -418,7 +418,7 @@ var nvD3 = (function() {
 			//
             var hdrRTTpost = {"arr": []};
             for (var n = 0; n < this.requests[0].length; n++) {
-                hdrRTTpost.arr.push(this.requests[0].rtt);
+                hdrRTTpost.arr.push(this.requests[0][n].rtt);
             }
             console.log(hdrRTTpost);
             this.hdrRTTresults = [];
