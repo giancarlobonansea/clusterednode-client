@@ -315,7 +315,7 @@ var nvD3 = (function() {
                     x:                       function(d) { return d.x; },
                     y:                       function(d) { return d.y; },
                     useInteractiveGuideline: true,
-                    xAxis:                   {
+                    xAxis:  {
                         axisLabel:  'Percentile (%)',
                         tickFormat: function(d) {
                             return d3.format('.05f')(d);
@@ -330,13 +330,20 @@ var nvD3 = (function() {
                                      99.9999,
                                      100]
                     },
-                    yAxis:                   {
+                    yAxis:  {
                         axisLabel:         'AngularJS Latency (ms)',
                         axisLabelDistance: -10
                     }
                     ,
-                    xScale:                  d3.scale.quantize().domain([1,
-                                                                         100]),
+                    xScale: d3.scale.log().domain([1,
+                                                   10,
+                                                   90,
+                                                   99,
+                                                   99.9,
+                                                   99.99,
+                                                   99.999,
+                                                   99.9999,
+                                                   100]),
                     // forceX:                  [1,
                     //                           100]
                 }
