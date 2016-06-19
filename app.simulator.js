@@ -302,8 +302,9 @@ var nvD3 = (function() {
                 chart: {
                     type:                    'lineChart',
                     showControls:            false,
-                    height:                  400,
+                    height:                  300,
                     showLegend:              false,
+                    duration:                500,
                     margin:                  {
                         top:    20,
                         right:  20,
@@ -332,9 +333,9 @@ var nvD3 = (function() {
                         axisLabel:         'AngularJS Latency (ms)',
                         axisLabelDistance: -10
                     }
-                    //,xScale:                  d3.scale.log(),
-                    //forceX:                  [1,
-                    //                          100]
+                    , xScale:                d3.scale.pow(),
+                    forceX:                  [1,
+                                              100]
                 }
             };
 			this.polarChartOptions = {
