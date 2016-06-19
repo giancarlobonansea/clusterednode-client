@@ -595,7 +595,7 @@ var nvD3 = (function() {
                                     for (i = 0; i < selfEXTS.histogram.length; i++) {
                                         selfEXTS.histogram[i][3] = selfEXTS.hdrEXTSresults.table[i].value / 100.0;
                                     }
-                                    console.log(selEXTS.hdrRTTresults.chart);
+                                    console.log(selfEXTS.hdrRTTresults.chart);
                                 }
                             );
                         }
