@@ -424,7 +424,7 @@ var nvD3 = (function() {
             console.log(hdrRTTpost);
             this.hdrRTTresults = [];
             var selfRTT = this;
-            this.observableRTT = this.httpService.post(this.urlHDR, hdrRTTpost).subscribe(
+            this.observableRTT = this.httpService.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
                 function(response) {
                     selfRTT.hdrRTTresults = response;
                 },
