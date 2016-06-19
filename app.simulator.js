@@ -555,7 +555,7 @@ var nvD3 = (function() {
             //
             var hdrEXTSpost = {"arr": []};
             for (var n = 0; n < this.requests[0].length; n++) {
-                hdrEXTSpost.arr.push(this.requests[0][n].exts * 100);
+                hdrEXTSpost.arr.push(parseInt(Math.ceil(this.requests[0][n].exts * 100)));
             }
             this.hdrEXTSresults = [];
             var selfEXTS = this;
