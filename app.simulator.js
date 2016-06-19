@@ -302,7 +302,8 @@ var nvD3 = (function() {
                 chart: {
                     type:                    'lineChart',
                     showControls:            false,
-                    height:                  450,
+                    height:                  400,
+                    showLegend:              false,
                     margin:                  {
                         top:    20,
                         right:  20,
@@ -317,7 +318,7 @@ var nvD3 = (function() {
                         tickFormat: function(d) {
                             return d3.format('.05f')(d);
                         },
-                        tickValues: [1,
+                        ticks:      [1,
                                      10,
                                      90,
                                      99,
