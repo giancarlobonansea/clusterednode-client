@@ -298,6 +298,32 @@ var nvD3 = (function() {
 					}
 				}
 			};
+            this.lineChartOptions = {
+                chart: {
+                    type:                    'lineChart',
+                    showControls:            false,
+                    height:                  450,
+                    margin:                  {
+                        top:    20,
+                        right:  20,
+                        bottom: 40,
+                        left:   55
+                    },
+                    x:                       function(d) { return d.x; },
+                    y:                       function(d) { return d.y; },
+                    useInteractiveGuideline: true,
+                    xAxis:                   {
+                        axisLabel:  'Percentile (%)',
+                        tickFormat: function(d) {
+                            return d3.format('.05f')(d);
+                        }
+                    },
+                    yAxis:                   {
+                        axisLabel:         'AngularJS Latency (ms)',
+                        axisLabelDistance: -10
+                    }
+                }
+            };
 			this.polarChartOptions = {
 				chart: {
 					type:          'pieChart',
@@ -353,6 +379,7 @@ var nvD3 = (function() {
 			                       {key: 'raspberrypi3', y: 25},
 			                       {key: 'raspberrypi5', y: 25},
 			                       {key: 'raspberrypi6', y: 25}];
+            this.lineChartData = [{key: 'Latency by Percentile Distribution', values: [{x: 0, y: 0}]}];
 			this.observableRequests = undefined;
 		}
 		AppSimulator.parameters = [
@@ -417,6 +444,7 @@ var nvD3 = (function() {
 			                       {key: 'raspberrypi3', y: 0},
 			                       {key: 'raspberrypi5', y: 0},
 			                       {key: 'raspberrypi6', y: 0}];
+            this.lineChartData = [{key: 'Latency by Percentile Distribution', values: [{x: 0, y: 0}]}];
 			this.disregard = parseInt(Math.ceil(this.reqCount * 4.55 / 100.0));
 			this.discardLower = Math.floor(this.disregard/2);
 			this.discardUpper = this.reqCount-Math.ceil(this.disregard/2)-1;
@@ -576,6 +604,12 @@ var nvD3 = (function() {
                             selfTSN.observableTSN = undefined;
                             for (i = 0; i < selfTSN.histogram.length; i++) {
                                 selfTSN.histogram[i][2] = selfTSN.hdrTSNresults.table[i].value;
+                            }
+                            selfTSN.lineChartData[0].values = [];
+                            for (var n = 0; n < selfTSN.hdrRTTresults.chart.length; n++) {
+                                selfTSN.lineChartData[0].values.push({x:    selfTSN.hdrRTTresults.chart[n].percentile,
+                                                                         y: selfTSN.hdrRTTresults.chart[n].value
+                                                                     });
                             }
                             selfTSN.hdrEXTSresults = {table: [], chart: []};
                             var selfEXTS = selfTSN;
