@@ -318,7 +318,7 @@ var nvD3 = (function() {
                         tickFormat: function(d) {
                             return d3.format('.05f')(d);
                         },
-                        ticks:      [1,
+                        tickValues: [1,
                                      10,
                                      90,
                                      99,
@@ -331,10 +331,10 @@ var nvD3 = (function() {
                     yAxis:                   {
                         axisLabel:         'AngularJS Latency (ms)',
                         axisLabelDistance: -10
-                    },
-                    xScale:                  d3.scale.log(),
-                    forceX:                  [1,
-                                              100]
+                    }
+                    //,xScale:                  d3.scale.log(),
+                    //forceX:                  [1,
+                    //                          100]
                 }
             };
 			this.polarChartOptions = {
