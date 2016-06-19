@@ -53,26 +53,8 @@
 </nav>
 <div class="row" *ngIf="!isRunning() && reqOK!==0">
 	<!-- Statistics -->
-	<!-- Sequence diagram static diagram -->
-	<div class="col-xs-12 col-sm-6  col-md-6  col-lg-4">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-sitemap"></i>&nbsp;Sequence Diagram</h4>
-			</div>
-			<img class="img-responsive" src="./sequence-diagram.png">
-		</div>
-	</div>
-	<!-- Execution architecture static diagram -->
-	<div class="col-xs-12 col-sm-6  col-md-6  col-lg-4">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-sitemap"></i>&nbsp;Execution Architecture</h4>
-			</div>
-			<img class="img-responsive" src="./node.png">
-		</div>
-	</div>
 	<!-- Requests statistical histogram -->
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-tachometer"></i>&nbsp;Request Duration Histogram</h4>
@@ -80,10 +62,22 @@
 			<table class="table table-striped table-condensed table-bordered table-responsive">
 				<thead>
 				<tr>
-					<th width="30%" class="text-center">Requests</th>
-					<th width="20%" class="text-center">AngularJS<br/><small>(t5-t0)</small></th>
-					<th width="20%" class="text-center">nginX<br/><small>(t4-t1)</small></th>
-					<th width="20%" class="text-center">Node.js<br/><small>(t3-t2)</small></th>
+					<th width="25%" class="text-center">Requests</th>
+					<th width="15%" class="text-center">AngularJS<br/>
+						<small>(t5-t0)</small>
+					</th>
+					<th width="15%" class="text-center">AngularJS-nginX<br/>
+						<small>Latency</small>
+					</th>
+					<th width="15%" class="text-center">nginX<br/>
+						<small>(t4-t1)</small>
+					</th>
+					<th width="15%" class="text-center">nginX-Node.js<br/>
+						<small>Latency</small>
+					</th>
+					<th width="15%" class="text-center">Node.js<br/>
+						<small>(t3-t2)</small>
+					</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -95,7 +89,13 @@
 						<small>{{hst[1] | number:'1.0-0'}} ms</small>
 					</td>
 					<td class="text-center">
+						<small>{{hst[1]-hst[2] | number:'1.0-0'}} ms</small>
+					</td>
+					<td class="text-center">
 						<small>{{hst[2] | number:'1.0-0'}} ms</small>
+					</td>
+					<td class="text-center">
+						<small>{{hst[2]-hst[3] | number:'1.0-0'}} ms</small>
 					</td>
 					<td class="text-center">
 						<small>{{hst[3] | number:'1.3-3'}} ms</small>
@@ -109,7 +109,13 @@
 						<small>{{tpAngular | number:'1.0-0'}} req/s</small>
 					</th>
 					<th class="text-center">
+						<small>&nbsp;</small>
+					</th>
+					<th class="text-center">
 						<small>{{tpNginx | number:'1.0-0'}} req/s</small>
+					</th>
+					<th class="text-center">
+						<small>&nbsp;</small>
 					</th>
 					<th class="text-center">
 						<small>{{tpNode | number:'1.0-0'}} req/s</small>
@@ -117,18 +123,6 @@
 				</tr>
 				</tbody>
 			</table>
-		</div>
-	</div>
-	<!-- Charts -->
-	<!-- Requests duration distribution multiBar chart -->
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-area-chart"></i>&nbsp;Requests Duration Distribution (ms)</h4>
-			</div>
-			<div class="panel-body">
-				<nvd3 [options]="barChartOptions" [data]="barChartData"></nvd3>
-			</div>
 		</div>
 	</div>
 	<!-- nginX average duration donut chart -->
@@ -151,6 +145,35 @@
 			<div class="panel-body">
 				<nvd3 [options]="polarChartOptions2" [data]="polarChartData2"></nvd3>
 			</div>
+		</div>
+	</div>
+	<!-- Requests duration distribution multiBar chart -->
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h4 class="panel-title"><i class="fa fa-area-chart"></i>&nbsp;Requests Duration Distribution (ms)</h4>
+			</div>
+			<div class="panel-body">
+				<nvd3 [options]="barChartOptions" [data]="barChartData"></nvd3>
+			</div>
+		</div>
+	</div>
+	<!-- Sequence diagram static diagram -->
+	<div class="col-xs-12 col-sm-6  col-md-6  col-lg-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h4 class="panel-title"><i class="fa fa-sitemap"></i>&nbsp;Sequence Diagram</h4>
+			</div>
+			<img class="img-responsive" src="./sequence-diagram.png">
+		</div>
+	</div>
+	<!-- Execution architecture static diagram -->
+	<div class="col-xs-12 col-sm-6  col-md-6  col-lg-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h4 class="panel-title"><i class="fa fa-sitemap"></i>&nbsp;Execution Architecture</h4>
+			</div>
+			<img class="img-responsive" src="./node.png">
 		</div>
 	</div>
 </div>
