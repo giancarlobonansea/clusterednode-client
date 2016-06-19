@@ -304,6 +304,7 @@ var nvD3 = (function() {
                     showControls:            false,
                     height:                  300,
                     showLegend:              false,
+                    clipEdge:                true,
                     duration:                500,
                     margin:                  {
                         top:    20,
@@ -333,9 +334,11 @@ var nvD3 = (function() {
                         axisLabel:         'AngularJS Latency (ms)',
                         axisLabelDistance: -10
                     }
-                    , xScale:                d3.scale.pow(),
-                    forceX:                  [1,
-                                              100]
+                    ,
+                    xScale:                  d3.scale.quantize().domain([1,
+                                                                         100]),
+                    // forceX:                  [1,
+                    //                           100]
                 }
             };
 			this.polarChartOptions = {
