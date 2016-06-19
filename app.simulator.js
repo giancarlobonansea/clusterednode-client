@@ -416,9 +416,10 @@ var nvD3 = (function() {
 			//
 			// Sorting by RTT (AngularJS time)
 			//
-			this.totReqAng = [0,0,0,0];
-			this.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
-            var hdrRTTpost = {"arr": this.requests[0]};
+            var hdrRTTpost = {"arr": []};
+            for (var n = 0; n < this.requests[0].length; n++) {
+                hdrRTTpost.arr.push(this.requests[0].rtt);
+            }
             console.log(hdrRTTpost);
             this.hdrRTTresults = [];
             var selfRTT = this;
@@ -435,6 +436,8 @@ var nvD3 = (function() {
                     console.log(selfRTT.hdrRTTresults);
                 }
             );
+			this.totReqAng = [0,0,0,0];
+			this.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
 			for (var i = 0; i < this.requests[0].length; i++) {
 				var rtt2 = this.requests[0][i].hst === 0 ? this.requests[0][i].rtt : 0;
 				var rtt3 = this.requests[0][i].hst === 1 ? this.requests[0][i].rtt : 0;
