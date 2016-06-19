@@ -293,36 +293,36 @@ var nvD3 = (function() {
 			};
 			this.polarChartOptions = {
 				chart: {
-					type:         'pieChart',
-					height:       300,
-					showLegend:   false,
-					donut:        true,
-					padAngle:     .08,
-					cornerRadius: 5,
-					title:        'nginX',
-					x:            function(d) {return d.key;},
-					y:            function(d) {return d.y;},
-					showLabels:   true,
-					labelType:    function(d) {return d.data.key + ': ' + parseInt(d.data.y);},
+					type:          'pieChart',
+					height:        236,
+					showLegend:    false,
+					donut:         true,
+					padAngle:      .08,
+					cornerRadius:  5,
+					title:         'nginX',
+					x:             function(d) {return d.key;},
+					y:             function(d) {return d.y;},
+					showLabels:    true,
+					labelType:     function(d) {return d.data.key + ': ' + parseInt(d.data.y);},
 					labelsOutside: true,
-					duration:     500
+					duration:      500
 				}
 			};
 			this.polarChartOptions2 = {
 				chart: {
-					type:         'pieChart',
-					height:       300,
-					showLegend:   false,
-					donut:        true,
-					padAngle:     .08,
-					cornerRadius: 5,
-					title:        'AngularJS',
-					x:            function(d) {return d.key;},
-					y:            function(d) {return d.y;},
-					showLabels:   true,
+					type:          'pieChart',
+					height:        236,
+					showLegend:    false,
+					donut:         true,
+					padAngle:      .08,
+					cornerRadius:  5,
+					title:         'AngularJS',
+					x:             function(d) {return d.key;},
+					y:             function(d) {return d.y;},
+					showLabels:    true,
 					labelsOutside: true,
-					labelType:    function(d) {return d.data.key + ': ' + parseInt(d.data.y);},
-					duration:     500
+					labelType:     function(d) {return d.data.key + ': ' + parseInt(d.data.y);},
+					duration:      500
 				}
 			};
 			this.barChartData = [{key: 'raspberrypi2-node', values: [{label: '', value: 0}]},
