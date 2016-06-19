@@ -294,7 +294,7 @@ var nvD3 = (function() {
 			this.polarChartOptions = {
 				chart: {
 					type:          'pieChart',
-					height:        236,
+					height:        200,
 					showLegend:    false,
 					donut:         true,
 					padAngle:      .08,
@@ -311,7 +311,7 @@ var nvD3 = (function() {
 			this.polarChartOptions2 = {
 				chart: {
 					type:          'pieChart',
-					height:        236,
+					height:        200,
 					showLegend:    false,
 					donut:         true,
 					padAngle:      .08,
