@@ -427,26 +427,6 @@ var nvD3 = (function() {
             for (var n = 0; n < this.requests[0].length; n++) {
                 hdrRTTpost.arr.push(this.requests[0][n].rtt);
             }
-            this.hdrRTTresults = [];
-            var selfRTT = this;
-            this.observableRTT = this.httpService.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
-                function(response) {
-                    selfRTT.hdrRTTresults = response;
-                },
-                function(error) {
-                    console.log("HDR Service error");
-                    for (i = 0; i < selfRTT.histogram.length; i++) {
-                        selfRTT.histogram[i][1] = 0;
-                    }
-                },
-                function() {
-                    selfRTT.observableRTT.unsubscribe();
-                    selfRTT.observableRTT = undefined;
-                    for (i = 0; i < selfRTT.histogram.length; i++) {
-                        selfRTT.histogram[i][1] = selfRTT.hdrRTTresults[i].value;
-                    }
-                }
-            );
             //
             // Sorting by RTT (AngularJS time)
             //
@@ -502,26 +482,6 @@ var nvD3 = (function() {
             for (var n = 0; n < this.requests[0].length; n++) {
                 hdrTSNpost.arr.push(this.requests[0][n].tsn);
             }
-            this.hdrTSNresults = [];
-            var selfTSN = this;
-            this.observableTSN = this.httpService.post(this.urlHDR, JSON.stringify(hdrTSNpost)).subscribe(
-                function(response) {
-                    selfTSN.hdrTSNresults = response;
-                },
-                function(error) {
-                    console.log("HDR Service error");
-                    for (i = 0; i < selfTSN.histogram.length; i++) {
-                        selfTSN.histogram[i][2] = 0;
-                    }
-                },
-                function() {
-                    selfTSN.observableTSN.unsubscribe();
-                    selfTSN.observableTSN = undefined;
-                    for (i = 0; i < selfTSN.histogram.length; i++) {
-                        selfTSN.histogram[i][2] = selfTSN.hdrTSNresults[i].value;
-                    }
-                }
-            );
 			//
 			// Sorting by TSN (nginX time)
 			//
@@ -557,26 +517,6 @@ var nvD3 = (function() {
             for (var n = 0; n < this.requests[0].length; n++) {
                 hdrEXTSpost.arr.push(parseInt(Math.ceil(this.requests[0][n].exts * 100)));
             }
-            this.hdrEXTSresults = [];
-            var selfEXTS = this;
-            this.observableEXTS = this.httpService.post(this.urlHDR, JSON.stringify(hdrEXTSpost)).subscribe(
-                function(response) {
-                    selfEXTS.hdrEXTSresults = response;
-                },
-                function(error) {
-                    console.log("HDR Service error");
-                    for (i = 0; i < selfEXTS.histogram.length; i++) {
-                        selfEXTS.histogram[i][3] = 0;
-                    }
-                },
-                function() {
-                    selfEXTS.observableEXTS.unsubscribe();
-                    selfEXTS.observableEXTS = undefined;
-                    for (i = 0; i < selfEXTS.histogram.length; i++) {
-                        selfEXTS.histogram[i][3] = selfEXTS.hdrEXTSresults[i].value / 100.0;
-                    }
-                }
-            );
 			//
 			// Sort by EXTS (nodeJS time)
 			//
@@ -589,6 +529,69 @@ var nvD3 = (function() {
 			//this.tpNode = parseInt(Math.ceil((this.reqCount-this.disregard)/(this.totNode/1000.0)));
 			this.tpNode = parseInt(Math.ceil(this.tpNginx*this.totNginx/this.totNode));
 			this.calculating = false;
+            //
+            // Calculating HDR Histogram
+            //
+            this.hdrRTTresults = [];
+            var selfRTT = this;
+            this.observableRTT = this.httpService.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
+                function(response) {
+                    selfRTT.hdrRTTresults = response;
+                },
+                function(error) {
+                    console.log("HDR Service error");
+                    for (i = 0; i < selfRTT.histogram.length; i++) {
+                        selfRTT.histogram[i][1] = 0;
+                    }
+                },
+                function() {
+                    selfRTT.observableRTT.unsubscribe();
+                    selfRTT.observableRTT = undefined;
+                    for (i = 0; i < selfRTT.histogram.length; i++) {
+                        selfRTT.histogram[i][1] = selfRTT.hdrRTTresults[i].value;
+                    }
+                    selfRTT.hdrTSNresults = [];
+                    var selfTSN = selfRTT;
+                    selfRTT.observableTSN = selfRTT.httpService.post(selfRTT.urlHDR, JSON.stringify(hdrTSNpost)).subscribe(
+                        function(response) {
+                            selfTSN.hdrTSNresults = response;
+                        },
+                        function(error) {
+                            console.log("HDR Service error");
+                            for (i = 0; i < selfTSN.histogram.length; i++) {
+                                selfTSN.histogram[i][2] = 0;
+                            }
+                        },
+                        function() {
+                            selfTSN.observableTSN.unsubscribe();
+                            selfTSN.observableTSN = undefined;
+                            for (i = 0; i < selfTSN.histogram.length; i++) {
+                                selfTSN.histogram[i][2] = selfTSN.hdrTSNresults[i].value;
+                            }
+                            selfTSN.hdrEXTSresults = [];
+                            var selfEXTS = selfTSN;
+                            selfTSN.observableEXTS = selfTSN.httpService.post(selfTSN.urlHDR, JSON.stringify(hdrEXTSpost)).subscribe(
+                                function(response) {
+                                    selfEXTS.hdrEXTSresults = response;
+                                },
+                                function(error) {
+                                    console.log("HDR Service error");
+                                    for (i = 0; i < selfEXTS.histogram.length; i++) {
+                                        selfEXTS.histogram[i][3] = 0;
+                                    }
+                                },
+                                function() {
+                                    selfEXTS.observableEXTS.unsubscribe();
+                                    selfEXTS.observableEXTS = undefined;
+                                    for (i = 0; i < selfEXTS.histogram.length; i++) {
+                                        selfEXTS.histogram[i][3] = selfEXTS.hdrEXTSresults[i].value / 100.0;
+                                    }
+                                }
+                            );
+                        }
+                    );
+                }
+            );
             ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
         };
         AppSimulator.prototype.percValue = function() {
