@@ -419,6 +419,7 @@ var nvD3 = (function() {
 			this.totReqAng = [0,0,0,0];
 			this.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
             var hdrRTTpost = {"arr": this.requests[0]};
+            console.log(hdrRTTpost);
             this.hdrRTTresults = [];
             var selfRTT = this;
             this.observableRTT = this.httpService.post("https://giancarlobonansea.homeip.net:33331/", hdrRTTpost).subscribe(
@@ -426,7 +427,7 @@ var nvD3 = (function() {
                     selfRTT.hdrRTTresults = response;
                 },
                 function(error) {
-                    console.log(error);
+                    console.log("ERRO");
                 },
                 function() {
                     selfRTT.observableRTT.unsubscribe();
