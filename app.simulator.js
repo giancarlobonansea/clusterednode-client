@@ -335,17 +335,9 @@ var nvD3 = (function() {
                         axisLabelDistance: -10
                     }
                     ,
-                    xScale: d3.scale.log().domain([1,
-                                                   10,
-                                                   90,
-                                                   99,
-                                                   99.9,
-                                                   99.99,
-                                                   99.999,
-                                                   99.9999,
-                                                   100]),
-                    // forceX:                  [1,
-                    //                           100]
+                    xScale: d3.scale.log(),
+                    forceX: [100,
+                             1]
                 }
             };
 			this.polarChartOptions = {
