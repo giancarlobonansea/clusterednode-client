@@ -316,12 +316,24 @@ var nvD3 = (function() {
                         axisLabel:  'Percentile (%)',
                         tickFormat: function(d) {
                             return d3.format('.05f')(d);
-                        }
+                        },
+                        tickValues: [1,
+                                     10,
+                                     90,
+                                     99,
+                                     99.9,
+                                     99.99,
+                                     99.999,
+                                     99.9999,
+                                     100]
                     },
                     yAxis:                   {
                         axisLabel:         'AngularJS Latency (ms)',
                         axisLabelDistance: -10
-                    }
+                    },
+                    xScale:                  d3.scale.log(),
+                    forceX:                  [1,
+                                              100]
                 }
             };
 			this.polarChartOptions = {
@@ -379,7 +391,7 @@ var nvD3 = (function() {
 			                       {key: 'raspberrypi3', y: 25},
 			                       {key: 'raspberrypi5', y: 25},
 			                       {key: 'raspberrypi6', y: 25}];
-            this.lineChartData = [{key: 'Latency by Percentile Distribution', values: [{x: 0, y: 0}]}];
+            this.lineChartData = [{key: 'Latency by Percentile Distribution', values: [{x: 0, y: 0}], area: true}];
 			this.observableRequests = undefined;
 		}
 		AppSimulator.parameters = [
@@ -444,7 +456,7 @@ var nvD3 = (function() {
 			                       {key: 'raspberrypi3', y: 0},
 			                       {key: 'raspberrypi5', y: 0},
 			                       {key: 'raspberrypi6', y: 0}];
-            this.lineChartData = [{key: 'Latency by Percentile Distribution', values: [{x: 0, y: 0}]}];
+            this.lineChartData = [{key: 'Latency by Percentile Distribution', values: [{x: 0, y: 0}], area: true}];
 			this.disregard = parseInt(Math.ceil(this.reqCount * 4.55 / 100.0));
 			this.discardLower = Math.floor(this.disregard/2);
 			this.discardUpper = this.reqCount-Math.ceil(this.disregard/2)-1;
@@ -629,7 +641,6 @@ var nvD3 = (function() {
                                     for (i = 0; i < selfEXTS.histogram.length; i++) {
                                         selfEXTS.histogram[i][3] = selfEXTS.hdrEXTSresults.table[i].value / 100.0;
                                     }
-                                    console.log(selfEXTS.hdrRTTresults.chart);
                                 }
                             );
                         }
