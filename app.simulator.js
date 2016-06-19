@@ -301,7 +301,7 @@ var nvD3 = (function() {
 			this.polarChartOptions = {
 				chart: {
 					type:          'pieChart',
-                    height:        300,
+                    height:        299,
 					showLegend:    false,
 					donut:         true,
 					padAngle:      .08,
@@ -318,7 +318,7 @@ var nvD3 = (function() {
 			this.polarChartOptions2 = {
 				chart: {
 					type:          'pieChart',
-                    height:        300,
+                    height:        299,
 					showLegend:    false,
 					donut:         true,
 					padAngle:      .08,
@@ -541,7 +541,7 @@ var nvD3 = (function() {
             //
             // Calculating HDR Histogram
             //
-            this.hdrRTTresults = [];
+            this.hdrRTTresults = {table: [], chart: []};
             var selfRTT = this;
             this.observableRTT = this.httpService.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
                 function(response) {
@@ -557,9 +557,9 @@ var nvD3 = (function() {
                     selfRTT.observableRTT.unsubscribe();
                     selfRTT.observableRTT = undefined;
                     for (i = 0; i < selfRTT.histogram.length; i++) {
-                        selfRTT.histogram[i][1] = selfRTT.hdrRTTresults[i].value;
+                        selfRTT.histogram[i][1] = selfRTT.hdrRTTresults.table[i].value;
                     }
-                    selfRTT.hdrTSNresults = [];
+                    selfRTT.hdrTSNresults = {table: [], chart: []};
                     var selfTSN = selfRTT;
                     selfRTT.observableTSN = selfRTT.httpService.post(selfRTT.urlHDR, JSON.stringify(hdrTSNpost)).subscribe(
                         function(response) {
@@ -575,9 +575,9 @@ var nvD3 = (function() {
                             selfTSN.observableTSN.unsubscribe();
                             selfTSN.observableTSN = undefined;
                             for (i = 0; i < selfTSN.histogram.length; i++) {
-                                selfTSN.histogram[i][2] = selfTSN.hdrTSNresults[i].value;
+                                selfTSN.histogram[i][2] = selfTSN.hdrTSNresults.table[i].value;
                             }
-                            selfTSN.hdrEXTSresults = [];
+                            selfTSN.hdrEXTSresults = {table: [], chart: []};
                             var selfEXTS = selfTSN;
                             selfTSN.observableEXTS = selfTSN.httpService.post(selfTSN.urlHDR, JSON.stringify(hdrEXTSpost)).subscribe(
                                 function(response) {
@@ -593,8 +593,9 @@ var nvD3 = (function() {
                                     selfEXTS.observableEXTS.unsubscribe();
                                     selfEXTS.observableEXTS = undefined;
                                     for (i = 0; i < selfEXTS.histogram.length; i++) {
-                                        selfEXTS.histogram[i][3] = selfEXTS.hdrEXTSresults[i].value / 100.0;
+                                        selfEXTS.histogram[i][3] = selfEXTS.hdrEXTSresults.table[i].value / 100.0;
                                     }
+                                    console.log(selEXTS.hdrRTTresults.chart);
                                 }
                             );
                         }
