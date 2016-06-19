@@ -421,6 +421,35 @@ var nvD3 = (function() {
 			this.discardLower = Math.floor(this.disregard/2);
 			this.discardUpper = this.reqCount-Math.ceil(this.disregard/2)-1;
             //
+            // Populate barchart as processed (no sorting)
+            //
+            for (var i = 0; i < this.requests[0].length; i++) {
+                var rtt2 = this.requests[0][i].hst === 0 ? this.requests[0][i].rtt : 0;
+                var rtt3 = this.requests[0][i].hst === 1 ? this.requests[0][i].rtt : 0;
+                var rtt5 = this.requests[0][i].hst === 2 ? this.requests[0][i].rtt : 0;
+                var rtt6 = this.requests[0][i].hst === 3 ? this.requests[0][i].rtt : 0;
+                var tsn2 = this.requests[0][i].hst === 0 ? this.requests[0][i].tsn : 0;
+                var tsn3 = this.requests[0][i].hst === 1 ? this.requests[0][i].tsn : 0;
+                var tsn5 = this.requests[0][i].hst === 2 ? this.requests[0][i].tsn : 0;
+                var tsn6 = this.requests[0][i].hst === 3 ? this.requests[0][i].tsn : 0;
+                var exts2 = this.requests[0][i].hst === 0 ? this.requests[0][i].exts : 0;
+                var exts3 = this.requests[0][i].hst === 1 ? this.requests[0][i].exts : 0;
+                var exts5 = this.requests[0][i].hst === 2 ? this.requests[0][i].exts : 0;
+                var exts6 = this.requests[0][i].hst === 3 ? this.requests[0][i].exts : 0;
+                this.barChartData[0].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts2)});
+                this.barChartData[1].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts3)});
+                this.barChartData[2].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts5)});
+                this.barChartData[3].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts6)});
+                this.barChartData[4].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn2 - exts2)});
+                this.barChartData[5].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn3 - exts3)});
+                this.barChartData[6].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn5 - exts5)});
+                this.barChartData[7].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn6 - exts6)});
+                this.barChartData[8].values.push({label: this.requests[0][i].rid, value: rtt2 - tsn2});
+                this.barChartData[9].values.push({label: this.requests[0][i].rid, value: rtt3 - tsn3});
+                this.barChartData[10].values.push({label: this.requests[0][i].rid, value: rtt5 - tsn5});
+                this.barChartData[11].values.push({label: this.requests[0][i].rid, value: rtt6 - tsn6});
+            }
+            //
             // HDR by RTT (AngularJS time)
             //
             var hdrRTTpost = {"arr": []};
@@ -433,30 +462,10 @@ var nvD3 = (function() {
 			this.totReqAng = [0,0,0,0];
 			this.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
 			for (var i = 0; i < this.requests[0].length; i++) {
-				var rtt2 = this.requests[0][i].hst === 0 ? this.requests[0][i].rtt : 0;
-				var rtt3 = this.requests[0][i].hst === 1 ? this.requests[0][i].rtt : 0;
-				var rtt5 = this.requests[0][i].hst === 2 ? this.requests[0][i].rtt : 0;
-				var rtt6 = this.requests[0][i].hst === 3 ? this.requests[0][i].rtt : 0;
-				var tsn2 = this.requests[0][i].hst === 0 ? this.requests[0][i].tsn : 0;
-				var tsn3 = this.requests[0][i].hst === 1 ? this.requests[0][i].tsn : 0;
-				var tsn5 = this.requests[0][i].hst === 2 ? this.requests[0][i].tsn : 0;
-				var tsn6 = this.requests[0][i].hst === 3 ? this.requests[0][i].tsn : 0;
-				var exts2 = this.requests[0][i].hst === 0 ? this.requests[0][i].exts : 0;
-				var exts3 = this.requests[0][i].hst === 1 ? this.requests[0][i].exts : 0;
-				var exts5 = this.requests[0][i].hst === 2 ? this.requests[0][i].exts : 0;
-				var exts6 = this.requests[0][i].hst === 3 ? this.requests[0][i].exts : 0;
-				this.barChartData[0].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts2)});
-				this.barChartData[1].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts3)});
-				this.barChartData[2].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts5)});
-				this.barChartData[3].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts6)});
-				this.barChartData[4].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn2 - exts2)});
-				this.barChartData[5].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn3 - exts3)});
-				this.barChartData[6].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn5 - exts5)});
-				this.barChartData[7].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn6 - exts6)});
-				this.barChartData[8].values.push({label: this.requests[0][i].rid, value: rtt2 - tsn2});
-				this.barChartData[9].values.push({label: this.requests[0][i].rid, value: rtt3 - tsn3});
-				this.barChartData[10].values.push({label: this.requests[0][i].rid, value: rtt5 - tsn5});
-				this.barChartData[11].values.push({label: this.requests[0][i].rid, value: rtt6 - tsn6});
+                rtt2 = this.requests[0][i].hst === 0 ? this.requests[0][i].rtt : 0;
+                rtt3 = this.requests[0][i].hst === 1 ? this.requests[0][i].rtt : 0;
+                rtt5 = this.requests[0][i].hst === 2 ? this.requests[0][i].rtt : 0;
+                rtt6 = this.requests[0][i].hst === 3 ? this.requests[0][i].rtt : 0;
 				this.polarChartData2[0].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?rtt2:0;
 				this.polarChartData2[1].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?rtt3:0;
 				this.polarChartData2[2].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?rtt5:0;
