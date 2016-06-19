@@ -555,7 +555,7 @@ var nvD3 = (function() {
             //
             var hdrEXTSpost = {"arr": []};
             for (var n = 0; n < this.requests[0].length; n++) {
-                hdrEXTSpost.arr.push(Math.ceil(this.requests[0][n].exts));
+                hdrEXTSpost.arr.push(this.requests[0][n].exts * 100);
             }
             this.hdrEXTSresults = [];
             var selfEXTS = this;
@@ -573,7 +573,7 @@ var nvD3 = (function() {
                     selfEXTS.observableEXTS.unsubscribe();
                     selfEXTS.observableEXTS = undefined;
                     for (i = 0; i < selfEXTS.histogram.length; i++) {
-                        selfEXTS.histogram[i][3] = selfEXTS.hdrEXTSresults[i].value;
+                        selfEXTS.histogram[i][3] = selfEXTS.hdrEXTSresults[i].value / 100.0;
                     }
                 }
             );
