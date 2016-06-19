@@ -263,6 +263,7 @@ var nvD3 = (function() {
 			                    'DNS Private'],
 			                   ['https://192.168.69.242:8010/api',
 			                    'IP Private']];
+            this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
 			this.selectedUrl = this.urlOptions[0][0];
 			this.barChartOptions = {
 				chart: {
@@ -423,7 +424,7 @@ var nvD3 = (function() {
             console.log(hdrRTTpost);
             this.hdrRTTresults = [];
             var selfRTT = this;
-            this.observableRTT = this.httpService.post("https://giancarlobonansea.homeip.net:33331/", hdrRTTpost).subscribe(
+            this.observableRTT = this.httpService.post(this.urlHDR, hdrRTTpost).subscribe(
                 function(response) {
                     selfRTT.hdrRTTresults = response;
                 },
