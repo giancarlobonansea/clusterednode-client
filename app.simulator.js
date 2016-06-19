@@ -490,7 +490,6 @@ var nvD3 = (function() {
             for (var n = 0; n < this.requests[0].length; n++) {
                 hdrTSNpost.arr.push(this.requests[0][n].tsn);
             }
-            console.log(hdrTSNpost);
             this.hdrTSNresults = [];
             var selfTSN = this;
             this.observableTSN = this.httpService.post(this.urlHDR, JSON.stringify(hdrTSNpost)).subscribe(
@@ -503,7 +502,6 @@ var nvD3 = (function() {
                 function() {
                     selfTSN.observableTSN.unsubscribe();
                     selfTSN.observableTSN = undefined;
-                    console.log(selfTSN.hdrTSNresults);
                 }
             );
 			//
@@ -534,6 +532,29 @@ var nvD3 = (function() {
 			this.polarChartData[3].y = this.polarChartData[3].y / this.totReqNgi[3];
 			//this.tpNginx = parseInt(Math.ceil((this.reqCount-this.disregard)/(this.totNginx/1000.0)));
 			this.tpNginx = parseInt(Math.ceil(this.tpAngular*this.totAngular/this.totNginx));
+            //
+            // HDR by EXTS (nodeJS time)
+            //
+            var hdrEXTSpost = {"arr": []};
+            for (var n = 0; n < this.requests[0].length; n++) {
+                hdrEXTSpost.arr.push(this.requests[0][n].exts);
+            }
+            console.log(hdrEXTSpost);
+            this.hdrEXTSresults = [];
+            var selfEXTS = this;
+            this.observableEXTS = this.httpService.post(this.urlHDR, JSON.stringify(hdrEXTSpost)).subscribe(
+                function(response) {
+                    selfEXTS.hdrEXTSresults = response;
+                },
+                function(error) {
+                    console.log("HDR Service error");
+                },
+                function() {
+                    selfEXTS.observableEXTS.unsubscribe();
+                    selfEXTS.observableEXTS = undefined;
+                    console.log(selfEXTS.hdrEXTSresults);
+                }
+            );
 			//
 			// Sort by EXTS (nodeJS time)
 			//
