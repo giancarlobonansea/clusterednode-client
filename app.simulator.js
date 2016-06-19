@@ -414,14 +414,13 @@ var nvD3 = (function() {
 			this.disregard = parseInt(Math.ceil(this.reqCount * 4.55 / 100.0));
 			this.discardLower = Math.floor(this.disregard/2);
 			this.discardUpper = this.reqCount-Math.ceil(this.disregard/2)-1;
-			//
-			// Sorting by RTT (AngularJS time)
-			//
+            //
+            // HDR by RTT (AngularJS time)
+            //
             var hdrRTTpost = {"arr": []};
             for (var n = 0; n < this.requests[0].length; n++) {
                 hdrRTTpost.arr.push(this.requests[0][n].rtt);
             }
-            console.log(hdrRTTpost);
             this.hdrRTTresults = [];
             var selfRTT = this;
             this.observableRTT = this.httpService.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
@@ -429,14 +428,16 @@ var nvD3 = (function() {
                     selfRTT.hdrRTTresults = response;
                 },
                 function(error) {
-                    console.log("ERRO");
+                    console.log("HDR Service error");
                 },
                 function() {
                     selfRTT.observableRTT.unsubscribe();
                     selfRTT.observableRTT = undefined;
-                    console.log(selfRTT.hdrRTTresults);
                 }
             );
+            //
+            // Sorting by RTT (AngularJS time)
+            //
 			this.totReqAng = [0,0,0,0];
 			this.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
 			for (var i = 0; i < this.requests[0].length; i++) {
@@ -482,6 +483,29 @@ var nvD3 = (function() {
 			this.tpAngular = parseInt(Math.ceil(this.reqCount/(this.duration/1000)));
 			for (i = 0; i < this.histogram.length; i++)
 				this.histogram[i][1] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].rtt;
+            //
+            // HDR by TSN (nginX time)
+            //
+            var hdrTSNpost = {"arr": []};
+            for (var n = 0; n < this.requests[0].length; n++) {
+                hdrTSNpost.arr.push(this.requests[0][n].tsn);
+            }
+            console.log(hdrTSNpost);
+            this.hdrTSNresults = [];
+            var selfTSN = this;
+            this.observableTSN = this.httpService.post(this.urlHDR, JSON.stringify(hdrTSNpost)).subscribe(
+                function(response) {
+                    selfTSN.hdrTSNresults = response;
+                },
+                function(error) {
+                    console.log("HDR Service error");
+                },
+                function() {
+                    selfTSN.observableTSN.unsubscribe();
+                    selfTSN.observableTSN = undefined;
+                    console.log(selfTSN.hdrTSNresults);
+                }
+            );
 			//
 			// Sorting by TSN (nginX time)
 			//
