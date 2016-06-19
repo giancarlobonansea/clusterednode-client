@@ -301,7 +301,7 @@ var nvD3 = (function() {
 			this.polarChartOptions = {
 				chart: {
 					type:          'pieChart',
-					height:        205,
+                    height:        290,
 					showLegend:    false,
 					donut:         true,
 					padAngle:      .08,
@@ -318,7 +318,7 @@ var nvD3 = (function() {
 			this.polarChartOptions2 = {
 				chart: {
 					type:          'pieChart',
-					height:        205,
+                    height:        290,
 					showLegend:    false,
 					donut:         true,
 					padAngle:      .08,
@@ -555,7 +555,7 @@ var nvD3 = (function() {
             //
             var hdrEXTSpost = {"arr": []};
             for (var n = 0; n < this.requests[0].length; n++) {
-                hdrEXTSpost.arr.push(this.requests[0][n].exts);
+                hdrEXTSpost.arr.push(Math.ceil(this.requests[0][n].exts));
             }
             this.hdrEXTSresults = [];
             var selfEXTS = this;
