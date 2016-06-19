@@ -28,6 +28,21 @@
 				})
 				.catch();
 		};
+		HTTPService.prototype.post = function(url, body) {
+			return this.http
+				.post(url + '?time=' + Date.now(), body, {
+					"cache":   false,
+					"headers": {
+						"Cache-Control":     'no-cache, no-store, must-revalidate',
+						"If-Modified-Since": 'Mon, 26 Jul 1997 05:00:00 GMT',
+						"Pragma":            'no-cache'
+					}
+				})
+				.map(function(response) {
+					return response.json() || {};
+				})
+				.catch();
+		};
 		return HTTPService;
 	})();
 })(window.app || (window.app = {}));

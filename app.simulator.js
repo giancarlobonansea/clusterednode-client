@@ -418,6 +418,22 @@ var nvD3 = (function() {
 			//
 			this.totReqAng = [0,0,0,0];
 			this.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
+            var hdrRTTpost = {"arr": this.requests[0]};
+            this.hdrRTTresults = [];
+            var selfRTT = this;
+            this.observableRTT = this.httpService.post("https://giancarlobonansea.homeip.net:33331/", hdrRTTpost).subscribe(
+                function(response) {
+                    selfRTT.hdrRTTresults = response;
+                },
+                function(error) {
+                    console.log(error);
+                },
+                function() {
+                    selfRTT.observableRTT.unsubscribe();
+                    selfRTT.observableRTT = undefined;
+                    console.log(selfRTT.hdrRTTresults);
+                }
+            );
 			for (var i = 0; i < this.requests[0].length; i++) {
 				var rtt2 = this.requests[0][i].hst === 0 ? this.requests[0][i].rtt : 0;
 				var rtt3 = this.requests[0][i].hst === 1 ? this.requests[0][i].rtt : 0;
