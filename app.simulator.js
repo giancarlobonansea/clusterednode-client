@@ -230,15 +230,23 @@ var nvD3 = (function() {
 (function(app) {
 	app.AppSimulator = (function() {
 		function AppSimulator(HTTPService) {
-			this.histogram = [[50,
+            this.histogram = [[0,
+                               0],
+                              [50,
 			                   0],
-			                  [75,
+                              [75,
 			                   0],
-			                  [90,
-			                   0],
-			                  [95,
-			                   0],
-			                  [100,
+                              [87.5,
+                               0],
+                              [93.75,
+                               0],
+                              [96.875,
+                               0],
+                              [98.4375,
+                               0],
+                              [99.21875,
+                               0],
+                              [100,
 			                   0]];
 			this.requests = [[],
 			                 []];
@@ -429,10 +437,16 @@ var nvD3 = (function() {
                 },
                 function(error) {
                     console.log("HDR Service error");
+                    for (i = 0; i < selfRTT.histogram.length; i++) {
+                        selfRTT.histogram[i][1] = 0;
+                    }
                 },
                 function() {
                     selfRTT.observableRTT.unsubscribe();
                     selfRTT.observableRTT = undefined;
+                    for (i = 0; i < selfRTT.histogram.length; i++) {
+                        selfRTT.histogram[i][1] = selfRTT.hdrRTTresults[i].value;
+                    }
                 }
             );
             //
@@ -481,8 +495,8 @@ var nvD3 = (function() {
 			this.polarChartData2[3].y = this.polarChartData2[3].y / this.totReqAng[3];
 			//this.tpAngular = parseInt(Math.ceil((this.reqCount-this.disregard)/(this.totAngular/1000.0)));
 			this.tpAngular = parseInt(Math.ceil(this.reqCount/(this.duration/1000)));
-			for (i = 0; i < this.histogram.length; i++)
-				this.histogram[i][1] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].rtt;
+            // for (i = 0; i < this.histogram.length; i++)
+            // 	this.histogram[i][1] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].rtt;
             //
             // HDR by TSN (nginX time)
             //
@@ -498,10 +512,16 @@ var nvD3 = (function() {
                 },
                 function(error) {
                     console.log("HDR Service error");
+                    for (i = 0; i < selfTSN.histogram.length; i++) {
+                        selfTSN.histogram[i][2] = 0;
+                    }
                 },
                 function() {
                     selfTSN.observableTSN.unsubscribe();
                     selfTSN.observableTSN = undefined;
+                    for (i = 0; i < selfTSN.histogram.length; i++) {
+                        selfTSN.histogram[i][2] = selfTSN.hdrTSNresults[i].value;
+                    }
                 }
             );
 			//
@@ -509,8 +529,8 @@ var nvD3 = (function() {
 			//
 			this.totReqNgi = [0,0,0,0];
 			this.requests[0].sort(function(a, b) {return a.tsn - b.tsn});
-			for (i = 0; i < this.histogram.length; i++)
-				this.histogram[i][2] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].tsn;
+            // for (i = 0; i < this.histogram.length; i++)
+            // 	this.histogram[i][2] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].tsn;
 			for (i = 0; i < this.requests[0].length; i++) {
 				var tsn2 = this.requests[0][i].hst === 0 ? this.requests[0][i].tsn : 0;
 				var tsn3 = this.requests[0][i].hst === 1 ? this.requests[0][i].tsn : 0;
@@ -539,7 +559,6 @@ var nvD3 = (function() {
             for (var n = 0; n < this.requests[0].length; n++) {
                 hdrEXTSpost.arr.push(this.requests[0][n].exts);
             }
-            console.log(hdrEXTSpost);
             this.hdrEXTSresults = [];
             var selfEXTS = this;
             this.observableEXTS = this.httpService.post(this.urlHDR, JSON.stringify(hdrEXTSpost)).subscribe(
@@ -548,19 +567,24 @@ var nvD3 = (function() {
                 },
                 function(error) {
                     console.log("HDR Service error");
+                    for (i = 0; i < selfEXTS.histogram.length; i++) {
+                        selfEXTS.histogram[i][3] = 0;
+                    }
                 },
                 function() {
                     selfEXTS.observableEXTS.unsubscribe();
                     selfEXTS.observableEXTS = undefined;
-                    console.log(selfEXTS.hdrEXTSresults);
+                    for (i = 0; i < selfEXTS.histogram.length; i++) {
+                        selfEXTS.histogram[i][3] = selfEXTS.hdrEXTSresults[i].value;
+                    }
                 }
             );
 			//
 			// Sort by EXTS (nodeJS time)
 			//
 			this.requests[0].sort(function(a, b) {return a.exts - b.exts});
-			for (i = 0; i < this.histogram.length; i++)
-				this.histogram[i][3] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].exts;
+            // for (i = 0; i < this.histogram.length; i++)
+            // 	this.histogram[i][3] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].exts;
 			for (i = 0; i < this.requests[0].length; i++) {
 				this.totNode += ((i>=this.discardLower)&&(i<=this.discardUpper))?this.requests[0][i].exts:0;
 			}
@@ -639,16 +663,24 @@ var nvD3 = (function() {
             this.reqErrors = 0;
             this.duration = 0;
             this.loopCon = 0;
-            this.histogram = [[50,
-			                   0],
-			                  [75,
-			                   0],
-			                  [90,
-			                   0],
-			                  [95,
-			                   0],
-			                  [100,
-			                   0]];
+            this.histogram = [[0,
+                               0],
+                              [50,
+                               0],
+                              [75,
+                               0],
+                              [87.5,
+                               0],
+                              [93.75,
+                               0],
+                              [96.875,
+                               0],
+                              [98.4375,
+                               0],
+                              [99.21875,
+                               0],
+                              [100,
+                               0]];
 			this.requests = [[],
 			                 []];
 			this.results = [["raspberrypi2",
