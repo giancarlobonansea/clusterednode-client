@@ -230,10 +230,8 @@ var nvD3 = (function() {
 (function(app) {
 	app.AppSimulator = (function() {
 		function AppSimulator(HTTPService) {
-            this.histogram = [[0,
+            this.histogram = [[50,
                                0],
-                              [50,
-			                   0],
                               [75,
 			                   0],
                               [87.5,
@@ -663,9 +661,7 @@ var nvD3 = (function() {
             this.reqErrors = 0;
             this.duration = 0;
             this.loopCon = 0;
-            this.histogram = [[0,
-                               0],
-                              [50,
+            this.histogram = [[50,
                                0],
                               [75,
                                0],
