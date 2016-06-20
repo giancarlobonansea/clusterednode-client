@@ -57,9 +57,7 @@
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-tachometer"></i>&nbsp;Request Duration HDR Histogram
-					<small>(correcting Coordinated Omission)</small>
-				</h4>
+				<h4 class="panel-title"><i class="fa fa-tachometer"></i>&nbsp;Request Duration Histogram</h4>
 			</div>
 			<table class="table table-striped table-condensed table-bordered table-responsive">
 				<thead>
@@ -155,7 +153,8 @@
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-area-chart"></i>&nbsp;Latency by Percentile Distribution</h4>
+				<h4 class="panel-title"><i class="fa fa-area-chart"></i>&nbsp;HDR Histogram w/o Coordinated Omission
+				</h4>
 			</div>
 			<div class="panel-body">
 				<nvd3 [options]="lineChartOptions" [data]="lineChartData"></nvd3>
