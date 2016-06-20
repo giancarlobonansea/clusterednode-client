@@ -654,6 +654,7 @@ var nvD3 = (function() {
                                                                               });
                                     }
                                     selfEXTS.calculating = false;
+                                    selfEXTS.running = -1;
                                 }
                             );
                         }
@@ -675,7 +676,6 @@ var nvD3 = (function() {
 				var selfStop = this;
 				setTimeout(function(){
 					selfStop.calculateHistogram();
-					selfStop.running = -1;
 				}, 10);
 				return true;
 			}
