@@ -622,6 +622,9 @@ var nvD3 = (function() {
                                 selfTSN.histogram[i][2] = selfTSN.hdrTSNresults.table[i].value;
                             }
                             selfTSN.lineChartData[0].values = [];
+                            selfTSN.lineChartOptions.xScale = d3.scale.log().domain([100,
+                                                                                     1]).range([1,
+                                                                                                100]);
                             for (var n = 0; n < selfTSN.hdrRTTresults.chart.length; n++) {
                                 selfTSN.lineChartData[0].values.push({x:    selfTSN.hdrRTTresults.chart[n].percentile,
                                                                          y: selfTSN.hdrRTTresults.chart[n].value
