@@ -303,7 +303,7 @@ var nvD3 = (function() {
                     type:                    'lineWithFocusChart',
                     showControls:            false,
                     height:                  300,
-                    showLegend:              false,
+                    showLegend:              true,
                     clipEdge:                true,
                     duration:                500,
                     margin:                  {
@@ -323,9 +323,15 @@ var nvD3 = (function() {
                     },
                     yAxis:                   {
                         axisLabel:         'AngularJS Latency (ms)',
-                        axisLabelDistance: -10
+                        axisLabelDistance: -10,
+                        rotateYLabel:      true
                     },
-                    staggerLabels:           false
+                    x2Axis:                  {
+                        tickFormat: function(d) {
+                            return d3.format('.5f')(d);
+                        }
+                    },
+                    y2Axis:                  {}
                 }
             };
 			this.polarChartOptions = {
@@ -451,7 +457,10 @@ var nvD3 = (function() {
 			                       {key: 'raspberrypi3', y: 0},
 			                       {key: 'raspberrypi5', y: 0},
 			                       {key: 'raspberrypi6', y: 0}];
-            this.lineChartData = [{key: 'Latency by Percentile Distribution', values: [{x: 0, y: 0}], area: true}];
+            this.lineChartData = [
+                {key: 'Latency by Percentile (correcting Coordinated Omission) ', values: [{x: 0, y: 0}], area: false},
+                {key: 'Latency by Percentile', values: [{x: 0, y: 0}], area: true}
+            ];
 			this.disregard = parseInt(Math.ceil(this.reqCount * 4.55 / 100.0));
 			this.discardLower = Math.floor(this.disregard/2);
 			this.discardUpper = this.reqCount-Math.ceil(this.disregard/2)-1;
