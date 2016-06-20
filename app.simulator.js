@@ -316,10 +316,10 @@ var nvD3 = (function() {
                     y:                       function(d) { return d.y; },
                     useInteractiveGuideline: true,
                     xAxis:       {
-                        axisLabel:    'Percentile (%)',
-                        tickFormat:   function(d) {
-                            return d3.format('.5f')(d);
-                        }
+                        axisLabel: 'Percentile (%)'
+                        // ,tickFormat:   function(d) {
+                        //     return d3.format('.5f')(d);
+                        // }
                     },
                     yAxis:       {
                         axisLabel:         'AngularJS Latency (ms)',
@@ -327,9 +327,9 @@ var nvD3 = (function() {
                         rotateYLabel:      true
                     },
                     x2Axis:      {
-                        tickFormat: function(d) {
-                            return d3.format('.5f')(d);
-                        }
+                        // tickFormat: function(d) {
+                        //     return d3.format('.5f')(d);
+                        // }
                     },
                     y2Axis:      {},
                     brushExtent: [75,
@@ -602,7 +602,12 @@ var nvD3 = (function() {
                     selfRTT.observableRTT.unsubscribe();
                     selfRTT.observableRTT = undefined;
                     for (i = 0; i < selfRTT.histogram.length; i++) {
-                        selfRTT.histogram[i][1] = selfRTT.hdrRTTresults.table[i].value;
+                        if (selfRTT.hdrRTTresults.table.length > 0) {
+                            selfRTT.histogram[i][1] = selfRTT.hdrRTTresults.table[i].value;
+                        }
+                        else {
+                            selfRTT.histogram[i][1] = 0;
+                        }
                     }
                     selfRTT.hdrTSNresults = {table: [], chart: []};
                     var selfTSN = selfRTT;
@@ -620,7 +625,12 @@ var nvD3 = (function() {
                             selfTSN.observableTSN.unsubscribe();
                             selfTSN.observableTSN = undefined;
                             for (i = 0; i < selfTSN.histogram.length; i++) {
-                                selfTSN.histogram[i][2] = selfTSN.hdrTSNresults.table[i].value;
+                                if (selfTSN.hdrTSNresults.table.length > 0) {
+                                    selfTSN.histogram[i][2] = selfTSN.hdrTSNresults.table[i].value;
+                                }
+                                else {
+                                    selfTSN.histogram[i][2] = 0;
+                                }
                             }
                             selfTSN.hdrEXTSresults = {table: [], chart: []};
                             var selfEXTS = selfTSN;
@@ -638,7 +648,12 @@ var nvD3 = (function() {
                                     selfEXTS.observableEXTS.unsubscribe();
                                     selfEXTS.observableEXTS = undefined;
                                     for (i = 0; i < selfEXTS.histogram.length; i++) {
-                                        selfEXTS.histogram[i][3] = (selfEXTS.hdrEXTSresults.table[i].value || 0) / 100.0;
+                                        if (selfEXTS.hdrEXTSresults.table.length > 0) {
+                                            selfEXTS.histogram[i][3] = (selfEXTS.hdrEXTSresults.table[i].value || 0) / 100.0;
+                                        }
+                                        else {
+                                            selfEXTS.histogram[i][3] = 0;
+                                        }
                                     }
                                     selfEXTS.lineChartData[0].values = [];
                                     selfEXTS.lineChartData[1].values = [];
@@ -654,6 +669,8 @@ var nvD3 = (function() {
                                                                               });
                                     }
                                     selfEXTS.calculating = false;
+                                    console.log('cheguei');
+                                    selfEXTS.running = -1;
                                 }
                             );
                         }
@@ -675,7 +692,7 @@ var nvD3 = (function() {
 				var selfStop = this;
 				setTimeout(function(){
 					selfStop.calculateHistogram();
-                    selfStop.running = -1;
+                    // selfStop.running = -1;
                 }, 1000);
 				return true;
 			}
