@@ -669,7 +669,6 @@ var nvD3 = (function() {
                                                                               });
                                     }
                                     selfEXTS.calculating = false;
-                                    console.log('cheguei');
                                     selfEXTS.running = -1;
                                 }
                             );
