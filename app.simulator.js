@@ -300,46 +300,32 @@ var nvD3 = (function() {
 			};
             this.lineChartOptions = {
                 chart: {
-                    type:         'discreteBarChart',
-                    showControls: false,
-                    showValues:   false,
-                    height:       300,
-                    showLegend:   false,
-                    clipEdge:     true,
-                    duration:     500,
-                    margin:       {
+                    type:                    'lineWithFocusChart',
+                    showControls:            false,
+                    height:                  300,
+                    showLegend:              false,
+                    clipEdge:                true,
+                    duration:                500,
+                    margin:                  {
                         top:    20,
                         right:  20,
                         bottom: 40,
                         left:   55
                     },
-                    x:            function(d) { return d.x; },
-                    y:            function(d) { return d.y; },
-                    // useInteractiveGuideline: true,
-                    xAxis:        {
+                    x:                       function(d) { return d.x; },
+                    y:                       function(d) { return d.y; },
+                    useInteractiveGuideline: true,
+                    xAxis:                   {
                         axisLabel:    'Percentile (%)',
                         tickFormat:   function(d) {
-                            return d3.format('.05f')(d);
+                            return d3.format('.5f')(d);
                         }
-                        , tickValues: [1,
-                                       10,
-                                       90,
-                                       99,
-                                       99.9,
-                                       99.99,
-                                       99.999,
-                                       99.9999,
-                                       100]
                     },
-                    yAxis:        {
+                    yAxis:                   {
                         axisLabel:         'AngularJS Latency (ms)',
                         axisLabelDistance: -10
                     },
-                    color:        function(d, i) {
-                        //var key = i === undefined ? d : i;
-                        return "#1f77b4";
-                    },
-                    staggerLabels: true
+                    staggerLabels:           false
                 }
             };
 			this.polarChartOptions = {
