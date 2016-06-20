@@ -620,7 +620,7 @@ var nvD3 = (function() {
                                                                      });
                                 selfTSN.lineChartData[1].values.push({
                                                                          x: selfTSN.hdrRTTresults.chart[n].percentile,
-                                                                         y: selfTSN.requests[0][Math.floor(selfTSN.hdrRTTresults.chart[n].percentile * selfTSN.reqOK / 100) - 1].rtt
+                                                                         y: selfTSN.requests[0][parseInt(Math.floor(selfTSN.hdrRTTresults.chart[n].percentile * selfTSN.reqOK / 100)) - 1].rtt
                                                                      });
                             }
                             selfTSN.hdrEXTSresults = {table: [], chart: []};
