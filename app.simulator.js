@@ -390,7 +390,7 @@ var nvD3 = (function() {
 			                       {key: 'raspberrypi5', y: 25},
 			                       {key: 'raspberrypi6', y: 25}];
             this.lineChartData = [
-                {key: 'Latency by Percentile (correcting Coordinated Omission) ', values: [{x: 0, y: 0}], area: false},
+                {key: 'w/o Coordinated Omission', values: [{x: 0, y: 0}], area: false},
                 {key: 'Latency by Percentile', values: [{x: 0, y: 0}], area: true}
             ];
 			this.observableRequests = undefined;
@@ -458,7 +458,7 @@ var nvD3 = (function() {
 			                       {key: 'raspberrypi5', y: 0},
 			                       {key: 'raspberrypi6', y: 0}];
             this.lineChartData = [
-                {key: 'Latency by Percentile (correcting Coordinated Omission) ', values: [{x: 0, y: 0}], area: false},
+                {key: 'w/o Coordinated Omission', values: [{x: 0, y: 0}], area: false},
                 {key: 'Latency by Percentile', values: [{x: 0, y: 0}], area: true}
             ];
 			this.disregard = parseInt(Math.ceil(this.reqCount * 4.55 / 100.0));
