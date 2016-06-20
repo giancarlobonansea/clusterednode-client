@@ -317,24 +317,29 @@ var nvD3 = (function() {
                     y:            function(d) { return d.y; },
                     // useInteractiveGuideline: true,
                     xAxis:        {
-                        axisLabel:  'Percentile (%)',
-                        tickFormat: function(d) {
+                        axisLabel:    'Percentile (%)',
+                        tickFormat:   function(d) {
                             return d3.format('.05f')(d);
                         }
-                        // ,tickValues: [1,
-                        //              10,
-                        //              90,
-                        //              99,
-                        //              99.9,
-                        //              99.99,
-                        //              99.999,
-                        //              99.9999,
-                        //              100]
+                        , tickValues: [1,
+                                       10,
+                                       90,
+                                       99,
+                                       99.9,
+                                       99.99,
+                                       99.999,
+                                       99.9999,
+                                       100]
                     },
                     yAxis:        {
                         axisLabel:         'AngularJS Latency (ms)',
                         axisLabelDistance: -10
-                    }
+                    },
+                    color:        function(d, i) {
+                        //var key = i === undefined ? d : i;
+                        return "#1f77b4";
+                    },
+                    staggerLabels: true
                 }
             };
 			this.polarChartOptions = {
