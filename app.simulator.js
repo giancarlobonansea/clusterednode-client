@@ -383,7 +383,10 @@ var nvD3 = (function() {
 			                       {key: 'raspberrypi3', y: 25},
 			                       {key: 'raspberrypi5', y: 25},
 			                       {key: 'raspberrypi6', y: 25}];
-            this.lineChartData = [{key: 'Latency by Percentile Distribution', values: [{x: 0, y: 0}], area: true}];
+            this.lineChartData = [
+                {key: 'Latency by Percentile (correcting Coordinated Omission) ', values: [{x: 0, y: 0}], area: false},
+                {key: 'Latency by Percentile', values: [{x: 0, y: 0}], area: true}
+            ];
 			this.observableRequests = undefined;
 		}
 		AppSimulator.parameters = [
@@ -569,7 +572,6 @@ var nvD3 = (function() {
 			}
 			//this.tpNode = parseInt(Math.ceil((this.reqCount-this.disregard)/(this.totNode/1000.0)));
 			this.tpNode = parseInt(Math.ceil(this.tpNginx*this.totNginx/this.totNode));
-			this.calculating = false;
             //
             // Calculating HDR Histogram
             //
@@ -610,12 +612,15 @@ var nvD3 = (function() {
                                 selfTSN.histogram[i][2] = selfTSN.hdrTSNresults.table[i].value;
                             }
                             selfTSN.lineChartData[0].values = [];
-                            selfTSN.lineChartOptions.xScale = d3.scale.log().domain([100,
-                                                                                     1]).range([1,
-                                                                                                100]);
+                            selfTSN.lineChartData[1].values = [];
+                            selfTSN.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
                             for (var n = 0; n < selfTSN.hdrRTTresults.chart.length; n++) {
                                 selfTSN.lineChartData[0].values.push({x:    selfTSN.hdrRTTresults.chart[n].percentile,
                                                                          y: selfTSN.hdrRTTresults.chart[n].value
+                                                                     });
+                                selfTSN.lineChartData[1].values.push({
+                                                                         x: selfTSN.hdrRTTresults.chart[n].percentile,
+                                                                         y: selfTSN.requests[0][Math.floor(selfTSN.hdrRTTresults.chart[n].percentile * selfTSN.reqOK / 100) - 1].rtt
                                                                      });
                             }
                             selfTSN.hdrEXTSresults = {table: [], chart: []};
@@ -636,6 +641,7 @@ var nvD3 = (function() {
                                     for (i = 0; i < selfEXTS.histogram.length; i++) {
                                         selfEXTS.histogram[i][3] = (selfEXTS.hdrEXTSresults.table[i].value || 0) / 100.0;
                                     }
+                                    selfEXTS.calculating = false;
                                 }
                             );
                         }
