@@ -526,24 +526,18 @@ var nvD3 = (function() {
 			this.polarChartData2[1].y = this.polarChartData2[1].y / this.totReqAng[1];
 			this.polarChartData2[2].y = this.polarChartData2[2].y / this.totReqAng[2];
 			this.polarChartData2[3].y = this.polarChartData2[3].y / this.totReqAng[3];
-			//this.tpAngular = parseInt(Math.ceil((this.reqCount-this.disregard)/(this.totAngular/1000.0)));
 			this.tpAngular = parseInt(Math.ceil(this.reqCount/(this.duration/1000)));
-            // for (i = 0; i < this.histogram.length; i++)
-            // 	this.histogram[i][1] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].rtt;
-            //
-            // HDR by TSN (nginX time)
-            //
-            var hdrTSNpost = {"arr": []};
-            for (var n = 0; n < this.requests[0].length; n++) {
-                hdrTSNpost.arr.push(this.requests[0][n].tsn);
+			for (i = 0; i < this.histogram.length; i++) {
+				this.histogram[i][1] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].rtt;
             }
 			//
 			// Sorting by TSN (nginX time)
 			//
 			this.totReqNgi = [0,0,0,0];
 			this.requests[0].sort(function(a, b) {return a.tsn - b.tsn});
-            // for (i = 0; i < this.histogram.length; i++)
-            // 	this.histogram[i][2] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].tsn;
+			for (i = 0; i < this.histogram.length; i++) {
+				this.histogram[i][2] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].tsn;
+            }
 			for (i = 0; i < this.requests[0].length; i++) {
 				var tsn2 = this.requests[0][i].hst === 0 ? this.requests[0][i].tsn : 0;
 				var tsn3 = this.requests[0][i].hst === 1 ? this.requests[0][i].tsn : 0;
@@ -563,25 +557,17 @@ var nvD3 = (function() {
 			this.polarChartData[1].y = this.polarChartData[1].y / this.totReqNgi[1];
 			this.polarChartData[2].y = this.polarChartData[2].y / this.totReqNgi[2];
 			this.polarChartData[3].y = this.polarChartData[3].y / this.totReqNgi[3];
-			//this.tpNginx = parseInt(Math.ceil((this.reqCount-this.disregard)/(this.totNginx/1000.0)));
 			this.tpNginx = parseInt(Math.ceil(this.tpAngular*this.totAngular/this.totNginx));
-            //
-            // HDR by EXTS (nodeJS time)
-            //
-            var hdrEXTSpost = {"arr": []};
-            for (var n = 0; n < this.requests[0].length; n++) {
-                hdrEXTSpost.arr.push(parseInt(Math.ceil(this.requests[0][n].exts * 100)));
-            }
 			//
 			// Sort by EXTS (nodeJS time)
 			//
 			this.requests[0].sort(function(a, b) {return a.exts - b.exts});
-            // for (i = 0; i < this.histogram.length; i++)
-            // 	this.histogram[i][3] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].exts;
+			for (i = 0; i < this.histogram.length; i++) {
+				this.histogram[i][3] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].exts;
+            }
 			for (i = 0; i < this.requests[0].length; i++) {
 				this.totNode += ((i>=this.discardLower)&&(i<=this.discardUpper))?this.requests[0][i].exts:0;
 			}
-			//this.tpNode = parseInt(Math.ceil((this.reqCount-this.disregard)/(this.totNode/1000.0)));
 			this.tpNode = parseInt(Math.ceil(this.tpNginx*this.totNginx/this.totNode));
             //
             // Calculating HDR Histogram
@@ -594,86 +580,25 @@ var nvD3 = (function() {
                 },
                 function(error) {
                     console.log("HDR Service error");
-                    for (i = 0; i < selfRTT.histogram.length; i++) {
-                        selfRTT.histogram[i][1] = 0;
-                    }
                 },
                 function() {
                     selfRTT.observableRTT.unsubscribe();
                     selfRTT.observableRTT = undefined;
-                    for (i = 0; i < selfRTT.histogram.length; i++) {
-                        if (selfRTT.hdrRTTresults.table.length > 0) {
-                            selfRTT.histogram[i][1] = selfRTT.hdrRTTresults.table[i].value;
-                        }
-                        else {
-                            selfRTT.histogram[i][1] = 0;
-                        }
+	                selfRTT.lineChartData[0].values = [];
+	                selfRTT.lineChartData[1].values = [];
+	                selfRTT.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
+	                for (var n = 0; n < selfRTT.hdrRTTresults.chart.length; n++) {
+		                selfRTT.lineChartData[0].values.push({
+			                                                     x: selfRTT.hdrRTTresults.chart[n].percentile,
+			                                                     y: selfRTT.hdrRTTresults.chart[n].value
+		                                                     });
+		                selfRTT.lineChartData[1].values.push({
+			                                                     x: selfRTT.hdrRTTresults.chart[n].percentile,
+			                                                     y: selfRTT.requests[0][parseInt(Math.floor(selfRTT.hdrRTTresults.chart[n].percentile * selfRTT.reqOK / 100)) - 1].rtt
+		                                                     });
                     }
-                    selfRTT.hdrTSNresults = {table: [], chart: []};
-                    var selfTSN = selfRTT;
-                    selfRTT.observableTSN = selfRTT.httpService.post(selfRTT.urlHDR, JSON.stringify(hdrTSNpost)).subscribe(
-                        function(response) {
-                            selfTSN.hdrTSNresults = response;
-                        },
-                        function(error) {
-                            console.log("HDR Service error");
-                            for (i = 0; i < selfTSN.histogram.length; i++) {
-                                selfTSN.histogram[i][2] = 0;
-                            }
-                        },
-                        function() {
-                            selfTSN.observableTSN.unsubscribe();
-                            selfTSN.observableTSN = undefined;
-                            for (i = 0; i < selfTSN.histogram.length; i++) {
-                                if (selfTSN.hdrTSNresults.table.length > 0) {
-                                    selfTSN.histogram[i][2] = selfTSN.hdrTSNresults.table[i].value;
-                                }
-                                else {
-                                    selfTSN.histogram[i][2] = 0;
-                                }
-                            }
-                            selfTSN.hdrEXTSresults = {table: [], chart: []};
-                            var selfEXTS = selfTSN;
-                            selfTSN.observableEXTS = selfTSN.httpService.post(selfTSN.urlHDR, JSON.stringify(hdrEXTSpost)).subscribe(
-                                function(response) {
-                                    selfEXTS.hdrEXTSresults = response;
-                                },
-                                function(error) {
-                                    console.log("HDR Service error");
-                                    for (i = 0; i < selfEXTS.histogram.length; i++) {
-                                        selfEXTS.histogram[i][3] = 0;
-                                    }
-                                },
-                                function() {
-                                    selfEXTS.observableEXTS.unsubscribe();
-                                    selfEXTS.observableEXTS = undefined;
-                                    for (i = 0; i < selfEXTS.histogram.length; i++) {
-                                        if (selfEXTS.hdrEXTSresults.table.length > 0) {
-                                            selfEXTS.histogram[i][3] = (selfEXTS.hdrEXTSresults.table[i].value || 0) / 100.0;
-                                        }
-                                        else {
-                                            selfEXTS.histogram[i][3] = 0;
-                                        }
-                                    }
-                                    selfEXTS.lineChartData[0].values = [];
-                                    selfEXTS.lineChartData[1].values = [];
-                                    selfEXTS.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
-                                    for (var n = 0; n < selfEXTS.hdrRTTresults.chart.length; n++) {
-                                        selfEXTS.lineChartData[0].values.push({
-                                                                                  x: selfEXTS.hdrRTTresults.chart[n].percentile,
-                                                                                  y: selfEXTS.hdrRTTresults.chart[n].value
-                                                                              });
-                                        selfEXTS.lineChartData[1].values.push({
-                                                                                  x: selfEXTS.hdrRTTresults.chart[n].percentile,
-                                                                                  y: selfEXTS.requests[0][parseInt(Math.floor(selfEXTS.hdrRTTresults.chart[n].percentile * selfEXTS.reqOK / 100)) - 1].rtt
-                                                                              });
-                                    }
-                                    selfEXTS.calculating = false;
-                                    selfEXTS.running = -1;
-                                }
-                            );
-                        }
-                    );
+	                selfRTT.calculating = false;
+	                selfRTT.running = -1;
                 }
             );
             ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
@@ -691,7 +616,6 @@ var nvD3 = (function() {
 				var selfStop = this;
 				setTimeout(function(){
 					selfStop.calculateHistogram();
-                    // selfStop.running = -1;
                 }, 1000);
 				return true;
 			}
