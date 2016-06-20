@@ -622,18 +622,6 @@ var nvD3 = (function() {
                             for (i = 0; i < selfTSN.histogram.length; i++) {
                                 selfTSN.histogram[i][2] = selfTSN.hdrTSNresults.table[i].value;
                             }
-                            selfTSN.lineChartData[0].values = [];
-                            selfTSN.lineChartData[1].values = [];
-                            selfTSN.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
-                            for (var n = 0; n < selfTSN.hdrRTTresults.chart.length; n++) {
-                                selfTSN.lineChartData[0].values.push({x:    selfTSN.hdrRTTresults.chart[n].percentile,
-                                                                         y: selfTSN.hdrRTTresults.chart[n].value
-                                                                     });
-                                selfTSN.lineChartData[1].values.push({
-                                                                         x: selfTSN.hdrRTTresults.chart[n].percentile,
-                                                                         y: selfTSN.requests[0][parseInt(Math.floor(selfTSN.hdrRTTresults.chart[n].percentile * selfTSN.reqOK / 100)) - 1].rtt
-                                                                     });
-                            }
                             selfTSN.hdrEXTSresults = {table: [], chart: []};
                             var selfEXTS = selfTSN;
                             selfTSN.observableEXTS = selfTSN.httpService.post(selfTSN.urlHDR, JSON.stringify(hdrEXTSpost)).subscribe(
@@ -652,8 +640,20 @@ var nvD3 = (function() {
                                     for (i = 0; i < selfEXTS.histogram.length; i++) {
                                         selfEXTS.histogram[i][3] = (selfEXTS.hdrEXTSresults.table[i].value || 0) / 100.0;
                                     }
+                                    selfEXTS.lineChartData[0].values = [];
+                                    selfEXTS.lineChartData[1].values = [];
+                                    selfEXTS.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
+                                    for (var n = 0; n < selfEXTS.hdrRTTresults.chart.length; n++) {
+                                        selfEXTS.lineChartData[0].values.push({
+                                                                                  x: selfEXTS.hdrRTTresults.chart[n].percentile,
+                                                                                  y: selfEXTS.hdrRTTresults.chart[n].value
+                                                                              });
+                                        selfEXTS.lineChartData[1].values.push({
+                                                                                  x: selfEXTS.hdrRTTresults.chart[n].percentile,
+                                                                                  y: selfEXTS.requests[0][parseInt(Math.floor(selfEXTS.hdrRTTresults.chart[n].percentile * selfEXTS.reqOK / 100)) - 1].rtt
+                                                                              });
+                                    }
                                     selfEXTS.calculating = false;
-                                    selfEXTS.apiChart.refresh();
                                 }
                             );
                         }
