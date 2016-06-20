@@ -151,17 +151,6 @@
 			</div>
 		</div>
 	</div>
-	<!-- Requests duration distribution multiBar chart -->
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-area-chart"></i>&nbsp;Requests Duration (ms)</h4>
-			</div>
-			<div class="panel-body">
-				<nvd3 [options]="barChartOptions" [data]="barChartData"></nvd3>
-			</div>
-		</div>
-	</div>
 	<!-- Latency by Percentile Distribution lineBar chart -->
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 		<div class="panel panel-info">
@@ -170,6 +159,17 @@
 			</div>
 			<div class="panel-body">
 				<nvd3 [options]="lineChartOptions" [data]="lineChartData"></nvd3>
+			</div>
+		</div>
+	</div>
+	<!-- Requests duration distribution multiBar chart -->
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h4 class="panel-title"><i class="fa fa-area-chart"></i>&nbsp;Requests Duration (ms)</h4>
+			</div>
+			<div class="panel-body">
+				<nvd3 [options]="barChartOptions" [data]="barChartData"></nvd3>
 			</div>
 		</div>
 	</div>
