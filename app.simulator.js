@@ -300,44 +300,41 @@ var nvD3 = (function() {
 			};
             this.lineChartOptions = {
                 chart: {
-                    type:                    'lineChart',
-                    showControls:            false,
-                    height:                  300,
-                    showLegend:              false,
-                    clipEdge:                true,
-                    duration:                500,
-                    margin:                  {
+                    type:         'discreteBarChart',
+                    showControls: false,
+                    showValues:   false,
+                    height:       300,
+                    showLegend:   false,
+                    clipEdge:     true,
+                    duration:     500,
+                    margin:       {
                         top:    20,
                         right:  20,
                         bottom: 40,
                         left:   55
                     },
-                    x:                       function(d) { return d.x; },
-                    y:                       function(d) { return d.y; },
-                    useInteractiveGuideline: true,
-                    xAxis:  {
+                    x:            function(d) { return d.x; },
+                    y:            function(d) { return d.y; },
+                    // useInteractiveGuideline: true,
+                    xAxis:        {
                         axisLabel:  'Percentile (%)',
                         tickFormat: function(d) {
                             return d3.format('.05f')(d);
-                        },
-                        tickValues: [1,
-                                     10,
-                                     90,
-                                     99,
-                                     99.9,
-                                     99.99,
-                                     99.999,
-                                     99.9999,
-                                     100]
+                        }
+                        // ,tickValues: [1,
+                        //              10,
+                        //              90,
+                        //              99,
+                        //              99.9,
+                        //              99.99,
+                        //              99.999,
+                        //              99.9999,
+                        //              100]
                     },
-                    yAxis:  {
+                    yAxis:        {
                         axisLabel:         'AngularJS Latency (ms)',
                         axisLabelDistance: -10
                     }
-                    ,
-                    xScale: d3.scale.log(),
-                    forceX: [100,
-                             1]
                 }
             };
 			this.polarChartOptions = {
@@ -646,7 +643,7 @@ var nvD3 = (function() {
                                     selfEXTS.observableEXTS.unsubscribe();
                                     selfEXTS.observableEXTS = undefined;
                                     for (i = 0; i < selfEXTS.histogram.length; i++) {
-                                        selfEXTS.histogram[i][3] = selfEXTS.hdrEXTSresults.table[i].value / 100.0;
+                                        selfEXTS.histogram[i][3] = (selfEXTS.hdrEXTSresults.table[i].value || 0) / 100.0;
                                     }
                                 }
                             );
