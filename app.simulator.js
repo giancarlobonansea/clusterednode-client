@@ -653,6 +653,7 @@ var nvD3 = (function() {
                                         selfEXTS.histogram[i][3] = (selfEXTS.hdrEXTSresults.table[i].value || 0) / 100.0;
                                     }
                                     selfEXTS.calculating = false;
+                                    selfEXTS.apiChart.refresh();
                                 }
                             );
                         }
