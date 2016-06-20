@@ -315,23 +315,25 @@ var nvD3 = (function() {
                     x:                       function(d) { return d.x; },
                     y:                       function(d) { return d.y; },
                     useInteractiveGuideline: true,
-                    xAxis:                   {
+                    xAxis:       {
                         axisLabel:    'Percentile (%)',
                         tickFormat:   function(d) {
                             return d3.format('.5f')(d);
                         }
                     },
-                    yAxis:                   {
+                    yAxis:       {
                         axisLabel:         'AngularJS Latency (ms)',
                         axisLabelDistance: -10,
                         rotateYLabel:      true
                     },
-                    x2Axis:                  {
+                    x2Axis:      {
                         tickFormat: function(d) {
                             return d3.format('.5f')(d);
                         }
                     },
-                    y2Axis:                  {}
+                    y2Axis:      {},
+                    brushExtent: [75,
+                                  100]
                 }
             };
 			this.polarChartOptions = {
@@ -390,8 +392,8 @@ var nvD3 = (function() {
 			                       {key: 'raspberrypi5', y: 25},
 			                       {key: 'raspberrypi6', y: 25}];
             this.lineChartData = [
-                {key: 'w/o Coordinated Omission', values: [{x: 0, y: 0}], area: false},
-                {key: 'Latency by Percentile', values: [{x: 0, y: 0}], area: true}
+                {key: 'w/o Coord. Omission', values: [], area: false},
+                {key: 'Latency/Percentile', values: [], area: true}
             ];
 			this.observableRequests = undefined;
 		}
@@ -458,8 +460,8 @@ var nvD3 = (function() {
 			                       {key: 'raspberrypi5', y: 0},
 			                       {key: 'raspberrypi6', y: 0}];
             this.lineChartData = [
-                {key: 'w/o Coordinated Omission', values: [{x: 0, y: 0}], area: false},
-                {key: 'Latency by Percentile', values: [{x: 0, y: 0}], area: true}
+                {key: 'w/o Coord. Omission', values: [], area: false},
+                {key: 'Latency/Percentile', values: [], area: true}
             ];
 			this.disregard = parseInt(Math.ceil(this.reqCount * 4.55 / 100.0));
 			this.discardLower = Math.floor(this.disregard/2);
