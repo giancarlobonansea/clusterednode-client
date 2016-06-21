@@ -37,7 +37,7 @@
 			</form>
 			<ul class="nav navbar-nav navbar-right">
 				<!-- Show reference -->
-				<button type="button" class="btn btn-default navbar-btn" (click)="showRef()" [disabled]="isRunning()">
+				<button type="button" class="btn btn-default btn-sm navbar-btn" (click)="showRef()" [disabled]="isRunning()">
 					<span [hidden]="showReference">Show Reference</span><span [hidden]="!showReference">Hide Reference</span>
 				</button>
 				<!-- Quick settings dropdown -->
@@ -55,7 +55,7 @@
 		</div>
 	</div>
 </nav><!-- Statistics -->
-<div class="row" *ngIf="!isRunning() && reqOK!==0">
+<div class="row" *ngIf="!isRunning() && reqOK!==0 && !showReference">
 	<!-- Requests statistical histogram -->
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 		<div class="panel panel-info">
@@ -177,7 +177,7 @@
 	</div>
 </div>
 <!-- Balanced requests tables per node cluster -->
-<div class="row" *ngIf="!isRunning() && reqOK!==0">
+<div class="row" *ngIf="!isRunning() && reqOK!==0 && !showReference">
 	<div class="col-xs-12 col-sm-6 col-md-3" *ngFor="let nodes of results">
 		<div class="panel panel-info">
 			<div class="panel-heading">
