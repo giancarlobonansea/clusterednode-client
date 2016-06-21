@@ -573,19 +573,12 @@ var nvD3 = (function() {
             // Calculating HDR Histogram
             //
             this.hdrRTTresults = {table: [], chart: []};
+			this.lineChartData[0].values = [];
+			this.lineChartData[1].values = [];
             var selfRTT = this;
             this.observableRTT = this.httpService.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
                 function(response) {
                     selfRTT.hdrRTTresults = response;
-                },
-                function(error) {
-                    console.log("HDR Service error");
-                },
-                function() {
-                    selfRTT.observableRTT.unsubscribe();
-                    selfRTT.observableRTT = undefined;
-	                selfRTT.lineChartData[0].values = [];
-	                selfRTT.lineChartData[1].values = [];
 	                selfRTT.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
 	                for (var n = 0; n < selfRTT.hdrRTTresults.chart.length; n++) {
 		                selfRTT.lineChartData[0].values.push({
@@ -596,7 +589,14 @@ var nvD3 = (function() {
 			                                                     x: selfRTT.hdrRTTresults.chart[n].percentile,
 			                                                     y: selfRTT.requests[0][parseInt(Math.floor(selfRTT.hdrRTTresults.chart[n].percentile * selfRTT.reqOK / 100)) - 1].rtt
 		                                                     });
-                    }
+	                }
+                },
+                function(error) {
+                    console.log("HDR Service error");
+                },
+                function() {
+                    selfRTT.observableRTT.unsubscribe();
+                    selfRTT.observableRTT = undefined;
 	                selfRTT.calculating = false;
 	                selfRTT.running = -1;
                 }
