@@ -525,10 +525,10 @@ var nvD3 = (function() {
                 this.barChartData[1].values.push({label: this.requests[0][i].rid, value: Math.ceil(red3)});
                 this.barChartData[2].values.push({label: this.requests[0][i].rid, value: Math.ceil(red5)});
                 this.barChartData[3].values.push({label: this.requests[0][i].rid, value: Math.ceil(red6)});
-                this.barChartData[4].values.push({label: this.requests[0][i].rid, value: Math.floor(exts2 - red2)});
-                this.barChartData[5].values.push({label: this.requests[0][i].rid, value: Math.floor(exts3 - red3)});
-                this.barChartData[6].values.push({label: this.requests[0][i].rid, value: Math.floor(exts5 - red5)});
-                this.barChartData[7].values.push({label: this.requests[0][i].rid, value: Math.floor(exts6 - red6)});
+                this.barChartData[4].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts2 - red2)});
+                this.barChartData[5].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts3 - red3)});
+                this.barChartData[6].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts5 - red5)});
+                this.barChartData[7].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts6 - red6)});
                 this.barChartData[8].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn2 - exts2)});
                 this.barChartData[9].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn3 - exts3)});
                 this.barChartData[10].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn5 - exts5)});
@@ -606,7 +606,7 @@ var nvD3 = (function() {
 			//
 			this.requests[0].sort(function(a, b) {return a.exts - b.exts});
 			for (i = 0; i < this.histogram.length; i++) {
-				this.histogram[i][3] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].exts;
+                this.histogram[i][3] = Math.ceil(this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].exts);
             }
 			for (i = 0; i < this.requests[0].length; i++) {
 				this.totNode += ((i>=this.discardLower)&&(i<=this.discardUpper))?this.requests[0][i].exts:0;
@@ -617,7 +617,7 @@ var nvD3 = (function() {
             //
             this.requests[0].sort(function(a, b) {return a.red - b.red});
             for (i = 0; i < this.histogram.length; i++) {
-                this.histogram[i][4] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].red;
+                this.histogram[i][4] = Math.ceil(this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].red);
             }
             for (i = 0; i < this.requests[0].length; i++) {
                 this.totredis += ((i >= this.discardLower) && (i <= this.discardUpper)) ? this.requests[0][i].red : 0;
