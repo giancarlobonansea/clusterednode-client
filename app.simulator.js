@@ -501,18 +501,18 @@ var nvD3 = (function() {
                 this.barChartData[1].values.push({label: this.requests[0][i].rid, value: Math.ceil(red3)});
                 this.barChartData[2].values.push({label: this.requests[0][i].rid, value: Math.ceil(red5)});
                 this.barChartData[3].values.push({label: this.requests[0][i].rid, value: Math.ceil(red6)});
-                this.barChartData[0].values.push({label: this.requests[0][i].rid, value: Math.floor(exts2 - red2)});
-                this.barChartData[1].values.push({label: this.requests[0][i].rid, value: Math.floor(exts3 - red3)});
-                this.barChartData[2].values.push({label: this.requests[0][i].rid, value: Math.floor(exts5 - red5)});
-                this.barChartData[3].values.push({label: this.requests[0][i].rid, value: Math.floor(exts6 - red6)});
-                this.barChartData[4].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn2 - exts2)});
-                this.barChartData[5].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn3 - exts3)});
-                this.barChartData[6].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn5 - exts5)});
-                this.barChartData[7].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn6 - exts6)});
-                this.barChartData[8].values.push({label: this.requests[0][i].rid, value: rtt2 - tsn2});
-                this.barChartData[9].values.push({label: this.requests[0][i].rid, value: rtt3 - tsn3});
-                this.barChartData[10].values.push({label: this.requests[0][i].rid, value: rtt5 - tsn5});
-                this.barChartData[11].values.push({label: this.requests[0][i].rid, value: rtt6 - tsn6});
+                this.barChartData[4].values.push({label: this.requests[0][i].rid, value: Math.floor(exts2 - red2)});
+                this.barChartData[5].values.push({label: this.requests[0][i].rid, value: Math.floor(exts3 - red3)});
+                this.barChartData[6].values.push({label: this.requests[0][i].rid, value: Math.floor(exts5 - red5)});
+                this.barChartData[7].values.push({label: this.requests[0][i].rid, value: Math.floor(exts6 - red6)});
+                this.barChartData[8].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn2 - exts2)});
+                this.barChartData[9].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn3 - exts3)});
+                this.barChartData[10].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn5 - exts5)});
+                this.barChartData[11].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn6 - exts6)});
+                this.barChartData[12].values.push({label: this.requests[0][i].rid, value: rtt2 - tsn2});
+                this.barChartData[13].values.push({label: this.requests[0][i].rid, value: rtt3 - tsn3});
+                this.barChartData[14].values.push({label: this.requests[0][i].rid, value: rtt5 - tsn5});
+                this.barChartData[15].values.push({label: this.requests[0][i].rid, value: rtt6 - tsn6});
             }
             //
             // HDR by RTT (AngularJS time)
