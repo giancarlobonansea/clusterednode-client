@@ -620,7 +620,7 @@ var nvD3 = (function() {
                 this.histogram[i][4] = Math.ceil(this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].red);
             }
             for (i = 0; i < this.requests[0].length; i++) {
-                this.totredis += ((i >= this.discardLower) && (i <= this.discardUpper)) ? this.requests[0][i].red : 0;
+                this.totRedis += ((i >= this.discardLower) && (i <= this.discardUpper)) ? this.requests[0][i].red : 0;
             }
             this.tpRedis = parseInt(Math.ceil(this.tpNode * this.totNode / this.totRedis));
             //
