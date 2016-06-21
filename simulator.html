@@ -36,7 +36,11 @@
 				<!--</div>-->
 			</form>
 			<ul class="nav navbar-nav navbar-right">
-				<!-- Smart buttons -->
+				<!-- Show reference -->
+				<button type="button" class="btn btn-default navbar-btn" (click)="showRef()" [disabled]="isRunning()">
+					<span [hidden]="showReference">Show Reference</span><span [hidden]="!showReference">Hide Reference</span>
+				</button>
+				<!-- Quick settings dropdown -->
 				<div class="btn-group btn-group-sm">
 					<button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Presets&nbsp;<span class="caret"></span>
 					</button>
@@ -46,12 +50,6 @@
 						<li><a (click)="setLarge()">Large</a></li>
 						<li><a (click)="setHuge()">Huge</a></li>
 					</ul>
-				</div>
-				<!-- Show reference -->
-				<div class="btn-group btn-group-sm" data-toggle="buttons">
-					<label class="btn btn-default navbar-btn">
-						<input type="checkbox" autocomplete="off" (click)="showRef()" [disabled]="isRunning()"><span [hidden]="showReference">Show Reference</span><span [hidden]="!showReference">Hide Reference</span>
-					</label>
 				</div>
 			</ul>
 		</div>
