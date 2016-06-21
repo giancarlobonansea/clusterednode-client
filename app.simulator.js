@@ -261,6 +261,7 @@ var nvD3 = (function() {
 			this.tpAngular = 0;
 			this.tpNginx = 0;
 			this.tpNode = 0;
+            this.showReference = false;
 			this.calculating = false;
 			this.httpService = HTTPService;
 			this.urlOptions = [['https://giancarlobonansea.homeip.net:33333/api',
@@ -667,7 +668,11 @@ var nvD3 = (function() {
 				}
 			);
 		};
+        AppSimulator.prototype.showRef = function() {
+            this.showReference = !this.showReference;
+        };
 		AppSimulator.prototype.initSimulator = function() {
+            this.showReference = false;
             this.reqOK = 0;
             this.reqErrors = 0;
             this.duration = 0;
