@@ -258,9 +258,11 @@ var nvD3 = (function() {
 			this.totAngular = 0;
 			this.totNginx = 0;
 			this.totNode = 0;
+            this.totRedis = 0;
 			this.tpAngular = 0;
 			this.tpNginx = 0;
 			this.tpNode = 0;
+            this.tpRedis = 0;
             this.showReference = false;
 			this.calculating = false;
 			this.httpService = HTTPService;
@@ -276,7 +278,7 @@ var nvD3 = (function() {
 				chart: {
 					type:         'multiBarChart',
 					showControls: false,
-					height:       300,
+                    height:       400,
 					margin:       {
 						top:    20,
 						right:  20,
@@ -301,20 +303,20 @@ var nvD3 = (function() {
 			};
             this.lineChartOptions = {
                 chart: {
-                    type:                    'lineWithFocusChart',
-                    showControls:            false,
-                    height:                  300,
-                    showLegend:              true,
-                    clipEdge:                true,
-                    duration:                500,
-                    margin:                  {
+                    type:         'lineWithFocusChart',
+                    showControls: false,
+                    height:       400,
+                    showLegend:   true,
+                    clipEdge:     true,
+                    duration:     500,
+                    margin:       {
                         top:    20,
                         right:  20,
                         bottom: 40,
                         left:   55
                     },
-                    x:                       function(d) { return d.x; },
-                    y:                       function(d) { return d.y; },
+                    x:            function(d) { return d.x; },
+                    y:            function(d) { return d.y; },
                     useInteractiveGuideline: true,
                     xAxis:       {
                         axisLabel: 'Percentile (%)'
@@ -371,14 +373,18 @@ var nvD3 = (function() {
 					duration:      500
 				}
 			};
-			this.barChartData = [{key: 'raspberrypi2-node', values: [{label: '', value: 0}]},
-			                     {key: 'raspberrypi3-node', values: [{label: '', value: 0}]},
-			                     {key: 'raspberrypi5-node', values: [{label: '', value: 0}]},
-			                     {key: 'raspberrypi6-node', values: [{label: '', value: 0}]},
-								 {key: 'raspberrypi2-nginx', values: [{label: '', value: 0}]},
-								 {key: 'raspberrypi3-nginx', values: [{label: '', value: 0}]},
-								 {key: 'raspberrypi5-nginx', values: [{label: '', value: 0}]},
-								 {key: 'raspberrypi6-nginx', values: [{label: '', value: 0}]},
+            this.barChartData = [{key: 'raspberrypi2-redis', values: [{label: '', value: 0}]},
+                                 {key: 'raspberrypi3-redis', values: [{label: '', value: 0}]},
+                                 {key: 'raspberrypi5-redis', values: [{label: '', value: 0}]},
+                                 {key: 'raspberrypi6-redis', values: [{label: '', value: 0}]},
+                                 {key: 'raspberrypi2-node', values: [{label: '', value: 0}]},
+                                 {key: 'raspberrypi3-node', values: [{label: '', value: 0}]},
+                                 {key: 'raspberrypi5-node', values: [{label: '', value: 0}]},
+                                 {key: 'raspberrypi6-node', values: [{label: '', value: 0}]},
+                                 {key: 'raspberrypi2-nginx', values: [{label: '', value: 0}]},
+                                 {key: 'raspberrypi3-nginx', values: [{label: '', value: 0}]},
+                                 {key: 'raspberrypi5-nginx', values: [{label: '', value: 0}]},
+                                 {key: 'raspberrypi6-nginx', values: [{label: '', value: 0}]},
 								 {key: 'raspberrypi2-angular', values: [{label: '', value: 0}]},
 								 {key: 'raspberrypi3-angular', values: [{label: '', value: 0}]},
 								 {key: 'raspberrypi5-angular', values: [{label: '', value: 0}]},
@@ -440,18 +446,22 @@ var nvD3 = (function() {
 			return (this.running !== -1);
 		};
 		AppSimulator.prototype.calculateHistogram = function() {
-			this.barChartData = [{key: 'raspberrypi2-node', values: []},
-			                     {key: 'raspberrypi3-node', values: []},
-			                     {key: 'raspberrypi5-node', values: []},
-			                     {key: 'raspberrypi6-node', values: []},
-								 {key: 'raspberrypi2-nginx', values: []},
-								 {key: 'raspberrypi3-nginx', values: []},
-								 {key: 'raspberrypi5-nginx', values: []},
-								 {key: 'raspberrypi6-nginx', values: []},
-			                     {key: 'raspberrypi2-angular', values: []},
-			                     {key: 'raspberrypi3-angular', values: []},
-			                     {key: 'raspberrypi5-angular', values: []},
-			                     {key: 'raspberrypi6-angular', values: []}];
+            this.barChartData = [{key: 'raspberrypi2-redis', values: []},
+                                 {key: 'raspberrypi3-redis', values: []},
+                                 {key: 'raspberrypi5-redis', values: []},
+                                 {key: 'raspberrypi6-redis', values: []},
+                                 {key: 'raspberrypi2-node', values: []},
+                                 {key: 'raspberrypi3-node', values: []},
+                                 {key: 'raspberrypi5-node', values: []},
+                                 {key: 'raspberrypi6-node', values: []},
+                                 {key: 'raspberrypi2-nginx', values: []},
+                                 {key: 'raspberrypi3-nginx', values: []},
+                                 {key: 'raspberrypi5-nginx', values: []},
+                                 {key: 'raspberrypi6-nginx', values: []},
+                                 {key: 'raspberrypi2-angular', values: []},
+                                 {key: 'raspberrypi3-angular', values: []},
+                                 {key: 'raspberrypi5-angular', values: []},
+                                 {key: 'raspberrypi6-angular', values: []}];
 			this.polarChartData = [{key: 'raspberrypi2', y: 0},
 			                       {key: 'raspberrypi3', y: 0},
 			                       {key: 'raspberrypi5', y: 0},
@@ -483,10 +493,18 @@ var nvD3 = (function() {
                 var exts3 = this.requests[0][i].hst === 1 ? this.requests[0][i].exts : 0;
                 var exts5 = this.requests[0][i].hst === 2 ? this.requests[0][i].exts : 0;
                 var exts6 = this.requests[0][i].hst === 3 ? this.requests[0][i].exts : 0;
-                this.barChartData[0].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts2)});
-                this.barChartData[1].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts3)});
-                this.barChartData[2].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts5)});
-                this.barChartData[3].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts6)});
+                var red2 = this.requests[0][i].hst === 0 ? this.requests[0][i].red : 0;
+                var red3 = this.requests[0][i].hst === 1 ? this.requests[0][i].red : 0;
+                var red5 = this.requests[0][i].hst === 2 ? this.requests[0][i].red : 0;
+                var red6 = this.requests[0][i].hst === 3 ? this.requests[0][i].red : 0;
+                this.barChartData[0].values.push({label: this.requests[0][i].rid, value: Math.ceil(red2)});
+                this.barChartData[1].values.push({label: this.requests[0][i].rid, value: Math.ceil(red3)});
+                this.barChartData[2].values.push({label: this.requests[0][i].rid, value: Math.ceil(red5)});
+                this.barChartData[3].values.push({label: this.requests[0][i].rid, value: Math.ceil(red6)});
+                this.barChartData[0].values.push({label: this.requests[0][i].rid, value: Math.floor(exts2 - red2)});
+                this.barChartData[1].values.push({label: this.requests[0][i].rid, value: Math.floor(exts3 - red3)});
+                this.barChartData[2].values.push({label: this.requests[0][i].rid, value: Math.floor(exts5 - red5)});
+                this.barChartData[3].values.push({label: this.requests[0][i].rid, value: Math.floor(exts6 - red6)});
                 this.barChartData[4].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn2 - exts2)});
                 this.barChartData[5].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn3 - exts3)});
                 this.barChartData[6].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn5 - exts5)});
@@ -540,10 +558,10 @@ var nvD3 = (function() {
 				this.histogram[i][2] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].tsn;
             }
 			for (i = 0; i < this.requests[0].length; i++) {
-				var tsn2 = this.requests[0][i].hst === 0 ? this.requests[0][i].tsn : 0;
-				var tsn3 = this.requests[0][i].hst === 1 ? this.requests[0][i].tsn : 0;
-				var tsn5 = this.requests[0][i].hst === 2 ? this.requests[0][i].tsn : 0;
-				var tsn6 = this.requests[0][i].hst === 3 ? this.requests[0][i].tsn : 0;
+                tsn2 = this.requests[0][i].hst === 0 ? this.requests[0][i].tsn : 0;
+                tsn3 = this.requests[0][i].hst === 1 ? this.requests[0][i].tsn : 0;
+                tsn5 = this.requests[0][i].hst === 2 ? this.requests[0][i].tsn : 0;
+                tsn6 = this.requests[0][i].hst === 3 ? this.requests[0][i].tsn : 0;
 				this.polarChartData[0].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?tsn2:0;
 				this.polarChartData[1].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?tsn3:0;
 				this.polarChartData[2].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?tsn5:0;
@@ -570,6 +588,17 @@ var nvD3 = (function() {
 				this.totNode += ((i>=this.discardLower)&&(i<=this.discardUpper))?this.requests[0][i].exts:0;
 			}
 			this.tpNode = parseInt(Math.ceil(this.tpNginx*this.totNginx/this.totNode));
+            //
+            // Sort by RED (redis.io time)
+            //
+            this.requests[0].sort(function(a, b) {return a.red - b.red});
+            for (i = 0; i < this.histogram.length; i++) {
+                this.histogram[i][4] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].red;
+            }
+            for (i = 0; i < this.requests[0].length; i++) {
+                this.totredis += ((i >= this.discardLower) && (i <= this.discardUpper)) ? this.requests[0][i].red : 0;
+            }
+            this.tpRedis = parseInt(Math.ceil(this.tpNode * this.totNode / this.totRedis));
             //
             // Calculating HDR Histogram
             //
@@ -723,9 +752,11 @@ var nvD3 = (function() {
 			this.totAngular = 0;
 			this.totNginx = 0;
 			this.totNode = 0;
+            this.totRedis = 0;
 			this.tpAngular = 0;
 			this.tpNginx = 0;
 			this.tpNode = 0;
+            this.tpRedis = 0;
 			this.observableRequests = undefined;
 			for (var reqId = 0; reqId < this.reqCount; reqId++) {
 				this.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0});

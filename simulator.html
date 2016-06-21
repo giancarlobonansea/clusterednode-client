@@ -66,21 +66,18 @@
 			<table class="table table-striped table-condensed table-bordered table-responsive">
 				<thead>
 				<tr>
-					<th width="25%" class="text-center">Requests</th>
-					<th width="15%" class="text-center">AngularJS<br/>
-						<small>(t5-t0)</small>
+					<th width="28%" class="text-center">Requests</th>
+					<th width="18%" class="text-center">AngularJS<br/>
+						<small>(t7-t0)</small>
 					</th>
-					<th width="15%" class="text-center">&lt;----&gt;<br/>
-						<small>Latency</small>
+					<th width="18%" class="text-center">nginX<br/>
+						<small>(t6-t1)</small>
 					</th>
-					<th width="15%" class="text-center">nginX<br/>
-						<small>(t4-t1)</small>
+					<th width="18%" class="text-center">Node.js<br/>
+						<small>(t5-t2)</small>
 					</th>
-					<th width="15%" class="text-center">&lt;----&gt;<br/>
-						<small>Latency</small>
-					</th>
-					<th width="15%" class="text-center">Node.js<br/>
-						<small>(t3-t2)</small>
+					<th width="18%" class="text-center">redis.io<br/>
+						<small>(t4-t3)</small>
 					</th>
 				</tr>
 				</thead>
@@ -93,16 +90,13 @@
 						<small>{{hst[1] | number:'1.0-0'}} ms</small>
 					</td>
 					<td class="text-center">
-						<small>{{hst[1]-hst[2] | number:'1.0-0'}} ms</small>
-					</td>
-					<td class="text-center">
 						<small>{{hst[2] | number:'1.0-0'}} ms</small>
 					</td>
 					<td class="text-center">
-						<small>{{hst[2]-hst[3] | number:'1.0-0'}} ms</small>
+						<small>{{hst[3] | number:'1.3-3'}} ms</small>
 					</td>
 					<td class="text-center">
-						<small>{{hst[3] | number:'1.3-3'}} ms</small>
+						<small>{{hst[4] | number:'1.3-3'}} ms</small>
 					</td>
 				</tr>
 				<tr class="info">
@@ -113,16 +107,13 @@
 						<small>{{tpAngular | number:'1.0-0'}} req/s</small>
 					</th>
 					<th class="text-center">
-						<small>&nbsp;</small>
-					</th>
-					<th class="text-center">
 						<small>{{tpNginx | number:'1.0-0'}} req/s</small>
 					</th>
 					<th class="text-center">
-						<small>&nbsp;</small>
+						<small>{{tpNode | number:'1.0-0'}} req/s</small>
 					</th>
 					<th class="text-center">
-						<small>{{tpNode | number:'1.0-0'}} req/s</small>
+						<small>{{0 | number:'1.0-0'}} req/s</small>
 					</th>
 				</tr>
 				</tbody>
