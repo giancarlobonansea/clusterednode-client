@@ -50,7 +50,7 @@
 				<!-- Show reference -->
 				<div class="btn-group btn-group-sm" data-toggle="buttons">
 					<label class="btn btn-default navbar-btn">
-						<input type="checkbox" autocomplete="off" (click)="showRef()"><span [hidden]="showReference">Show Reference</span><span [hidden]="!showReference">Hide Reference</span>
+						<input type="checkbox" autocomplete="off" (click)="showRef()" [disabled]="isRunning()"><span [hidden]="showReference">Show Reference</span><span [hidden]="!showReference">Hide Reference</span>
 					</label>
 				</div>
 			</ul>

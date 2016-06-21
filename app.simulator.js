@@ -669,6 +669,7 @@ var nvD3 = (function() {
 			);
 		};
         AppSimulator.prototype.showRef = function() {
+            console.log('clicked');
             this.showReference = !this.showReference;
         };
 		AppSimulator.prototype.initSimulator = function() {
