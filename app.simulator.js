@@ -689,11 +689,12 @@ var nvD3 = (function() {
 				function(response) {
 					for (var k = 0; k < response.length; k++) {
 						self.requests[0][response[k].reqId] = {
-							rid: 'Request ' + (parseInt(response[k].reqId) + 1),
-							hst: self.nodeIdx[response[k].json.hostname][0],
-							rtt: response[k].rtt,
-							tsn: response[k].tsn,
-							exts: response[k].exts
+							rid:  'Request ' + (parseInt(response[k].reqId) + 1),
+							hst:  self.nodeIdx[response[k].json.hostname][0],
+							rtt:  response[k].rtt,
+							tsn:  response[k].tsn,
+                            exts: response[k].exts,
+                            red:  response[k].red
 						};
 						var curRunning = ++self.running;
 						self.reqOK++;
