@@ -473,6 +473,69 @@ var nvD3 = (function() {
                         href: 'https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin',
                         desc: 'HTTP/2 and SPDY indicator'
                     }
+                ],
+                pm2:   [
+                    {
+                        href: "http://pm2.keymetrics.io/",
+                        desc: "PM2 - Advanced Node.js process manager"
+                    },
+                    {
+                        href: "http://pm2.keymetrics.io/docs/usage/cluster-mode/",
+                        desc: "PM2 - Cluster Mode"
+                    },
+                    {
+                        href: "https://keymetrics.io/",
+                        desc: "Keymetrics I/O - Monitor and Augment Node.js"
+                    },
+                    {
+                        href: "http://pm2.keymetrics.io/docs/usage/application-declaration/",
+                        desc: "PM2 - Application Declaration"
+                    },
+                    {
+                        href: "http://pm2.keymetrics.io/docs/usage/deployment/",
+                        desc: "PM2 - Deployment"
+                    }
+                ],
+                angular2: [
+                    {href: "https://angular.io", desc: "One framework - Angular 2"},
+                    {href: "https://angular.io/docs/js/latest/guide/cheatsheet.html", desc: "Angular Cheat Sheet - js"},
+                    {href:    "https://medium.com/google-developer-experts/angular-2-introduction-to-new-http-module-1278499db2a0#.ttmhbubnd",
+                        desc: "Angular 2 — Introduction to new HTTP module"
+                    },
+                    {href:    "http://blog.caelum.com.br/angularjs-seo-google-analytics-e-virtual-pages/",
+                        desc: "AngularJS: SEO, Google Analytics e Virtual Pages"
+                    },
+                    {href:    "https://coryrylan.com/blog/angular-2-observable-data-services",
+                        desc: "Angular 2 Observable Data Services"
+                    },
+                    {href:    "http://blog.thoughtram.io/angular/2016/01/06/taking-advantage-of-observables-in-angular2.html",
+                        desc: "Taking advantage of Observables in Angular 2"
+                    }
+                ],
+                ng2nvd3: [
+                    {href: "https://github.com/krispo/ng2-nvd3", desc: "Angular2 component for nvd3"}
+                ],
+                stunnel: [
+                    {href:    "https://www.stunnel.org/index.html",
+                        desc: "Stunnel - a proxy designed to add TLS encryption functionality to existing clients and servers"
+                    },
+                    {href:    "http://bencane.com/2014/02/18/sending-redis-traffic-through-an-ssl-tunnel-with-stunnel/",
+                        desc: "Sending redis traffic through an SSL tunnel with stunnel"
+                    }
+                ],
+                github: [
+                    {href:    "https://github.com/giancarlobonansea/clusterednode-client",
+                        desc: "NLB HA Clustered Node PoC - Client app"
+                    },
+                    {href:    "https://github.com/giancarlobonansea/clusterednode-worker",
+                        desc: "NLB HA Clustered Node PoC - Worker process"
+                    },
+                    {href:    "https://github.com/giancarlobonansea/clusterednode-hdrhist",
+                        desc: "NLB HA Clustered Node PoC - HDR Histogram service"
+                    },
+                    {href:    "https://github.com/giancarlobonansea/clusterednode-config",
+                        desc: "NLB HA Clustered Node PoC - Configuration files"
+                    }
                 ]
             };
 		}

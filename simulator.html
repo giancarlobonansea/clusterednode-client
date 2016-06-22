@@ -264,20 +264,8 @@
 							<dl>
 								<dt>Keymetrics pm2 (v1.1.3)</dt>
 								<dd>
-									<footer>
-										<a href="http://pm2.keymetrics.io/" target="_blank">PM2 - Advanced Node.js process manager</a><br/>
-									</footer>
-									<footer>
-										<a href="http://pm2.keymetrics.io/docs/usage/cluster-mode/" target="_blank">PM2 - Cluster Mode</a><br/>
-									</footer>
-									<footer>
-										<a href="https://keymetrics.io/" target="_blank">Keymetrics I/O - Monitor and Augment Node.js</a><br/>
-									</footer>
-									<footer>
-										<a href="http://pm2.keymetrics.io/docs/usage/application-declaration/" target="_blank">PM2 - Application Declaration</a><br/>
-									</footer>
-									<footer>
-										<a href="http://pm2.keymetrics.io/docs/usage/deployment/" target="_blank">PM2 - Deployment</a>
+									<footer *ngFor="let link of links['pm2']">
+										<a ng-href="link.href" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>
@@ -288,23 +276,8 @@
 								<dt>AngularJS 2 (v2.0.0-rc1)
 								</dt>
 								<dd>
-									<footer>
-										<a href="https://angular.io" target="_blank">One framework - Angular 2</a><br/>
-									</footer>
-									<footer>
-										<a href="https://angular.io/docs/js/latest/guide/cheatsheet.html" target="_blank">Angular Cheat Sheet - js</a><br/>
-									</footer>
-									<footer>
-										<a href="https://medium.com/google-developer-experts/angular-2-introduction-to-new-http-module-1278499db2a0#.ttmhbubnd" target="_blank">Angular 2 — Introduction to new HTTP module</a><br/>
-									</footer>
-									<footer>
-										<a href="http://blog.caelum.com.br/angularjs-seo-google-analytics-e-virtual-pages/" target="_blank">AngularJS: SEO, Google Analytics e Virtual Pages</a><br/>
-									</footer>
-									<footer>
-										<a href="https://coryrylan.com/blog/angular-2-observable-data-services" target="_blank">Angular 2 Observable Data Services</a><br/>
-									</footer>
-									<footer>
-										<a href="http://blog.thoughtram.io/angular/2016/01/06/taking-advantage-of-observables-in-angular2.html" target="_blank">Taking advantage of Observables in Angular 2</a>
+									<footer *ngFor="let link of links['angular2']">
+										<a ng-href="link.href" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>
@@ -315,8 +288,8 @@
 								<dt>ng2-nvd3 Charting Library (v1.1.1)
 								</dt>
 								<dd>
-									<footer>
-										<a href="https://github.com/krispo/ng2-nvd3" target="_blank">Angular2 component for nvd3</a>
+									<footer *ngFor="let link of links['ng2nvd3']">
+										<a ng-href="link.href" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>
@@ -326,11 +299,8 @@
 							<dl>
 								<dt>stunnel (v5.32)</dt>
 								<dd>
-									<footer>
-										<a href="https://www.stunnel.org/index.html" target="_blank">Stunnel - a proxy designed to add TLS encryption functionality to existing clients and servers</a>
-									</footer>
-									<footer>
-										<a href="http://bencane.com/2014/02/18/sending-redis-traffic-through-an-ssl-tunnel-with-stunnel/" target="_blank">Sending redis traffic through an SSL tunnel with stunnel</a>
+									<footer *ngFor="let link of links['stunnel']">
+										<a ng-href="link.href" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>
@@ -340,14 +310,8 @@
 							<dl>
 								<dt>GitHub</dt>
 								<dd>
-									<footer>
-										<a href="https://github.com/giancarlobonansea/clusterednode-client" target="_blank">NLB HA Clustered Node PoC - Client app</a><br/>
-									</footer>
-									<footer>
-										<a href="https://github.com/giancarlobonansea/clusterednode-worker" target="_blank">NLB HA Clustered Node PoC - Worker process</a><br/>
-									</footer>
-									<footer>
-										<a href="https://github.com/giancarlobonansea/clusterednode-hdrhist" target="_blank">NLB HA Clustered Node PoC - HDR Histogram service</a>
+									<footer *ngFor="let link of links['github']">
+										<a ng-href="link.href" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>
