@@ -272,8 +272,12 @@ var nvD3 = (function() {
                                0]];
 			this.requests = [[],
 			                 []];
+            this.isDuration = false;
 			this.reqConn = 4;
 			this.reqCount = 100;
+            this.reqDuration = 5;
+            this.reqInterval = 50;
+            this.timeStart = Date.now();
 			this.running = -1;
 			this.reqErrors = 0;
 			this.reqOK = 0;
@@ -427,6 +431,50 @@ var nvD3 = (function() {
                 {key: 'Latency/Percentile', values: [], area: true}
             ];
 			this.observableRequests = undefined;
+            this.links = {
+                HTTP2: [
+                    {
+                        href: 'https://http2.akamai.com/demo',
+                        desc: 'HTTP/2: the Future of the Internet | Akamai'
+                    },
+                    {
+                        href: 'https://http2.github.io',
+                        desc: 'HTTP/2 Github repository'
+                    },
+                    {
+                        href: 'https://http2.github.io/http2-spec/',
+                        desc: 'Hypertext Transfer Protocol Version 2 (HTTP/2) draft-ietf-httpbis-http2-latest'
+                    },
+                    {
+                        href: 'https://docs.google.com/presentation/d/1r7QXGYOLCh4fcUq0jDdDwKJWNqWK1o4xMtYpKZCJYjM/present?slide=id.g4ec7b01d4_5_150',
+                        desc: "HTTP/2 is here, let's optimize! - Velocity 2015 - Google Slides"
+                    },
+                    {
+                        href: 'http://caniuse.com/#search=HTTP%2F2',
+                        desc: 'Can I use... HTTP/2'
+                    },
+                    {
+                        href: 'https://hpbn.co/http2/',
+                        desc: "HTTP: HTTP/2 - High Performance Browser Networking (O'Reilly)"
+                    },
+                    {
+                        href: 'https://www.smashingmagazine.com/2016/02/getting-ready-for-http2/',
+                        desc: 'Getting Ready For HTTP/2: A Guide For Web Designers And Developers'
+                    },
+                    {
+                        href: 'http://qnimate.com/post-series/http2-complete-tutorial/',
+                        desc: 'HTTP/2 Complete Tutorial'
+                    },
+                    {
+                        href: 'http://javascriptplayground.com/blog/2016/03/http2-and-you/',
+                        desc: 'HTTP/2 and You'
+                    },
+                    {
+                        href: 'https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin',
+                        desc: 'HTTP/2 and SPDY indicator'
+                    }
+                ]
+            };
 		}
 		AppSimulator.parameters = [
 			app.HTTPService
@@ -443,31 +491,65 @@ var nvD3 = (function() {
 			})
 		];
 		AppSimulator.prototype.setSmall = function() {
-			this.reqCount = 100;
-			this.reqConn = 4;
+            if (this.isDuration) {
+                this.reqDuration = 5;
+                this.reqInterval = 50;
+                this.reqConn = 4;
+            }
+            else {
+                this.reqCount = 100;
+                this.reqConn = 4;
+            }
             ga('send', 'event', 'Simulation', 'Configuration', 'Small Preset');
 		};
 		AppSimulator.prototype.setMedium = function() {
-			this.reqCount = 512;
-			this.reqConn = 16;
+            if (this.isDuration) {
+                this.reqDuration = 10;
+                this.reqInterval = 20;
+                this.reqConn = 16;
+            }
+            else {
+                this.reqCount = 512;
+                this.reqConn = 16;
+            }
             ga('send', 'event', 'Simulation', 'Configuration', 'Medium Preset');
         };
 		AppSimulator.prototype.setLarge = function() {
-			this.reqCount = 1024;
-			this.reqConn = 64;
+            if (this.isDuration) {
+                this.reqDuration = 30;
+                this.reqInterval = 15;
+                this.reqConn = 64;
+            }
+            else {
+                this.reqCount = 1024;
+                this.reqConn = 64;
+            }
             ga('send', 'event', 'Simulation', 'Configuration', 'Large Preset');
         };
 		AppSimulator.prototype.setHuge = function() {
-			this.reqCount = 2048;
-			this.reqConn = 128;
+            if (this.isDuration) {
+                this.reqDuration = 60;
+                this.reqInterval = 10;
+                this.reqConn = 128;
+            }
+            else {
+                this.reqCount = 2048;
+                this.reqConn = 128;
+            }
             ga('send', 'event', 'Simulation', 'Configuration', 'Huge Preset');
+        };
+        AppSimulator.prototype.setDuration = function() {
+            this.isDuration = true;
+        };
+        AppSimulator.prototype.setRequests = function() {
+            this.isDuration = false;
         };
 		AppSimulator.prototype.perc = function(p) {
 			var curPerc = Math.ceil(this.reqOK * 12 / this.reqCount);
 			return (curPerc>=p);
 		};
 		AppSimulator.prototype.isRunning = function() {
-			return (this.running !== -1);
+            return (this.running !== -1);
 		};
 		AppSimulator.prototype.calculateHistogram = function() {
             this.barChartData = [{key: 'raspberrypi2-redis', values: []},
@@ -723,7 +805,6 @@ var nvD3 = (function() {
 			);
 		};
         AppSimulator.prototype.showRef = function() {
-            console.log('clicked');
             this.showReference = !this.showReference;
         };
 		AppSimulator.prototype.initSimulator = function() {
@@ -807,13 +888,20 @@ var nvD3 = (function() {
 			this.tpNode = 0;
             this.tpRedis = 0;
 			this.observableRequests = undefined;
-			for (var reqId = 0; reqId < this.reqCount; reqId++) {
-				this.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0});
-				this.requests[1].push(this.httpService.get(reqId, this.selectedUrl));
-			}
-            this.running = 0;
-            this.iniTime = Date.now();
-            this.throwHTTPrequests(this.loopCon);
+            if (this.isDuration) {
+                this.running = 0;
+                this.iniTime = Date.now();
+                this.throwHTTPduration();
+            }
+            else {
+                for (var reqId = 0; reqId < this.reqCount; reqId++) {
+                    this.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0});
+                    this.requests[1].push(this.httpService.get(reqId, this.selectedUrl));
+                }
+                this.running = 0;
+                this.iniTime = Date.now();
+                this.throwHTTPrequests(this.loopCon);
+            }
 		};
 		return AppSimulator;
 	})();

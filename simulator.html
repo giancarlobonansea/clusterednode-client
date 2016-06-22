@@ -11,14 +11,28 @@
 		<!-- Collapsable parameters -->
 		<div class="collapse navbar-collapse" id="navbar-collapse">
 			<form class="navbar-form navbar-right">
-				<!-- Number of total requests to be fired -->
-				<div class="form-group form-group-sm">
+				<!-- STRESS BY REQUESTS: Number of total requests to be fired -->
+				<div class="form-group form-group-sm" [hidden]="isDuration">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon" id="basic-addon1"><span class="hidden-sm">Requests</span><span class="visible-sm">Reqs</span></span>
 						<input type="number" class="form-control input-sm" min="1" max="16384" id="numReq" [(ngModel)]="reqCount" [disabled]="isRunning()"/>
 					</div>
 				</div>
-				<!-- Maximum number of concurrent HTTP connections to be fired -->
+				<!-- STRESS BY DURATION AND DELAY: Duration in seconds to run -->
+				<div class="form-group form-group-sm" [hidden]="!isDuration">
+					<div class="input-group input-group-sm">
+						<span class="input-group-addon" id="basic-addon3"><span class="hidden-sm">Duration (s)</span><span class="visible-sm">Dur(s)</span></span>
+						<input type="number" class="form-control input-sm" min="5" max="600" id="durReq" [(ngModel)]="reqDuration" [disabled]="isRunning()"/>
+					</div>
+				</div>
+				<!-- STRESS BY DURATION AND DELAY: Delay in miliseconds to wait between group of requests -->
+				<div class="form-group form-group-sm" [hidden]="!isDuration">
+					<div class="input-group input-group-sm">
+						<span class="input-group-addon" id="basic-addon4"><span class="hidden-sm">Interval (ms)</span><span class="visible-sm">Int(ms)</span></span>
+						<input type="number" class="form-control input-sm" min="5" max="1000" id="numReq" [(ngModel)]="reqInterval" [disabled]="isRunning()"/>
+					</div>
+				</div>
+				<!-- ALL: Maximum number of concurrent HTTP connections to be fired -->
 				<div class="form-group form-group-sm">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon" id="basic-addon2"><span class="hidden-sm">Connections</span><span class="visible-sm">Conn</span></span>
@@ -26,13 +40,13 @@
 					</div>
 				</div>
 				<!-- Endpoint configuration -->
-                <!--<div class="form-group form-group-sm">-->
-					<!--<div class="input-group input-group-sm">-->
-						<!--<span class="input-group-addon" id="basic-addon3"><span class="hidden-sm">API Endpoint</span><span class="visible-sm">API</span></span>-->
-						<!--<select class="form-control input-sm" id="apiUrl" [(ngModel)]="selectedUrl" [disabled]="isRunning()" required>-->
-							<!--<option *ngFor="let opt of urlOptions" [value]="opt[0]">{{opt[1]}}</option>-->
-						<!--</select>-->
-					<!--</div>-->
+				<!--<div class="form-group form-group-sm">-->
+				<!--<div class="input-group input-group-sm">-->
+				<!--<span class="input-group-addon" id="basic-addon3"><span class="hidden-sm">API Endpoint</span><span class="visible-sm">API</span></span>-->
+				<!--<select class="form-control input-sm" id="apiUrl" [(ngModel)]="selectedUrl" [disabled]="isRunning()" required>-->
+				<!--<option *ngFor="let opt of urlOptions" [value]="opt[0]">{{opt[1]}}</option>-->
+				<!--</select>-->
+				<!--</div>-->
 				<!--</div>-->
 			</form>
 			<ul class="nav navbar-nav navbar-right">
@@ -43,13 +57,22 @@
 				&nbsp;
 				<!-- Quick settings dropdown -->
 				<div class="btn-group btn-group-sm">
-					<button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Presets&nbsp;<span class="caret"></span>
+					<button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Preset&nbsp;<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu">
 						<li><a (click)="setSmall()">Small</a></li>
 						<li><a (click)="setMedium()">Medium</a></li>
 						<li><a (click)="setLarge()">Large</a></li>
 						<li><a (click)="setHuge()">Huge</a></li>
+					</ul>
+				</div>
+				<!-- Duration or Requests -->
+				<div class="btn-group btn-group-sm">
+					<button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Method&nbsp;<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a (click)="setDuration()">Duration</a></li>
+						<li><a (click)="setRequests()">Requests</a></li>
 					</ul>
 				</div>
 			</ul>
@@ -230,35 +253,8 @@
 							<dl>
 								<dt>HTTP/2</dt>
 								<dd>
-									<footer>
-										<a href="https://http2.akamai.com/demo" target="_blank">HTTP/2: the Future of the Internet | Akamai</a><br/>
-									</footer>
-									<footer>
-										<a href="https://http2.github.io" target="_blank">HTTP/2 Github repository</a><br/>
-									</footer>
-									<footer>
-										<a href="https://http2.github.io/http2-spec/" target="_blank">Hypertext Transfer Protocol Version 2 (HTTP/2) draft-ietf-httpbis-http2-latest</a><br/>
-									</footer>
-									<footer>
-										<a href="https://docs.google.com/presentation/d/1r7QXGYOLCh4fcUq0jDdDwKJWNqWK1o4xMtYpKZCJYjM/present?slide=id.g4ec7b01d4_5_150" target="_blank">HTTP/2 is here, let's optimize! - Velocity 2015 - Google Slides</a><br/>
-									</footer>
-									<footer>
-										<a href="http://caniuse.com/#search=HTTP%2F2" target="_blank">Can I use... HTTP/2</a><br/>
-									</footer>
-									<footer>
-										<a href="https://hpbn.co/http2/" target="_blank">HTTP: HTTP/2 - High Performance Browser Networking (O'Reilly)</a><br/>
-									</footer>
-									<footer>
-										<a href="https://www.smashingmagazine.com/2016/02/getting-ready-for-http2/" target="_blank">Getting Ready For HTTP/2: A Guide For Web Designers And Developers</a><br/>
-									</footer>
-									<footer>
-										<a href="http://qnimate.com/post-series/http2-complete-tutorial/" target="_blank">HTTP/2 Complete Tutorial</a><br/>
-									</footer>
-									<footer>
-										<a href="http://javascriptplayground.com/blog/2016/03/http2-and-you/" target="_blank">HTTP/2 and You</a><br/>
-									</footer>
-									<footer>
-										<a href="https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin" target="_blank">HTTP/2 and SPDY indicator</a>
+									<footer *ngFor="link in links['HTTP2']">
+										<a ng-href="link.href" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>
@@ -266,8 +262,7 @@
 						<!-- pm2 -->
 						<blockquote>
 							<dl>
-								<dt>Keymetrics pm2 (v1.1.3)
-								</dt>
+								<dt>Keymetrics pm2 (v1.1.3)</dt>
 								<dd>
 									<footer>
 										<a href="http://pm2.keymetrics.io/" target="_blank">PM2 - Advanced Node.js process manager</a><br/>
