@@ -607,6 +607,12 @@ var nvD3 = (function() {
         AppSimulator.prototype.setRequests = function() {
             this.isDuration = false;
         };
+        AppSimulator.prototype.isDurationMethod = function() {
+            return this.isDuration === true;
+        };
+        AppSimulator.prototype.isRequestMethod = function() {
+            return this.isDuration === false;
+        };
 		AppSimulator.prototype.perc = function(p) {
 			var curPerc = Math.ceil(this.reqOK * 12 / this.reqCount);
 			return (curPerc>=p);
