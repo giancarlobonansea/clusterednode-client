@@ -439,7 +439,7 @@ var nvD3 = (function() {
                     },
                     {
                         href: 'https://http2.github.io',
-                        desc: 'HTTP/2 Github repository'
+	                    desc: "HTTP/2 Github repository"
                     },
                     {
                         href: 'https://http2.github.io/http2-spec/',
