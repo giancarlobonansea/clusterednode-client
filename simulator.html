@@ -253,7 +253,7 @@
 							<dl>
 								<dt>HTTP/2</dt>
 								<dd>
-									<footer *ngFor="link in links['HTTP2']">
+									<footer *ngFor="let link of links['HTTP2']">
 										<a ng-href="link.href" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
