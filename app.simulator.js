@@ -1029,6 +1029,9 @@ var nvD3 = (function() {
             var self = this;
             var reqId = 0;
             setTimeout(function() {
+                if (self.intervalHandler) {
+                    clearInterval(self.intervalHandler);
+                }
                 self.running = -1;
                 self.duration = Date.now() - this.iniTime;
                 self.calculating = true;
@@ -1037,7 +1040,7 @@ var nvD3 = (function() {
                     selfStop.calculateHistogram();
                 }, 500);
             }, self.reqDuration * 1000);
-            setInterval(function() {
+            self.intervalHandler = setInterval(function() {
                 var arrReq = [];
                 for (var j = 0; self.running >= 0 && j < self.reqConn; j++) {
                     self.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
