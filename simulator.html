@@ -54,12 +54,13 @@
 								<button type="button" class="btn btn-success btn-sm form-control" (click)="initSimulator()" [disabled]="isRunning()">
 									Run&nbsp;<i class="fa fa-play"></i>
 								</button>
-								&nbsp;&nbsp;
-								<div class="input-group input-group-sm">
-									<span class="input-group-addon">Last run</span>
-									<input type="text" class="form-control input-sm" id="lastRun" value="{{duration | number:'1.0-0'}}" [disabled]="true"/>
-									<span class="input-group-addon">ms</span>
-								</div>
+								&nbsp;&nbsp; Last run
+								<p class="form-control-static">{{duration | number:'1.0-0'}} ms</p>
+								<!--<div class="input-group input-group-sm">-->
+								<!--<span class="input-group-addon">Last run</span>-->
+								<!--<input type="text" class="form-control input-sm" id="lastRun" value="{{duration | number:'1.0-0'}}" [disabled]="true"/>-->
+								<!--<span class="input-group-addon">ms</span>-->
+								<!--</div>-->
 							</div>
 						</form>
 					</div>
