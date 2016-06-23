@@ -1051,6 +1051,7 @@ var nvD3 = (function() {
             var self  = this,
                 reqId = 0;
             self.timerRunning = true;
+            self.requestsQueue = 0;
             self.iniTime = Date.now();
             self.intervalHandler = setInterval(function() {
                 var arrReq = [];
@@ -1060,6 +1061,7 @@ var nvD3 = (function() {
                     arrReq.push(self.requests[1][reqId]);
                     reqId++;
                 }
+                ++self.requestsQueue;
                 var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
                     function(response) {
                         for (var k = 0; k < response.length; k++) {
@@ -1086,7 +1088,8 @@ var nvD3 = (function() {
                     function() {
                         observableRequestsA.unsubscribe();
                         observableRequestsA = undefined;
-                        if (!self.timerRunning) {
+                        --self.requestsQueue;
+                        if (!self.timerRunning && self.requestsQueue === 0) {
                             self.reqCount = self.reqOK + self.reqErrors;
                             self.duration = Date.now() - self.iniTime;
                             self.calculating = true;
