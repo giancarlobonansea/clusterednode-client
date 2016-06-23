@@ -708,6 +708,14 @@ var nvD3 = (function() {
                         desc: "An HTTP/2 client and server implementation"
                     }
                     ]
+                },
+                ga:       {
+                    title: "Google Analytics", anchor: [
+                        {
+                            href: "https://analytics.google.com/",
+                            desc: "Google Analytics"
+                        }
+                    ]
                 }
             };
 		}
