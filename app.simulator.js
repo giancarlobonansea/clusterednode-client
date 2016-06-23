@@ -962,7 +962,7 @@
             self.iniTime = Date.now();
             setTimeout(function() {
                 self.timerRunning = false;
-            }, self.reqDuration * 1000);
+            }, self.reqDuration * 1000 + 10);
             intervalFunction();
             self.intervalHandler = setInterval(intervalFunction, self.reqInterval);
         };

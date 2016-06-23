@@ -113,7 +113,7 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-6 text-center">
 						<small>Simulation method</small>
-						<span class="label label-default">{{execMode}}</span> <span *ngIf="usedRequestMethod()">&nbsp;&nbsp;<small>Requests expected </small><span class="label label-info">{{execReq | number:'1.0-0'}}</span></span>
+						<span class="label label-primary">{{execMode}}</span> <span *ngIf="usedRequestMethod()">&nbsp;&nbsp;<small>Requests expected </small><span class="label label-info">{{execReq | number:'1.0-0'}}</span></span>
 						<span *ngIf="usedDurationMethod()">&nbsp;&nbsp;<small>Duration </small><span class="label label-info">{{execDuration | number:'1.0-0'}}<small> s</small></span></span>
 						<span *ngIf="usedDurationMethod()">&nbsp;&nbsp;<small>Interval </small><span class="label label-info">{{execInterval | number:'1.0-0'}}<small> ms</small></span></span> &nbsp;&nbsp;
 						<small>Connections</small>
