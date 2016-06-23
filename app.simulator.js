@@ -828,7 +828,7 @@
                     clearInterval(self.intervalHandler);
                 }
                 self.timerRunning = false;
-            }, self.duration * 1000);
+            }, self.reqDuration * 1000);
             self.intervalHandler = setInterval(function() {
                 if (self.timerRunning && self.counting < self.reqCount) {
                     var arrReq = [];
