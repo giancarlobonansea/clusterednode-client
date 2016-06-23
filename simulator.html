@@ -17,7 +17,13 @@
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-cogs"></i>&nbsp;Control Area</h4>
+				<div class="col-xs-4">
+					<h4 class="panel-title"><i class="fa fa-cogs"></i>&nbsp;Control Area</h4>
+				</div>
+				<div class="col-xs-8 text-right">
+					<small>Last run: {{duration | number:'1.0-0'}} ms</small>
+					<small *ngIf="isDurationMethod()">&nbsp;&nbsp;Requests: {{getDurationRequests() | number:'1.0-0'}}</small>
+				</div>
 			</div>
 			<div class="panel-body">
 				<div class="row">
@@ -54,20 +60,17 @@
 								<button type="button" class="btn btn-success btn-sm form-control" (click)="initSimulator()" [disabled]="isRunning()">
 									Run&nbsp;<i class="fa fa-play"></i>
 								</button>
-								&nbsp;&nbsp;
-								<p class="form-control-static">Last run: {{duration | number:'1.0-0'}} ms</p>
 							</div>
 						</form>
 					</div>
 					<div class="col-xs-12 col-sm-6 text-right">
-						<!-- STRESS BY REQUESTS: Number of total requests to be fired -->
 						<form class="form-inline">
 							<div class="form-group form-group-sm">
+								<!-- STRESS BY REQUESTS: Number of total requests to be fired -->
 								<div class="input-group input-group-sm" *ngIf="isRequestMethod()">
 									<span class="input-group-addon">Requests</span>
 									<input type="number" class="form-control input-sm" min="1" max="16384" id="numReq" [(ngModel)]="reqCount" [disabled]="isRunning()"/>
 								</div>
-								<p class="form-control-static" *ngIf="isDurationMethod()">Requests: {{getDurationRequests() | number:'1.0-0'}}</p>
 								<!-- STRESS BY DURATION AND DELAY: Duration in seconds to run -->
 								<div class="input-group input-group-sm" *ngIf="isDurationMethod()">
 									<span class="input-group-addon">Duration</span>
