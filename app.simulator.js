@@ -994,6 +994,9 @@ var nvD3 = (function() {
         AppSimulator.prototype.percValue = function() {
             return Math.ceil(this.reqOK * 100 / this.reqCount);
         };
+        AppSimulator.prototype.percTime = function() {
+            return Math.ceil((Date.now() - this.iniTime) / 100 / this.reqDuration);
+        };
 		AppSimulator.prototype.calcPosition = function(hist) {
 			return Math.ceil(this.reqOK * hist / 100);
 		};
