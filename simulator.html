@@ -404,7 +404,7 @@
 		<div class="panel panel-success">
 			<div class="panel-heading">
 				<h4 class="panel-title">
-					<span [hidden]="calculating">Running -&nbsp;</span>{{reqOK}} API requests sent<span [hidden]="!calculating"> - calculating statistics...</span>
+					<span [hidden]="calculating">Running -&nbsp;</span>{{reqOK+reqErrors}} API responses (OK:{{reqOK}} Error:{{reqErrors}})<span [hidden]="!calculating"> - calculating statistics...</span>
 				</h4>
 			</div>
 			<table class="table table-condensed">

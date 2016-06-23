@@ -1058,59 +1058,61 @@ var nvD3 = (function() {
             self.requestsQueue = 0;
             self.iniTime = Date.now();
             self.intervalHandler = setInterval(function() {
-                var arrReq = [];
-                for (var j = 0; j < self.reqConn; j++) {
-                    self.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
-                    self.requests[1].push(self.httpService.get(reqId, self.selectedUrl));
-                    arrReq.push(self.requests[1][reqId]);
-                    reqId++;
-                }
-                ++self.requestsQueue;
-                var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
-                    function(response) {
-                        for (var k = 0; k < response.length; k++) {
-                            self.requests[0][response[k].reqId] = {
-                                rid:  'Request ' + (parseInt(response[k].reqId) + 1),
-                                hst:  self.nodeIdx[response[k].json.hostname][0],
-                                rtt:  response[k].rtt,
-                                tsn:  response[k].tsn,
-                                exts: response[k].exts,
-                                red:  response[k].red
-                            };
-                            if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
-                                self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
-                                                                                                  []]);
-                                self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
-                            }
-                            self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(++self.reqOK);
-                            self.nodeIdx[response[k].json.hostname][1]++;
-                        }
-                    },
-                    function(error) {
-                        self.reqErrors++;
-                    },
-                    function() {
-                        observableRequestsA.unsubscribe();
-                        observableRequestsA = undefined;
-                        --self.requestsQueue;
-                        if (!self.timerRunning && self.requestsQueue === 0) {
-                            self.reqCount = self.reqOK + self.reqErrors;
-                            self.duration = Date.now() - self.iniTime;
-                            self.calculating = true;
-                            var selfStop = self;
-                            setTimeout(function() {
-                                selfStop.calculateHistogram();
-                            }, 500);
-                        }
+                if (self.timerRunning) {
+                    var arrReq = [];
+                    for (var j = 0; j < self.reqConn; j++) {
+                        self.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
+                        self.requests[1].push(self.httpService.get(reqId, self.selectedUrl));
+                        arrReq.push(self.requests[1][reqId]);
+                        reqId++;
                     }
-                );
+                    ++self.requestsQueue;
+                    var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
+                        function(response) {
+                            for (var k = 0; k < response.length; k++) {
+                                self.requests[0][response[k].reqId] = {
+                                    rid:  'Request ' + (parseInt(response[k].reqId) + 1),
+                                    hst:  self.nodeIdx[response[k].json.hostname][0],
+                                    rtt:  response[k].rtt,
+                                    tsn:  response[k].tsn,
+                                    exts: response[k].exts,
+                                    red:  response[k].red
+                                };
+                                if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
+                                    self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
+                                                                                                      []]);
+                                    self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
+                                }
+                                self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(++self.reqOK);
+                                self.nodeIdx[response[k].json.hostname][1]++;
+                            }
+                        },
+                        function(error) {
+                            self.reqErrors++;
+                        },
+                        function() {
+                            observableRequestsA.unsubscribe();
+                            observableRequestsA = undefined;
+                            --self.requestsQueue;
+                            if (!self.timerRunning && self.requestsQueue === 0) {
+                                //self.reqCount = self.reqOK + self.reqErrors;
+                                self.duration = Date.now() - self.iniTime;
+                                self.calculating = true;
+                                var selfStop = self;
+                                setTimeout(function() {
+                                    selfStop.calculateHistogram();
+                                }, 500);
+                            }
+                        }
+                    );
+                }
             }, self.reqInterval);
             setTimeout(function() {
                 if (self.intervalHandler) {
                     clearInterval(self.intervalHandler);
                 }
                 self.timerRunning = false;
-            }, self.reqDuration * 1000 + 5);
+            }, self.reqDuration * 1000);
         };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
