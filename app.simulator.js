@@ -1006,6 +1006,10 @@
 			this.tpNode = 0;
             this.tpRedis = 0;
 			this.observableRequests = undefined;
+            this.execReq = this.reqCount;
+            this.execDuration = this.reqDuration;
+            this.execInterval = this.reqInterval;
+            this.execConn = this.reqConn;
             this.running = true;
             if (this.isDuration) {
                 this.reqCount = this.getDurationRequests();

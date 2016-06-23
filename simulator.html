@@ -101,21 +101,25 @@
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title">Last Run parameters & data</h4>
+				<h4 class="panel-title"><i class="fa fa-tachometer"></i>&nbsp;Last Run parameters & data</h4>
 			</div>
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-xs-12 col-sm-6 text-center">
-						Simulation method <span class="label label-default">{{getSimulationMethod()}}</span>
-						<span *ngIf="isRequestMethod()">&nbsp;&nbsp;Requests expected <span class="label label-info">{{execReq | number:'1.0-0'}}</span></span>
-						<span *ngIf="isDurationMethod()">&nbsp;&nbsp;Duration <span class="label label-info">{{execDuration | number:'1.0-0'}} s</span></span>
-						<span *ngIf="isDurationMethod()">&nbsp;&nbsp;Interval <span class="label label-info">{{execInterval | number:'1.0-0'}} ms</span></span> &nbsp;&nbsp;Connections
+						<small>Simulation method</small>
+						<span class="label label-default">{{getSimulationMethod()}}</span>
+						<span *ngIf="isRequestMethod()">&nbsp;&nbsp;<small>Requests expected </small><span class="label label-info">{{execReq | number:'1.0-0'}}</span></span>
+						<span *ngIf="isDurationMethod()">&nbsp;&nbsp;<small>Duration </small><span class="label label-info">{{execDuration | number:'1.0-0'}}<small> s</small></span></span>
+						<span *ngIf="isDurationMethod()">&nbsp;&nbsp;<small>Interval </small><span class="label label-info">{{execInterval | number:'1.0-0'}}<small> ms</small></span></span> &nbsp;&nbsp;
+						<small>Connections</small>
 						<span class="label label-info">{{execConn | number:'1.0-0'}}</span>
 					</div>
 					<div class="col-xs-12 col-sm-6 text-center">
-						&nbsp;&nbsp;Last run duration
-						<span class="label label-primary">{{duration | number:'1.0-0'}} ms</span>
-						<span *ngIf="isDurationMethod()">&nbsp;&nbsp;Max requests expected <span class="label label-info">{{getDurationRequests() | number:'1.0-0'}}</span></span> &nbsp;&nbsp;Requests executed
+						&nbsp;&nbsp;
+						<small>Last run duration</small>
+						<span class="label label-primary">{{duration | number:'1.0-0'}}<small> ms</small></span>
+						<span *ngIf="isDurationMethod()">&nbsp;&nbsp;<small>Max requests expected </small><span class="label label-info">{{getDurationRequests() | number:'1.0-0'}}</span></span> &nbsp;&nbsp;
+						<small>Requests executed</small>
 						<span class="label label-info">{{reqExecuted | number:'1.0-0'}}</span>
 					</div>
 				</div>
