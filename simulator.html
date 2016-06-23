@@ -12,21 +12,21 @@
 		<div class="collapse navbar-collapse" id="navbar-collapse">
 			<form class="navbar-form navbar-right">
 				<!-- STRESS BY REQUESTS: Number of total requests to be fired -->
-				<div class="form-group form-group-sm" [hidden]="isDurationMethod()">
+				<div class="form-group form-group-sm" *ngIf="isDurationMethod()">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon" id="basic-addon1"><span class="hidden-sm">Requests</span><span class="visible-sm">Reqs</span></span>
 						<input type="number" class="form-control input-sm" min="1" max="16384" id="numReq" [(ngModel)]="reqCount" [disabled]="isRunning()"/>
 					</div>
 				</div>
 				<!-- STRESS BY DURATION AND DELAY: Duration in seconds to run -->
-				<div class="form-group form-group-sm" [hidden]="isRequestMethod()">
+				<div class="form-group form-group-sm" *ngIf="isRequestMethod()">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon" id="basic-addon3"><span class="hidden-sm">Duration (s)</span><span class="visible-sm">Dur(s)</span></span>
 						<input type="number" class="form-control input-sm" min="5" max="600" id="durReq" [(ngModel)]="reqDuration" [disabled]="isRunning()"/>
 					</div>
 				</div>
 				<!-- STRESS BY DURATION AND DELAY: Delay in miliseconds to wait between group of requests -->
-				<div class="form-group form-group-sm" [hidden]="isRequestMethod()">
+				<div class="form-group form-group-sm" *ngIf="isRequestMethod()">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon" id="basic-addon4"><span class="hidden-sm">Interval (ms)</span><span class="visible-sm">Int(ms)</span></span>
 						<input type="number" class="form-control input-sm" min="5" max="1000" id="numReq" [(ngModel)]="reqInterval" [disabled]="isRunning()"/>
@@ -324,53 +324,8 @@
 								<dt>nginX (opensource v1.11.1)
 								</dt>
 								<dd>
-									<footer>
-										<a href="https://www.nginx.com/blog/7-tips-for-faster-http2-performance/" target="_blank">7 Tips for Faster HTTP/2 Performance</a><br/>
-									</footer>
-									<footer>
-										<a href="https://www.quora.com/How-can-nginx-handle-concurrent-requests-with-a-single-worker-process" target="_blank">How can nginx handle concurrent requests with a single worker process?</a><br/>
-									</footer>
-									<footer>
-										<a href="https://www.nginx.com/resources/admin-guide/load-balancer/" target="_blank">NGINX Load Balancing - HTTP and TCP Load Balancer</a><br/>
-									</footer>
-									<footer>
-										<a href="https://serversforhackers.com/so-you-got-yourself-a-loadbalancer" target="_blank">So You Got Yourself a Loadbalancer</a><br/>
-									</footer>
-									<footer>
-										<a href="http://www.aosabook.org/en/nginx.html" target="_blank">The Architecture of Open Source Applications (Volume 2): nginx</a><br/>
-									</footer>
-									<footer>
-										<a href="https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/" target="_blank">Inside NGINX: How We Designed for Performance & Scale</a><br/>
-									</footer>
-									<footer>
-										<a href="https://www.nginx.com/blog/introducing-the-nginx-microservices-reference-architecture/" target="_blank">Introducing the Microservices Reference Architecture from NGINX</a><br/>
-									</footer>
-									<footer>
-										<a href="https://www.nginx.com/blog/building-microservices-using-an-api-gateway/" target="_blank">Building Microservices: Using an API Gateway</a><br/>
-									</footer>
-									<footer>
-										<a href="http://www.slideshare.net/joshzhu/nginx-internals" target="_blank">nginX Internals - slide presentation</a><br/>
-									</footer>
-									<footer>
-										<a href="http://www.thegeekstuff.com/2013/11/nginx-vs-apache/?utm_source=tuicool" target="_blank">Nginx Vs Apache: Nginx Basic Architecture and Scalability</a><br/>
-									</footer>
-									<footer>
-										<a href="https://www.digitalocean.com/community/tutorials/apache-vs-nginx-practical-considerations" target="_blank">Apache vs Nginx: Practical Considerations</a><br/>
-									</footer>
-									<footer>
-										<a href="http://www.linuxbrigade.com/reduce-time_wait-socket-connections/" target="_blank">Reduce TIME_WAIT socket connections</a><br/>
-									</footer>
-									<footer>
-										<a href="https://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html" target="_blank">Coping with the TCP TIME-WAIT state on busy Linux servers</a><br/>
-									</footer>
-									<footer>
-										<a href="https://easyengine.io/tutorials/linux/sysctl-conf/" target="_blank">Performance - Sysctl Tweaks</a><br/>
-									</footer>
-									<footer>
-										<a href="https://tweaked.io/guide/kernel/" target="_blank">Tweaked.io making your servers fly</a><br/>
-									</footer>
-									<footer>
-										<a href="https://www.nginx.com/blog/nginx-load-balance-deployment-models/" target="_blank">NGINX Load Balancing Deployment Scenarios</a>
+									<footer *ngFor="let link of links['nginx']">
+										<a ng-href="link.href" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>

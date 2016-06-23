@@ -536,6 +536,72 @@ var nvD3 = (function() {
                     {href:    "https://github.com/giancarlobonansea/clusterednode-config",
                         desc: "NLB HA Clustered Node PoC - Configuration files"
                     }
+                ],
+                nginx:  [
+                    {
+                        href: "https://www.nginx.com/blog/7-tips-for-faster-http2-performance/",
+                        desc: "7 Tips for Faster HTTP/2 Performance"
+                    },
+                    {
+                        href: "https://www.quora.com/How-can-nginx-handle-concurrent-requests-with-a-single-worker-process",
+                        desc: "How can nginx handle concurrent requests with a single worker process?"
+                    },
+                    {
+                        href: "https://www.nginx.com/resources/admin-guide/load-balancer/",
+                        desc: "NGINX Load Balancing - HTTP and TCP Load Balancer"
+                    },
+                    {
+                        href: "https://serversforhackers.com/so-you-got-yourself-a-loadbalancer",
+                        desc: "So You Got Yourself a Loadbalancer"
+                    },
+                    {
+                        href: "http://www.aosabook.org/en/nginx.html",
+                        desc: "The Architecture of Open Source Applications (Volume 2): nginx"
+                    },
+                    {
+                        href: "https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/",
+                        desc: "Inside NGINX: How We Designed for Performance & Scale"
+                    },
+                    {
+                        href: "https://www.nginx.com/blog/introducing-the-nginx-microservices-reference-architecture/",
+                        desc: "Introducing the Microservices Reference Architecture from NGINX"
+                    },
+                    {
+                        href: "https://www.nginx.com/blog/building-microservices-using-an-api-gateway/",
+                        desc: "Building Microservices: Using an API Gateway"
+                    },
+                    {
+                        href: "http://www.slideshare.net/joshzhu/nginx-internals",
+                        desc: "nginX Internals - slide presentation"
+                    },
+                    {
+                        href: "http://www.thegeekstuff.com/2013/11/nginx-vs-apache/?utm_source=tuicool",
+                        desc: "Nginx Vs Apache: Nginx Basic Architecture and Scalability"
+                    },
+                    {
+                        href: "https://www.digitalocean.com/community/tutorials/apache-vs-nginx-practical-considerations",
+                        desc: "Apache vs Nginx: Practical Considerations"
+                    },
+                    {
+                        href: "http://www.linuxbrigade.com/reduce-time_wait-socket-connections/",
+                        desc: "Reduce TIME_WAIT socket connections"
+                    },
+                    {
+                        href: "https://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html",
+                        desc: "Coping with the TCP TIME-WAIT state on busy Linux servers"
+                    },
+                    {
+                        href: "https://easyengine.io/tutorials/linux/sysctl-conf/",
+                        desc: "Performance - Sysctl Tweaks"
+                    },
+                    {
+                        href: "https://tweaked.io/guide/kernel/",
+                        desc: "Tweaked.io making your servers fly"
+                    },
+                    {
+                        href: "https://www.nginx.com/blog/nginx-load-balance-deployment-models/",
+                        desc: "NGINX Load Balancing Deployment Scenarios"
+                    }
                 ]
             };
 		}
