@@ -1034,7 +1034,7 @@ var nvD3 = (function() {
                 if (self.intervalHandler) {
                     clearInterval(self.intervalHandler);
                 }
-                self.duration = Date.now() - this.iniTime;
+                self.duration = Date.now() - self.iniTime;
                 self.calculating = true;
                 var selfStop = self;
                 setTimeout(function() {
