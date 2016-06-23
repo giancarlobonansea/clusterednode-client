@@ -820,11 +820,10 @@
         AppSimulator.prototype.throwHTTPduration = function() {
             var self  = this,
                 reqId = 0;
-            //self.timerRunning = true;
-            //self.requestsQueue = 0;
             self.iniTime = Date.now();
+            self.counting = 0;
             self.intervalHandler = setInterval(function() {
-                if (self.timerRunning) {
+                if (self.counting < self.reqCount) {
                     var arrReq = [];
                     for (var j = 0; j < self.reqConn; j++) {
                         self.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
@@ -832,7 +831,6 @@
                         arrReq.push(self.requests[1][reqId]);
                         reqId++;
                     }
-                    //++self.requestsQueue;
                     var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
                         function(response) {
                             self.duration = Date.now() - self.iniTime;
@@ -852,18 +850,18 @@
                                 }
                                 self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(++self.reqOK);
                                 self.nodeIdx[response[k].json.hostname][1]++;
+                                self.counting++;
                             }
                         },
                         function(error) {
                             self.duration = Date.now() - self.iniTime;
                             self.reqErrors++;
+                            self.counting++;
                         },
                         function() {
                             observableRequestsA.unsubscribe();
                             observableRequestsA = undefined;
-                            //--self.requestsQueue;
-                            //if (!self.timerRunning && self.requestsQueue === 0) {
-                            if (self.reqOK + self.reqErrors >= self.reqCount) {
+                            if (self.counting >= self.reqCount) {
                                 if (self.intervalHandler) {
                                     clearInterval(self.intervalHandler);
                                 }
