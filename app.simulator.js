@@ -820,10 +820,13 @@
         AppSimulator.prototype.throwHTTPduration = function() {
             var self  = this,
                 reqId = 0;
-            self.iniTime = Date.now();
             self.counting = 0;
             self.timerRunning = true;
+            self.iniTime = Date.now();
             setTimeout(function() {
+                if (self.intervalHandler) {
+                    clearInterval(self.intervalHandler);
+                }
                 self.timerRunning = false;
             }, self.duration);
             self.intervalHandler = setInterval(function() {
@@ -869,9 +872,6 @@
                         function() {
                             if (!self.timerRunning && !self.calculating) {
                                 self.calculating = true;
-                                if (self.intervalHandler) {
-                                    clearInterval(self.intervalHandler);
-                                }
                                 var selfStop = self;
                                 setTimeout(function() {
                                     selfStop.calculateHistogram();
