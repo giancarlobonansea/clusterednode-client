@@ -833,11 +833,7 @@
             self.countRequests = 0;
             self.countResponses = 0;
             self.timerRunning = true;
-            self.iniTime = Date.now();
-            setTimeout(function() {
-                self.timerRunning = false;
-            }, self.reqDuration * 1000);
-            self.intervalHandler = setInterval(function() {
+            var intervalFunction = function() {
                 if (self.timerRunning && self.countRequests < self.reqCount) {
                     self.countRequests += self.reqConn;
                     var arrReq = [];
@@ -926,7 +922,13 @@
                         }, 500);
                     }
                 }
-            }, self.reqInterval);
+            };
+            self.iniTime = Date.now();
+            setTimeout(function() {
+                self.timerRunning = false;
+            }, self.reqDuration * 1000);
+            intervalFunction();
+            self.intervalHandler = setInterval(intervalFunction, self.reqInterval);
         };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
@@ -1017,7 +1019,7 @@
             this.execDuration = this.reqDuration;
             this.execInterval = this.reqInterval;
             this.execConn = this.reqConn;
-            this.execMaxReq = getDurationRequests();
+            this.execMaxReq = this.getDurationRequests();
             this.running = true;
             if (this.isDuration) {
                 this.reqCount = this.getDurationRequests();
