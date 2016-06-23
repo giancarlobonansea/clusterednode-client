@@ -825,6 +825,7 @@
             self.iniTime = Date.now();
             setTimeout(function() {
                 self.timerRunning = false;
+                console.log('setTimeout');
             }, self.reqDuration * 1000);
             self.intervalHandler = setInterval(function() {
                 if (self.timerRunning && self.counting < self.reqCount) {
@@ -867,6 +868,7 @@
                             }
                         },
                         function() {
+                            console.log('response.after', self.counting, self.timerRunning, self.calculating);
                             if (!self.timerRunning && !self.calculating) {
                                 if (self.intervalHandler) {
                                     clearInterval(self.intervalHandler);
