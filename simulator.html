@@ -300,8 +300,9 @@
 								<dt>{{links['HTTP2'].title}}</dt>
 								<dd>
 									<footer *ngFor="let link of links['HTTP2'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['HTTP2'].title,link.desc)" target="_blank">{{link.desc}}</a><br>
-										<small>&lt;{{link.href}}&gt;</small>
+										<a [href]="link.href" (click)="onRefLink(links['HTTP2'].title,link.desc)" target="_blank">{{link.desc}}</a>
+										<small style="white-space: pre">
+											&lt;{{link.href}}&gt;</small>
 									</footer>
 								</dd>
 							</dl>
@@ -444,8 +445,9 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-4">
 						<div class="embed-responsive embed-responsive-16by9">
-							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/4vnLUc58NEA" frameborder="0" allowfullscreen></iframe>
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/4vnLUc58NEA" allowfullscreen></iframe>
 						</div>
+						<small>Akamai's Stephen Ludin on Internet evolution</small>
 					</div>
 				</div>
 			</div>
