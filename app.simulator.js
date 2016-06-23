@@ -841,7 +841,7 @@
                     var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
                         function(response) {
                             self.duration = Date.now() - self.iniTime;
-                            if (self.timerRunning & self.countResponses < self.reqCount) {
+                            if (self.timerRunning && self.countResponses < self.reqCount) {
                                 for (var k = 0; k < response.length; k++) {
                                     self.requests[0][response[k].reqId] = {
                                         rid:  'Request ' + (parseInt(response[k].reqId) + 1),
@@ -873,7 +873,7 @@
                         },
                         function(error) {
                             self.duration = Date.now() - self.iniTime;
-                            if (self.timerRunning & self.countResponses < self.reqCount) {
+                            if (self.timerRunning && self.countResponses < self.reqCount) {
                                 self.reqErrors++;
                                 self.countResponses++;
                             }
