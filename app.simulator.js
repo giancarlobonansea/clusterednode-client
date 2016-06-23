@@ -823,7 +823,7 @@
             return tot - (tot % this.reqConn);
         };
         AppSimulator.prototype.getDurationThroughput = function() {
-            return parseInt(Math.ceil(this.getDurationRequests() / this.reqDuration));
+            return parseInt(Math.floor(this.getDurationRequests() / this.reqDuration));
         };
 		AppSimulator.prototype.checkStop = function() {
             this.duration = Date.now() - this.iniTime;
@@ -916,13 +916,13 @@
                                 }
                             }
                             else {
-                                if (self.countResponses > self.reqCount) {
-                                    for (var z = 0; z < self.reqConn; z++) {
-                                        self.requests[0].pop();
-                                        self.requests[1].pop();
-                                        self.countResponses--;
-                                    }
-                                }
+                                // if (self.countResponses > self.reqCount) {
+                                //     for (var z = 0; z < self.reqConn; z++) {
+                                //         self.requests[0].pop();
+                                //         self.requests[1].pop();
+                                //         self.countResponses--;
+                                //     }
+                                // }
                             }
                         },
                         function(error) {
@@ -932,13 +932,13 @@
                                 self.countResponses++;
                             }
                             else {
-                                if (self.countResponses > self.reqCount) {
-                                    for (var z = 0; z < self.reqConn; z++) {
-                                        self.requests[0].pop();
-                                        self.requests[1].pop();
-                                        self.countResponses--;
-                                    }
-                                }
+                                // if (self.countResponses > self.reqCount) {
+                                //     for (var z = 0; z < self.reqConn; z++) {
+                                //         self.requests[0].pop();
+                                //         self.requests[1].pop();
+                                //         self.countResponses--;
+                                //     }
+                                // }
                             }
                         },
                         function() {
