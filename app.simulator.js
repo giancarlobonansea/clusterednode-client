@@ -243,6 +243,10 @@
                     {
                         href: 'https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin',
                         desc: 'HTTP/2 and SPDY indicator'
+                    },
+                    {
+                        href: "http://www.aosabook.org/en/posa/secrets-of-mobile-network-performance.html",
+                        desc: "Secrets of Mobile Network Performance"
                     }
                     ]
                 },
@@ -517,6 +521,15 @@
                         {
                             href: "http://blog.chromium.org/2015/04/a-quic-update-on-googles-experimental.html",
                             desc: "A QUIC update on Google’s experimental transport"
+                        }
+                    ]
+                },
+                open:     {
+                    title:  "Open Source architectures",
+                    anchor: [
+                        {
+                            href: "http://www.aosabook.org/en/index.html",
+                            desc: "The Architecture of Open Source Applications"
                         }
                     ]
                 }
