@@ -809,6 +809,9 @@
             var tot = parseInt(Math.floor(this.reqDuration * 1000 * this.reqConn / this.reqInterval));
             return tot - (tot % this.reqConn);
         };
+        AppSimulator.prototype.getDurationThroughput = function() {
+            return parseInt(Math.ceil(this.getDurationRequests() / this.reqDuration));
+        };
 		AppSimulator.prototype.checkStop = function() {
             this.duration = Date.now() - this.iniTime;
             if (this.reqOK + this.reqErrors >= this.reqCount) {

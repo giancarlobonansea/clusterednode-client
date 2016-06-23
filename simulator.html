@@ -65,7 +65,12 @@
 									<span class="input-group-addon">Requests</span>
 									<input type="number" class="form-control input-sm" min="1" max="16384" id="numReq" [(ngModel)]="reqCount" [disabled]="isRunning()"/>
 								</div>
-								<span *ngIf="isDurationMethod()"><small>Max requests <span class="badge">{{getDurationRequests()}}</span></small></span>
+								<div *ngIf="isDurationMethod()">
+									<small>
+										Nominal requests <span class="label label-info">{{getDurationRequests()}}</span><br/> Nominal throughput
+										<span class="label label-info">{{getDurationThroughput()}}</span>
+									</small>
+								</div>
 								<!-- STRESS BY DURATION AND DELAY: Duration in seconds to run -->
 								<div class="input-group input-group-sm" *ngIf="isDurationMethod()">
 									<span class="input-group-addon">Duration</span>
