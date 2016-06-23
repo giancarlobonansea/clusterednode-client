@@ -407,9 +407,9 @@
 			<table class="table table-condensed table-responsive">
 				<tbody>
 				<tr [hidden]="reqOK<2">
-					<td *ngIf="isDurationMethod()" class="bg-primary text-right" width="{{percValue()}}%">
+					<td *ngIf="isRequestMethod()" class="bg-primary text-right" width="{{percValue()}}%">
 						<h2>{{percValue()}}%</h2></td>
-					<td *ngIf="isRequestMethod()" class="bg-primary text-right" width="{{percTime()}}%">
+					<td *ngIf="isDurationMethod()" class="bg-primary text-right" width="{{percTime()}}%">
 						<h2>{{percTime()}}%</h2></td>
 					<td class="bg-info"></td>
 				</tr>
