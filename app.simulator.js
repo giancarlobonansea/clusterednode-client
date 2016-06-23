@@ -278,7 +278,7 @@ var nvD3 = (function() {
             this.reqDuration = 5;
             this.reqInterval = 50;
             this.timeStart = Date.now();
-			this.running = -1;
+            this.running = false;
 			this.reqErrors = 0;
 			this.reqOK = 0;
 			this.loopCon = 0;
@@ -432,7 +432,8 @@ var nvD3 = (function() {
             ];
 			this.observableRequests = undefined;
             this.links = {
-                HTTP2: [
+                HTTP2:    {
+                    title: "HTTP/2", anchor: [
                     {
                         href: 'https://http2.akamai.com/demo',
                         desc: 'HTTP/2: the Future of the Internet | Akamai'
@@ -473,8 +474,10 @@ var nvD3 = (function() {
                         href: 'https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin',
                         desc: 'HTTP/2 and SPDY indicator'
                     }
-                ],
-                pm2:   [
+                    ]
+                },
+                pm2:      {
+                    title: "Keymetrics pm2 (v1.1.3)", anchor: [
                     {
                         href: "http://pm2.keymetrics.io/",
                         desc: "PM2 - Advanced Node.js process manager"
@@ -495,8 +498,10 @@ var nvD3 = (function() {
                         href: "http://pm2.keymetrics.io/docs/usage/deployment/",
                         desc: "PM2 - Deployment"
                     }
-                ],
-                angular2: [
+                    ]
+                },
+                angular2: {
+                    title: "AngularJS 2 (v2.0.0-rc3)", anchor: [
                     {href: "https://angular.io", desc: "One framework - Angular 2"},
                     {href: "https://angular.io/docs/js/latest/guide/cheatsheet.html", desc: "Angular Cheat Sheet - js"},
                     {href:    "https://medium.com/google-developer-experts/angular-2-introduction-to-new-http-module-1278499db2a0#.ttmhbubnd",
@@ -511,19 +516,25 @@ var nvD3 = (function() {
                     {href:    "http://blog.thoughtram.io/angular/2016/01/06/taking-advantage-of-observables-in-angular2.html",
                         desc: "Taking advantage of Observables in Angular 2"
                     }
-                ],
-                ng2nvd3: [
+                    ]
+                },
+                ng2nvd3:  {
+                    title: "ng2-nvd3 Charting Library (v1.1.1)", anchor: [
                     {href: "https://github.com/krispo/ng2-nvd3", desc: "Angular2 component for nvd3"}
-                ],
-                stunnel: [
+                    ]
+                },
+                stunnel:  {
+                    title: "stunnel (v5.32)", anchor: [
                     {href:    "https://www.stunnel.org/index.html",
                         desc: "Stunnel - a proxy designed to add TLS encryption functionality to existing clients and servers"
                     },
                     {href:    "http://bencane.com/2014/02/18/sending-redis-traffic-through-an-ssl-tunnel-with-stunnel/",
                         desc: "Sending redis traffic through an SSL tunnel with stunnel"
                     }
-                ],
-                github: [
+                    ]
+                },
+                github:   {
+                    title: "GitHub", anchor: [
                     {href:    "https://github.com/giancarlobonansea/clusterednode-client",
                         desc: "NLB HA Clustered Node PoC - Client app"
                     },
@@ -536,8 +547,10 @@ var nvD3 = (function() {
                     {href:    "https://github.com/giancarlobonansea/clusterednode-config",
                         desc: "NLB HA Clustered Node PoC - Configuration files"
                     }
-                ],
-                nginx:  [
+                    ]
+                },
+                nginx:    {
+                    title: "nginX (opensource v1.11.1)", anchor: [
                     {
                         href: "https://www.nginx.com/blog/7-tips-for-faster-http2-performance/",
                         desc: "7 Tips for Faster HTTP/2 Performance"
@@ -602,8 +615,10 @@ var nvD3 = (function() {
                         href: "https://www.nginx.com/blog/nginx-load-balance-deployment-models/",
                         desc: "NGINX Load Balancing Deployment Scenarios"
                     }
-                ],
-                hdr:    [
+                    ]
+                },
+                hdr:      {
+                    title: "HDR Histograms w/o Coordinated Omission (v2.1.9)", anchor: [
                     {
                         href: "http://bravenewgeek.com/everything-you-know-about-latency-is-wrong/",
                         desc: "Everything You Know About Latency Is Wrong"
@@ -632,8 +647,10 @@ var nvD3 = (function() {
                         href: "https://nirajrules.wordpress.com/2009/09/17/measuring-performance-response-vs-latency-vs-throughput-vs-load-vs-scalability-vs-stress-vs-robustness/",
                         desc: "Performance Testing – Response vs. Latency vs. Throughput vs. Load vs. Scalability vs. Stress vs. Robustness"
                     }
-                ],
-                redis:  [
+                    ]
+                },
+                redis:    {
+                    title: "redis.io (v3.2.1)", anchor: [
                     {
                         href: "http://redis.io/",
                         desc: "redis.io - open source in-memory data structure store (database, cache and message broker)"
@@ -670,8 +687,10 @@ var nvD3 = (function() {
                         href: "http://www.iamtherealbill.com/2014/12/redis-performance-thoughts-2/",
                         desc: "More Thoughts on Redis Performance"
                     }
-                ],
-                node:   [
+                    ]
+                },
+                node:     {
+                    title: "Node.js (v6.2.2)", anchor: [
                     {
                         href: "https://nodejs.org/en/",
                         desc: "Node.js - a JavaScript runtime built on Chrome's V8 JavaScript engine"
@@ -688,7 +707,8 @@ var nvD3 = (function() {
                         href: "https://www.npmjs.com/package/http2",
                         desc: "An HTTP/2 client and server implementation"
                     }
-                ]
+                    ]
+                }
             };
 		}
 		AppSimulator.parameters = [
@@ -760,17 +780,17 @@ var nvD3 = (function() {
             this.isDuration = false;
         };
         AppSimulator.prototype.isDurationMethod = function() {
-            return this.isDuration === true;
+            return this.isDuration;
         };
         AppSimulator.prototype.isRequestMethod = function() {
-            return this.isDuration === false;
+            return !this.isDuration;
         };
 		AppSimulator.prototype.perc = function(p) {
 			var curPerc = Math.ceil(this.reqOK * 12 / this.reqCount);
 			return (curPerc>=p);
 		};
 		AppSimulator.prototype.isRunning = function() {
-            return (this.running !== -1);
+            return this.running;
 		};
 		AppSimulator.prototype.calculateHistogram = function() {
             this.barChartData = [{key: 'raspberrypi2-redis', values: []},
@@ -955,10 +975,13 @@ var nvD3 = (function() {
                     selfRTT.observableRTT.unsubscribe();
                     selfRTT.observableRTT = undefined;
 	                selfRTT.calculating = false;
-	                selfRTT.running = -1;
+                    selfRTT.running = false;
                 }
             );
             ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
+        };
+        AppSimulator.prototype.onRefLink = function(title, desc) {
+            ga('send', 'event', 'Reference', title, desc);
         };
         AppSimulator.prototype.percValue = function() {
             return Math.ceil(this.reqOK * 100 / this.reqCount);
@@ -967,7 +990,7 @@ var nvD3 = (function() {
 			return Math.ceil(this.reqOK * hist / 100);
 		};
 		AppSimulator.prototype.checkStop = function() {
-			if (this.running >= this.reqCount) {
+            if (this.reqOK + this.reqErrors >= this.reqCount) {
 				this.duration = Date.now() - this.iniTime;
 				this.calculating = true;
 				var selfStop = this;
@@ -984,10 +1007,6 @@ var nvD3 = (function() {
 			for (var j = 0; ((j < this.reqConn) && (i + j < this.reqCount)); j++) {
 				arrReq.push(this.requests[1][i + j]);
 			}
-			if (self.observableRequests) {
-				self.observableRequests.unsubscribe();
-				self.observableRequests = undefined;
-			}
 			self.observableRequests = Rx.Observable.forkJoin(arrReq).subscribe(
 				function(response) {
 					for (var k = 0; k < response.length; k++) {
@@ -999,20 +1018,15 @@ var nvD3 = (function() {
                             exts: response[k].exts,
                             red:  response[k].red
 						};
-						var curRunning = ++self.running;
-						self.reqOK++;
 						if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
 							self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid, []]);
 							self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
 						}
-						self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(curRunning);
+                        self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(++self.reqOK);
 						self.nodeIdx[response[k].json.hostname][1]++;
 					}
 				},
 				function(error) {
-					self.running += self.reqConn;
-					if (self.running > self.reqCount)
-						self.running = self.reqCount;
 					self.reqErrors++;
 				},
 				function() {
@@ -1026,63 +1040,62 @@ var nvD3 = (function() {
 			);
 		};
         AppSimulator.prototype.throwHTTPduration = function() {
-            var self = this;
-            var reqId = 0;
-            setTimeout(function() {
-                self.reqCount = self.running;
-                self.running = -1;
-                if (self.intervalHandler) {
-                    clearInterval(self.intervalHandler);
-                }
-                self.duration = Date.now() - self.iniTime;
-                self.calculating = true;
-                var selfStop = self;
-                setTimeout(function() {
-                    selfStop.calculateHistogram();
-                }, 500);
-            }, self.reqDuration * 1000);
+            var self  = this,
+                reqId = 0;
+            self.timerRunning = true;
+            self.iniTime = Date.now();
             self.intervalHandler = setInterval(function() {
                 var arrReq = [];
-                for (var j = 0; self.running >= 0 && j < self.reqConn; j++) {
+                for (var j = 0; j < self.reqConn; j++) {
                     self.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
                     self.requests[1].push(self.httpService.get(reqId, self.selectedUrl));
                     arrReq.push(self.requests[1][reqId]);
                     reqId++;
                 }
-                if (self.running >= 0) {
-                    var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
-                        function(response) {
-                            for (var k = 0; k < response.length; k++) {
-                                self.requests[0][response[k].reqId] = {
-                                    rid:  'Request ' + (parseInt(response[k].reqId) + 1),
-                                    hst:  self.nodeIdx[response[k].json.hostname][0],
-                                    rtt:  response[k].rtt,
-                                    tsn:  response[k].tsn,
-                                    exts: response[k].exts,
-                                    red:  response[k].red
-                                };
-                                var curRunning = ++self.running;
-                                self.reqOK++;
-                                if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
-                                    self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
-                                                                                                      []]);
-                                    self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
-                                }
-                                self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(curRunning);
-                                self.nodeIdx[response[k].json.hostname][1]++;
+                var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
+                    function(response) {
+                        for (var k = 0; k < response.length; k++) {
+                            self.requests[0][response[k].reqId] = {
+                                rid:  'Request ' + (parseInt(response[k].reqId) + 1),
+                                hst:  self.nodeIdx[response[k].json.hostname][0],
+                                rtt:  response[k].rtt,
+                                tsn:  response[k].tsn,
+                                exts: response[k].exts,
+                                red:  response[k].red
+                            };
+                            if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
+                                self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
+                                                                                                  []]);
+                                self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
                             }
-                        },
-                        function(error) {
-                            self.running += self.reqConn;
-                            self.reqErrors++;
-                        },
-                        function() {
-                            observableRequestsA.unsubscribe();
-                            observableRequestsA = undefined;
+                            self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(++self.reqOK);
+                            self.nodeIdx[response[k].json.hostname][1]++;
                         }
-                    );
-                }
+                    },
+                    function(error) {
+                        self.reqErrors++;
+                    },
+                    function() {
+                        observableRequestsA.unsubscribe();
+                        observableRequestsA = undefined;
+                        if (!self.timerRunning) {
+                            self.reqCount = self.reqOK + self.reqErrors;
+                            self.duration = Date.now() - self.iniTime;
+                            self.calculating = true;
+                            var selfStop = self;
+                            setTimeout(function() {
+                                selfStop.calculateHistogram();
+                            }, 500);
+                        }
+                    }
+                );
             }, self.reqInterval);
+            setTimeout(function() {
+                if (self.intervalHandler) {
+                    clearInterval(self.intervalHandler);
+                }
+                self.timerRunning = false;
+            }, self.reqDuration * 1000);
         };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
@@ -1168,9 +1181,8 @@ var nvD3 = (function() {
 			this.tpNode = 0;
             this.tpRedis = 0;
 			this.observableRequests = undefined;
+            this.running = true;
             if (this.isDuration) {
-                this.running = 0;
-                this.iniTime = Date.now();
                 this.throwHTTPduration();
             }
             else {
@@ -1178,7 +1190,6 @@ var nvD3 = (function() {
                     this.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
                     this.requests[1].push(this.httpService.get(reqId, this.selectedUrl));
                 }
-                this.running = 0;
                 this.iniTime = Date.now();
                 this.throwHTTPrequests(this.loopCon);
             }
