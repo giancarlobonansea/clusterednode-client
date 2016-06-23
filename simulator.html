@@ -23,8 +23,7 @@
 					</div>
 					<div class="col-xs-8 text-right">
 						Last run <span class="badge">{{duration | number:'1.0-0'}} ms</span>
-						<span *ngIf="isDurationMethod()">&nbsp;&nbsp;Requests
-							<span class="badge">{{getDurationRequests() | number:'1.0-0'}}</span></span>
+						<span *ngIf="isDurationMethod()">&nbsp;&nbsp;Max requests<span class="badge">{{getDurationRequests() | number:'1.0-0'}}</span></span>
 					</div>
 				</div>
 			</div>

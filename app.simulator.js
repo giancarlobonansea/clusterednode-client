@@ -822,8 +822,12 @@
                 reqId = 0;
             self.iniTime = Date.now();
             self.counting = 0;
+            self.timerRunning = true;
+            setTimeout(function() {
+                self.timerRunning = false;
+            }, self.duration);
             self.intervalHandler = setInterval(function() {
-                if (self.counting < self.reqCount) {
+                if (self.timerRunning && self.counting < self.reqCount) {
                     var arrReq = [];
                     for (var j = 0; j < self.reqConn; j++) {
                         self.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
@@ -834,7 +838,7 @@
                     var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
                         function(response) {
                             self.duration = Date.now() - self.iniTime;
-                            if (self.counting < self.reqCount) {
+                            if (self.timerRunning && self.counting < self.reqCount) {
                                 for (var k = 0; k < response.length; k++) {
                                     self.requests[0][response[k].reqId] = {
                                         rid:  'Request ' + (parseInt(response[k].reqId) + 1),
@@ -857,13 +861,13 @@
                         },
                         function(error) {
                             self.duration = Date.now() - self.iniTime;
-                            if (self.counting < self.reqCount) {
+                            if (self.timerRunning && self.counting < self.reqCount) {
                                 self.reqErrors++;
                                 self.counting++;
                             }
                         },
                         function() {
-                            if (self.counting >= self.reqCount && !self.calculating) {
+                            if (!self.timerRunning && !self.calculating) {
                                 self.calculating = true;
                                 if (self.intervalHandler) {
                                     clearInterval(self.intervalHandler);
