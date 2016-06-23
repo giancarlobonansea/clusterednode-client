@@ -828,7 +828,7 @@
                 console.log('setTimeout');
             }, self.reqDuration * 1000);
             self.intervalHandler = setInterval(function() {
-                if (self.timerRunning && self.counting < self.reqCount) {
+                if (self.counting < self.reqCount) {
                     var arrReq = [];
                     for (var j = 0; j < self.reqConn; j++) {
                         self.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
@@ -839,7 +839,7 @@
                     var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
                         function(response) {
                             self.duration = Date.now() - self.iniTime;
-                            if (self.timerRunning && self.counting < self.reqCount) {
+                            if (self.counting < self.reqCount) {
                                 for (var k = 0; k < response.length; k++) {
                                     self.requests[0][response[k].reqId] = {
                                         rid:  'Request ' + (parseInt(response[k].reqId) + 1),
@@ -862,7 +862,7 @@
                         },
                         function(error) {
                             self.duration = Date.now() - self.iniTime;
-                            if (self.timerRunning && self.counting < self.reqCount) {
+                            if (self.counting < self.reqCount) {
                                 self.reqErrors++;
                                 self.counting++;
                             }
