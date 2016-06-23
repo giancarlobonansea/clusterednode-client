@@ -563,6 +563,12 @@
         AppSimulator.prototype.isRequestMethod = function() {
             return !this.isDuration;
         };
+        AppSimulator.prototype.usedDurationMethod = function() {
+            return this.execMode === 'DURATION';
+        };
+        AppSimulator.prototype.usedRequestMethod = function() {
+            return this.execMode === 'REQUESTS';
+        };
         AppSimulator.prototype.getSimulationMethod = function() {
             return this.isDuration ? 'DURATION' : 'REQUESTS';
         };
@@ -1006,10 +1012,12 @@
 			this.tpNode = 0;
             this.tpRedis = 0;
 			this.observableRequests = undefined;
+            this.execMode = this.getSimulationMethod();
             this.execReq = this.reqCount;
             this.execDuration = this.reqDuration;
             this.execInterval = this.reqInterval;
             this.execConn = this.reqConn;
+            this.execMaxReq = getDurationRequests();
             this.running = true;
             if (this.isDuration) {
                 this.reqCount = this.getDurationRequests();
