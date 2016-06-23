@@ -57,6 +57,16 @@
 					<span [hidden]="showReference">Show Reference</span><span [hidden]="!showReference">Hide Reference</span>
 				</button>
 				&nbsp;
+				<!-- Duration or Requests -->
+				<div class="btn-group btn-group-sm">
+					<button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Method&nbsp;<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+						<li><a (click)="setDuration()">Duration</a></li>
+						<li><a (click)="setRequests()">Requests</a></li>
+					</ul>
+				</div>
+				&nbsp;
 				<!-- Quick settings dropdown -->
 				<div class="btn-group btn-group-sm">
 					<button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Preset&nbsp;<span class="caret"></span>
@@ -66,15 +76,6 @@
 						<li><a (click)="setMedium()">Medium</a></li>
 						<li><a (click)="setLarge()">Large</a></li>
 						<li><a (click)="setHuge()">Huge</a></li>
-					</ul>
-				</div>
-				<!-- Duration or Requests -->
-				<div class="btn-group btn-group-sm">
-					<button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Method&nbsp;<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu">
-						<li><a (click)="setDuration()">Duration</a></li>
-						<li><a (click)="setRequests()">Requests</a></li>
 					</ul>
 				</div>
 			</ul>
