@@ -23,32 +23,32 @@
 				<div class="col-xs-12 col-sm-4">
 					<form class="form-inline">
 						<div class="form-group form-group-sm">
-					<!-- Show reference -->
-					<button type="button" class="btn btn-default btn-sm navbar-btn" (click)="showRef()" [disabled]="isRunning()">
-						<span [hidden]="showReference">Show Reference</span><span [hidden]="!showReference">Hide Reference</span>
-					</button>
-					&nbsp;
-					<!-- Duration or Requests -->
-					<div class="btn-group btn-group-sm">
-						<button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Method&nbsp;<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu">
-							<li><a (click)="setDuration()">Duration</a></li>
-							<li><a (click)="setRequests()">Requests</a></li>
-						</ul>
-					</div>
-					&nbsp;
-					<!-- Quick settings dropdown -->
-					<div class="btn-group btn-group-sm">
-						<button type="button" class="btn btn-default navbar-btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Preset&nbsp;<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu">
-							<li><a (click)="setSmall()">Small</a></li>
-							<li><a (click)="setMedium()">Medium</a></li>
-							<li><a (click)="setLarge()">Large</a></li>
-							<li><a (click)="setHuge()">Huge</a></li>
-						</ul>
-					</div>
+							<!-- Show reference -->
+							<button type="button" class="btn btn-default btn-sm form-control" (click)="showRef()" [disabled]="isRunning()">
+								<span [hidden]="showReference">Show Reference</span><span [hidden]="!showReference">Hide Reference</span>
+							</button>
+							&nbsp;
+							<!-- Duration or Requests -->
+							<div class="btn-group btn-group-sm">
+								<button type="button" class="btn btn-default form-control dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Method&nbsp;<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a (click)="setDuration()">Duration</a></li>
+									<li><a (click)="setRequests()">Requests</a></li>
+								</ul>
+							</div>
+							&nbsp;
+							<!-- Quick settings dropdown -->
+							<div class="btn-group btn-group-sm">
+								<button type="button" class="btn btn-default form-control dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Preset&nbsp;<span class="caret"></span>
+								</button>
+								<ul class="dropdown-menu">
+									<li><a (click)="setSmall()">Small</a></li>
+									<li><a (click)="setMedium()">Medium</a></li>
+									<li><a (click)="setLarge()">Large</a></li>
+									<li><a (click)="setHuge()">Huge</a></li>
+								</ul>
+							</div>
 						</div>
 					</form>
 				</div>
@@ -60,7 +60,11 @@
 								<span class="input-group-addon">Requests</span>
 								<input type="number" class="form-control input-sm" min="1" max="16384" id="numReq" [(ngModel)]="reqCount" [disabled]="isRunning()"/>
 							</div>
-							<span *ngIf="isDurationMethod()"><small><em>Total requests: {{reqDuration*1000*reqConn/reqInterval}}&nbsp;&nbsp;</em></small></span>
+							<div class="form-control-static" *ngIf="isDurationMethod()">
+								<small>
+									<em>Total requests: {{reqDuration*1000*reqConn/reqInterval | number:'1.0-0'}}&nbsp;&nbsp;</em>
+								</small>
+							</div>
 							<!-- STRESS BY DURATION AND DELAY: Duration in seconds to run -->
 							<div class="input-group input-group-sm" *ngIf="isDurationMethod()">
 								<span class="input-group-addon">Duration</span>
