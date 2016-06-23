@@ -563,6 +563,9 @@
         AppSimulator.prototype.isRequestMethod = function() {
             return !this.isDuration;
         };
+        AppSimulator.prototype.getSimulationMethod = function() {
+            return this.isDuration ? 'DURATION' : 'REQUESTS';
+        };
 		AppSimulator.prototype.isRunning = function() {
             return this.running;
 		};
