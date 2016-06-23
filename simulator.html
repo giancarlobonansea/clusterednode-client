@@ -117,7 +117,7 @@
 						&nbsp;&nbsp;
 						<small>Last run duration</small>
 						<span class="label label-primary">{{duration | number:'1.0-0'}}<small> ms</small></span>
-						<span *ngIf="usedDurationMethod()">&nbsp;&nbsp;<small>Max requests expected </small><span class="label label-info">{{getDurationRequests() | number:'1.0-0'}}</span></span> &nbsp;&nbsp;
+						<span *ngIf="usedDurationMethod()">&nbsp;&nbsp;<small>Max requests expected </small><span class="label label-info">{{execMaxReq | number:'1.0-0'}}</span></span> &nbsp;&nbsp;
 						<small>Requests executed</small>
 						<span class="label label-info">{{reqExecuted | number:'1.0-0'}}</span>
 					</div>
