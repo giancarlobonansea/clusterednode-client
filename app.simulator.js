@@ -824,9 +824,6 @@
             self.timerRunning = true;
             self.iniTime = Date.now();
             setTimeout(function() {
-                if (self.intervalHandler) {
-                    clearInterval(self.intervalHandler);
-                }
                 self.timerRunning = false;
             }, self.reqDuration * 1000);
             self.intervalHandler = setInterval(function() {
@@ -871,6 +868,9 @@
                         },
                         function() {
                             if (!self.timerRunning && !self.calculating) {
+                                if (self.intervalHandler) {
+                                    clearInterval(self.intervalHandler);
+                                }
                                 self.calculating = true;
                                 var selfStop = self;
                                 setTimeout(function() {
@@ -883,12 +883,6 @@
                     );
                 }
             }, self.reqInterval);
-            // setTimeout(function() {
-            //     if (self.intervalHandler) {
-            //         clearInterval(self.intervalHandler);
-            //     }
-            //     self.timerRunning = false;
-            // }, self.reqDuration * 1000);
         };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
