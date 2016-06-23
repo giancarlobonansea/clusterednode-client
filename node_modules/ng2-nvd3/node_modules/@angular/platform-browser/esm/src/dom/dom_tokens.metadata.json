@@ -1,0 +1,16 @@
+{
+  "__symbolic": "module",
+  "metadata": {
+    "DOCUMENT": {
+      "__symbolic": "new",
+      "expression": {
+        "__symbolic": "reference",
+        "name": "OpaqueToken",
+        "module": "@angular/core"
+      },
+      "arguments": [
+        "DocumentToken"
+      ]
+    }
+  }
+}
