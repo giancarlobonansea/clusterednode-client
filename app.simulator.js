@@ -834,43 +834,47 @@
                     var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
                         function(response) {
                             self.duration = Date.now() - self.iniTime;
-                            for (var k = 0; k < response.length; k++) {
-                                self.requests[0][response[k].reqId] = {
-                                    rid:  'Request ' + (parseInt(response[k].reqId) + 1),
-                                    hst:  self.nodeIdx[response[k].json.hostname][0],
-                                    rtt:  response[k].rtt,
-                                    tsn:  response[k].tsn,
-                                    exts: response[k].exts,
-                                    red:  response[k].red
-                                };
-                                if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
-                                    self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
-                                                                                                      []]);
-                                    self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
+                            if (self.counting < self.reqCount) {
+                                for (var k = 0; k < response.length; k++) {
+                                    self.requests[0][response[k].reqId] = {
+                                        rid:  'Request ' + (parseInt(response[k].reqId) + 1),
+                                        hst:  self.nodeIdx[response[k].json.hostname][0],
+                                        rtt:  response[k].rtt,
+                                        tsn:  response[k].tsn,
+                                        exts: response[k].exts,
+                                        red:  response[k].red
+                                    };
+                                    if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
+                                        self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
+                                                                                                          []]);
+                                        self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
+                                    }
+                                    self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(++self.reqOK);
+                                    self.nodeIdx[response[k].json.hostname][1]++;
+                                    self.counting++;
                                 }
-                                self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(++self.reqOK);
-                                self.nodeIdx[response[k].json.hostname][1]++;
-                                self.counting++;
                             }
                         },
                         function(error) {
                             self.duration = Date.now() - self.iniTime;
-                            self.reqErrors++;
-                            self.counting++;
+                            if (self.counting < self.reqCount) {
+                                self.reqErrors++;
+                                self.counting++;
+                            }
                         },
                         function() {
-                            observableRequestsA.unsubscribe();
-                            observableRequestsA = undefined;
-                            if (self.counting >= self.reqCount) {
+                            if (self.counting >= self.reqCount && !self.calculating) {
+                                self.calculating = true;
                                 if (self.intervalHandler) {
                                     clearInterval(self.intervalHandler);
                                 }
-                                self.calculating = true;
                                 var selfStop = self;
                                 setTimeout(function() {
                                     selfStop.calculateHistogram();
                                 }, 500);
                             }
+                            observableRequestsA.unsubscribe();
+                            observableRequestsA = undefined;
                         }
                     );
                 }
