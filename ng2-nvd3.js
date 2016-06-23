@@ -227,4 +227,4 @@ var nvD3 = (function() {
                       ], nvD3);
     return nvD3;
 }());
-exports.nvD3 = nvD3;
+//exports.nvD3 = nvD3;
