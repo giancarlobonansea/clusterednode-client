@@ -406,7 +406,7 @@
 </div>
 <!-- Spinner -->
 <div class="row" *ngIf="isRunning()">
-	<div class="col-xs-12 text-center">
+	<div class="col-xs-12">
 		<div class="panel panel-success">
 			<div class="panel-heading">
 				<div class="row">
@@ -418,8 +418,8 @@
 					</div>
 					<div class="col-xs-6 text-right">
 						<h4 class="panel-title">
-							<span class="badge">{{reqOK+reqErrors}}</span> API responses |
-							<span class="badge">OK {{reqOK}}</span>&nbsp;<span class="badge">ERR {{reqErrors}}</span>
+							API responses&nbsp; <span class="badge">OK {{reqOK}}</span>&nbsp;&nbsp;
+							<span class="badge">ERR {{reqErrors}}</span>
 						</h4>
 					</div>
 				</div>
