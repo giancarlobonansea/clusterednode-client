@@ -563,10 +563,6 @@
         AppSimulator.prototype.isRequestMethod = function() {
             return !this.isDuration;
         };
-        // AppSimulator.prototype.perc = function(p) {
-        // 	var curPerc = Math.ceil(this.reqOK * 12 / this.reqCount);
-        // 	return (curPerc>=p);
-        // };
 		AppSimulator.prototype.isRunning = function() {
             return this.running;
 		};
@@ -772,8 +768,8 @@
             return tot - (tot % this.reqConn);
         };
 		AppSimulator.prototype.checkStop = function() {
+            this.duration = Date.now() - this.iniTime;
             if (this.reqOK + this.reqErrors >= this.reqCount) {
-				this.duration = Date.now() - this.iniTime;
 				this.calculating = true;
 				var selfStop = this;
 				setTimeout(function(){
@@ -824,8 +820,8 @@
         AppSimulator.prototype.throwHTTPduration = function() {
             var self  = this,
                 reqId = 0;
-            self.timerRunning = true;
-            self.requestsQueue = 0;
+            //self.timerRunning = true;
+            //self.requestsQueue = 0;
             self.iniTime = Date.now();
             self.intervalHandler = setInterval(function() {
                 if (self.timerRunning) {
@@ -836,7 +832,7 @@
                         arrReq.push(self.requests[1][reqId]);
                         reqId++;
                     }
-                    ++self.requestsQueue;
+                    //++self.requestsQueue;
                     var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
                         function(response) {
                             self.duration = Date.now() - self.iniTime;
@@ -865,8 +861,12 @@
                         function() {
                             observableRequestsA.unsubscribe();
                             observableRequestsA = undefined;
-                            --self.requestsQueue;
-                            if (!self.timerRunning && self.requestsQueue === 0) {
+                            //--self.requestsQueue;
+                            //if (!self.timerRunning && self.requestsQueue === 0) {
+                            if (self.reqOK + self.reqErrors >= self.reqCount) {
+                                if (self.intervalHandler) {
+                                    clearInterval(self.intervalHandler);
+                                }
                                 self.calculating = true;
                                 var selfStop = self;
                                 setTimeout(function() {
@@ -877,12 +877,12 @@
                     );
                 }
             }, self.reqInterval);
-            setTimeout(function() {
-                if (self.intervalHandler) {
-                    clearInterval(self.intervalHandler);
-                }
-                self.timerRunning = false;
-            }, self.reqDuration * 1000);
+            // setTimeout(function() {
+            //     if (self.intervalHandler) {
+            //         clearInterval(self.intervalHandler);
+            //     }
+            //     self.timerRunning = false;
+            // }, self.reqDuration * 1000);
         };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
