@@ -595,9 +595,9 @@
                 {key: 'w/o Coord. Omission', values: [], area: false},
                 {key: 'Latency/Percentile', values: [], area: true}
             ];
-			this.disregard = parseInt(Math.ceil(this.reqCount * 4.55 / 100.0));
+            this.disregard = parseInt(Math.ceil(this.reqExecuted * 4.55 / 100.0));
 			this.discardLower = Math.floor(this.disregard/2);
-			this.discardUpper = this.reqCount-Math.ceil(this.disregard/2)-1;
+            this.discardUpper = this.reqExecuted - Math.ceil(this.disregard / 2) - 1;
             //
             // Populate barchart as processed (no sorting)
             //
@@ -666,9 +666,9 @@
 			this.polarChartData2[1].y = this.polarChartData2[1].y / this.totReqAng[1];
 			this.polarChartData2[2].y = this.polarChartData2[2].y / this.totReqAng[2];
 			this.polarChartData2[3].y = this.polarChartData2[3].y / this.totReqAng[3];
-			this.tpAngular = parseInt(Math.ceil(this.reqCount/(this.duration/1000)));
+            this.tpAngular = parseInt(Math.ceil(this.reqExecuted / (this.duration / 1000)));
 			for (i = 0; i < this.histogram.length; i++) {
-				this.histogram[i][1] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].rtt;
+                this.histogram[i][1] = this.requests[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].rtt;
             }
 			//
 			// Sorting by TSN (nginX time)
@@ -676,7 +676,7 @@
 			this.totReqNgi = [0,0,0,0];
 			this.requests[0].sort(function(a, b) {return a.tsn - b.tsn});
 			for (i = 0; i < this.histogram.length; i++) {
-				this.histogram[i][2] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].tsn;
+                this.histogram[i][2] = this.requests[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].tsn;
             }
 			for (i = 0; i < this.requests[0].length; i++) {
                 tsn2 = this.requests[0][i].hst === 0 ? this.requests[0][i].tsn : 0;
@@ -703,7 +703,7 @@
 			//
 			this.requests[0].sort(function(a, b) {return a.exts - b.exts});
 			for (i = 0; i < this.histogram.length; i++) {
-                this.histogram[i][3] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].exts;
+                this.histogram[i][3] = this.requests[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].exts;
             }
 			for (i = 0; i < this.requests[0].length; i++) {
 				this.totNode += ((i>=this.discardLower)&&(i<=this.discardUpper))?this.requests[0][i].exts:0;
@@ -714,7 +714,7 @@
             //
             this.requests[0].sort(function(a, b) {return a.red - b.red});
             for (i = 0; i < this.histogram.length; i++) {
-                this.histogram[i][4] = this.requests[0][Math.ceil(this.reqCount * this.histogram[i][0] / 100) - 1].red;
+                this.histogram[i][4] = this.requests[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].red;
             }
             for (i = 0; i < this.requests[0].length; i++) {
                 this.totRedis += ((i >= this.discardLower) && (i <= this.discardUpper)) ? this.requests[0][i].red : 0;
@@ -771,6 +771,7 @@
             this.duration = Date.now() - this.iniTime;
             if (this.reqOK + this.reqErrors >= this.reqCount) {
 				this.calculating = true;
+                this.reqExecuted = this.reqCount;
 				var selfStop = this;
 				setTimeout(function(){
 					selfStop.calculateHistogram();
@@ -820,14 +821,15 @@
         AppSimulator.prototype.throwHTTPduration = function() {
             var self  = this,
                 reqId = 0;
-            self.counting = 0;
+            self.countRequests = 0;
+            self.countResponses = 0;
             self.timerRunning = true;
             self.iniTime = Date.now();
             setTimeout(function() {
                 self.timerRunning = false;
             }, self.reqDuration * 1000);
             self.intervalHandler = setInterval(function() {
-                if (self.counting < self.reqCount) {
+                if (self.countResponses < self.reqCount) {
                     var arrReq = [];
                     for (var j = 0; j < self.reqConn; j++) {
                         self.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
@@ -835,10 +837,11 @@
                         arrReq.push(self.requests[1][reqId]);
                         reqId++;
                     }
+                    self.countRequests += self.reqConn;
                     var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
                         function(response) {
                             self.duration = Date.now() - self.iniTime;
-                            if (self.counting < self.reqCount) {
+                            if (self.timerRunning & self.countResponses < self.reqCount) {
                                 for (var k = 0; k < response.length; k++) {
                                     self.requests[0][response[k].reqId] = {
                                         rid:  'Request ' + (parseInt(response[k].reqId) + 1),
@@ -855,42 +858,43 @@
                                     }
                                     self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(++self.reqOK);
                                     self.nodeIdx[response[k].json.hostname][1]++;
-                                    self.counting++;
+                                    self.countResponses++;
                                 }
                             }
                             else {
-                                if (self.counting > self.reqCount) {
+                                if (self.countResponses > self.reqCount) {
                                     for (var z = 0; z < self.reqConn; z++) {
                                         self.requests[0].pop();
                                         self.requests[1].pop();
-                                        self.counting--;
+                                        self.countResponses--;
                                     }
                                 }
                             }
                         },
                         function(error) {
                             self.duration = Date.now() - self.iniTime;
-                            if (self.timerRunning && self.counting < self.reqCount) {
+                            if (self.timerRunning & self.countResponses < self.reqCount) {
                                 self.reqErrors++;
-                                self.counting++;
+                                self.countResponses++;
                             }
                             else {
-                                if (self.counting > self.reqCount) {
+                                if (self.countResponses > self.reqCount) {
                                     for (var z = 0; z < self.reqConn; z++) {
                                         self.requests[0].pop();
                                         self.requests[1].pop();
-                                        self.counting--;
+                                        self.countResponses--;
                                     }
                                 }
                             }
                         },
                         function() {
-                            if (!self.timerRunning && !self.calculating) {
+                            if (!self.timerRunning && !self.calculating && self.countRequests === self.countResponses) {
                                 if (self.intervalHandler) {
                                     clearInterval(self.intervalHandler);
                                 }
                                 self.calculating = true;
                                 var selfStop = self;
+                                self.reqExecuted = self.countResponses;
                                 setTimeout(function() {
                                     selfStop.calculateHistogram();
                                 }, 500);
