@@ -994,10 +994,6 @@ var nvD3 = (function() {
         AppSimulator.prototype.percValue = function() {
             return Math.ceil(this.reqOK * 100 / this.reqCount);
         };
-        AppSimulator.prototype.percTime = function() {
-            var diff = Math.ceil((Date.now() - this.iniTime) / 10 / this.reqDuration);
-            return (diff > 100 ? 100 : diff);
-        };
 		AppSimulator.prototype.calcPosition = function(hist) {
 			return Math.ceil(this.reqOK * hist / 100);
 		};
@@ -1110,7 +1106,7 @@ var nvD3 = (function() {
                     clearInterval(self.intervalHandler);
                 }
                 self.timerRunning = false;
-            }, self.reqDuration * 1000);
+            }, self.reqDuration * 1000 + self.reqInterval);
         };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
