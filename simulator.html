@@ -301,8 +301,6 @@
 								<dd>
 									<footer *ngFor="let link of links['HTTP2'].anchor">
 										<a [href]="link.href" (click)="onRefLink(links['HTTP2'].title,link.desc)" target="_blank">{{link.desc}}</a>
-										<small style="white-space: pre">
-											&lt;{{link.href}}&gt;</small>
 									</footer>
 								</dd>
 							</dl>
@@ -448,6 +446,18 @@
 							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/4vnLUc58NEA" allowfullscreen></iframe>
 						</div>
 						<small>Akamai's Stephen Ludin on Internet evolution</small>
+					</div>
+					<div class="col-xs-12 col-sm-4">
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/MARxcGRRTk4" allowfullscreen></iframe>
+						</div>
+						<small>Concur shares experience using H2</small>
+					</div>
+					<div class="col-xs-12 col-sm-4">
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/6Rs0p3mPNr0" allowfullscreen></iframe>
+						</div>
+						<small>How NOT to measure latency - Gil Tene at USI</small>
 					</div>
 				</div>
 			</div>
