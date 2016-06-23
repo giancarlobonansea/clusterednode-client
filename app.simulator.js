@@ -1106,7 +1106,7 @@ var nvD3 = (function() {
                     clearInterval(self.intervalHandler);
                 }
                 self.timerRunning = false;
-            }, self.reqDuration * 1000 + self.reqInterval);
+            }, self.reqDuration * 1000);
         };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
@@ -1194,7 +1194,7 @@ var nvD3 = (function() {
 			this.observableRequests = undefined;
             this.running = true;
             if (this.isDuration) {
-                this.reqCount = parseInt(Math.ceil(this.reqDuration * 1000 * this.reqConn / this.reqInterval));
+                this.reqCount = parseInt(Math.floor(this.reqDuration * 1000 * this.reqConn / this.reqInterval));
                 this.throwHTTPduration();
             }
             else {
