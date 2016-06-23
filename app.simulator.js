@@ -1029,10 +1029,11 @@ var nvD3 = (function() {
             var self = this;
             var reqId = 0;
             setTimeout(function() {
+                self.reqCount = self.running;
+                self.running = -1;
                 if (self.intervalHandler) {
                     clearInterval(self.intervalHandler);
                 }
-                self.running = -1;
                 self.duration = Date.now() - this.iniTime;
                 self.calculating = true;
                 var selfStop = self;
@@ -1048,37 +1049,39 @@ var nvD3 = (function() {
                     arrReq.push(self.requests[1][reqId]);
                     reqId++;
                 }
-                var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
-                    function(response) {
-                        for (var k = 0; k < response.length; k++) {
-                            self.requests[0][response[k].reqId] = {
-                                rid:  'Request ' + (parseInt(response[k].reqId) + 1),
-                                hst:  self.nodeIdx[response[k].json.hostname][0],
-                                rtt:  response[k].rtt,
-                                tsn:  response[k].tsn,
-                                exts: response[k].exts,
-                                red:  response[k].red
-                            };
-                            var curRunning = ++self.running;
-                            self.reqOK++;
-                            if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
-                                self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
-                                                                                                  []]);
-                                self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
+                if (self.running >= 0) {
+                    var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
+                        function(response) {
+                            for (var k = 0; k < response.length; k++) {
+                                self.requests[0][response[k].reqId] = {
+                                    rid:  'Request ' + (parseInt(response[k].reqId) + 1),
+                                    hst:  self.nodeIdx[response[k].json.hostname][0],
+                                    rtt:  response[k].rtt,
+                                    tsn:  response[k].tsn,
+                                    exts: response[k].exts,
+                                    red:  response[k].red
+                                };
+                                var curRunning = ++self.running;
+                                self.reqOK++;
+                                if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
+                                    self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
+                                                                                                      []]);
+                                    self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
+                                }
+                                self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(curRunning);
+                                self.nodeIdx[response[k].json.hostname][1]++;
                             }
-                            self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(curRunning);
-                            self.nodeIdx[response[k].json.hostname][1]++;
+                        },
+                        function(error) {
+                            self.running += self.reqConn;
+                            self.reqErrors++;
+                        },
+                        function() {
+                            observableRequestsA.unsubscribe();
+                            observableRequestsA = undefined;
                         }
-                    },
-                    function(error) {
-                        self.running += self.reqConn;
-                        self.reqErrors++;
-                    },
-                    function() {
-                        observableRequestsA.unsubscribe();
-                        observableRequestsA = undefined;
-                    }
-                );
+                    );
+                }
             }, self.reqInterval);
         };
         AppSimulator.prototype.showRef = function() {
