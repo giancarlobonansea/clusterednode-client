@@ -51,13 +51,13 @@
 									</ul>
 								</div>
 								&nbsp;&nbsp;
-								<button type="button" class="btn btn-sucess btn-sm form-control" (click)="initSimulator()" [disabled]="isRunning()">
+								<button type="button" class="btn btn-success btn-sm form-control" (click)="initSimulator()" [disabled]="isRunning()">
 									Run&nbsp;<i class="fa fa-play"></i>
 								</button>
 								&nbsp;&nbsp;
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Last run</span>
-									<input type="text" class="form-control input-sm" id="numReqStatic" value="{{duration | number:'1.0-0'}}" [disabled]="true"/>
+									<input type="text" class="form-control input-sm" id="lastRun" value="{{duration | number:'1.0-0'}}" [disabled]="true"/>
 									<span class="input-group-addon">ms</span>
 								</div>
 							</div>
