@@ -829,7 +829,8 @@
                 self.timerRunning = false;
             }, self.reqDuration * 1000);
             self.intervalHandler = setInterval(function() {
-                if (self.countResponses < self.reqCount) {
+                if (self.timerRunning && self.countRequests < self.reqCount) {
+                    self.countRequests += self.reqConn;
                     var arrReq = [];
                     for (var j = 0; j < self.reqConn; j++) {
                         self.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
@@ -837,11 +838,10 @@
                         arrReq.push(self.requests[1][reqId]);
                         reqId++;
                     }
-                    self.countRequests += self.reqConn;
                     var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
                         function(response) {
                             self.duration = Date.now() - self.iniTime;
-                            if (self.timerRunning && self.countResponses < self.reqCount) {
+                            if (self.countResponses < self.reqCount) {
                                 for (var k = 0; k < response.length; k++) {
                                     self.requests[0][response[k].reqId] = {
                                         rid:  'Request ' + (parseInt(response[k].reqId) + 1),
@@ -873,7 +873,7 @@
                         },
                         function(error) {
                             self.duration = Date.now() - self.iniTime;
-                            if (self.timerRunning && self.countResponses < self.reqCount) {
+                            if (self.countResponses < self.reqCount) {
                                 self.reqErrors++;
                                 self.countResponses++;
                             }
@@ -903,6 +903,19 @@
                             observableRequestsA = undefined;
                         }
                     );
+                }
+                else {
+                    if (!self.calculating && self.countRequests === self.countResponses) {
+                        if (self.intervalHandler) {
+                            clearInterval(self.intervalHandler);
+                        }
+                        self.calculating = true;
+                        var selfStop = self;
+                        self.reqExecuted = self.countResponses;
+                        setTimeout(function() {
+                            selfStop.calculateHistogram();
+                        }, 500);
+                    }
                 }
             }, self.reqInterval);
         };
