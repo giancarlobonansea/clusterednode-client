@@ -748,8 +748,8 @@ var nvD3 = (function() {
 		AppSimulator.prototype.setMedium = function() {
             if (this.isDuration) {
                 this.reqDuration = 10;
-                this.reqInterval = 20;
-                this.reqConn = 16;
+                this.reqInterval = 30;
+                this.reqConn = 4;
             }
             else {
                 this.reqCount = 512;
@@ -760,8 +760,8 @@ var nvD3 = (function() {
 		AppSimulator.prototype.setLarge = function() {
             if (this.isDuration) {
                 this.reqDuration = 30;
-                this.reqInterval = 15;
-                this.reqConn = 64;
+                this.reqInterval = 25;
+                this.reqConn = 4;
             }
             else {
                 this.reqCount = 1024;
@@ -772,8 +772,8 @@ var nvD3 = (function() {
 		AppSimulator.prototype.setHuge = function() {
             if (this.isDuration) {
                 this.reqDuration = 60;
-                this.reqInterval = 10;
-                this.reqConn = 128;
+                this.reqInterval = 20;
+                this.reqConn = 16;
             }
             else {
                 this.reqCount = 2048;
