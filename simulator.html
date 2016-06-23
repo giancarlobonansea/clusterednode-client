@@ -29,7 +29,7 @@
 				<!-- STRESS BY DURATION AND DELAY: Delay in miliseconds to wait between group of requests -->
 				<div class="form-group form-group-sm" *ngIf="isDurationMethod()">
 					<div class="input-group input-group-sm">
-						<span class="input-group-addon"><span class="hidden-sm">Interval (ms)</span><span class="visible-sm">Int(ms)</span></span>
+						<span class="input-group-addon"><span class="hidden-sm">Interval</span><span class="visible-sm">Int</span></span>
 						<input type="number" class="form-control input-sm" min="5" max="1000" id="intReq" [(ngModel)]="reqInterval" [disabled]="isRunning()"/>
 						<span class="input-group-addon">(ms)</span>
 					</div>
@@ -38,7 +38,7 @@
 				<div class="form-group form-group-sm">
 					<div class="input-group input-group-sm">
 						<span class="input-group-addon"><span class="hidden-sm">Connections</span><span class="visible-sm">Conn</span></span>
-						<input type="number" class="form-control input-sm" min="1" max="32" id="numConn" [(ngModel)]="reqConn" [disabled]="isRunning()"/>
+						<input type="number" class="form-control input-sm" min="1" max="128" id="numConn" [(ngModel)]="reqConn" [disabled]="isRunning()"/>
 					</div>
 				</div>
 				<!-- Endpoint configuration -->
@@ -275,7 +275,7 @@
 						<!-- AngularJS 2 -->
 						<blockquote>
 							<dl>
-								<dt>AngularJS 2 (v2.0.0-rc1)
+								<dt>AngularJS 2 (v2.0.0-rc3)
 								</dt>
 								<dd>
 									<footer *ngFor="let link of links['angular2']">
@@ -338,26 +338,8 @@
 								<dt>HDR Histograms w/o Coordinated Omission (v2.1.9)
 								</dt>
 								<dd>
-									<footer>
-										<a href="http://bravenewgeek.com/everything-you-know-about-latency-is-wrong/" target="_blank">Everything You Know About Latency Is Wrong</a><br/>
-									</footer>
-									<footer>
-										<a href="http://hdrhistogram.org/" target="_blank">HdrHistogram: A High Dynamic Range Histogram</a><br/>
-									</footer>
-									<footer>
-										<a href="https://github.com/giltene/wrk2" target="_blank">a HTTP benchmarking tool based mostly on wrk</a><br/>
-									</footer>
-									<footer>
-										<a href="https://www.npmjs.com/package/native-hdr-histogram" target="_blank">node.js bindings for hdr histogram C implementation</a><br/>
-									</footer>
-									<footer>
-										<a href="http://psy-lob-saw.blogspot.com.br/2015/02/hdrhistogram-better-latency-capture.html" target="_blank">HdrHistogram: A better latency capture method</a><br/>
-									</footer>
-									<footer>
-										<a href="https://www.youtube.com/watch?v=6Rs0p3mPNr0" target="_blank">How NOT to measure latency - Gil Tene</a><br/>
-									</footer>
-									<footer>
-										<a href="https://nirajrules.wordpress.com/2009/09/17/measuring-performance-response-vs-latency-vs-throughput-vs-load-vs-scalability-vs-stress-vs-robustness/" target="_blank">Performance Testing – Response vs. Latency vs. Throughput vs. Load vs. Scalability vs. Stress vs. Robustness</a>
+									<footer *ngFor="let link of links['hdr']">
+										<a [href]="link.href" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>
@@ -368,32 +350,8 @@
 								<dt>redis.io (v3.2.1)
 								</dt>
 								<dd>
-									<footer>
-										<a href="http://redis.io/" target="_blank">redis.io - open source in-memory data structure store (database, cache and message broker)</a><br/>
-									</footer>
-									<footer>
-										<a href="http://redis.js.org/" target="_blank">REDIS - A Node.js redis client</a><br/>
-									</footer>
-									<footer>
-										<a href="http://redis.io/topics/rediscli" target="_blank">redis-cli, the Redis command line interface</a><br/>
-									</footer>
-									<footer>
-										<a href="http://bluebirdjs.com/docs/getting-started.html" target="_blank">Bluebird - full featured promise library with unmatched performance</a><br/>
-									</footer>
-									<footer>
-										<a href="http://redis.io/topics/latency" target="_blank">Redis latency problems troubleshooting</a><br/>
-									</footer>
-									<footer>
-										<a href="http://redis.io/topics/latency-monitor" target="_blank">Redis latency monitoring framework</a><br/>
-									</footer>
-									<footer>
-										<a href="https://www.datadoghq.com/blog/how-to-collect-redis-metrics/" target="_blank">How to collect Redis metrics</a><br/>
-									</footer>
-									<footer>
-										<a href="https://www.datadoghq.com/wp-content/uploads/2013/09/Understanding-the-Top-5-Redis-Performance-Metrics.pdf" target="_blank">Understanding the Top 5 Redis Performance Metrics</a><br/>
-									</footer>
-									<footer>
-										<a href="http://www.iamtherealbill.com/2014/12/redis-performance-thoughts-2/" target="_blank">More Thoughts on Redis Performance</a>
+									<footer *ngFor="let link of links['redis']">
+										<a [href]="link.href" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>
@@ -404,17 +362,8 @@
 								<dt>Node.js (v6.2.2)
 								</dt>
 								<dd>
-									<footer>
-										<a href="https://nodejs.org/en/" target="_blank">Node.js - a JavaScript runtime built on Chrome's V8 JavaScript engine</a><br/>
-									</footer>
-									<footer>
-										<a href="http://thisdavej.com/beginners-guide-to-installing-node-js-on-a-raspberry-pi/" target="_blank">Beginner’s Guide to Installing Node.js on a Raspberry Pi</a><br/>
-									</footer>
-									<footer>
-										<a href="http://blog.keithcirkel.co.uk/load-balancing-node-js/" target="_blank">Load balancing Node.js</a><br/>
-									</footer>
-									<footer>
-										<a href="https://www.npmjs.com/package/http2" target="_blank">An HTTP/2 client and server implementation</a>
+									<footer *ngFor="let link of links['node']">
+										<a [href]="link.href" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>

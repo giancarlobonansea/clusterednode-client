@@ -602,6 +602,92 @@ var nvD3 = (function() {
                         href: "https://www.nginx.com/blog/nginx-load-balance-deployment-models/",
                         desc: "NGINX Load Balancing Deployment Scenarios"
                     }
+                ],
+                hdr:    [
+                    {
+                        href: "http://bravenewgeek.com/everything-you-know-about-latency-is-wrong/",
+                        desc: "Everything You Know About Latency Is Wrong"
+                    },
+                    {
+                        href: "http://hdrhistogram.org/",
+                        desc: "HdrHistogram: A High Dynamic Range Histogram"
+                    },
+                    {
+                        href: "https://github.com/giltene/wrk2",
+                        desc: "wrk2 - a HTTP benchmarking tool based mostly on wrk"
+                    },
+                    {
+                        href: "https://www.npmjs.com/package/native-hdr-histogram",
+                        desc: "node.js bindings for hdr histogram C implementation"
+                    },
+                    {
+                        href: "http://psy-lob-saw.blogspot.com.br/2015/02/hdrhistogram-better-latency-capture.html",
+                        desc: "HdrHistogram: A better latency capture method"
+                    },
+                    {
+                        href: "https://www.youtube.com/watch?v=6Rs0p3mPNr0",
+                        desc: "How NOT to measure latency - Gil Tene"
+                    },
+                    {
+                        href: "https://nirajrules.wordpress.com/2009/09/17/measuring-performance-response-vs-latency-vs-throughput-vs-load-vs-scalability-vs-stress-vs-robustness/",
+                        desc: "Performance Testing – Response vs. Latency vs. Throughput vs. Load vs. Scalability vs. Stress vs. Robustness"
+                    }
+                ],
+                redis:  [
+                    {
+                        href: "http://redis.io/",
+                        desc: "redis.io - open source in-memory data structure store (database, cache and message broker)"
+                    },
+                    {
+                        href: "http://redis.js.org/",
+                        desc: "REDIS - A Node.js redis client"
+                    },
+                    {
+                        href: "http://redis.io/topics/rediscli",
+                        desc: "redis-cli, the Redis command line interface"
+                    },
+                    {
+                        href: "http://bluebirdjs.com/docs/getting-started.html",
+                        desc: "Bluebird - full featured promise library with unmatched performance"
+                    },
+                    {
+                        href: "http://redis.io/topics/latency",
+                        desc: "Redis latency problems troubleshooting"
+                    },
+                    {
+                        href: "http://redis.io/topics/latency-monitor",
+                        desc: "Redis latency monitoring framework"
+                    },
+                    {
+                        href: "https://www.datadoghq.com/blog/how-to-collect-redis-metrics/",
+                        desc: "How to collect Redis metrics"
+                    },
+                    {
+                        href: "https://www.datadoghq.com/wp-content/uploads/2013/09/Understanding-the-Top-5-Redis-Performance-Metrics.pdf",
+                        desc: "Understanding the Top 5 Redis Performance Metrics"
+                    },
+                    {
+                        href: "http://www.iamtherealbill.com/2014/12/redis-performance-thoughts-2/",
+                        desc: "More Thoughts on Redis Performance"
+                    }
+                ],
+                node:   [
+                    {
+                        href: "https://nodejs.org/en/",
+                        desc: "Node.js - a JavaScript runtime built on Chrome's V8 JavaScript engine"
+                    },
+                    {
+                        href: "http://thisdavej.com/beginners-guide-to-installing-node-js-on-a-raspberry-pi/",
+                        desc: "Beginner’s Guide to Installing Node.js on a Raspberry Pi"
+                    },
+                    {
+                        href: "http://blog.keithcirkel.co.uk/load-balancing-node-js/",
+                        desc: "Load balancing Node.js"
+                    },
+                    {
+                        href: "https://www.npmjs.com/package/http2",
+                        desc: "An HTTP/2 client and server implementation"
+                    }
                 ]
             };
 		}
