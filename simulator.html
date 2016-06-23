@@ -22,8 +22,9 @@
 						<h4 class="panel-title"><i class="fa fa-cogs"></i>&nbsp;Control Area</h4>
 					</div>
 					<div class="col-xs-8 text-right">
-						<small>Last run: {{duration | number:'1.0-0'}} ms</small>
-						<small *ngIf="isDurationMethod()">&nbsp;&nbsp;Requests: {{getDurationRequests() | number:'1.0-0'}}</small>
+						<small>Last run <span class="badge">{{duration | number:'1.0-0'}} ms</span></small>
+						<small *ngIf="isDurationMethod()">&nbsp;&nbsp;Requests
+							<span class="badge">{{getDurationRequests() | number:'1.0-0'}}</span></small>
 					</div>
 				</div>
 			</div>
@@ -408,9 +409,18 @@
 	<div class="col-xs-12 text-center">
 		<div class="panel panel-success">
 			<div class="panel-heading">
-				<h4 class="panel-title">
-					<span [hidden]="calculating">Running -&nbsp;</span>{{reqOK+reqErrors}} API responses (OK:{{reqOK}} Error:{{reqErrors}})<span [hidden]="!calculating"> - calculating statistics...</span>
-				</h4>
+				<div class="col-xs-6">
+					<h4 class="panel-title">
+						<span [hidden]="calculating">Running...</span>
+						<span [hidden]="!calculating">Calculating statistics...</span>
+					</h4>
+				</div>
+				<div class="col-xs-6 text-right">
+					<h4 class="panel-title">
+						<span class="badge">{{reqOK+reqErrors}}</span> API responses |
+						<span class="badge">OK {{reqOK}}</span>&nbsp;<span class="badge">ERR {{reqErrors}})</span>
+					</h4>
+				</div>
 			</div>
 			<table class="table table-condensed">
 				<tbody>
