@@ -741,7 +741,7 @@ var nvD3 = (function() {
             }
             else {
                 this.reqCount = 100;
-                this.reqConn = 4;
+                this.reqConn = 2;
             }
             ga('send', 'event', 'Simulation', 'Configuration', 'Small Preset');
 		};
@@ -772,8 +772,8 @@ var nvD3 = (function() {
 		AppSimulator.prototype.setHuge = function() {
             if (this.isDuration) {
                 this.reqDuration = 60;
-                this.reqInterval = 20;
-                this.reqConn = 16;
+                this.reqInterval = 25;
+                this.reqConn = 8;
             }
             else {
                 this.reqCount = 2048;
