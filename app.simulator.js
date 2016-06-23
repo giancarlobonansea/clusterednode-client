@@ -825,10 +825,8 @@
             self.iniTime = Date.now();
             setTimeout(function() {
                 self.timerRunning = false;
-                console.log('setTimeout');
             }, self.reqDuration * 1000);
             self.intervalHandler = setInterval(function() {
-                console.log('request', self.counting);
                 if (self.counting < self.reqCount) {
                     var arrReq = [];
                     for (var j = 0; j < self.reqConn; j++) {
@@ -887,7 +885,6 @@
                             }
                         },
                         function() {
-                            console.log('response', self.counting, self.timerRunning, self.calculating);
                             if (!self.timerRunning && !self.calculating) {
                                 if (self.intervalHandler) {
                                     clearInterval(self.intervalHandler);
