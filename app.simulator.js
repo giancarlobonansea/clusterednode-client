@@ -1110,7 +1110,7 @@ var nvD3 = (function() {
                     clearInterval(self.intervalHandler);
                 }
                 self.timerRunning = false;
-            }, self.reqDuration * 1000);
+            }, self.reqDuration * 1000 + 5);
         };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
