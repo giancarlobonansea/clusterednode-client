@@ -997,6 +997,9 @@ var nvD3 = (function() {
 		AppSimulator.prototype.calcPosition = function(hist) {
 			return Math.ceil(this.reqOK * hist / 100);
 		};
+        AppSimulator.prototype.getDurationRequests = function() {
+            return parseInt(Math.floor(this.reqDuration * 1000 * this.reqConn / this.reqInterval));
+        };
 		AppSimulator.prototype.checkStop = function() {
             if (this.reqOK + this.reqErrors >= this.reqCount) {
 				this.duration = Date.now() - this.iniTime;
@@ -1194,7 +1197,7 @@ var nvD3 = (function() {
 			this.observableRequests = undefined;
             this.running = true;
             if (this.isDuration) {
-                this.reqCount = parseInt(Math.floor(this.reqDuration * 1000 * this.reqConn / this.reqInterval));
+                this.reqCount = this.getDurationRequests();
                 this.throwHTTPduration();
             }
             else {
