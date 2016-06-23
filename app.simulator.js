@@ -486,6 +486,39 @@
                             desc: "Google Analytics"
                         }
                     ]
+                },
+                quic:     {
+                    title:  "QUIC (Quick UDP Internet Connections)",
+                    anchor: [
+                        {
+                            href: "https://en.wikipedia.org/wiki/QUIC",
+                            desc: "QUIC (Quick UDP Internet Connections)"
+                        },
+                        {
+                            href: "https://docs.google.com/document/d/1RNHkx_VvKWyWg6Lr8SZ-saqsQx7rFV-ev2jRFUoVD34/edit",
+                            desc: "QUIC: Design Document and Specification Rationale"
+                        },
+                        {
+                            href: "https://docs.google.com/document/d/1lmL9EF6qKrk7gbazY8bIdvq3Pno2Xj_l_YShP40GLQE/edit",
+                            desc: "QUIC FAQ for Geeks"
+                        },
+                        {
+                            href: "https://www.youtube.com/watch?v=hQZ-0mXFmk8",
+                            desc: "QUIC: next generation multiplexed transport over UDP"
+                        },
+                        {
+                            href: "http://c3lab.poliba.it/images/3/3b/QUIC_SAC15.pdf",
+                            desc: "HTTP over UDP: an Experimental Investigation of QUIC"
+                        },
+                        {
+                            href: "https://www.chromium.org/quic",
+                            desc: "QUIC, a multiplexed stream transport over UDP"
+                        },
+                        {
+                            href: "http://blog.chromium.org/2015/04/a-quic-update-on-googles-experimental.html",
+                            desc: "A QUIC update on Google’s experimental transport"
+                        }
+                    ]
                 }
             };
 		}
