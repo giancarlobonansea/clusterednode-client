@@ -1198,6 +1198,7 @@ var nvD3 = (function() {
 			this.observableRequests = undefined;
             this.running = true;
             if (this.isDuration) {
+                this.reqCount = parseInt(Math.ceil(this.reqDuration * 1000 * this.reqConn / this.reqInterval));
                 this.throwHTTPduration();
             }
             else {

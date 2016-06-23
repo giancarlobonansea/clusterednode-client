@@ -401,17 +401,16 @@
 <!-- Spinner -->
 <div class="row" *ngIf="isRunning()">
 	<div class="col-xs-12 text-center">
-		<h1 [hidden]="calculating">Running...</h1>
-		<h1 [hidden]="!calculating">Calculating statistics...</h1>
 		<div class="panel panel-success">
 			<div class="panel-heading">
-				<h4 class="panel-title">{{reqOK}} API requests sent</h4>
+				<h4 class="panel-title">
+					<span [hidden]="calculating">Running -&nbsp;</span>{{reqOK}} API requests sent<span [hidden]="!calculating"> - calculating statistics...</span>
+				</h4>
 			</div>
-			<table class="table table-condensed table-responsive">
+			<table class="table table-condensed">
 				<tbody>
 				<tr [hidden]="reqOK<2">
-					<td class="bg-primary text-right" width="{{percValue()}}%">
-						<h2>{{percValue()}}%</h2></td>
+					<td class="bg-primary text-right" width="{{percValue()}}%"><h2>{{percValue()}}%</h2></td>
 					<!--<td *ngIf="isDurationMethod()" class="bg-primary text-right" width="{{percTime()}}%">-->
 					<!--<h2>{{percTime()}}%</h2></td>-->
 					<td class="bg-info"></td>
