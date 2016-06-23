@@ -54,13 +54,8 @@
 								<button type="button" class="btn btn-success btn-sm form-control" (click)="initSimulator()" [disabled]="isRunning()">
 									Run&nbsp;<i class="fa fa-play"></i>
 								</button>
-								&nbsp;&nbsp; Last run
-								<p class="form-control-static">{{duration | number:'1.0-0'}} ms</p>
-								<!--<div class="input-group input-group-sm">-->
-								<!--<span class="input-group-addon">Last run</span>-->
-								<!--<input type="text" class="form-control input-sm" id="lastRun" value="{{duration | number:'1.0-0'}}" [disabled]="true"/>-->
-								<!--<span class="input-group-addon">ms</span>-->
-								<!--</div>-->
+								&nbsp;&nbsp;
+								<p class="form-control-static">Last run: {{duration | number:'1.0-0'}} ms</p>
 							</div>
 						</form>
 					</div>
@@ -72,10 +67,7 @@
 									<span class="input-group-addon">Requests</span>
 									<input type="number" class="form-control input-sm" min="1" max="16384" id="numReq" [(ngModel)]="reqCount" [disabled]="isRunning()"/>
 								</div>
-								<div class="input-group input-group-sm" *ngIf="isDurationMethod()">
-									<span class="input-group-addon">Requests</span>
-									<input type="text" class="form-control input-sm" id="numReqStatic" value="{{reqDuration*1000*reqConn/reqInterval | number:'1.0-0'}}" [disabled]="true"/>
-								</div>
+								<p class="form-control-static" *ngIf="isDurationMethod()">Requests: {{reqDuration*1000*reqConn/reqInterval | number:'1.0-0'}}</p>
 								<!-- STRESS BY DURATION AND DELAY: Duration in seconds to run -->
 								<div class="input-group input-group-sm" *ngIf="isDurationMethod()">
 									<span class="input-group-addon">Duration</span>
@@ -418,10 +410,10 @@
 			<table class="table table-condensed table-responsive">
 				<tbody>
 				<tr [hidden]="reqOK<2">
-					<td *ngIf="isRequestMethod()" class="bg-primary text-right" width="{{percValue()}}%">
+					<td class="bg-primary text-right" width="{{percValue()}}%">
 						<h2>{{percValue()}}%</h2></td>
-					<td *ngIf="isDurationMethod()" class="bg-primary text-right" width="{{percTime()}}%">
-						<h2>{{percTime()}}%</h2></td>
+					<!--<td *ngIf="isDurationMethod()" class="bg-primary text-right" width="{{percTime()}}%">-->
+					<!--<h2>{{percTime()}}%</h2></td>-->
 					<td class="bg-info"></td>
 				</tr>
 				</tbody>
