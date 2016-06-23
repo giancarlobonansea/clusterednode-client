@@ -13,14 +13,16 @@
 		</div>
 	</div>
 </nav><!-- Control Area -->
-<div class="row" *ngIf="!showReference">
+<div class="row">
 	<div class="panel panel-info">
 		<div class="panel-heading">
-			<h4 class="panel-title">Control Area</h4>
+			<h4 class="panel-title"><i class="fa fa-cogs"></i>&nbsp;Control Area</h4>
 		</div>
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-xs-12 col-sm-4">
+					<form class="form-inline">
+						<div class="form-group form-group-sm">
 					<!-- Show reference -->
 					<button type="button" class="btn btn-default btn-sm navbar-btn" (click)="showRef()" [disabled]="isRunning()">
 						<span [hidden]="showReference">Show Reference</span><span [hidden]="!showReference">Hide Reference</span>
@@ -47,6 +49,8 @@
 							<li><a (click)="setHuge()">Huge</a></li>
 						</ul>
 					</div>
+						</div>
+					</form>
 				</div>
 				<div class="col-xs-12 col-sm-8 text-right">
 					<!-- STRESS BY REQUESTS: Number of total requests to be fired -->
@@ -56,7 +60,7 @@
 								<span class="input-group-addon">Requests</span>
 								<input type="number" class="form-control input-sm" min="1" max="16384" id="numReq" [(ngModel)]="reqCount" [disabled]="isRunning()"/>
 							</div>
-							<span *ngIf="isDurationMethod()"><em>Total requests: {{reqDuration*1000*reqConn/reqInterval}}</em></span>
+							<span *ngIf="isDurationMethod()"><small><em>Total requests: {{reqDuration*1000*reqConn/reqInterval}}&nbsp;&nbsp;</em></small></span>
 							<!-- STRESS BY DURATION AND DELAY: Duration in seconds to run -->
 							<div class="input-group input-group-sm" *ngIf="isDurationMethod()">
 								<span class="input-group-addon">Duration</span>
