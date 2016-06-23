@@ -998,7 +998,8 @@ var nvD3 = (function() {
 			return Math.ceil(this.reqOK * hist / 100);
 		};
         AppSimulator.prototype.getDurationRequests = function() {
-            return parseInt(Math.floor(this.reqDuration * 1000 * this.reqConn / this.reqInterval));
+            var tot = parseInt(Math.floor(this.reqDuration * 1000 * this.reqConn / this.reqInterval));
+            return tot - (tot % this.reqConn);
         };
 		AppSimulator.prototype.checkStop = function() {
             if (this.reqOK + this.reqErrors >= this.reqCount) {
