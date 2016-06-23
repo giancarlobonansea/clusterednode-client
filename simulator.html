@@ -109,30 +109,59 @@
 	</div>
 </div><!-- Statistics -->
 <div class="row" *ngIf="!isRunning() && reqOK!==0 && !showReference">
-	<div class="col-xs-12">
+	<div class="col-xs-12 col-sm-6">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-tachometer"></i>&nbsp;Last Run parameters & execution data</h4>
+				<h4 class="panel-title"><i class="fa fa-tachometer"></i>&nbsp;Last Run parameters</h4>
 			</div>
-			<div class="panel-body">
-				<div class="row">
-					<div class="col-xs-12 col-sm-6 text-center">
-						<small>Simulation method</small>
-						&nbsp;<span class="label label-primary">{{execMode}}</span> <span *ngIf="usedRequestMethod()">&nbsp;&nbsp;<small>Requests expected</small>&nbsp;<span class="label label-info">{{execReq | number:'1.0-0'}}</span></span>
-						<span *ngIf="usedDurationMethod()">&nbsp;&nbsp;<small>Duration</small>&nbsp;<span class="label label-info">{{execDuration | number:'1.0-0'}}<small> s</small></span></span>
-						<span *ngIf="usedDurationMethod()">&nbsp;&nbsp;<small>Interval</small>&nbsp;<span class="label label-info">{{execInterval | number:'1.0-0'}}<small> ms</small></span></span> &nbsp;&nbsp;
-						<small>Connections</small>
-						&nbsp;<span class="label label-info">{{execConn | number:'1.0-0'}}</span>
-					</div>
-					<div class="col-xs-12 col-sm-6 text-center">
-						<small>Duration</small>
-						&nbsp;<span class="label label-primary">{{duration | number:'1.0-0'}}<small> ms</small></span>
-						<span *ngIf="usedDurationMethod()">&nbsp;&nbsp;<small>Requests expected</small>&nbsp;<span class="label label-info">{{execMaxReq | number:'1.0-0'}}</span></span> &nbsp;&nbsp;
-						<small>Requests executed</small>
-						&nbsp;<span class="label label-info">{{reqExecuted | number:'1.0-0'}}</span>
-					</div>
-				</div>
+			<table class="table table-condensed table-bordered table-responsive">
+				<thead>
+				<tr>
+					<th class="text-center">Simulation Method</th>
+					<th class="text-center" *ngIf="usedRequestMethod()">Requests</th>
+					<th class="text-center" *ngIf="usedDurationMethod()">Duration</th>
+					<th class="text-center" *ngIf="usedDurationMethod()">Interval</th>
+					<th class="text-center">Connections</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td class="text-center"><span class="label label-primary">{{execMode}}</span></td>
+					<td class="text-center" *ngIf="usedRequestMethod()">
+						<span class="label label-info">{{execReq | number:'1.0-0'}}</span></td>
+					<td class="text-center" *ngIf="usedDurationMethod()">
+						<span class="label label-info">{{execDuration | number:'1.0-0'}} s</span></td>
+					<td class="text-center" *ngIf="usedDurationMethod()">
+						<span class="label label-info">{{execInterval | number:'1.0-0'}} ms</span></td>
+					<td class="text-center"><span class="label label-info">{{execConn | number:'1.0-0'}}</span></td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-6">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h4 class="panel-title"><i class="fa fa-tachometer"></i>&nbsp;Last Run execution data</h4>
 			</div>
+			<table class="table table-condensed table-bordered table-responsive">
+				<thead>
+				<tr>
+					<th class="text-center">Duration</th>
+					<th class="text-center" *ngIf="usedDurationMethod()">Requests expected</th>
+					<th class="text-center">Requests executed</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td class="text-center"><span class="label label-primary">{{duration | number:'1.0-0'}} ms</span>
+					</td>
+					<td class="text-center" *ngIf="usedDurationMethod()">
+						<span class="label label-info">{{execMaxReq | number:'1.0-0'}}</span></td>
+					<td class="text-center"><span class="label label-info">{{reqExecuted | number:'1.0-0'}}</span></td>
+				</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 	<!-- Requests statistical histogram -->
