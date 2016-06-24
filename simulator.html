@@ -477,6 +477,17 @@
 								</dd>
 							</dl>
 						</blockquote>
+						<!-- OpenSSL -->
+						<blockquote>
+							<dl>
+								<dt>{{links['openssl'].title}}</dt>
+								<dd>
+									<footer *ngFor="let link of links['openssl'].anchor">
+										<a [href]="link.href" (click)="onRefLink(links['openssl'].title,link.desc)" target="_blank">{{link.desc}}</a>
+									</footer>
+								</dd>
+							</dl>
+						</blockquote>
 					</div>
 				</div>
 			</div>
@@ -490,23 +501,65 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-xs-12 col-sm-4">
+					<div class="col-xs-12 col-sm-6 col-md-4">
 						<div class="embed-responsive embed-responsive-16by9">
 							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/4vnLUc58NEA" allowfullscreen></iframe>
 						</div>
 						<small>Akamai's Stephen Ludin on Internet evolution</small>
 					</div>
-					<div class="col-xs-12 col-sm-4">
+					<div class="col-xs-12 col-sm-6 col-md-4">
 						<div class="embed-responsive embed-responsive-16by9">
 							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/MARxcGRRTk4" allowfullscreen></iframe>
 						</div>
 						<small>Concur shares experience using H2</small>
 					</div>
-					<div class="col-xs-12 col-sm-4">
+					<div class="col-xs-12 col-sm-6 col-md-4">
 						<div class="embed-responsive embed-responsive-16by9">
 							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/6Rs0p3mPNr0" allowfullscreen></iframe>
 						</div>
 						<small>How NOT to measure latency - Gil Tene at USI</small>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/p74282nDMX8" allowfullscreen></iframe>
+						</div>
+						<small>Node.js at Netflix</small>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ElI5QtUISWM" allowfullscreen></iframe>
+						</div>
+						<small>Node.js at Uber</small>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/-00ImeLt9ec" allowfullscreen></iframe>
+						</div>
+						<small>Node.js at PayPal</small>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/BJPeLJhv1Ic" allowfullscreen></iframe>
+						</div>
+						<small>Node.js at CapitalOne</small>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/jm75pxsb80c" allowfullscreen></iframe>
+						</div>
+						<small>Microservice Developer Experience</small>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/SYNJFX0oIBU" allowfullscreen></iframe>
+						</div>
+						<small>Node.js for Enterprise APIs Panel Discussion</small>
+					</div>
+					<div class="col-xs-12 col-sm-6 col-md-4">
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/D9TUU5bK0iE" allowfullscreen></iframe>
+						</div>
+						<small>Rebuilding the Ship as it Sails: Making Large Legacy Sites Responsive</small>
 					</div>
 				</div>
 			</div>

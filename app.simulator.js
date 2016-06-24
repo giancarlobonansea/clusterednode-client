@@ -324,7 +324,7 @@
                     ]
                 },
                 nginx:    {
-                    title: "nginX (opensource v1.11.1)", anchor: [
+                    title: "nginX (v1.11.1)", anchor: [
                     {
                         href: "https://www.nginx.com/blog/7-tips-for-faster-http2-performance/",
                         desc: "7 Tips for Faster HTTP/2 Performance"
@@ -480,6 +480,30 @@
                     {
                         href: "https://www.npmjs.com/package/http2",
                         desc: "An HTTP/2 client and server implementation"
+                    },
+                    {
+                        href: "http://nodeschool.io/",
+                        desc: "NodeSchool.io - Node.js concepts via interactive command-line games"
+                    },
+                    {
+                        href: "https://nodejs.org/static/documents/casestudies/Nodejs-at-Uber.pdf",
+                        desc: "How Uber Uses Node.js to Scale Their Business"
+                    },
+                    {
+                        href: "https://www.youtube.com/watch?v=p74282nDMX8",
+                        desc: "Node.js at Netflix"
+                    },
+                    {
+                        href: "https://www.youtube.com/watch?v=ElI5QtUISWM",
+                        desc: "Node.js at Uber"
+                    },
+                    {
+                        href: "https://www.youtube.com/watch?v=-00ImeLt9ec",
+                        desc: "Node.js at PayPal"
+                    },
+                    {
+                        href: "https://www.youtube.com/watch?v=BJPeLJhv1Ic",
+                        desc: "Node.js at CapitalOne"
                     }
                     ]
                 },
@@ -492,7 +516,7 @@
                     ]
                 },
                 quic:     {
-                    title:  "QUIC (Quick UDP Internet Connections)",
+                    title:  "Google QUIC",
                     anchor: [
                         {
                             href: "https://en.wikipedia.org/wiki/QUIC",
@@ -530,6 +554,31 @@
                         {
                             href: "http://www.aosabook.org/en/index.html",
                             desc: "The Architecture of Open Source Applications"
+                        },
+                        {
+                            href: "https://www.youtube.com/watch?v=jm75pxsb80c",
+                            desc: "Microservice Developer Experience"
+                        },
+                        {
+                            href: "https://www.youtube.com/watch?v=SYNJFX0oIBU",
+                            desc: "Node.js for Enterprise APIs Panel Discussion"
+                        },
+                        {
+                            href: "https://www.youtube.com/watch?v=D9TUU5bK0iE",
+                            desc: "Rebuilding the Ship as it Sails: Making Large Legacy Sites Responsive"
+                        },
+                        {
+                            href: "https://strongloop.com/",
+                            desc: "Strongloop - Compose APIs, Build, Deploy and Monitor Node"
+                        }
+                    ]
+                },
+                openssl:  {
+                    title:  "OpenSSL (v1.0.2h)",
+                    anchor: [
+                        {
+                            href: "https://www.openssl.org/",
+                            desc: "OpenSSL - Cryptography and SSL/TLS Toolkit"
                         }
                     ]
                 }
