@@ -785,6 +785,7 @@
             this.observableRTT = this.httpService.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
                 function(response) {
                     selfRTT.hdrRTTresults = response;
+                    console.log(response);
 	                selfRTT.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
 	                for (var n = 0; n < selfRTT.hdrRTTresults.chart.length; n++) {
 		                selfRTT.lineChartData[0].values.push({
@@ -916,13 +917,13 @@
                                 }
                             }
                             else {
-                                // if (self.countResponses > self.reqCount) {
-                                //     for (var z = 0; z < self.reqConn; z++) {
-                                //         self.requests[0].pop();
-                                //         self.requests[1].pop();
-                                //         self.countResponses--;
-                                //     }
-                                // }
+                                if (self.countResponses > self.reqCount) {
+                                    for (var z = 0; z < self.reqConn; z++) {
+                                        self.requests[0].pop();
+                                        self.requests[1].pop();
+                                        self.countResponses--;
+                                    }
+                                }
                             }
                         },
                         function(error) {
@@ -932,13 +933,13 @@
                                 self.countResponses++;
                             }
                             else {
-                                // if (self.countResponses > self.reqCount) {
-                                //     for (var z = 0; z < self.reqConn; z++) {
-                                //         self.requests[0].pop();
-                                //         self.requests[1].pop();
-                                //         self.countResponses--;
-                                //     }
-                                // }
+                                if (self.countResponses > self.reqCount) {
+                                    for (var z = 0; z < self.reqConn; z++) {
+                                        self.requests[0].pop();
+                                        self.requests[1].pop();
+                                        self.countResponses--;
+                                    }
+                                }
                             }
                         },
                         function() {
