@@ -787,13 +787,14 @@
                     selfRTT.hdrRTTresults = response;
 	                selfRTT.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
 	                for (var n = 0; n < selfRTT.hdrRTTresults.chart.length; n++) {
+                        var idx = parseInt(Math.floor(selfRTT.hdrRTTresults.chart[n].percentile * selfRTT.reqOK / 100)) - 1;
 		                selfRTT.lineChartData[0].values.push({
 			                                                     x: selfRTT.hdrRTTresults.chart[n].percentile,
 			                                                     y: selfRTT.hdrRTTresults.chart[n].value
 		                                                     });
 		                selfRTT.lineChartData[1].values.push({
 			                                                     x: selfRTT.hdrRTTresults.chart[n].percentile,
-                                                                 y: selfRTT.requests[0][parseInt(Math.ceil(selfRTT.hdrRTTresults.chart[n].percentile * selfRTT.reqOK / 100)) - 1].rtt
+                                                                 y: selfRTT.requests[0][(idx < 0) ? 0 : idx].rtt
 		                                                     });
 	                }
                 },
