@@ -785,7 +785,7 @@
             this.observableRTT = this.httpService.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
                 function(response) {
                     selfRTT.hdrRTTresults = response;
-                    console.log(requests[0]);
+                    console.log(selfRTT.requests[0]);
 	                selfRTT.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
 	                for (var n = 0; n < selfRTT.hdrRTTresults.chart.length; n++) {
                         console.log(parseInt(Math.floor(selfRTT.hdrRTTresults.chart[n].percentile * selfRTT.reqOK / 100)) - 1);
