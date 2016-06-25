@@ -464,6 +464,42 @@
                     {
                         href: "http://redis.io/topics/cluster-tutorial",
                         desc: "Redis cluster tutorial"
+                    },
+                    {
+                        href: "http://redis.io/topics/cluster-spec",
+                        desc: "Redis Cluster Specification"
+                    },
+                    {
+                        href: "http://redis.io/commands",
+                        desc: "Redis Command Sheet"
+                    },
+                    {
+                        href: "http://redis.io/presentation/Redis_Cluster.pdf",
+                        desc: "Redis Cluster - a pragmatic approach to distribution"
+                    },
+                    {
+                        href: "https://github.com/luin/ioredis",
+                        desc: "A robust, performance-focused and full-featured Redis client for Node"
+                    },
+                    {
+                        href: "https://github.com/luin/ioredis/wiki/Improve-Performance",
+                        desc: "ioredis - Improve Performance"
+                    },
+                    {
+                        href: "https://github.com/thunks/thunk-redis",
+                        desc: "The fastest thunk/promise-based redis client, support all redis features"
+                    },
+                    {
+                        href: "https://github.com/twitter/twemproxy",
+                        desc: "A fast, light-weight proxy for memcached and redis"
+                    },
+                    {
+                        href: "http://engineering.bloomreach.com/the-evolution-of-fault-tolerant-redis-cluster/",
+                        desc: "The Evolution of Fault Tolerant Redis Cluster"
+                    },
+                    {
+                        href: "http://www.iamtherealbill.com/2015/04/clusterizing-redis-intro/",
+                        desc: "A Primer on Clusterizing Redis"
                     }
                     ]
                 },
