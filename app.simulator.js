@@ -460,6 +460,10 @@
                     {
                         href: "http://www.iamtherealbill.com/2014/12/redis-performance-thoughts-2/",
                         desc: "More Thoughts on Redis Performance"
+                    },
+                    {
+                        href: "http://redis.io/topics/cluster-tutorial",
+                        desc: "Redis cluster tutorial"
                     }
                     ]
                 },
