@@ -500,6 +500,22 @@
                     {
                         href: "http://www.iamtherealbill.com/2015/04/clusterizing-redis-intro/",
                         desc: "A Primer on Clusterizing Redis"
+                    },
+                    {
+                        href: "http://redis.io/topics/distlock",
+                        desc: "Distributed locks with Redis"
+                    },
+                    {
+                        href: "http://redis.io/topics/notifications",
+                        desc: "Redis Keyspace Notifications"
+                    },
+                    {
+                        href: "https://www.infoq.com/presentations/Real-Time-Delivery-Twitter",
+                        desc: "redis use-cases: Real-Time Delivery Architecture at Twitter"
+                    },
+                    {
+                        href: "http://code.flickr.net/2011/10/11/talk-real-time-updates-on-the-cheap-for-fun-and-profit/",
+                        desc: "redis use-cases: Flickr - Real-time Updates on the Cheap for Fun and Profit"
                     }
                     ]
                 },
