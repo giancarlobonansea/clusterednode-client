@@ -149,7 +149,7 @@
 					x:             function(d) {return d.key;},
 					y:             function(d) {return d.y;},
 					showLabels:    true,
-					labelType:     function(d) {return d.data.key + ': ' + parseInt(d.data.y);},
+                    labelType:     function(d) {return d.data.key + ': ' + (d.data.y | 0);},
 					labelsOutside: true,
 					duration:      500
 				}
@@ -167,7 +167,7 @@
 					y:             function(d) {return d.y;},
 					showLabels:    true,
 					labelsOutside: true,
-					labelType:     function(d) {return d.data.key + ': ' + parseInt(d.data.y);},
+                    labelType:     function(d) {return d.data.key + ': ' + (d.data.y | 0);},
 					duration:      500
 				}
 			};
@@ -739,7 +739,7 @@
                 {key: 'w/o Coord. Omission', values: [], area: false},
                 {key: 'Latency/Percentile', values: [], area: true}
             ];
-            this.disregard = parseInt(Math.ceil(this.reqExecuted * 4.55 / 100.0));
+            this.disregard = Math.ceil(this.reqExecuted * 4.55 / 100.0);
 			this.discardLower = Math.floor(this.disregard/2);
             this.discardUpper = this.reqExecuted - Math.ceil(this.disregard / 2) - 1;
             //
@@ -810,7 +810,7 @@
 			this.polarChartData2[1].y = this.polarChartData2[1].y / this.totReqAng[1];
 			this.polarChartData2[2].y = this.polarChartData2[2].y / this.totReqAng[2];
 			this.polarChartData2[3].y = this.polarChartData2[3].y / this.totReqAng[3];
-            this.tpAngular = parseInt(Math.ceil(this.reqExecuted / (this.duration / 1000)));
+            this.tpAngular = Math.ceil(this.reqExecuted / (this.duration / 1000));
 			for (i = 0; i < this.histogram.length; i++) {
                 this.histogram[i][1] = this.requests[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].rtt;
             }
@@ -841,7 +841,7 @@
 			this.polarChartData[1].y = this.polarChartData[1].y / this.totReqNgi[1];
 			this.polarChartData[2].y = this.polarChartData[2].y / this.totReqNgi[2];
 			this.polarChartData[3].y = this.polarChartData[3].y / this.totReqNgi[3];
-			this.tpNginx = parseInt(Math.ceil(this.tpAngular*this.totAngular/this.totNginx));
+            this.tpNginx = Math.ceil(this.tpAngular * this.totAngular / this.totNginx);
 			//
 			// Sort by EXTS (nodeJS time)
 			//
@@ -852,7 +852,7 @@
 			for (i = 0; i < this.requests[0].length; i++) {
 				this.totNode += ((i>=this.discardLower)&&(i<=this.discardUpper))?this.requests[0][i].exts:0;
 			}
-			this.tpNode = parseInt(Math.ceil(this.tpNginx*this.totNginx/this.totNode));
+            this.tpNode = Math.ceil(this.tpNginx * this.totNginx / this.totNode);
             //
             // Sort by RED (redis.io time)
             //
@@ -863,7 +863,7 @@
             for (i = 0; i < this.requests[0].length; i++) {
                 this.totRedis += ((i >= this.discardLower) && (i <= this.discardUpper)) ? this.requests[0][i].red : 0;
             }
-            this.tpRedis = parseInt(Math.ceil(this.tpNode * this.totNode / this.totRedis));
+            this.tpRedis = Math.ceil(this.tpNode * this.totNode / this.totRedis);
             //
             // Calculating HDR Histogram
             //
@@ -876,7 +876,7 @@
                     selfRTT.hdrRTTresults = response;
 	                selfRTT.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
 	                for (var n = 0; n < selfRTT.hdrRTTresults.chart.length; n++) {
-                        var idx = parseInt(Math.floor(selfRTT.hdrRTTresults.chart[n].percentile * selfRTT.reqOK / 100)) - 1;
+                        var idx = ((selfRTT.hdrRTTresults.chart[n].percentile * selfRTT.reqOK / 100) | 0) - 1;
 		                selfRTT.lineChartData[0].values.push({
 			                                                     x: selfRTT.hdrRTTresults.chart[n].percentile,
 			                                                     y: selfRTT.hdrRTTresults.chart[n].value
@@ -909,11 +909,11 @@
 			return Math.ceil(this.reqOK * hist / 100);
 		};
         AppSimulator.prototype.getDurationRequests = function() {
-            var tot = parseInt(Math.floor(this.reqDuration * 1000 * this.reqConn / this.reqInterval));
+            var tot = (this.reqDuration * 1000 * this.reqConn / this.reqInterval) | 0;
             return tot - (tot % this.reqConn);
         };
         AppSimulator.prototype.getDurationThroughput = function() {
-            return parseInt(Math.floor(this.getDurationRequests() / this.reqDuration));
+            return (this.getDurationRequests() / this.reqDuration) | 0;
         };
 		AppSimulator.prototype.checkStop = function() {
             this.duration = Date.now() - this.iniTime;
@@ -938,7 +938,7 @@
 				function(response) {
 					for (var k = 0; k < response.length; k++) {
 						self.requests[0][response[k].reqId] = {
-							rid:  'Request ' + (parseInt(response[k].reqId) + 1),
+                            rid:  'Request ' + ((response[k].reqId | 0) + 1),
 							hst:  self.nodeIdx[response[k].json.hostname][0],
 							rtt:  response[k].rtt,
 							tsn:  response[k].tsn,
@@ -988,7 +988,7 @@
                             if (self.countResponses < self.reqCount) {
                                 for (var k = 0; k < response.length; k++) {
                                     self.requests[0][response[k].reqId] = {
-                                        rid:  'Request ' + (parseInt(response[k].reqId) + 1),
+                                        rid:  'Request ' + ((response[k].reqId | 0) + 1),
                                         hst:  self.nodeIdx[response[k].json.hostname][0],
                                         rtt:  response[k].rtt,
                                         tsn:  response[k].tsn,

@@ -21,8 +21,8 @@
 					return {
 						"json":  response.json() || {},
 						"reqId": parseInt(response.headers.get('X-ReqId')||response.headers.get('x-reqid')),
-						"rtt":   parseInt(response.headers.get('X-Angular-Time')||response.headers.get('x-angular-time')),
-						"tsn":   parseInt(parseFloat(response.headers.get('X-nginX-Time')||response.headers.get('x-nginx-time')) * 1000.0),
+						"rtt":   parseInt(response.headers.get('X-Angular-Time') || response.headers.get('x-angular-time')),
+						"tsn":   (parseFloat(response.headers.get('X-nginX-Time') || response.headers.get('x-nginx-time')) * 1000.0) | 0,
 						"exts":  parseFloat(response.headers.get('X-Node-Time') || response.headers.get('x-node-time')),
 						"red":   parseFloat(response.headers.get('X-Redis-Time') || response.headers.get('x-redis-time'))
 					};
