@@ -1114,6 +1114,7 @@
             this.showReference = !this.showReference;
             if (this.showReference) {
                 this.liveEvents = false;
+                $('#liveEvents').button('reset');
             }
         };
         AppSimulator.prototype.showLive = function() {

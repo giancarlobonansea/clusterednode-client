@@ -39,7 +39,7 @@
 								</button>
 						&nbsp;
 						<!-- Live DB Events -->
-						<button type="button" class="btn btn-info btn-sm" data-toggle="button" (click)="showLive()" [disabled]="isRunning()">
+						<button type="button" id="liveEvents" class="btn btn-info btn-sm" data-toggle="button" (click)="showLive()" [disabled]="isRunning()">
 							<i class="fa fa-database"></i>
 						</button>
 						<!--<button type="button" class="btn btn-info btn-sm" (click)="showLive()" [disabled]="isRunning()">-->
@@ -618,8 +618,8 @@
 								<tr *ngFor="let evy of evMatrix">
 									<td *ngFor="let evx of evy">
 										<small [class]="getDatabaseStatus(evx)">
-											<i class="fa fa-database" style="margin-right: 4px;"></i></small>
-										]
+											<i class="fa fa-database" style="margin-right: 2px;"></i>
+										</small>
 									</td>
 								</tr>
 								</tbody>
