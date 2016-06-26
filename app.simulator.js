@@ -75,8 +75,7 @@
 			this.selectedUrl = this.urlOptions[0][0];
             this.initEVMatrix();
             this.initEVNMatrix();
-            this.socketR = io('https://giancarlobonansea.homeip.net:32402');
-            this.socketN = io('https://giancarlobonansea.homeip.net:32401');
+            this.socket = io('https://giancarlobonansea.homeip.net:32402');
             this.mapEVN = {
                 raspberrypi2: {host: 0, pids: {}},
                 raspberrypi3: {host: 1, pids: {}},
@@ -84,7 +83,7 @@
                 raspberrypi6: {host: 3, pids: {}}
             };
             var selfMtx = this;
-            this.socketR.on('set', function(data) {
+            this.socket.on('set', function(data) {
                 var x = data.x,
                     y = data.y;
                 selfMtx.evMatrix[x][y] = 3;
@@ -92,7 +91,7 @@
                     selfMtx.evMatrix[x][y] = ((((x * 32) + y) * 32 / 5462) | 0);
                 }, 1000);
             });
-            this.socketN.on('exec', function(data) {
+            this.socket.on('exec', function(data) {
                 var host = data.pi,
                     pid  = 'pid' + data.pid;
                 if (selfMtx.mapEVN[host].pids[pid] === undefined) {
