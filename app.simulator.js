@@ -1115,7 +1115,7 @@
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
             if (this.showReference) {
-                $('#showReference').button('toggle');
+                //$('#showReference').button('toggle');
                 this.liveEvents = false;
                 $('#liveEvents').button('reset');
             }
@@ -1126,7 +1126,7 @@
         AppSimulator.prototype.showLive = function() {
             this.liveEvents = !this.liveEvents;
             if (this.liveEvents) {
-                $('#liveEvents').button('toggle');
+                //$('#liveEvents').button('toggle');
                 this.showReference = false;
                 $('#showReference').button('reset');
             }
