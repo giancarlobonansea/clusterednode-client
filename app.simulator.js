@@ -1102,6 +1102,9 @@
             intervalFunction();
             self.intervalHandler = setInterval(intervalFunction, self.reqInterval);
         };
+        AppSimulator.prototype.getImageBock = function(cond) {
+            return cond ? './micro-sd-r.png' : './micro-sd-g.png';
+        };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
         };
