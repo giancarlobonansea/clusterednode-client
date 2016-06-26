@@ -606,7 +606,8 @@
 				<tr *ngFor="let evy of evMatrix">
 					<td *ngFor="let evx of evy">
 						<!--{{evx}}-->
-						<img [hidden]="evx" src="./favicon.png">
+						<img [hidden]="!evx" class="img-responsive" src="./favicon.png">
+						<img [hidden]="evx" class="img-responsive" src="./redis.png">
 					</td>
 				</tr>
 				</tbody>
