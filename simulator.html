@@ -38,7 +38,7 @@
 						&nbsp;
 						<!-- Live DB Events -->
 						<button type="button" id="liveEvents" class="btn btn-info btn-sm" data-toggle="button" autocomplete="off" (click)="showLive()" [disabled]="isRunning()">
-							<i class="fa fa-braile"></i>&nbsp;DB
+							<i class="fa fa-braille"></i>&nbsp;DB
 						</button>
 						&nbsp;
 						<!-- Duration or Requests -->
@@ -603,14 +603,14 @@
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-braile"></i>&nbsp;Database Change - Live Events</h4>
+				<h4 class="panel-title"><i class="fa fa-braille"></i>&nbsp;Database Change - Live Events</h4>
 			</div>
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-xs-12 center-block align-center">
-						<div class="table-responsive">
+						<div class="table-responsive center-block align-center">
 							<table class="center-block align-center">
-								<tbody class="center-block align-center">
+								<!--<tbody>-->
 								<tr *ngFor="let evy of evMatrix">
 									<td *ngFor="let evx of evy">
 										<small [class]="getDatabaseStatus(evx)">
@@ -618,7 +618,7 @@
 										</small>
 									</td>
 								</tr>
-								</tbody>
+								<!--</tbody>-->
 							</table>
 						</div>
 					</div>
