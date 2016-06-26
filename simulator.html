@@ -606,13 +606,17 @@
 			<div class="panel-heading">
 				<h4 class="panel-title">Database Change - Live Events</h4>
 			</div>
-			<table>
-				<tbody>
-				<tr *ngFor="let evy of evMatrix">
-					<td *ngFor="let evx of evy"><img class="img-responsive" [src]="getImageBlock(evx)"/></td>
-				</tr>
-				</tbody>
-			</table>
+			<div class="panel-body align-center text-center">
+				<table class="table table-condensed">
+					<tbody>
+					<tr *ngFor="let evy of evMatrix">
+						<td *ngFor="let evx of evy">
+							<img class="img-responsive" [src]="getImageBlock(evx)"/>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
 			<!--<div class="panel-body">-->
 			<!--<div class="row">-->
 			<!--<div class="col-xs-12 align-center text-center">-->
