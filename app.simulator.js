@@ -1109,9 +1109,15 @@
         };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
+            if (this.showReference) {
+                this.liveEvents = false;
+            }
         };
         AppSimulator.prototype.showLive = function() {
             this.liveEvents = !this.liveEvents;
+            if (this.liveEvents) {
+                this.showReference = false;
+            }
         };
 		AppSimulator.prototype.initSimulator = function() {
             this.evMatrix = [];
