@@ -744,9 +744,6 @@
 		AppSimulator.prototype.isRunning = function() {
             return this.running;
 		};
-        AppSimulator.prototype.isLiveEvents = function() {
-            return this.liveEvents;
-        };
 		AppSimulator.prototype.calculateHistogram = function() {
             this.barChartData = [{key: 'raspberrypi2-redis', values: []},
                                  {key: 'raspberrypi3-redis', values: []},

@@ -281,7 +281,7 @@
 	</div>
 </div>
 <!-- Balanced requests tables per node cluster -->
-<div class="row" *ngIf="!isRunning() && reqOK!==0 && !showReference">
+<div class="row" *ngIf="!isRunning() && reqOK!==0 && !showReference && !liveEvents">
 	<div class="col-xs-12 col-sm-6 col-md-3" *ngFor="let nodes of results">
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -602,7 +602,7 @@
 		</div>
 	</div>
 </div><!-- Database Live Events -->
-<div class="row" *ngIf="isLiveEvents()">
+<div class="row" *ngIf="liveEvents && !showReference">
 	<div class="hidden-xs col-sm-2 col-md-3"></div>
 	<div class="col-xs-12 col-sm-8 col-md-6">
 		<div class="panel panel-info">
