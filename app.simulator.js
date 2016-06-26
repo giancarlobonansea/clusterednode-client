@@ -91,7 +91,7 @@
                     selfMtx.evMatrix[x][y] = ((((x * 32) + y) * 32 / 5462) | 0);
                 }, 1000);
             });
-            this.socket.on('exec', function(data) {
+            this.socket.on('node', function(data) {
                 console.log('received event exec');
                 var host = data.pi,
                     pid  = 'pid' + data.pid;
