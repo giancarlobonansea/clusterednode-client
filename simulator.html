@@ -596,4 +596,20 @@
 			</table>
 		</div>
 	</div>
+	<div class="col-xs-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h4 class="panel-title">Events</h4>
+			</div>
+			<table class="table table-condensed">
+				<tbody>
+				<tr *ngFor="let evy of evMatrix">
+					<td *ngFor="let evx of evy">
+						<img [hidden]="evx" class="img-responsive" src="./favicon.png">
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>

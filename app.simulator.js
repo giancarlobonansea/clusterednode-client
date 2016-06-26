@@ -72,7 +72,21 @@
 			                    'IP Private']];
             this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
 			this.selectedUrl = this.urlOptions[0][0];
-			this.barChartOptions = {
+            this.evMatrix = [];
+            for (var i = 0; i < 32; i++) {
+                this.evMatrix.push([]);
+                for (var j = 0; j < 32; j++) {
+                    this.evMatrix[i].push(false);
+                }
+            }
+            this.socket = io('http://giancarlobonansea.homeip.net:32402');
+            socket.on('set', function(data) {
+                this.evMatrix[data.x][data.y] = true;
+                setTimeout(function() {
+                    this.evMatrix[data.x][data.y] = false;
+                }, 1000);
+            });
+            this.barChartOptions = {
 				chart: {
 					type:         'multiBarChart',
 					showControls: false,
@@ -1089,6 +1103,13 @@
             this.showReference = !this.showReference;
         };
 		AppSimulator.prototype.initSimulator = function() {
+            this.evMatrix = [];
+            for (var i = 0; i < 32; i++) {
+                this.evMatrix.push([]);
+                for (var j = 0; j < 32; j++) {
+                    this.evMatrix[i].push(false);
+                }
+            }
             this.showReference = false;
             this.reqOK = 0;
             this.reqErrors = 0;
