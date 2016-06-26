@@ -610,10 +610,10 @@
 								<thead>
 								<tr>
 									<th>Node</th>
-									<th>CPU0</th>
-									<th>CPU1</th>
-									<th>CPU2</th>
-									<th>CPU3</th>
+									<th>&nbsp;&nbsp;CPU0&nbsp;&nbsp;</th>
+									<th>&nbsp;&nbsp;CPU1&nbsp;&nbsp;</th>
+									<th>&nbsp;&nbsp;CPU2&nbsp;&nbsp;</th>
+									<th>&nbsp;&nbsp;CPU3&nbsp;&nbsp;</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -621,8 +621,8 @@
 									<td>
 										<em>{{nodes[idx]}}</em>
 									</td>
-									<td *ngFor="let pid of raspi">
-										<span [class]="getProcessingStatus(pid)"><i class="fa fa-circle" style="margin:3px;"></i></span>
+									<td *ngFor="let pid of raspi" [class]="getProcessingStatus(pid)">
+										<i class="fa fa-circle fa-2x" style="margin:3px;"></i>
 									</td>
 								</tr>
 								</tbody>

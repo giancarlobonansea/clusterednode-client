@@ -1128,7 +1128,7 @@
             }
         };
         AppSimulator.prototype.getProcessingStatus = function(cond) {
-            return cond ? 'text-success' : 'text-danger';
+            return cond ? 'text-success text-center' : 'text-danger text-center';
         };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
