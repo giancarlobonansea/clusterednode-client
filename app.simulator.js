@@ -82,7 +82,7 @@
                 selfMtx.evMatrix[x][y] = ((((x * 32) + y) * 32 / 5462) | 0) + 3;
                 setTimeout(function() {
                     selfMtx.evMatrix[x][y] = ((((x * 32) + y) * 32 / 5462) | 0);
-                }, 800);
+                }, 1000);
             });
             this.barChartOptions = {
 				chart: {
