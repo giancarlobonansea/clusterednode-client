@@ -1,3 +1,4 @@
+<!--------------->
 <!-- Application menu -->
 <nav class="navbar navbar-inverse navbar-static-top">
 	<div class="container-fluid">
@@ -9,7 +10,7 @@
 			<a class="navbar-brand"><i class="fa fa-area-chart"></i>&nbsp;NLB HA Clustered Node PoC</a>
 		</div>
 	</div>
-</nav><!-- Control Area -->
+</nav><!---------------><!-- Control Area -->
 <div class="row">
 	<div class="col-xs-12">
 		<div class="panel panel-info">
@@ -30,31 +31,31 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-xs-12 col-sm-6">
-						<form class="form-inline">
-							<div class="form-group form-group-sm">
-								<!-- Show reference -->
-								<button type="button" class="btn btn-info btn-sm form-control" (click)="showRef()" [disabled]="isRunning()">
+						<!--<form class="form-inline">-->
+						<!--<div class="form-group form-group-sm">-->
+						<!-- Show reference -->
+						<button type="button" class="btn btn-info btn-sm" (click)="showRef()" [disabled]="isRunning()">
 									<span [hidden]="showReference">Show Reference</span><span [hidden]="!showReference">Hide Reference</span>
 								</button>
-								&nbsp;
-								<!-- Live DB Events -->
-								<button type="button" class="btn btn-info btn-sm form-control" (click)="showLive()" [disabled]="isRunning()">
+						&nbsp;
+						<!-- Live DB Events -->
+						<button type="button" class="btn btn-info btn-sm" (click)="showLive()" [disabled]="isRunning()">
 									<span [hidden]="liveEvents">Show DB Events</span><span [hidden]="!liveEvents">Hide DB Events</span>
 								</button>
-								&nbsp;
-								<!-- Duration or Requests -->
+						&nbsp;
+						<!-- Duration or Requests -->
 								<div class="btn-group btn-group-sm">
-									<button type="button" class="btn btn-primary form-control dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Method&nbsp;<span class="caret"></span>
+									<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Method&nbsp;<span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu">
 										<li><a (click)="setDuration()">Duration</a></li>
 										<li><a (click)="setRequests()">Requests</a></li>
 									</ul>
 								</div>
-								&nbsp;
-								<!-- Quick settings dropdown -->
+						&nbsp;
+						<!-- Quick settings dropdown -->
 								<div class="btn-group btn-group-sm">
-									<button type="button" class="btn btn-primary form-control dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Preset&nbsp;<span class="caret"></span>
+									<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Preset&nbsp;<span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu">
 										<li><a (click)="setSmall()">Small</a></li>
@@ -63,15 +64,15 @@
 										<li><a (click)="setHuge()">Huge</a></li>
 									</ul>
 								</div>
-								&nbsp;&nbsp;
+						&nbsp;&nbsp;
 								<button type="button" class="btn btn-success btn-sm form-control" (click)="initSimulator()" [disabled]="isRunning()">
 									Run&nbsp;<i class="fa fa-play"></i>
 								</button>
-							</div>
-						</form>
+						<!--</div>-->
+						<!--</form>-->
 					</div>
 					<div class="col-xs-12 col-sm-6 text-right">
-						<form class="form-inline">
+						<!--<form class="form-inline">-->
 							<div class="form-group form-group-sm">
 								<!-- STRESS BY REQUESTS: Number of total requests to be fired -->
 								<div class="input-group input-group-sm" *ngIf="isRequestMethod()">
@@ -103,13 +104,13 @@
 								<!--</select>-->
 								<!--</div>-->
 							</div>
-						</form>
+						<!--</form>-->
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div><!-- Statistics -->
+</div><!---------------><!-- Statistics -->
 <div class="row" *ngIf="!isRunning() && reqOK!==0 && !showReference && !liveEvents">
 	<div class="col-xs-12 col-sm-6">
 		<div class="panel panel-info">
@@ -276,7 +277,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div><!--------------->
 <!-- Balanced requests tables per node cluster -->
 <div class="row" *ngIf="!isRunning() && reqOK!==0 && !showReference && !liveEvents">
 	<div class="col-xs-12 col-sm-6 col-md-3" *ngFor="let nodes of results">
@@ -305,7 +306,7 @@
 			</table>
 		</div>
 	</div>
-</div><!-- Reference -->
+</div><!---------------><!-- Reference -->
 <div class="row" *ngIf="showReference">
 	<!-- Sequence diagram static diagram -->
 	<div class="col-xs-12 col-lg-6">
@@ -567,7 +568,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div><!--------------->
 <!-- Spinner -->
 <div class="row" *ngIf="isRunning()">
 	<div class="col-xs-12">
@@ -598,7 +599,7 @@
 			</table>
 		</div>
 	</div>
-</div><!-- Database Live Events -->
+</div><!---------------><!-- Database Live Events -->
 <div class="row" *ngIf="liveEvents && !showReference">
 	<div class="col-xs-12">
 		<div class="panel panel-info">
@@ -607,8 +608,8 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-xs-12">
-						<div class="table-responsive center-block align-center">
+					<div class="col-xs-12 center-block align-center">
+						<div class="table-responsive">
 							<table class="center-block align-center">
 								<tbody class="center-block align-center">
 								<tr *ngFor="let evy of evMatrix">
