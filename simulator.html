@@ -603,20 +603,19 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-xs-1 col-sm-3 col-md-4"></div>
-					<div class="col-xs-10 col-sm-6 col-md-4">
+					<div class="col-xs-1 col-sm-3 col-md-3"></div>
+					<div class="col-xs-10 col-sm-6 col-md-6">
 						<table class="table table-condensed">
 							<tbody>
 							<tr *ngFor="let evy of evMatrix">
 								<td *ngFor="let evx of evy">
-									<img *ngIf="evx" class="img-responsive" src="./micro-sd-g.png">
-									<img *ngIf="!evx" class="img-responsive" src="./micro-sd-r.png">
+									<img *ngIf="evx" src="./micro-sd-g.png"> <img *ngIf="!evx" src="./micro-sd-r.png">
 								</td>
 							</tr>
 							</tbody>
 						</table>
 					</div>
-					<div class="col-xs-1 col-sm-3 col-md-4"></div>
+					<div class="col-xs-1 col-sm-3 col-md-3"></div>
 				</div>
 			</div>
 		</div>
