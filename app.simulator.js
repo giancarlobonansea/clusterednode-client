@@ -88,7 +88,7 @@
                 selfMtx.evMatrix[x][y] = false;
                 setTimeout(function() {
                     selfMtx.evMatrix[x][y] = true;
-                }, 1000);
+                }, 800);
             });
             this.barChartOptions = {
 				chart: {
