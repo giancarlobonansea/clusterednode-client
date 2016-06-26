@@ -608,12 +608,12 @@
 						<div class="table-responsive">
 							<table class="table-centered">
 								<tbody>
-								<tr *ngFor="let raspi of evNMatrix">
+								<tr *ngFor="let raspi of evNMatrix; let idx = index">
 									<td>
-										{{raspi.host}}
+										<em>{{nodes[idx]]}}</em>
 									</td>
-									<td *ngFor="let pid of raspi.pids">
-										<strong [class]="getProcessingStatus(pid.status)"><i class="fa fa-th fa-2x"></i></strong>
+									<td *ngFor="let pid of raspi">
+										<span [class]="getProcessingStatus(pid)"><i class="fa fa-th" style="margin:2px;"></i></span>
 									</td>
 								</tr>
 								</tbody>

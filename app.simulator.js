@@ -86,20 +86,18 @@
                 }, 1000);
             });
             this.socket.on('node', function(data) {
-                var host    = data.pi,
-                    pid     = data.pid,
-                    pidStr  = 'pid' + data.pid,
-                    hostIdx = selfMtx.mapEVN[host].host,
-                    pidIdx  = selfMtx.mapEVN[host].pids[pidStr];
-                if (selfMtx.mapEVN[host].pids[pidStr] === undefined) {
-                    selfMtx.mapEVN[host].pids[pidStr] = selfMtx.evNMatrix[hostIdx].pids.length;
-                    selfMtx.evNMatrix[hostIdx].pids.push({pid: pid, status: true});
+                var hostIdx = data.pi,
+                    pidStr  = 'p' + data.pid,
+                    pidIdx  = selfMtx.mapEVN[hostIdx][pidStr];
+                if (selfMtx.mapEVN[host][pidStr] === undefined) {
+                    selfMtx.mapEVN[host][pidStr] = selfMtx.evNMatrix[hostIdx].length;
+                    selfMtx.evNMatrix[hostIdx].push(true);
                 }
                 else {
-                    selfMtx.evNMatrix[hostIdx].pids[pidIdx].status = true;
+                    selfMtx.evNMatrix[hostIdx][pidIdx] = true;
                 }
                 setTimeout(function() {
-                    selfMtx.evNMatrix[hostIdx].pids[pidIdx].status = false;
+                    selfMtx.evNMatrix[hostIdx][pidIdx] = false;
                 }, 1000);
             });
             this.barChartOptions = {
@@ -1129,7 +1127,7 @@
             }
         };
         AppSimulator.prototype.getProcessingStatus = function(cond) {
-            return cond ? 'text-muted' : 'text-success';
+            return cond ? 'text-success' : 'text-danger';
         };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
@@ -1153,18 +1151,14 @@
             }
         };
         AppSimulator.prototype.initEVNMatrix = function() {
-            this.evNMatrix = [
-                {host: "raspberrypi2", pids: []},
-                {host: "raspberrypi3", pids: []},
-                {host: "raspberrypi5", pids: []},
-                {host: "raspberrypi6", pids: []}
-            ];
-            this.mapEVN = {
-                raspberrypi2: {host: 0, pids: {}},
-                raspberrypi3: {host: 1, pids: {}},
-                raspberrypi5: {host: 2, pids: {}},
-                raspberrypi6: {host: 3, pids: {}}
-            };
+            this.evNMatrix = [[],
+                              [],
+                              [],
+                              []];
+            this.mapEVN = [{},
+                           {},
+                           {},
+                           {}];
         };
 		AppSimulator.prototype.initSimulator = function() {
             this.liveEvents = true;
@@ -1215,6 +1209,10 @@
                                0]];
 			this.requests = [[],
 			                 []];
+            this.nodes = ["raspberrypi2",
+                          "raspberrypi3",
+                          "raspberrypi5",
+                          "raspberrypi6"];
 			this.results = [["raspberrypi2",
 			                 []],
 			                ["raspberrypi3",
