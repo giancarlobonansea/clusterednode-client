@@ -22,10 +22,10 @@
 					<div class="col-xs-6 text-right">
 						<small>
 							Simulation method&nbsp;<span class="label label-info">{{getSimulationMethod()}}</span>
+							<span *ngIf="isDurationMethod()">
+								&nbsp;&nbsp;Nominal requests&nbsp;<span class="label label-info">{{getDurationRequests()}}</span>&nbsp;&nbsp;Nominal throughput&nbsp;<span class="label label-info">{{getDurationThroughput()}} req/s</span>
+							</span>
 						</small>
-						<span *ngIf="isDurationMethod()">
-							&nbsp;&nbsp;Nominal requests&nbsp;<span class="label label-info">{{getDurationRequests()}}</span>&nbsp;&nbsp;Nominal throughput&nbsp;<span class="label label-info">{{getDurationThroughput()}} req/s</span>
-						</span>
 					</div>
 				</div>
 			</div>
