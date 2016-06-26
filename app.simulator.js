@@ -1103,13 +1103,13 @@
         AppSimulator.prototype.getDatabaseStatus = function(cond) {
             switch (cond) {
                 case 0:
-                    return 'text-success';
+                    return 'text-muted';
                 case 2:
                     return 'text-primary';
                 case 1:
-                    return 'text-warning';
+                    return 'text-info';
                 case 3:
-                    return 'text-danger';
+                    return 'text-danger bg-danger';
             }
         };
         AppSimulator.prototype.showRef = function() {
