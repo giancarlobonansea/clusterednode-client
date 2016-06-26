@@ -607,13 +607,22 @@
 					<div class="col-xs-12 col-sm-6">
 						<div class="table-responsive">
 							<table class="table-centered">
+								<thead>
+								<tr>
+									<th>Node</th>
+									<th>CPU0</th>
+									<th>CPU1</th>
+									<th>CPU2</th>
+									<th>CPU3</th>
+								</tr>
+								</thead>
 								<tbody>
 								<tr *ngFor="let raspi of evNMatrix; let idx = index">
 									<td>
 										<em>{{nodes[idx]}}</em>
 									</td>
 									<td *ngFor="let pid of raspi">
-										<span [class]="getProcessingStatus(pid)"><i class="fa fa-th" style="margin:2px;"></i></span>
+										<span [class]="getProcessingStatus(pid)"><i class="fa fa-circle" style="margin:3px;"></i></span>
 									</td>
 								</tr>
 								</tbody>
