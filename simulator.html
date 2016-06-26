@@ -606,11 +606,11 @@
 				<h4 class="panel-title"><i class="fa fa-database"></i>&nbsp;Database Change - Live Events</h4>
 			</div>
 			<div class="panel-body">
-				<div class="row center-block">
-					<div class="col-xs-12 center-block">
-						<div class="table-responsive center-block">
-							<table class="center-block">
-								<!--<tbody>-->
+				<div class="row">
+					<div class="col-xs-12">
+						<div class="table-responsive">
+							<table class="table-centered">
+								<tbody>
 								<tr *ngFor="let evy of evMatrix">
 									<td *ngFor="let evx of evy">
 										<small [class]="getDatabaseStatus(evx)">
@@ -618,7 +618,7 @@
 										</small>
 									</td>
 								</tr>
-								<!--</tbody>-->
+								</tbody>
 							</table>
 						</div>
 					</div>
