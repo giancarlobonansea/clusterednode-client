@@ -90,8 +90,8 @@
                     hostIdx = parseInt(dataArr[0]),
                     pidStr  = 'p' + dataArr[1],
                     pidIdx  = selfMtx.mapEVN[hostIdx][pidStr];
-                if (selfMtx.mapEVN[host][pidStr] === undefined) {
-                    selfMtx.mapEVN[host][pidStr] = selfMtx.evNMatrix[hostIdx].length;
+                if (pidIdx === undefined) {
+                    pidIdx = selfMtx.mapEVN[hostIdx][pidStr] = selfMtx.evNMatrix[hostIdx].length;
                     selfMtx.evNMatrix[hostIdx].push(true);
                 }
                 else {
