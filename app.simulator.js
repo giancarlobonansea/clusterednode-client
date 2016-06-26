@@ -727,13 +727,13 @@
             return !this.isDuration;
         };
         AppSimulator.prototype.usedDurationMethod = function() {
-            return this.execMode === 'DURATION';
+            return this.execMode === 'STABILITY';
         };
         AppSimulator.prototype.usedRequestMethod = function() {
-            return this.execMode === 'REQUESTS';
+            return this.execMode === 'STRESS';
         };
         AppSimulator.prototype.getSimulationMethod = function() {
-            return this.isDuration ? 'DURATION' : 'REQUESTS';
+            return this.isDuration ? 'STABILITY' : 'STRESS';
         };
 		AppSimulator.prototype.isRunning = function() {
             return this.running;

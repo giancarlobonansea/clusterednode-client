@@ -32,45 +32,42 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-6">
 						<!-- Show reference -->
-						<button type="button" id="showReference" class="btn btn-info btn-sm" data-toggle="button" (click)="showRef()" [disabled]="isRunning()">
-							<i class="fa fa-book"></i>
+						<button type="button" id="showReference" class="btn btn-info btn-sm" data-toggle="button" autocomplete="off" (click)="showRef()" [disabled]="isRunning()">
+							<i class="fa fa-leanpub"></i>&nbsp;Ref
 						</button>
-						<!--<button type="button" class="btn btn-info btn-sm" (click)="showRef()" [disabled]="isRunning()">-->
-						<!--<span [hidden]="showReference">Show Reference</span><span [hidden]="!showReference">Hide Reference</span>-->
-						<!--</button>-->
 						&nbsp;
 						<!-- Live DB Events -->
-						<button type="button" id="liveEvents" class="btn btn-info btn-sm" data-toggle="button" (click)="showLive()" [disabled]="isRunning()">
-							<i class="fa fa-database"></i>
+						<button type="button" id="liveEvents" class="btn btn-info btn-sm" data-toggle="button" autocomplete="off" (click)="showLive()" [disabled]="isRunning()">
+							<i class="fa fa-braile"></i>&nbsp;DB
 						</button>
 						&nbsp;
 						<!-- Duration or Requests -->
-								<div class="btn-group btn-group-sm">
-									<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Method&nbsp;<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu">
-										<li><a (click)="setDuration()">Duration</a></li>
-										<li><a (click)="setRequests()">Requests</a></li>
-									</ul>
-								</div>
+						<div class="btn-group btn-group-sm">
+							<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">
+								<i class="fa fa-bolt">&nbsp;<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a (click)="setDuration()">Stability (Duration/Rate)</a></li>
+								<li><a (click)="setRequests()">Stress (Burst)</a></li>
+							</ul>
+						</div>
 						&nbsp;
 						<!-- Quick settings dropdown -->
-								<div class="btn-group btn-group-sm">
-									<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">Preset&nbsp;<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu">
-										<li><a (click)="setSmall()">Small</a></li>
-										<li><a (click)="setMedium()">Medium</a></li>
-										<li><a (click)="setLarge()">Large</a></li>
-										<li><a (click)="setHuge()">Huge</a></li>
-									</ul>
-								</div>
+						<div class="btn-group btn-group-sm">
+							<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">
+								<i class="fa fa-sliders">&nbsp;<span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu">
+								<li><a (click)="setSmall()">Small load</a></li>
+								<li><a (click)="setMedium()">Medium load</a></li>
+								<li><a (click)="setLarge()">Large load</a></li>
+								<li><a (click)="setHuge()">Huge load</a></li>
+							</ul>
+						</div>
 						&nbsp;
+						<!-- Run Forrest... run -->
 						<button type="button" class="btn btn-success btn-sm" (click)="initSimulator()" [disabled]="isRunning()">
-									Run&nbsp;<i class="fa fa-play"></i>
-								</button>
-						<!--</div>-->
-						<!--</form>-->
+							<i class="fa fa-play"></i></button>
 					</div>
 					<div class="col-xs-12 col-sm-6 text-right">
 						<form class="form-inline">
@@ -116,7 +113,7 @@
 	<div class="col-xs-12 col-sm-6">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-tachometer"></i>&nbsp;Last Run parameters</h4>
+				<h4 class="panel-title"><i class="fa fa-wrench"></i>&nbsp;Last Run parameters</h4>
 			</div>
 			<table class="table table-condensed table-bordered table-responsive">
 				<thead>
@@ -172,7 +169,7 @@
 	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-tachometer"></i>&nbsp;Request Duration Histogram</h4>
+				<h4 class="panel-title"><i class="fa fa-signal"></i>&nbsp;Request Duration Histogram</h4>
 			</div>
 			<table class="table table-striped table-condensed table-bordered table-responsive">
 				<thead>
@@ -331,7 +328,7 @@
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-sitemap"></i>&nbsp;Reference Links</h4>
+				<h4 class="panel-title"><i class="fa fa-globe"></i>&nbsp;Reference Links</h4>
 			</div>
 			<div class="panel-body">
 				<div class="row">
@@ -501,7 +498,7 @@
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-sitemap"></i>&nbsp;Video Gallery</h4>
+				<h4 class="panel-title"><i class="fa fa-youtube"></i>&nbsp;Video Gallery</h4>
 			</div>
 			<div class="panel-body">
 				<div class="row">
@@ -578,6 +575,7 @@
 				<div class="row">
 					<div class="col-xs-6">
 						<h4 class="panel-title">
+							<i class="fa fa-spin fa-spinner"></i>&nbsp;
 							<span [hidden]="calculating">Running...</span>
 							<span [hidden]="!calculating">Calculating statistics...</span>
 						</h4>
@@ -605,7 +603,7 @@
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title">Database Change - Live Events</h4>
+				<h4 class="panel-title"><i class="fa fa-braile"></i>&nbsp;Database Change - Live Events</h4>
 			</div>
 			<div class="panel-body">
 				<div class="row">
