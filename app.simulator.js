@@ -1126,7 +1126,7 @@
                 case 3:
                     return 'text-danger';
             }
-            ;
+        };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
             if (this.showReference) {
