@@ -79,7 +79,7 @@
             this.socket.on('set', function(data) {
                 var x = data.x,
                     y = data.y;
-                selfMtx.evMatrix[x][y] = ((((x * 32) + y) * 32 / 5462) | 0) + 3;
+                selfMtx.evMatrix[x][y] = 3;
                 setTimeout(function() {
                     selfMtx.evMatrix[x][y] = ((((x * 32) + y) * 32 / 5462) | 0);
                 }, 1000);
@@ -1115,6 +1115,18 @@
             }
             return cond ? './micro-sd-g.png' : './micro-sd-r.png';
         };
+        AppSimulator.prototype.getDatabaseStatus = function(cond) {
+            switch (cond) {
+                case 0:
+                    return 'text-sucess';
+                case 1:
+                    return 'text-info';
+                case 2:
+                    return 'text-primary';
+                case 3:
+                    return 'text-danger';
+            }
+            ;
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
             if (this.showReference) {

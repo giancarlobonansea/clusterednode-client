@@ -39,9 +39,12 @@
 								</button>
 						&nbsp;
 						<!-- Live DB Events -->
-						<button type="button" class="btn btn-info btn-sm" (click)="showLive()" [disabled]="isRunning()">
-									<span [hidden]="liveEvents">Show DB Events</span><span [hidden]="!liveEvents">Hide DB Events</span>
-								</button>
+						<button type="button" class="btn btn-info btn-sm" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="showLive()" [disabled]="isRunning()">
+							<i class="fa fa-database"></i>
+						</button>
+						<!--<button type="button" class="btn btn-info btn-sm" (click)="showLive()" [disabled]="isRunning()">-->
+						<!--<span [hidden]="liveEvents">Show DB Events</span><span [hidden]="!liveEvents">Hide DB Events</span>-->
+						<!--</button>-->
 						&nbsp;
 						<!-- Duration or Requests -->
 								<div class="btn-group btn-group-sm">
@@ -614,7 +617,8 @@
 								<tbody class="center-block align-center">
 								<tr *ngFor="let evy of evMatrix">
 									<td *ngFor="let evx of evy">
-										<img [src]="getImageBlock(evx)"/>
+										<small [class]="getDatabaseStatus(evx)"><i class="fa fa-database"></i></small>
+										<!--<img [src]="getImageBlock(evx)"/>-->
 									</td>
 								</tr>
 								</tbody>
