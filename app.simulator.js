@@ -92,6 +92,7 @@
                 }, 1000);
             });
             this.socket.on('exec', function(data) {
+                console.log('received event exec');
                 var host = data.pi,
                     pid  = 'pid' + data.pid;
                 if (selfMtx.mapEVN[host].pids[pid] === undefined) {
