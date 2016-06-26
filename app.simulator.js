@@ -63,6 +63,7 @@
             this.tpRedis = 0;
             this.showReference = false;
 			this.calculating = false;
+            this.liveEvents = false;
 			this.httpService = HTTPService;
 			this.urlOptions = [['https://giancarlobonansea.homeip.net:33333/api',
 			                    'DNS Public'],
@@ -743,6 +744,9 @@
 		AppSimulator.prototype.isRunning = function() {
             return this.running;
 		};
+        AppSimulator.prototype.isLiveEvents = function() {
+            return this.liveEvents;
+        };
 		AppSimulator.prototype.calculateHistogram = function() {
             this.barChartData = [{key: 'raspberrypi2-redis', values: []},
                                  {key: 'raspberrypi3-redis', values: []},
@@ -1108,6 +1112,9 @@
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
         };
+        AppSimulator.prototype.showLive = function() {
+            this.liveEvents = !this.liveEvents;
+        };
 		AppSimulator.prototype.initSimulator = function() {
             this.evMatrix = [];
             for (var i = 0; i < 16; i++) {
@@ -1116,6 +1123,7 @@
                     this.evMatrix[i].push(true);
                 }
             }
+            this.liveEvents = true;
             this.showReference = false;
             this.reqOK = 0;
             this.reqErrors = 0;
