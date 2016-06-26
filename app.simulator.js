@@ -76,12 +76,6 @@
             this.initEVMatrix();
             this.initEVNMatrix();
             this.socket = io('https://giancarlobonansea.homeip.net:32402');
-            this.mapEVN = {
-                raspberrypi2: {host: 0, pids: {}},
-                raspberrypi3: {host: 1, pids: {}},
-                raspberrypi5: {host: 2, pids: {}},
-                raspberrypi6: {host: 3, pids: {}}
-            };
             var selfMtx = this;
             this.socket.on('set', function(data) {
                 var x = data.x,
@@ -92,17 +86,20 @@
                 }, 1000);
             });
             this.socket.on('node', function(data) {
-                var host = data.pi,
-                    pid  = 'pid' + data.pid;
-                if (selfMtx.mapEVN[host].pids[pid] === undefined) {
-                    selfMtx.mapEVN[host].pids[pid] = selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids.length;
-                    selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids.push({pid: pid, status: true});
+                var host    = data.pi,
+                    pid     = data.pid,
+                    pidStr  = 'pid' + data.pid,
+                    hostIdx = selfMtx.mapEVN[host].host,
+                    pidIdx  = selfMtx.mapEVN[host].pids[pidStr];
+                if (selfMtx.mapEVN[host].pids[pidStr] === undefined) {
+                    selfMtx.mapEVN[host].pids[pidStr] = selfMtx.evNMatrix[hostIdx].pids.length;
+                    selfMtx.evNMatrix[hostIdx].pids.push({pid: pid, status: true});
                 }
                 else {
-                    selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids[selfMtx.mapEVN[host].pids[pid]].status = true;
+                    selfMtx.evNMatrix[hostIdx].pids[pidIdx].status = true;
                 }
                 setTimeout(function() {
-                    selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids[selfMtx.mapEVN[host].pids[pid]].status = false;
+                    selfMtx.evNMatrix[hostIdx].pids[pidIdx].status = false;
                 }, 1000);
             });
             this.barChartOptions = {
@@ -1159,6 +1156,12 @@
                 {host: "raspberrypi5", pids: []},
                 {host: "raspberrypi6", pids: []}
             ];
+            this.mapEVN = {
+                raspberrypi2: {host: 0, pids: {}},
+                raspberrypi3: {host: 1, pids: {}},
+                raspberrypi5: {host: 2, pids: {}},
+                raspberrypi6: {host: 3, pids: {}}
+            };
         };
 		AppSimulator.prototype.initSimulator = function() {
             this.liveEvents = true;

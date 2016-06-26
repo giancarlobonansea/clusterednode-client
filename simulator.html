@@ -614,23 +614,10 @@
 											{{raspi.host}}
 										</small>
 									</td>
-									<td>
-										<table class="table table-condensed table-striped  table-centered">
-											<tbody>
-											<tr *ngFor="let pid of raspi.pids">
-												<td>
-													<small>
-														{{pid.pid}}
-													</small>
-												</td>
-												<td>
-													<small>
-														{{pid.status}}
-													</small>
-												</td>
-											</tr>
-											</tbody>
-										</table>
+									<td *ngFor="let pid of raspi.pids">
+										<small [hidden]="!pid.status">
+											{{pid.status}}
+										</small>
 									</td>
 								</tr>
 								</tbody>
