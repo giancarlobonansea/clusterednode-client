@@ -96,13 +96,13 @@
                     pid  = 'pid' + data.pid;
                 if (selfMtx.mapEVN[host].pids[pid] === undefined) {
                     selfMtx.mapEVN[host].pids[pid] = selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids.length;
-                    selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids.push(true);
+                    selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids.push({pid: pid, status: true});
                 }
                 else {
-                    selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids[selfMtx.mapEVN[host].pids[pid]] = true;
+                    selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids[selfMtx.mapEVN[host].pids[pid]].status = true;
                 }
                 setTimeout(function() {
-                    selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids[selfMtx.mapEVN[host].pids[pid]] = false;
+                    selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids[selfMtx.mapEVN[host].pids[pid]].status = false;
                 }, 1000);
             });
             this.barChartOptions = {

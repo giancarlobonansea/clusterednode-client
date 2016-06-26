@@ -608,18 +608,25 @@
 						<div class="table-responsive">
 							<table class="table-centered">
 								<tbody>
-								<tr *ngFor="let raspi of evNMatrix">
-									<td>
-										<small>
-											{{raspi.host}}
-										</small>
-									</td>
-									<td *ngFor="let pid of raspi.pids">
-										<small>
-											{{pid}}
-										</small>
-									</td>
-								</tr>
+								<span *ngFor="let raspi of evNMatrix">
+									<tr *ngFor="let pid of raspi.pids">
+										<td>
+											<small>
+												{{raspi.host}}
+											</small>
+										</td>
+										<td>
+											<small>
+												{{pid.pid}}
+											</small>
+										</td>
+										<td>
+											<small>
+												{{pid.status}}
+											</small>
+										</td>
+									</tr>
+								</span>
 								</tbody>
 							</table>
 						</div>
