@@ -77,7 +77,7 @@
             for (var i = 0; i < 16; i++) {
                 this.evMatrix.push([]);
                 for (var j = 0; j < 32; j++) {
-                    this.evMatrix[i].push(true);
+                    this.evMatrix[i].push(((i + 1) * (j + 1) * 32 / 5462) | 0);
                 }
             }
             this.socket = io('https://giancarlobonansea.homeip.net:32402');
@@ -85,9 +85,9 @@
             this.socket.on('set', function(data) {
                 var x = data.x;
                 var y = data.y;
-                selfMtx.evMatrix[x][y] = false;
+                selfMtx.evMatrix[x][y] = (((x + 1) * (y + 1) * 32 / 5462) | 0) + 3;
                 setTimeout(function() {
-                    selfMtx.evMatrix[x][y] = true;
+                    selfMtx.evMatrix[x][y] = (((x + 1) * (y + 1) * 32 / 5462) | 0);
                 }, 800);
             });
             this.barChartOptions = {
@@ -1105,6 +1105,20 @@
             self.intervalHandler = setInterval(intervalFunction, self.reqInterval);
         };
         AppSimulator.prototype.getImageBlock = function(cond) {
+            switch (cond) {
+                case 0:
+                    return './db-0-on.png';
+                case 1:
+                    return './db-1-on.png';
+                case 2:
+                    return './db-2-on.png';
+                case 3:
+                    return './db-0-off.png';
+                case 4:
+                    return './db-1-off.png';
+                case 5:
+                    return './db-2-off.png';
+            }
             return cond ? './micro-sd-g.png' : './micro-sd-r.png';
         };
         AppSimulator.prototype.showRef = function() {
@@ -1124,7 +1138,7 @@
             for (var i = 0; i < 16; i++) {
                 this.evMatrix.push([]);
                 for (var j = 0; j < 32; j++) {
-                    this.evMatrix[i].push(true);
+                    this.evMatrix[i].push(((i + 1) * (j + 1) * 32 / 5462) | 0);
                 }
             }
             this.liveEvents = true;
