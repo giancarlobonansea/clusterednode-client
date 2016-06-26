@@ -74,14 +74,27 @@
             this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
 			this.selectedUrl = this.urlOptions[0][0];
             this.initEVMatrix();
-            this.socket = io('https://giancarlobonansea.homeip.net:32402');
+            this.initEVNMatrix();
+            this.socketR = io('https://giancarlobonansea.homeip.net:32402');
+            this.socketN = io('https://giancarlobonansea.homeip.net:32401');
             var selfMtx = this;
-            this.socket.on('set', function(data) {
+            this.socketR.on('set', function(data) {
                 var x = data.x,
                     y = data.y;
                 selfMtx.evMatrix[x][y] = 3;
                 setTimeout(function() {
                     selfMtx.evMatrix[x][y] = ((((x * 32) + y) * 32 / 5462) | 0);
+                }, 1000);
+            });
+            this.socketN.on('exec', function(data) {
+                var host = data.pi,
+                    pid  = 'pid' + data.pid;
+                if (!selfMtx.evNMatrix[host]) {
+                    selfMtx.evNMatrix[host] = [];
+                }
+                selfMtx.evNMatrix[host][pid] = true;
+                setTimeout(function() {
+                    selfMtx.evNMatrix[host][pid] = false;
                 }, 1000);
             });
             this.barChartOptions = {
@@ -924,8 +937,6 @@
 	                selfRTT.calculating = false;
                     selfRTT.running = false;
                     selfRTT.liveEvents = false;
-                    $('#liveEvents').button('reset');
-                    $('#showReference').button('reset');
                 }
             );
             ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
@@ -1103,11 +1114,11 @@
         AppSimulator.prototype.getDatabaseStatus = function(cond) {
             switch (cond) {
                 case 0:
-                    return 'text-info bg-info';
+                    return 'text-info';
                 case 2:
-                    return 'text-primary bg-info';
+                    return 'text-primary';
                 case 1:
-                    return 'text-muted bg-info';
+                    return 'text-muted';
                 case 3:
                     return 'text-danger bg-danger';
             }
@@ -1115,23 +1126,13 @@
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
             if (this.showReference) {
-                //$('#showReference').button('toggle');
                 this.liveEvents = false;
-                $('#liveEvents').button('reset');
-            }
-            else {
-                $('#showReference').button('reset');
             }
         };
         AppSimulator.prototype.showLive = function() {
             this.liveEvents = !this.liveEvents;
             if (this.liveEvents) {
-                //$('#liveEvents').button('toggle');
                 this.showReference = false;
-                $('#showReference').button('reset');
-            }
-            else {
-                $('#liveEvents').button('reset');
             }
         };
         AppSimulator.prototype.initEVMatrix = function() {
@@ -1143,11 +1144,17 @@
                 }
             }
         };
+        AppSimulator.prototype.initEVNMatrix = function() {
+            this.evNMatrix = {
+                "raspberrypi2": {},
+                "raspberrypi3": {},
+                "raspberrypi5": {},
+                "raspberrypi6": {}
+            };
+        };
 		AppSimulator.prototype.initSimulator = function() {
             this.liveEvents = true;
-            $('#liveEvents').button('toggle');
             this.showReference = false;
-            $('#showReference').button('reset');
             this.reqOK = 0;
             this.reqErrors = 0;
             this.duration = 0;
