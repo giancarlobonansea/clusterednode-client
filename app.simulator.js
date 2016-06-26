@@ -86,8 +86,9 @@
                 }, 1000);
             });
             this.socket.on('node', function(data) {
-                var hostIdx = data.pi,
-                    pidStr  = 'p' + data.pid,
+                var dataArr = data.split(','),
+                    hostIdx = parseInt(dataArr[0]),
+                    pidStr  = 'p' + dataArr[1],
                     pidIdx  = selfMtx.mapEVN[hostIdx][pidStr];
                 if (selfMtx.mapEVN[host][pidStr] === undefined) {
                     selfMtx.mapEVN[host][pidStr] = selfMtx.evNMatrix[hostIdx].length;
