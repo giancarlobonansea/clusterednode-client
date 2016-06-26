@@ -632,6 +632,24 @@
 					<div class="col-xs-12 col-sm-6">
 						<div class="table-responsive">
 							<table class="table-centered">
+								<thead>
+								<tr>
+									<th colspan="32">redis.io cluster</th>
+								</tr>
+								<tr>
+									<th></th>
+									<th colspan="10" class="text-center text-info">
+										<i class="fa fa-database">&nbsp;</i> redis instance #1 (M+S)
+									</th>
+									<th colspan="10" class="text-center text-muted">
+										<i class="fa fa-database">&nbsp;</i> redis instance #2 (M+S)
+									</th>
+									<th colspan="10" class="text-center text-primary">
+										<i class="fa fa-database">&nbsp;</i> redis instance #3 (M+S)
+									</th>
+									<th></th>
+								</tr>
+								</thead>
 								<tbody>
 								<tr *ngFor="let evy of evMatrix">
 									<td *ngFor="let evx of evy">
