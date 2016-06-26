@@ -615,9 +615,7 @@
 										</small>
 									</td>
 									<td *ngFor="let pid of raspi.pids">
-										<small [hidden]="!pid.status">
-											{{pid.status}}
-										</small>
+										<em [hidden]="!pid.status"><strong>{{pid.pid}}</strong></em>
 									</td>
 								</tr>
 								</tbody>
