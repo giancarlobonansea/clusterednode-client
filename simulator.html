@@ -610,16 +610,16 @@
 								<thead>
 								<tr>
 									<th>Node</th>
-									<th>&nbsp;CPU0&nbsp;</th>
-									<th>&nbsp;CPU1&nbsp;</th>
-									<th>&nbsp;CPU2&nbsp;</th>
-									<th>&nbsp;CPU3&nbsp;</th>
+									<th>&nbsp;CPU#0&nbsp;</th>
+									<th>&nbsp;CPU#1&nbsp;</th>
+									<th>&nbsp;CPU#2&nbsp;</th>
+									<th>&nbsp;CPU#3&nbsp;</th>
 								</tr>
 								</thead>
 								<tbody>
 								<tr *ngFor="let raspi of evNMatrix; let idx = index">
 									<td>
-										<em>{{nodes[idx]}}</em>
+										<em>{{nodes[idx]}}&nbsp;&nbsp;</em>
 									</td>
 									<td *ngFor="let pid of raspi" [class]="getProcessingStatus(pid)">
 										<i class="fa fa-th fa-3x" style="margin:4px;"></i>
@@ -634,18 +634,21 @@
 							<table class="table-centered">
 								<thead>
 								<tr>
-									<th colspan="32">redis.io cluster (6 processes)</th>
+									<th colspan="32" class="text-center">Redis cluster (6 processes)</th>
 								</tr>
 								<tr>
 									<th></th>
 									<th colspan="10" class="text-center text-info">
 										<i class="fa fa-database"></i>&nbsp;redis #1 (M+S)
+										<hr/>
 									</th>
 									<th colspan="10" class="text-center text-muted">
 										<i class="fa fa-database"></i>&nbsp;redis #2 (M+S)
+										<hr/>
 									</th>
 									<th colspan="10" class="text-center text-primary">
 										<i class="fa fa-database"></i>&nbsp;redis #3 (M+S)
+										<hr/>
 									</th>
 									<th></th>
 								</tr>
