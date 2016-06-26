@@ -33,12 +33,12 @@
 					<div class="col-xs-12 col-sm-6">
 						<!-- Show reference -->
 						<button type="button" id="showReference" class="btn btn-info btn-sm" data-toggle="button" autocomplete="off" (click)="showRef()" [disabled]="isRunning()">
-							<i class="fa fa-leanpub"></i>&nbsp;Ref
+							<i class="fa fa-leanpub"></i>
 						</button>
 						&nbsp;
 						<!-- Live DB Events -->
 						<button type="button" id="liveEvents" class="btn btn-info btn-sm" data-toggle="button" autocomplete="off" (click)="showLive()" [disabled]="isRunning()">
-							<i class="fa fa-braille"></i>&nbsp;DB
+							<i class="fa fa-database"></i>
 						</button>
 						&nbsp;
 						<!-- Duration or Requests -->
@@ -603,13 +603,13 @@
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-braille"></i>&nbsp;Database Change - Live Events</h4>
+				<h4 class="panel-title"><i class="fa fa-database"></i>&nbsp;Database Change - Live Events</h4>
 			</div>
 			<div class="panel-body">
-				<div class="row">
-					<div class="col-xs-12 center-block align-center">
-						<div class="table-responsive center-block align-center">
-							<table class="center-block align-center">
+				<div class="row center-block">
+					<div class="col-xs-12 center-block">
+						<div class="table-responsive center-block">
+							<table class="center-block">
 								<!--<tbody>-->
 								<tr *ngFor="let evy of evMatrix">
 									<td *ngFor="let evx of evy">
