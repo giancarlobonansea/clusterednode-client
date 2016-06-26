@@ -76,14 +76,14 @@
             for (var i = 0; i < 32; i++) {
                 this.evMatrix.push([]);
                 for (var j = 0; j < 32; j++) {
-                    this.evMatrix[i].push(false);
+                    this.evMatrix[i].push(true);
                 }
             }
-            this.socket = io('http://giancarlobonansea.homeip.net:32402');
+            this.socket = io('https://giancarlobonansea.homeip.net:32402');
             this.socket.on('set', function(data) {
-                this.evMatrix[data.x][data.y] = true;
+                this.evMatrix[data.x][data.y] = false;
                 setTimeout(function() {
-                    this.evMatrix[data.x][data.y] = false;
+                    this.evMatrix[data.x][data.y] = true;
                 }, 1000);
             });
             this.barChartOptions = {
