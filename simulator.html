@@ -607,16 +607,18 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-xs-12 center-block align-center text-center">
-						<table class="clearfix center-block align-center text-center">
-							<tbody class="center-block align-center text-center">
-							<tr *ngFor="let evy of evMatrix">
-								<td *ngFor="let evx of evy">
-									<img [src]="getImageBlock(evx)"/>
-								</td>
-							</tr>
-							</tbody>
-						</table>
+					<div class="col-xs-12">
+						<div class="table-responsive center-block align-center">
+							<table class="center-block align-center">
+								<tbody class="center-block align-center">
+								<tr *ngFor="let evy of evMatrix">
+									<td *ngFor="let evx of evy">
+										<img [src]="getImageBlock(evx)"/>
+									</td>
+								</tr>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
 			</div>
