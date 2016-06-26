@@ -1107,7 +1107,7 @@
             for (var i = 0; i < 32; i++) {
                 this.evMatrix.push([]);
                 for (var j = 0; j < 32; j++) {
-                    this.evMatrix[i].push(false);
+                    this.evMatrix[i].push(true);
                 }
             }
             this.showReference = false;
