@@ -77,6 +77,12 @@
             this.initEVNMatrix();
             this.socketR = io('https://giancarlobonansea.homeip.net:32402');
             this.socketN = io('https://giancarlobonansea.homeip.net:32401');
+            this.mapEVN = {
+                raspberrypi2: {host: 0, pids: {}},
+                raspberrypi3: {host: 1, pids: {}},
+                raspberrypi5: {host: 2, pids: {}},
+                raspberrypi6: {host: 3, pids: {}}
+            };
             var selfMtx = this;
             this.socketR.on('set', function(data) {
                 var x = data.x,
@@ -89,12 +95,15 @@
             this.socketN.on('exec', function(data) {
                 var host = data.pi,
                     pid  = 'pid' + data.pid;
-                if (!selfMtx.evNMatrix[host]) {
-                    selfMtx.evNMatrix[host] = [];
+                if (selfMtx.mapEVN[host].pids[pid] === undefined) {
+                    selfMtx.mapEVN[host].pids[pid] = selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids.length;
+                    selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids.push(true);
                 }
-                selfMtx.evNMatrix[host][pid] = true;
+                else {
+                    selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids[selfMtx.mapEVN[host].pids[pid]] = true;
+                }
                 setTimeout(function() {
-                    selfMtx.evNMatrix[host][pid] = false;
+                    selfMtx.evNMatrix[selfMtx.mapEVN[host].host].pids[selfMtx.mapEVN[host].pids[pid]] = false;
                 }, 1000);
             });
             this.barChartOptions = {
@@ -1145,12 +1154,12 @@
             }
         };
         AppSimulator.prototype.initEVNMatrix = function() {
-            this.evNMatrix = {
-                "raspberrypi2": {},
-                "raspberrypi3": {},
-                "raspberrypi5": {},
-                "raspberrypi6": {}
-            };
+            this.evNMatrix = [
+                {host: "raspberrypi2", pids: []},
+                {host: "raspberrypi3", pids: []},
+                {host: "raspberrypi5", pids: []},
+                {host: "raspberrypi6", pids: []}
+            ];
         };
 		AppSimulator.prototype.initSimulator = function() {
             this.liveEvents = true;
@@ -1241,6 +1250,7 @@
             this.execConn = this.reqConn;
             this.execMaxReq = this.getDurationRequests();
             this.initEVMatrix();
+            this.initEVNMatrix();
             this.running = true;
             if (this.isDuration) {
                 this.reqCount = this.getDurationRequests();

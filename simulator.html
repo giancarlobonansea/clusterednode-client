@@ -609,9 +609,14 @@
 							<table class="table-centered">
 								<tbody>
 								<tr *ngFor="let raspi of evNMatrix">
-									<td *ngFor="let pidn of raspi">
+									<td>
 										<small>
-											{{pidn}}
+											{{raspi.host}}
+										</small>
+									</td>
+									<td *ngFor="let pid of raspi.pids">
+										<small>
+											{{pid}}
 										</small>
 									</td>
 								</tr>
