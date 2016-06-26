@@ -88,7 +88,7 @@
                 selfMtx.evMatrix[x][y] = false;
                 setTimeout(function() {
                     selfMtx.evMatrix[x][y] = true;
-                }, 1500);
+                }, 1000);
             });
             this.barChartOptions = {
 				chart: {
@@ -932,6 +932,7 @@
                     selfRTT.observableRTT = undefined;
 	                selfRTT.calculating = false;
                     selfRTT.running = false;
+                    selfRTT.liveEvents = false;
                 }
             );
             ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
