@@ -73,21 +73,15 @@
 			                    'IP Private']];
             this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
 			this.selectedUrl = this.urlOptions[0][0];
-            this.evMatrix = [];
-            for (var i = 0; i < 16; i++) {
-                this.evMatrix.push([]);
-                for (var j = 0; j < 32; j++) {
-                    this.evMatrix[i].push(((i + 1) * (j + 1) * 32 / 5462) | 0);
-                }
-            }
+            this.initEVMatrix();
             this.socket = io('https://giancarlobonansea.homeip.net:32402');
             var selfMtx = this;
             this.socket.on('set', function(data) {
-                var x = data.x;
-                var y = data.y;
-                selfMtx.evMatrix[x][y] = (((x + 1) * (y + 1) * 32 / 5462) | 0) + 3;
+                var x = data.x,
+                    y = data.y;
+                selfMtx.evMatrix[x][y] = ((((x * 16) + y) * 32 / 5462) | 0) + 3;
                 setTimeout(function() {
-                    selfMtx.evMatrix[x][y] = (((x + 1) * (y + 1) * 32 / 5462) | 0);
+                    selfMtx.evMatrix[x][y] = ((((x * 16) + y) * 32 / 5462) | 0);
                 }, 800);
             });
             this.barChartOptions = {
@@ -1133,14 +1127,16 @@
                 this.showReference = false;
             }
         };
-		AppSimulator.prototype.initSimulator = function() {
+        AppSimulator.prototype.initEVMatrix = function() {
             this.evMatrix = [];
             for (var i = 0; i < 16; i++) {
                 this.evMatrix.push([]);
                 for (var j = 0; j < 32; j++) {
-                    this.evMatrix[i].push(((i + 1) * (j + 1) * 32 / 5462) | 0);
+                    this.evMatrix[i].push((((i * 16) + j) * 32 / 5462) | 0);
                 }
             }
+        };
+		AppSimulator.prototype.initSimulator = function() {
             this.liveEvents = true;
             this.showReference = false;
             this.reqOK = 0;
@@ -1228,6 +1224,7 @@
             this.execInterval = this.reqInterval;
             this.execConn = this.reqConn;
             this.execMaxReq = this.getDurationRequests();
+            this.initEVMatrix();
             this.running = true;
             if (this.isDuration) {
                 this.reqCount = this.getDurationRequests();
