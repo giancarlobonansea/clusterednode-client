@@ -1128,6 +1128,9 @@
                     return 'text-danger bg-danger';
             }
         };
+        AppSimulator.prototype.getProcessingStatus = function(cond) {
+            return cond ? 'text-muted' : 'text-success';
+        };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
             if (this.showReference) {

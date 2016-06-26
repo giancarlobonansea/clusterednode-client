@@ -606,16 +606,14 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-6">
 						<div class="table-responsive">
-							<table class="table table-condensed table-striped table-centered">
+							<table class="table-centered">
 								<tbody>
 								<tr *ngFor="let raspi of evNMatrix">
 									<td>
-										<small>
-											{{raspi.host}}
-										</small>
+										{{raspi.host}}
 									</td>
 									<td *ngFor="let pid of raspi.pids">
-										<em [hidden]="!pid.status"><strong>{{pid.pid}}</strong></em>
+										<strong [class]="getProcessingStatus(pid.status)"><i class="fa fa-th fa-2x"></i></strong>
 									</td>
 								</tr>
 								</tbody>
