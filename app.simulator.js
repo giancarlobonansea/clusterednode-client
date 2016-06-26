@@ -924,6 +924,7 @@
 	                selfRTT.calculating = false;
                     selfRTT.running = false;
                     selfRTT.liveEvents = false;
+                    $('#liveEvents').button('reset');
                 }
             );
             ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
@@ -1121,6 +1122,7 @@
             this.liveEvents = !this.liveEvents;
             if (this.liveEvents) {
                 this.showReference = false;
+                $('#showReference').button('reset');
             }
         };
         AppSimulator.prototype.initEVMatrix = function() {
@@ -1134,7 +1136,9 @@
         };
 		AppSimulator.prototype.initSimulator = function() {
             this.liveEvents = true;
+            $('#liveEvents').button('toggle');
             this.showReference = false;
+            $('#showReference').button('reset');
             this.reqOK = 0;
             this.reqErrors = 0;
             this.duration = 0;
