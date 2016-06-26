@@ -79,9 +79,9 @@
             this.socket.on('set', function(data) {
                 var x = data.x,
                     y = data.y;
-                selfMtx.evMatrix[x][y] = ((((x * 16) + y) * 32 / 5462) | 0) + 3;
+                selfMtx.evMatrix[x][y] = ((((x * 32) + y) * 32 / 5462) | 0) + 3;
                 setTimeout(function() {
-                    selfMtx.evMatrix[x][y] = ((((x * 16) + y) * 32 / 5462) | 0);
+                    selfMtx.evMatrix[x][y] = ((((x * 32) + y) * 32 / 5462) | 0);
                 }, 800);
             });
             this.barChartOptions = {
@@ -1132,7 +1132,7 @@
             for (var i = 0; i < 16; i++) {
                 this.evMatrix.push([]);
                 for (var j = 0; j < 32; j++) {
-                    this.evMatrix[i].push((((i * 16) + j) * 32 / 5462) | 0);
+                    this.evMatrix[i].push((((i * 32) + j) * 32 / 5462) | 0);
                 }
             }
         };
