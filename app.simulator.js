@@ -80,7 +80,7 @@
                 }
             }
             this.socket = io('http://giancarlobonansea.homeip.net:32402');
-            socket.on('set', function(data) {
+            this.socket.on('set', function(data) {
                 this.evMatrix[data.x][data.y] = true;
                 setTimeout(function() {
                     this.evMatrix[data.x][data.y] = false;
