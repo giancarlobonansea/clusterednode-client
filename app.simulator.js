@@ -80,10 +80,11 @@
                 }
             }
             this.socket = io('https://giancarlobonansea.homeip.net:32402');
+            var selfMtx = this;
             this.socket.on('set', function(data) {
-                this.evMatrix[data.x][data.y] = false;
+                selfMtx.evMatrix[data.x][data.y] = false;
                 setTimeout(function() {
-                    this.evMatrix[data.x][data.y] = true;
+                    selfMtx.evMatrix[data.x][data.y] = true;
                 }, 1000);
             });
             this.barChartOptions = {
