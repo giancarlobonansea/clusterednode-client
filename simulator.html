@@ -610,10 +610,10 @@
 								<thead>
 								<tr>
 									<th>Node</th>
-									<th>&nbsp;&nbsp;CPU0&nbsp;&nbsp;</th>
-									<th>&nbsp;&nbsp;CPU1&nbsp;&nbsp;</th>
-									<th>&nbsp;&nbsp;CPU2&nbsp;&nbsp;</th>
-									<th>&nbsp;&nbsp;CPU3&nbsp;&nbsp;</th>
+									<th>&nbsp;CPU0&nbsp;</th>
+									<th>&nbsp;CPU1&nbsp;</th>
+									<th>&nbsp;CPU2&nbsp;</th>
+									<th>&nbsp;CPU3&nbsp;</th>
 								</tr>
 								</thead>
 								<tbody>
@@ -622,7 +622,7 @@
 										<em>{{nodes[idx]}}</em>
 									</td>
 									<td *ngFor="let pid of raspi" [class]="getProcessingStatus(pid)">
-										<i class="fa fa-circle fa-2x" style="margin:3px;"></i>
+										<i class="fa fa-th fa-3x" style="margin:4px;"></i>
 									</td>
 								</tr>
 								</tbody>
@@ -634,18 +634,18 @@
 							<table class="table-centered">
 								<thead>
 								<tr>
-									<th colspan="32">redis.io cluster</th>
+									<th colspan="32">redis.io cluster (6 processes)</th>
 								</tr>
 								<tr>
 									<th></th>
 									<th colspan="10" class="text-center text-info">
-										<i class="fa fa-database">&nbsp;</i> redis instance #1 (M+S)
+										<i class="fa fa-database"></i>&nbsp;redis #1 (M+S)
 									</th>
 									<th colspan="10" class="text-center text-muted">
-										<i class="fa fa-database">&nbsp;</i> redis instance #2 (M+S)
+										<i class="fa fa-database"></i>&nbsp;redis #2 (M+S)
 									</th>
 									<th colspan="10" class="text-center text-primary">
-										<i class="fa fa-database">&nbsp;</i> redis instance #3 (M+S)
+										<i class="fa fa-database"></i>&nbsp;redis #3 (M+S)
 									</th>
 									<th></th>
 								</tr>
