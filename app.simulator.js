@@ -73,7 +73,7 @@
             this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
 			this.selectedUrl = this.urlOptions[0][0];
             this.evMatrix = [];
-            for (var i = 0; i < 32; i++) {
+            for (var i = 0; i < 16; i++) {
                 this.evMatrix.push([]);
                 for (var j = 0; j < 32; j++) {
                     this.evMatrix[i].push(true);
@@ -87,7 +87,7 @@
                 selfMtx.evMatrix[x][y] = false;
                 setTimeout(function() {
                     selfMtx.evMatrix[x][y] = true;
-                }, 1000);
+                }, 1500);
             });
             this.barChartOptions = {
 				chart: {
@@ -1103,14 +1103,14 @@
             self.intervalHandler = setInterval(intervalFunction, self.reqInterval);
         };
         AppSimulator.prototype.getImageBlock = function(cond) {
-            return cond ? './micro-sd-r.png' : './micro-sd-g.png';
+            return cond ? './micro-sd-g.png' : './micro-sd-r.png';
         };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
         };
 		AppSimulator.prototype.initSimulator = function() {
             this.evMatrix = [];
-            for (var i = 0; i < 32; i++) {
+            for (var i = 0; i < 16; i++) {
                 this.evMatrix.push([]);
                 for (var j = 0; j < 32; j++) {
                     this.evMatrix[i].push(true);
