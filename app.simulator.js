@@ -1098,31 +1098,14 @@
             intervalFunction();
             self.intervalHandler = setInterval(intervalFunction, self.reqInterval);
         };
-        AppSimulator.prototype.getImageBlock = function(cond) {
-            switch (cond) {
-                case 0:
-                    return './db-0-on.png';
-                case 1:
-                    return './db-1-on.png';
-                case 2:
-                    return './db-2-on.png';
-                case 3:
-                    return './db-0-off.png';
-                case 4:
-                    return './db-1-off.png';
-                case 5:
-                    return './db-2-off.png';
-            }
-            return cond ? './micro-sd-g.png' : './micro-sd-r.png';
-        };
         AppSimulator.prototype.getDatabaseStatus = function(cond) {
             switch (cond) {
                 case 0:
-                    return 'text-sucess';
-                case 1:
-                    return 'text-info';
+                    return 'text-success';
                 case 2:
                     return 'text-primary';
+                case 1:
+                    return 'text-warning';
                 case 3:
                     return 'text-danger';
             }

@@ -39,7 +39,7 @@
 								</button>
 						&nbsp;
 						<!-- Live DB Events -->
-						<button type="button" class="btn btn-info btn-sm" data-toggle="button" aria-pressed="false" autocomplete="off" (click)="showLive()" [disabled]="isRunning()">
+						<button type="button" class="btn btn-info btn-sm" data-toggle="button" (click)="showLive()" [disabled]="isRunning()">
 							<i class="fa fa-database"></i>
 						</button>
 						<!--<button type="button" class="btn btn-info btn-sm" (click)="showLive()" [disabled]="isRunning()">-->
@@ -80,24 +80,24 @@
 						<!-- STRESS BY REQUESTS: Number of total requests to be fired -->
 								<div class="input-group input-group-sm" *ngIf="isRequestMethod()">
 									<span class="input-group-addon">Requests</span>
-									<input type="number" class="form-control input-sm" min="1" max="16384" id="numReq" [(ngModel)]="reqCount" [disabled]="isRunning()"/>
+									<input type="number" class="input-sm" min="1" max="16384" id="numReq" [(ngModel)]="reqCount" [disabled]="isRunning()"/>
 								</div>
 						<!-- STRESS BY DURATION AND DELAY: Duration in seconds to run -->
 								<div class="input-group input-group-sm" *ngIf="isDurationMethod()">
 									<span class="input-group-addon">Duration</span>
-									<input type="number" class="form-control input-sm" min="5" max="600" id="durReq" [(ngModel)]="reqDuration" [disabled]="isRunning()"/>
+									<input type="number" class="input-sm" min="5" max="600" id="durReq" [(ngModel)]="reqDuration" [disabled]="isRunning()"/>
 									<span class="input-group-addon">s</span>
 								</div>
 						<!-- STRESS BY DURATION AND DELAY: Delay in miliseconds to wait between group of requests -->
 								<div class="input-group input-group-sm" *ngIf="isDurationMethod()">
 									<span class="input-group-addon">Interval</span>
-									<input type="number" class="form-control input-sm" min="5" max="1000" id="intReq" [(ngModel)]="reqInterval" [disabled]="isRunning()"/>
+									<input type="number" class="input-sm" min="5" max="1000" id="intReq" [(ngModel)]="reqInterval" [disabled]="isRunning()"/>
 									<span class="input-group-addon">ms</span>
 								</div>
 						<!-- ALL: Maximum number of concurrent HTTP connections to be fired -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Connections</span>
-									<input type="number" class="form-control input-sm" min="1" max="128" id="numConn" [(ngModel)]="reqConn" [disabled]="isRunning()"/>
+									<input type="number" class="input-sm" min="1" max="128" id="numConn" [(ngModel)]="reqConn" [disabled]="isRunning()"/>
 								</div>
 						<!-- Endpoint configuration -->
 						<!--<div class="input-group input-group-sm">-->
@@ -617,8 +617,9 @@
 								<tbody class="center-block align-center">
 								<tr *ngFor="let evy of evMatrix">
 									<td *ngFor="let evx of evy">
-										<small [class]="getDatabaseStatus(evx)"><i class="fa fa-database"></i></small>
-										<!--<img [src]="getImageBlock(evx)"/>-->
+										<small [class]="getDatabaseStatus(evx)">
+											<i class="fa fa-database" style="margin-right: 4px;"></i></small>
+										]
 									</td>
 								</tr>
 								</tbody>
