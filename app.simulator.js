@@ -78,6 +78,7 @@
             this.socket = io('https://giancarlobonansea.homeip.net:32402');
             this.liveTTL = 800;
             var selfMtx = this;
+            this.countWS = 0;
             this.socket.on('set', function(data) {
                 var x = data.x,
                     y = data.y;
@@ -103,6 +104,7 @@
                         selfMtx.evNMatrix[hostIdx][pidIdx] = false;
                     }, selfMtx.liveTTL);
                 }
+                selftMtx.countWS++;
             });
             this.barChartOptions = {
 				chart: {
@@ -759,6 +761,7 @@
             return this.running;
 		};
 		AppSimulator.prototype.calculateHistogram = function() {
+            console.log(this.countWS);
             this.barChartData = [{key: 'raspberrypi2-redis', values: []},
                                  {key: 'raspberrypi3-redis', values: []},
                                  {key: 'raspberrypi5-redis', values: []},
@@ -1168,6 +1171,7 @@
                            {}];
         };
 		AppSimulator.prototype.initSimulator = function() {
+            this.countWS = 0;
             this.liveEvents = true;
             this.showReference = false;
             this.reqOK = 0;
