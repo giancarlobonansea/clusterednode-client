@@ -80,25 +80,24 @@
             this.socket.on('set', function(data) {
                 var x = data.x,
                     y = data.y;
-                selfMtx.evMatrix[x][y] = 3;
-                setTimeout(function() {
-                    selfMtx.evMatrix[x][y] = ((((x * 32) + y) * 32 / 5462) | 0);
-                }, 1000);
+                if (selfMtx.evMatrix[x][y] !== 3) {
+                    selfMtx.evMatrix[x][y] = 3;
+                    setTimeout(function() {
+                        selfMtx.evMatrix[x][y] = ((((x * 32) + y) * 32 / 5462) | 0);
+                    }, 1000);
+                }
             });
             this.socket.on('node', function(data) {
                 var hostIdx  = data.h,
                     pidStr   = 'p' + data.p,
                     pidIdx   = selfMtx.mapEVN[hostIdx][pidStr],
-                    oldState = false;
+                    oldState = selfMtx.evNMatrix[hostIdx][pidIdx];
                 if (pidIdx === undefined) {
                     pidIdx = selfMtx.mapEVN[hostIdx][pidStr] = selfMtx.evNMatrix[hostIdx].length;
                     selfMtx.evNMatrix[hostIdx].push(true);
                 }
-                else {
-                    oldState = selfMtx.evNMatrix[hostIdx][pidIdx];
-                    selfMtx.evNMatrix[hostIdx][pidIdx] = true;
-                }
                 if (oldState !== selfMtx.evNMatrix[hostIdx][pidIdx]) {
+                    selfMtx.evNMatrix[hostIdx][pidIdx] = true;
                     setTimeout(function() {
                         selfMtx.evNMatrix[hostIdx][pidIdx] = false;
                     }, 1000);
