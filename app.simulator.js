@@ -91,12 +91,12 @@
                 var hostIdx  = data.h,
                     pidStr   = 'p' + data.p,
                     pidIdx   = selfMtx.mapEVN[hostIdx][pidStr],
-                    oldState = selfMtx.evNMatrix[hostIdx][pidIdx];
+                    oldState = selfMtx.evNMatrix[hostIdx][pidIdx] || false;
                 if (pidIdx === undefined) {
                     pidIdx = selfMtx.mapEVN[hostIdx][pidStr] = selfMtx.evNMatrix[hostIdx].length;
                     selfMtx.evNMatrix[hostIdx].push(true);
                 }
-                if (oldState !== selfMtx.evNMatrix[hostIdx][pidIdx]) {
+                if (!oldState) {
                     selfMtx.evNMatrix[hostIdx][pidIdx] = true;
                     setTimeout(function() {
                         selfMtx.evNMatrix[hostIdx][pidIdx] = false;
