@@ -76,7 +76,7 @@
             this.initEVMatrix();
             this.initEVNMatrix();
             this.socket = io('https://giancarlobonansea.homeip.net:32402');
-            this.liveTTL = 900;
+            this.liveTTL = 1000;
             var selfMtx = this;
             this.socket.on('set', function(data) {
                 var x = data.x,
