@@ -104,7 +104,7 @@
                         selfMtx.evNMatrix[hostIdx][pidIdx] = false;
                     }, selfMtx.liveTTL);
                 }
-                selftMtx.countWS++;
+                selfMtx.countWS++;
             });
             this.barChartOptions = {
 				chart: {
