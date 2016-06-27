@@ -76,6 +76,7 @@
             this.initEVMatrix();
             this.initEVNMatrix();
             this.socket = io('https://giancarlobonansea.homeip.net:32402');
+            this.liveTTL = 800;
             var selfMtx = this;
             this.socket.on('set', function(data) {
                 var x = data.x,
@@ -83,8 +84,8 @@
                 if (selfMtx.evMatrix[x][y] !== 3) {
                     selfMtx.evMatrix[x][y] = 3;
                     setTimeout(function() {
-                        selfMtx.evMatrix[x][y] = ((((x * 32) + y) * 32 / 5462) | 0);
-                    }, 1000);
+                        selfMtx.evMatrix[x][y] = selfMtx.mapDBmatrix(x, y);
+                    }, selfMtx.liveTTL);
                 }
             });
             this.socket.on('node', function(data) {
@@ -100,7 +101,7 @@
                     selfMtx.evNMatrix[hostIdx][pidIdx] = true;
                     setTimeout(function() {
                         selfMtx.evNMatrix[hostIdx][pidIdx] = false;
-                    }, 1000);
+                    }, selfMtx.liveTTL);
                 }
             });
             this.barChartOptions = {
@@ -1144,12 +1145,15 @@
                 this.showReference = false;
             }
         };
+        AppSimulator.prototype.mapDBmatrix = function(x, y) {
+            return ((((x * 32) + y) * 16 / 2731) | 0);
+        };
         AppSimulator.prototype.initEVMatrix = function() {
             this.evMatrix = [];
             for (var i = 0; i < 16; i++) {
                 this.evMatrix.push([]);
                 for (var j = 0; j < 32; j++) {
-                    this.evMatrix[i].push((((i * 32) + j) * 32 / 5462) | 0);
+                    this.evMatrix[i].push(this.mapDBmatrix(i, j));
                 }
             }
         };
