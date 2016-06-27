@@ -86,20 +86,23 @@
                 }, 1000);
             });
             this.socket.on('node', function(data) {
-                var dataArr = data.split(','),
-                    hostIdx = parseInt(dataArr[0]),
-                    pidStr  = 'p' + dataArr[1],
-                    pidIdx  = selfMtx.mapEVN[hostIdx][pidStr];
+                var hostIdx  = data.h,
+                    pidStr   = 'p' + data.p,
+                    pidIdx   = selfMtx.mapEVN[hostIdx][pidStr],
+                    oldState = false;
                 if (pidIdx === undefined) {
                     pidIdx = selfMtx.mapEVN[hostIdx][pidStr] = selfMtx.evNMatrix[hostIdx].length;
                     selfMtx.evNMatrix[hostIdx].push(true);
                 }
                 else {
+                    oldState = selfMtx.evNMatrix[hostIdx][pidIdx];
                     selfMtx.evNMatrix[hostIdx][pidIdx] = true;
                 }
-                setTimeout(function() {
-                    selfMtx.evNMatrix[hostIdx][pidIdx] = false;
-                }, 1000);
+                if (oldState !== selfMtx.evNMatrix[hostIdx][pidIdx]) {
+                    setTimeout(function() {
+                        selfMtx.evNMatrix[hostIdx][pidIdx] = false;
+                    }, 1000);
+                }
             });
             this.barChartOptions = {
 				chart: {
