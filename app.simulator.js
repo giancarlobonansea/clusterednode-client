@@ -78,6 +78,7 @@
             this.socket = io('https://giancarlobonansea.homeip.net:32402');
             this.liveTTL = 1000;
             var selfMtx = this;
+            // Receive redis.io realtime info
             this.socket.on('set', function(data) {
                 var x = data.x,
                     y = data.y;
@@ -88,6 +89,7 @@
                     }, selfMtx.liveTTL);
                 }
             });
+            // Receive node realtime info
             this.socket.on('node', function(data) {
                 var hostIdx  = data.h,
                     pidStr   = 'p' + data.p,
@@ -667,6 +669,23 @@
                         {
                             href: "https://www.openssl.org/",
                             desc: "OpenSSL - Cryptography and SSL/TLS Toolkit"
+                        }
+                    ]
+                },
+                socket:   {
+                    title:  "Socket.io (v1.4.8)",
+                    anchor: [
+                        {
+                            href: "http://socket.io/blog/",
+                            desc: "Socket.IO - THE FASTEST AND MOST RELIABLE REAL-TIME ENGINE"
+                        },
+                        {
+                            href: "http://stackoverflow.com/questions/19496790/drop-packets-if-falling-behind-with-socket-io-in-node-js",
+                            desc: "How to handle dropping packets on volatile messages"
+                        },
+                        {
+                            href: "http://blog.mixu.net/2011/11/22/performance-benchmarking-socket-io-0-8-7-0-7-11-and-0-6-17-and-nodes-native-tcp/",
+                            desc: "Performance benchmarking Socket.io 0.8.7, 0.7.11 and 0.6.17 and Node's native TCP"
                         }
                     ]
                 }

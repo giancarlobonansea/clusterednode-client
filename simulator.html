@@ -486,6 +486,17 @@
 								</dd>
 							</dl>
 						</blockquote>
+						<!-- socket.io -->
+						<blockquote>
+							<dl>
+								<dt>{{links['socket'].title}}</dt>
+								<dd>
+									<footer *ngFor="let link of links['socket'].anchor">
+										<a [href]="link.href" (click)="onRefLink(links['socket'].title,link.desc)" target="_blank">{{link.desc}}</a>
+									</footer>
+								</dd>
+							</dl>
+						</blockquote>
 					</div>
 				</div>
 			</div>
@@ -649,11 +660,6 @@
 									</th>
 									<th></th>
 								</tr>
-								<!--<tr>-->
-								<!--<td>-->
-								<!--<small>&nbsp;</small>-->
-								<!--</td>-->
-								<!--</tr>-->
 								</thead>
 								<tbody>
 								<tr *ngFor="let evy of evMatrix">
