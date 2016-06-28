@@ -79,7 +79,7 @@
             this.liveTTL = 1000;
             var selfMtx = this;
             // Receive redis.io realtime info
-            this.socket.on('set', function(data) {
+            this.socket.on('redis', function(data) {
                 var x = data.x,
                     y = data.y;
                 if (selfMtx.evMatrix[x][y] !== 3) {
@@ -89,16 +89,10 @@
                     }, selfMtx.liveTTL);
                 }
             });
-            // Receive node realtime info
             this.socket.on('node', function(data) {
                 var hostIdx  = data.h,
-                    pidStr   = 'p' + data.p,
-                    pidIdx   = selfMtx.mapEVN[hostIdx][pidStr],
-                    oldState = selfMtx.evNMatrix[hostIdx][pidIdx] || false;
-                if (pidIdx === undefined) {
-                    pidIdx = selfMtx.mapEVN[hostIdx][pidStr] = selfMtx.evNMatrix[hostIdx].length;
-                    selfMtx.evNMatrix[hostIdx].push(true);
-                }
+                    pidIdx   = data.p,
+                    oldState = selfMtx.evNMatrix[hostIdx][pidIdx];
                 if (!oldState) {
                     selfMtx.evNMatrix[hostIdx][pidIdx] = true;
                     setTimeout(function() {
@@ -1177,14 +1171,22 @@
             }
         };
         AppSimulator.prototype.initEVNMatrix = function() {
-            this.evNMatrix = [[],
-                              [],
-                              [],
-                              []];
-            this.mapEVN = [{},
-                           {},
-                           {},
-                           {}];
+            this.evNMatrix = [[false,
+                               false,
+                               false,
+                               false],
+                              [false,
+                               false,
+                               false,
+                               false],
+                              [false,
+                               false,
+                               false,
+                               false],
+                              [false,
+                               false,
+                               false,
+                               false]];
         };
 		AppSimulator.prototype.initSimulator = function() {
             this.liveEvents = true;
