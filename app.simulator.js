@@ -76,7 +76,7 @@
             this.initEVMatrix();
             this.initEVNMatrix();
             this.socket = io('https://giancarlobonansea.homeip.net:32402');
-            this.liveTTL = 600;
+            this.liveTTL = 500;
             var selfMtx = this;
             // Receive redis.io realtime info
             this.socket.on('redis', function(data) {
