@@ -73,8 +73,29 @@
 			                    'IP Private']];
             this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
 			this.selectedUrl = this.urlOptions[0][0];
-            this.initEVMatrix();
-            this.initEVNMatrix();
+            this.evMatrix = [];
+            for (var i = 0; i < 16; i++) {
+                this.evMatrix.push([]);
+                for (var j = 0; j < 32; j++) {
+                    this.evMatrix[i].push(this.mapDBmatrix(i, j));
+                }
+            }
+            this.evNMatrix = [[false,
+                               false,
+                               false,
+                               false],
+                              [false,
+                               false,
+                               false,
+                               false],
+                              [false,
+                               false,
+                               false,
+                               false],
+                              [false,
+                               false,
+                               false,
+                               false]];
             this.socket = io('https://giancarlobonansea.homeip.net:32402');
             this.liveTTL = 500;
             var selfMtx = this;
