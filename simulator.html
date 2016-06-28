@@ -615,32 +615,7 @@
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-xs-12 col-sm-6">
-						<div class="table-responsive">
-							<table class="table-centered">
-								<thead>
-								<tr>
-									<th>Node</th>
-									<th>&nbsp;CPU#0&nbsp;</th>
-									<th>&nbsp;CPU#1&nbsp;</th>
-									<th>&nbsp;CPU#2&nbsp;</th>
-									<th>&nbsp;CPU#3&nbsp;</th>
-								</tr>
-								</thead>
-								<tbody>
-								<tr *ngFor="let raspi of evNMatrix; let idx = index">
-									<td>
-										<em>{{nodes[idx]}}&nbsp;&nbsp;</em>
-									</td>
-									<td *ngFor="let pid of raspi" [class]="getProcessingStatus(pid)">
-										<i class="fa fa-th fa-3x" style="margin:4px;"></i>
-									</td>
-								</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-					<div class="col-xs-12 col-sm-6">
+					<div class="col-xs-12">
 						<div class="table-responsive">
 							<table class="table-centered">
 								<thead>

@@ -78,7 +78,6 @@
             this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
 			this.selectedUrl = this.urlOptions[0][0];
             this.initEVMatrix();
-            this.initEVNMatrix();
             this.socket = io('https://giancarlobonansea.homeip.net:32402');
             this.liveTTL = 500;
             var selfMtx = this;
@@ -90,17 +89,6 @@
                     selfMtx.evMatrix[x][y] = 3;
                     setTimeout(function() {
                         selfMtx.evMatrix[x][y] = selfMtx.mapDBmatrix(x, y);
-                    }, selfMtx.liveTTL);
-                }
-            });
-            this.socket.on('node', function(data) {
-                var hostIdx  = data.h,
-                    pidIdx   = data.p,
-                    oldState = selfMtx.evNMatrix[hostIdx][pidIdx];
-                if (!oldState) {
-                    selfMtx.evNMatrix[hostIdx][pidIdx] = true;
-                    setTimeout(function() {
-                        selfMtx.evNMatrix[hostIdx][pidIdx] = false;
                     }, selfMtx.liveTTL);
                 }
             });
@@ -1147,9 +1135,6 @@
                     return 'text-danger bg-danger';
             }
         };
-        AppSimulator.prototype.getProcessingStatus = function(cond) {
-            return cond ? 'text-danger text-center' : 'text-success text-center';
-        };
         AppSimulator.prototype.showRef = function() {
             this.showReference = !this.showReference;
             if (this.showReference) {
@@ -1173,24 +1158,6 @@
                     this.evMatrix[i].push(this.mapDBmatrix(i, j));
                 }
             }
-        };
-        AppSimulator.prototype.initEVNMatrix = function() {
-            this.evNMatrix = [[false,
-                               false,
-                               false,
-                               false],
-                              [false,
-                               false,
-                               false,
-                               false],
-                              [false,
-                               false,
-                               false,
-                               false],
-                              [false,
-                               false,
-                               false,
-                               false]];
         };
 		AppSimulator.prototype.initSimulator = function() {
             this.liveEvents = true;
@@ -1281,7 +1248,6 @@
             this.execConn = this.reqConn;
             this.execMaxReq = this.getDurationRequests();
             this.initEVMatrix();
-            this.initEVNMatrix();
             this.running = true;
             if (this.isDuration) {
                 this.reqCount = this.getDurationRequests();
