@@ -77,7 +77,7 @@
             for (var i = 0; i < 16; i++) {
                 this.evMatrix.push([]);
                 for (var j = 0; j < 32; j++) {
-                    this.evMatrix[i].push((((x * 32) + y) * 16 / 2731) | 0);
+                    this.evMatrix[i].push((((i * 32) + j) * 16 / 2731) | 0);
                 }
             }
             this.evNMatrix = [[false,
