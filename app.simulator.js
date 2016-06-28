@@ -71,33 +71,16 @@
 			                    'DNS Private'],
 			                   ['https://192.168.69.242:8010/api',
 			                    'IP Private']];
+            this.nodes = ["raspberrypi2",
+                          "raspberrypi3",
+                          "raspberrypi5",
+                          "raspberrypi6"];
             this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
 			this.selectedUrl = this.urlOptions[0][0];
-            this.evMatrix = [];
-            for (var i = 0; i < 16; i++) {
-                this.evMatrix.push([]);
-                for (var j = 0; j < 32; j++) {
-                    this.evMatrix[i].push((((i * 32) + j) * 16 / 2731) | 0);
-                }
-            }
-            this.evNMatrix = [[false,
-                               false,
-                               false,
-                               false],
-                              [false,
-                               false,
-                               false,
-                               false],
-                              [false,
-                               false,
-                               false,
-                               false],
-                              [false,
-                               false,
-                               false,
-                               false]];
+            this.initEVMatrix();
+            this.initEVNMatrix();
             this.socket = io('https://giancarlobonansea.homeip.net:32402');
-            this.liveTTL = 500;
+            this.liveTTL = 750;
             var selfMtx = this;
             // Receive redis.io realtime info
             this.socket.on('redis', function(data) {
@@ -1258,10 +1241,6 @@
                                0]];
 			this.requests = [[],
 			                 []];
-            this.nodes = ["raspberrypi2",
-                          "raspberrypi3",
-                          "raspberrypi5",
-                          "raspberrypi6"];
 			this.results = [["raspberrypi2",
 			                 []],
 			                ["raspberrypi3",
