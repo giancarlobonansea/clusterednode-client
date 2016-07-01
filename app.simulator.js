@@ -78,7 +78,7 @@
             this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
 			this.selectedUrl = this.urlOptions[0][0];
             this.initEVMatrix();
-            this.socket = io('https://giancarlobonansea.homeip.net:32402');
+            this.socket = io('https://giancarlobonansea.homeip.net:33331');
             this.liveTTL = 500;
             var selfMtx = this;
             // Receive redis.io realtime info
@@ -318,7 +318,7 @@
                     ]
                 },
                 stunnel:  {
-                    title: "stunnel (v5.32)", anchor: [
+                    title: "stunnel (v5.33)", anchor: [
                     {href:    "https://www.stunnel.org/index.html",
                         desc: "Stunnel - a proxy designed to add TLS encryption functionality to existing clients and servers"
                     },
@@ -536,6 +536,14 @@
                     {
                         href: "http://code.flickr.net/2011/10/11/talk-real-time-updates-on-the-cheap-for-fun-and-profit/",
                         desc: "redis use-cases: Flickr - Real-time Updates on the Cheap for Fun and Profit"
+                    },
+                    {
+                        href: "http://shokunin.co/blog/2014/11/11/operational_redis.html",
+                        desc: "Running Redis in production - network and CPU balancing"
+                    },
+                    {
+                        href: "https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Performance_Tuning_Guide/network-rps.html",
+                        desc: "RPS - Receive Packet Steering for network performance"
                     }
                     ]
                 },
@@ -659,7 +667,7 @@
                     ]
                 },
                 socket:   {
-                    title:  "Socket.io (v1.4.8)",
+                    title:  "Socket.IO (v1.4.8)",
                     anchor: [
                         {
                             href: "http://socket.io/blog/",
