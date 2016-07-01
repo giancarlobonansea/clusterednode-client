@@ -295,7 +295,7 @@
                     ]
                 },
                 angular2: {
-                    title: "AngularJS 2 (v2.0.0-rc3)", anchor: [
+                    title: "AngularJS 2 (v2.0.0-rc4)", anchor: [
                     {href: "https://angular.io", desc: "One framework - Angular 2"},
                     {href: "https://angular.io/docs/js/latest/guide/cheatsheet.html", desc: "Angular Cheat Sheet - js"},
                     {href:    "https://medium.com/google-developer-experts/angular-2-introduction-to-new-http-module-1278499db2a0#.ttmhbubnd",
@@ -329,16 +329,20 @@
                 },
                 github:   {
                     title: "GitHub", anchor: [
-                    {href:    "https://github.com/giancarlobonansea/clusterednode-client",
+                        {href:    "https://github.com/giancarlobonansea/clusterednode-client",
                         desc: "NLB HA Clustered Node PoC - Client app"
                     },
-                    {href:    "https://github.com/giancarlobonansea/clusterednode-worker",
+                        {href:    "https://github.com/giancarlobonansea/clusterednode-worker",
                         desc: "NLB HA Clustered Node PoC - Worker process"
                     },
-                    {href:    "https://github.com/giancarlobonansea/clusterednode-hdrhist",
+                        {href:    "https://github.com/giancarlobonansea/clusterednode-hdrhist",
                         desc: "NLB HA Clustered Node PoC - HDR Histogram service"
                     },
-                    {href:    "https://github.com/giancarlobonansea/clusterednode-config",
+                        {
+                            href: "https://github.com/giancarlobonansea/clusterednode-pubsub",
+                            desc: "NLB HA Clustered Node PoC - Pub/Sub Redis service"
+                        },
+                        {href:    "https://github.com/giancarlobonansea/clusterednode-config",
                         desc: "NLB HA Clustered Node PoC - Configuration files"
                     }
                     ]
