@@ -291,6 +291,42 @@
                         {
                             href: "https://fasterdata.es.net/host-tuning/linux/",
                             desc: "Linux Tunning - TCP tunning"
+                        },
+                        {
+                            href: "http://shokunin.co/blog/2014/11/11/operational_redis.html",
+                            desc: "Running Redis in production - network and CPU balancing"
+                        },
+                        {
+                            href: "https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Performance_Tuning_Guide/network-rps.html",
+                            desc: "RPS - Receive Packet Steering for network performance"
+                        },
+                        {
+                            href: "http://www.linuxbrigade.com/reduce-time_wait-socket-connections/",
+                            desc: "Reduce TIME_WAIT socket connections"
+                        },
+                        {
+                            href: "https://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html",
+                            desc: "Coping with the TCP TIME-WAIT state on busy Linux servers"
+                        },
+                        {
+                            href: "https://easyengine.io/tutorials/linux/sysctl-conf/",
+                            desc: "Performance - Sysctl Tweaks"
+                        },
+                        {
+                            href: "https://tweaked.io/guide/kernel/",
+                            desc: "Tweaked.io making your servers fly"
+                        },
+                        {
+                            href: "https://lwn.net/Articles/616241/",
+                            desc: "A damp discussion of network queuing - fq_codel"
+                        },
+                        {
+                            href: "https://www.bufferbloat.net/projects/codel/wiki/",
+                            desc: "CoDel Overview"
+                        },
+                        {
+                            href: "https://wiki.mikejung.biz/Sysctl_tweaks",
+                            desc: "Sysctl tweaks"
                         }
                     ]
                 },
@@ -416,22 +452,6 @@
                     {
                         href: "https://www.digitalocean.com/community/tutorials/apache-vs-nginx-practical-considerations",
                         desc: "Apache vs Nginx: Practical Considerations"
-                    },
-                    {
-                        href: "http://www.linuxbrigade.com/reduce-time_wait-socket-connections/",
-                        desc: "Reduce TIME_WAIT socket connections"
-                    },
-                    {
-                        href: "https://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html",
-                        desc: "Coping with the TCP TIME-WAIT state on busy Linux servers"
-                    },
-                    {
-                        href: "https://easyengine.io/tutorials/linux/sysctl-conf/",
-                        desc: "Performance - Sysctl Tweaks"
-                    },
-                    {
-                        href: "https://tweaked.io/guide/kernel/",
-                        desc: "Tweaked.io making your servers fly"
                     },
                     {
                         href: "https://www.nginx.com/blog/nginx-load-balance-deployment-models/",
@@ -564,16 +584,7 @@
                     {
                         href: "http://code.flickr.net/2011/10/11/talk-real-time-updates-on-the-cheap-for-fun-and-profit/",
                         desc: "redis use-cases: Flickr - Real-time Updates on the Cheap for Fun and Profit"
-                    },
-                    {
-                        href: "http://shokunin.co/blog/2014/11/11/operational_redis.html",
-                        desc: "Running Redis in production - network and CPU balancing"
-                    },
-                    {
-                        href: "https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Performance_Tuning_Guide/network-rps.html",
-                        desc: "RPS - Receive Packet Steering for network performance"
-                    }
-                    ]
+                    }]
                 },
                 node:     {
                     title: "Node.js (v6.2.2)", anchor: [
