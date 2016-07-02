@@ -341,6 +341,17 @@
 								</dd>
 							</dl>
 						</blockquote>
+						<!-- Advanced Networking -->
+						<blockquote>
+							<dl>
+								<dt>{{links['net'].title}}</dt>
+								<dd>
+									<footer *ngFor="let link of links['net'].anchor">
+										<a [href]="link.href" (click)="onRefLink(links['net'].title,link.desc)" target="_blank">{{link.desc}}</a>
+									</footer>
+								</dd>
+							</dl>
+						</blockquote>
 						<!-- QUIC -->
 						<blockquote>
 							<dl>
