@@ -407,17 +407,6 @@
 								</dd>
 							</dl>
 						</blockquote>
-						<!-- Generic Opensource -->
-						<blockquote>
-							<dl>
-								<dt>{{links['open'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['open'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['open'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
 						<!-- OpenSSL -->
 						<blockquote>
 							<dl>
@@ -504,6 +493,17 @@
 								<dd>
 									<footer *ngFor="let link of links['socket'].anchor">
 										<a [href]="link.href" (click)="onRefLink(links['socket'].title,link.desc)" target="_blank">{{link.desc}}</a>
+									</footer>
+								</dd>
+							</dl>
+						</blockquote>
+						<!-- Generic Opensource -->
+						<blockquote>
+							<dl>
+								<dt>{{links['open'].title}}</dt>
+								<dd>
+									<footer *ngFor="let link of links['open'].anchor">
+										<a [href]="link.href" (click)="onRefLink(links['open'].title,link.desc)" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>
