@@ -9,3 +9,4 @@ echo Minify main.js
 uglifyjs main.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=3 -m toplevel,eval -r '$,require,exports' -o main.js --source-map main.js.map --source-map-include-sources
 echo Minify ng2-nvd3.js
 uglifyjs ng2-nvd3.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade -m -r '$,require,exports' -o ng2-nvd3.js
+echo Finished minifying files
