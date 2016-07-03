@@ -363,6 +363,22 @@
                         {
                             href: "http://www.linux-magazine.com/Issues/2015/175/FQ-CoDel-and-MPTCP",
                             desc: "Speeding up mobile networks with FQ CoDel and MPTCP"
+                        },
+                        {
+                            href: "https://blog.cloudflare.com/how-to-receive-a-million-packets/",
+                            desc: "How to receive a million packets per second"
+                        },
+                        {
+                            href: "https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html-single/Performance_Tuning_Guide/",
+                            desc: "Linux - Performance Tuning Guide"
+                        },
+                        {
+                            href: "http://www.cubrid.org/blog/dev-platform/understanding-tcp-ip-network-stack/",
+                            desc: "Understanding TCP/IP Network Stack & Writing Network Apps"
+                        },
+                        {
+                            href: "http://datacratic.com/site/blog/1m-qps-nginx-and-ubuntu-1204-ec2",
+                            desc: "1M QPS WITH NGINX"
                         }
                     ]
                 },
