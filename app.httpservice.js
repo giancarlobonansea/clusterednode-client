@@ -6,7 +6,7 @@
 		HTTPService.parameters = [
 			ng.http.Http
 		];
-		HTTPService.prototype.get = function(reqId, o, p, url) {
+		HTTPService.prototype.get = function(reqId, url, o, p) {
 			return this.http
 				.get(url + '?reqid=' + reqId + '&o=' + o + '&p=' + p, {
 					"cache":   false,
