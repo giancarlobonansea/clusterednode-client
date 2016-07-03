@@ -1131,9 +1131,7 @@
                     var arrReq = [];
                     for (var j = 0; j < self.reqConn; j++) {
                         self.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
-                        self.requests[1].push(self.httpService.get(reqId, self.selectedUrl, (Math.random() * 4) | 0, (Math.random() * 16384) | 0))
-                    )
-                        ;
+                        self.requests[1].push(self.httpService.get(reqId, self.selectedUrl, (Math.random() * 4) | 0, (Math.random() * 16384) | 0));
                         arrReq.push(self.requests[1][reqId]);
                         reqId++;
                     }
