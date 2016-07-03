@@ -1157,10 +1157,6 @@ var __extends = (this && this.__extends) || function(d, b) {
             var _this = this;
             this.request = req;
             this.response = new rxjs_Observable.Observable(function(responseObserver) {
-                var _reqCnn = 0;
-                var _reqRcv = 0;
-                var _reqPrc = 0;
-                var _reqDon = 0;
                 var _datIni = 0;
                 var _xhr = browserXHR.build();
                 _xhr.open(exports.RequestMethod[req.method].toUpperCase(), req.url);
