@@ -44,7 +44,7 @@
 			this.requests = [[],
 			                 []];
             this.isDuration = false;
-			this.reqConn = 4;
+            this.reqConn = 2;
 			this.reqCount = 100;
             this.reqDuration = 5;
             this.reqInterval = 50;
@@ -327,6 +327,42 @@
                         {
                             href: "https://wiki.mikejung.biz/Sysctl_tweaks",
                             desc: "Sysctl tweaks"
+                        },
+                        {
+                            href: "https://en.wikipedia.org/wiki/Bufferbloat",
+                            desc: "Bufferbloat - the problem"
+                        },
+                        {
+                            href: "http://www.satnac.org.za/proceedings/2012/papers/2.Core_Network_Technologies/15.pdf",
+                            desc: "TCP Congestion Control Comparison (University of Stellenbosch)"
+                        },
+                        {
+                            href: "http://research.microsoft.com/en-us/um/redmond/events/tcpsummit/Slides/ms_feb07_eval.ppt.pdf",
+                            desc: "Evaluating New TCP Congestion Control Algorithms"
+                        },
+                        {
+                            href: "https://tools.ietf.org/html/rfc6937",
+                            desc: "IETF RFC6937 - Proportional Rate Reduction for TCP"
+                        },
+                        {
+                            href: "https://blog.cloudflare.com/optimizing-the-linux-stack-for-mobile-web-per/",
+                            desc: "Optimizing Your Linux Stack for Maximum Mobile Web Performance"
+                        },
+                        {
+                            href: "http://static.googleusercontent.com/media/research.google.com/en//pubs/archive/37486.pdf",
+                            desc: "Google's Proportional Rate Reduction for TCP"
+                        },
+                        {
+                            href: "http://airccse.org/journal/nsa/0912nsa02.pdf",
+                            desc: "Comparison of high speed congestion control protocols"
+                        },
+                        {
+                            href: "http://193.204.59.68/mascolo/tcp%20westwood/Tech_Rep_07_03_S.pdf",
+                            desc: "Performance Comparison of Reno, Vegas and Westwood+ TCP Congestion Control"
+                        },
+                        {
+                            href: "http://www.linux-magazine.com/Issues/2015/175/FQ-CoDel-and-MPTCP",
+                            desc: "Speeding up mobile networks with FQ CoDel and MPTCP"
                         }
                     ]
                 },
