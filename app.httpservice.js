@@ -6,9 +6,9 @@
 		HTTPService.parameters = [
 			ng.http.Http
 		];
-		HTTPService.prototype.get = function(reqId, url) {
+		HTTPService.prototype.get = function(reqId, o, p, url) {
 			return this.http
-				.get(url + '?reqid=' + reqId, {
+				.get(url + '?reqid=' + reqId + '&o=' + o + '&p=' + p, {
 					"cache":   false,
 					"headers": {
 						"Cache-Control":     'no-cache, no-store, must-revalidate',
