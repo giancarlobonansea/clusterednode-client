@@ -306,14 +306,14 @@
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-server"></i>&nbsp;Cached responses&nbsp;
+				<h4 class="panel-title"><i class="fa fa-server"></i>&nbsp;Cached responses
 					<small>({{reqCached}})</small>
 				</h4>
 			</div>
-		</div>
-		<div class="panel-body">
-			<div class="text-center">
-				<code *ngFor="let req of cachedResp">{{req}}&nbsp;</code>
+			<div class="panel-body">
+				<div class="text-center">
+					<code *ngFor="let req of cachedResp">{{req}}</code>&nbsp;
+				</div>
 			</div>
 		</div>
 	</div>
