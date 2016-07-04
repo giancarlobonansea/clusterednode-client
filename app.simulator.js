@@ -869,6 +869,9 @@
         AppSimulator.prototype.getSimulationMethod = function() {
             return this.isDuration ? 'STABILITY' : 'STRESS';
         };
+        AppSimulator.prototype.getNumCol = function() {
+            return this.isDuration ? 3 : 2;
+        };
 		AppSimulator.prototype.isRunning = function() {
             return this.running;
 		};

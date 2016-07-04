@@ -115,7 +115,11 @@
 			<table class="table table-condensed table-bordered table-responsive">
 				<thead>
 				<tr>
-					<th class="text-center">Method</th>
+					<th class="text-center" colspan="{{getNumCol()}}">
+						Method&nbsp;<span class="label label-primary">{{execMode}}</span>
+					</th>
+				</tr>
+				<tr>
 					<th class="text-center" *ngIf="usedRequestMethod()">Requests</th>
 					<th class="text-center" *ngIf="usedDurationMethod()">Duration</th>
 					<th class="text-center" *ngIf="usedDurationMethod()">Interval</th>
@@ -124,7 +128,6 @@
 				</thead>
 				<tbody>
 				<tr>
-					<td class="text-center"><span class="label label-primary">{{execMode}}</span></td>
 					<td class="text-center" *ngIf="usedRequestMethod()">
 						<span class="label label-info">{{execReq | number:'1.0-0'}}</span></td>
 					<td class="text-center" *ngIf="usedDurationMethod()">
@@ -145,11 +148,14 @@
 			<table class="table table-condensed table-bordered table-responsive">
 				<thead>
 				<tr>
-					<th class="text-center">Duration</th>
-					<th class="text-center" *ngIf="usedDurationMethod()">Reqs expected</th>
-					<th class="text-center">Reqs executed</th>
-					<th class="text-center">Reqs cached</th>
-					<th class="text-center">Reqs distrib</th>
+					<th class="text-center" rowspan="2">Duration</th>
+					<th class="text-center" colspan="{{getNumCol()+1}}">Requests</th>
+				</tr>
+				<tr>
+					<th class="text-center" *ngIf="usedDurationMethod()">Expected</th>
+					<th class="text-center">Executed</th>
+					<th class="text-center">Cached</th>
+					<th class="text-center">Distribution</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -161,7 +167,7 @@
 					<td class="text-center"><span class="label label-info">{{reqExecuted | number:'1.0-0'}}</span></td>
 					<td class="text-center"><span class="label label-info">{{reqCached | number:'1.0-0'}}</span></td>
 					<td class="text-center">
-						<span class="label label-default">G:{{operType[0]}} S:{{operType[1]}} P:{{operType[2]}} T:{{operType[3]}}</span>
+						<span class="label label-default">GET={{operType[0] | number:'3.0-0'}} SET={{operType[1] | number:'3.0-0'}} PPL={{operType[2] | number:'3.0-0'}} TRN={{operType[3] | number:'3.0-0'}}</span>
 					</td>
 				</tr>
 				</tbody>
