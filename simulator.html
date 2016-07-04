@@ -107,7 +107,7 @@
 	</div>
 </div><!---------------><!-- Statistics -->
 <div class="row" *ngIf="!isRunning() && reqOK!==0 && !showReference && !liveEvents">
-	<div class="col-xs-12 col-sm-6">
+	<div class="col-xs-12 col-sm-4">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-wrench"></i>&nbsp;Last Run parameters</h4>
@@ -115,7 +115,7 @@
 			<table class="table table-condensed table-bordered table-responsive">
 				<thead>
 				<tr>
-					<th class="text-center">Simulation Method</th>
+					<th class="text-center">Method</th>
 					<th class="text-center" *ngIf="usedRequestMethod()">Requests</th>
 					<th class="text-center" *ngIf="usedDurationMethod()">Duration</th>
 					<th class="text-center" *ngIf="usedDurationMethod()">Interval</th>
@@ -137,7 +137,7 @@
 			</table>
 		</div>
 	</div>
-	<div class="col-xs-12 col-sm-6">
+	<div class="col-xs-12 col-sm-8">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-tachometer"></i>&nbsp;Last Run execution data</h4>
@@ -148,7 +148,8 @@
 					<th class="text-center">Duration</th>
 					<th class="text-center" *ngIf="usedDurationMethod()">Reqs expected</th>
 					<th class="text-center">Reqs executed</th>
-					<th class="text-center">Cached responses</th>
+					<th class="text-center">Reqs cached</th>
+					<th class="text-center">Reqs distrib</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -159,6 +160,9 @@
 						<span class="label label-info">{{execMaxReq | number:'1.0-0'}}</span></td>
 					<td class="text-center"><span class="label label-info">{{reqExecuted | number:'1.0-0'}}</span></td>
 					<td class="text-center"><span class="label label-info">{{reqCached | number:'1.0-0'}}</span></td>
+					<td class="text-center">
+						<span class="label label-default">G:{{operType[0]}} S:{{operType[1]}} P:{{operType[2]}} T:{{operType[3]}}</span>
+					</td>
 				</tr>
 				</tbody>
 			</table>
