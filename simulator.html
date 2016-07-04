@@ -112,28 +112,44 @@
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-wrench"></i>&nbsp;Last Run parameters</h4>
 			</div>
-			<table class="table table-condensed table-bordered table-responsive">
+			<table class="table table-condensed table-bordered table-responsive" *ngIf="usedRequestMethod()">
 				<thead>
 				<tr>
-					<th class="text-center" colspan="{{getNumCol()}}">
+					<th class="text-center" colspan="2">
 						Method&nbsp;<span class="label label-primary">{{execMode}}</span>
 					</th>
 				</tr>
 				<tr>
-					<th class="text-center" *ngIf="usedRequestMethod()">Requests</th>
-					<th class="text-center" *ngIf="usedDurationMethod()">Duration</th>
-					<th class="text-center" *ngIf="usedDurationMethod()">Interval</th>
+					<th class="text-center">Requests</th>
 					<th class="text-center">Connections</th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr>
-					<td class="text-center" *ngIf="usedRequestMethod()">
-						<span class="label label-info">{{execReq | number:'1.0-0'}}</span></td>
-					<td class="text-center" *ngIf="usedDurationMethod()">
-						<span class="label label-info">{{execDuration | number:'1.0-0'}} s</span></td>
-					<td class="text-center" *ngIf="usedDurationMethod()">
-						<span class="label label-info">{{execInterval | number:'1.0-0'}} ms</span></td>
+					<td class="text-center"><span class="label label-info">{{execReq | number:'1.0-0'}}</span></td>
+					<td class="text-center"><span class="label label-info">{{execConn | number:'1.0-0'}}</span></td>
+				</tr>
+				</tbody>
+			</table>
+			<table class="table table-condensed table-bordered table-responsive" *ngIf="usedDurationMethod()">
+				<thead>
+				<tr>
+					<th class="text-center" colspan="3">
+						Method&nbsp;<span class="label label-primary">{{execMode}}</span>
+					</th>
+				</tr>
+				<tr>
+					<th class="text-center">Duration</th>
+					<th class="text-center">Interval</th>
+					<th class="text-center">Connections</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td class="text-center"><span class="label label-info">{{execDuration | number:'1.0-0'}} s</span>
+					</td>
+					<td class="text-center"><span class="label label-info">{{execInterval | number:'1.0-0'}} ms</span>
+					</td>
 					<td class="text-center"><span class="label label-info">{{execConn | number:'1.0-0'}}</span></td>
 				</tr>
 				</tbody>
@@ -145,14 +161,13 @@
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-tachometer"></i>&nbsp;Last Run execution data</h4>
 			</div>
-			<table class="table table-condensed table-bordered table-responsive">
+			<table class="table table-condensed table-bordered table-responsive" *ngIf="usedRequestMethod()">
 				<thead>
 				<tr>
 					<th class="text-center" rowspan="2">Duration</th>
-					<th class="text-center" colspan="{{getNumCol()+1}}">Requests</th>
+					<th class="text-center" colspan="3">Requests</th>
 				</tr>
 				<tr>
-					<th class="text-center" *ngIf="usedDurationMethod()">Expected</th>
 					<th class="text-center">Executed</th>
 					<th class="text-center">Cached</th>
 					<th class="text-center">Distribution</th>
@@ -162,8 +177,32 @@
 				<tr>
 					<td class="text-center"><span class="label label-primary">{{duration | number:'1.0-0'}} ms</span>
 					</td>
-					<td class="text-center" *ngIf="usedDurationMethod()">
-						<span class="label label-info">{{execMaxReq | number:'1.0-0'}}</span></td>
+					<td class="text-center"><span class="label label-info">{{reqExecuted | number:'1.0-0'}}</span></td>
+					<td class="text-center"><span class="label label-info">{{reqCached | number:'1.0-0'}}</span></td>
+					<td class="text-center">
+						<span class="label label-default">GET={{operType[0] | number:'3.0-0'}} SET={{operType[1] | number:'3.0-0'}} PPL={{operType[2] | number:'3.0-0'}} TRN={{operType[3] | number:'3.0-0'}}</span>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+			<table class="table table-condensed table-bordered table-responsive" *ngIf="usedDurationMethod()">
+				<thead>
+				<tr>
+					<th class="text-center" rowspan="2">Duration</th>
+					<th class="text-center" colspan="4">Requests</th>
+				</tr>
+				<tr>
+					<th class="text-center">Expected</th>
+					<th class="text-center">Executed</th>
+					<th class="text-center">Cached</th>
+					<th class="text-center">Distribution</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td class="text-center"><span class="label label-primary">{{duration | number:'1.0-0'}} ms</span>
+					</td>
+					<td class="text-center"><span class="label label-info">{{execMaxReq | number:'1.0-0'}}</span></td>
 					<td class="text-center"><span class="label label-info">{{reqExecuted | number:'1.0-0'}}</span></td>
 					<td class="text-center"><span class="label label-info">{{reqCached | number:'1.0-0'}}</span></td>
 					<td class="text-center">
