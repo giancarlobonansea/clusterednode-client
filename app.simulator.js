@@ -1167,16 +1167,20 @@
                                         exts: response[k].exts,
                                         red:  response[k].red
                                     };
+                                    ++self.reqOK;
                                     if (response[k].cached) {
                                         self.reqCached++;
+                                        self.cachedResp.push(self.reqOK);
                                     }
-                                    if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
-                                        self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
-                                                                                                          []]);
-                                        self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
+                                    else {
+                                        if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
+                                            self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
+                                                                                                              []]);
+                                            self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
+                                        }
+                                        self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(self.reqOK);
+                                        self.nodeIdx[response[k].json.hostname][1]++;
                                     }
-                                    self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(++self.reqOK);
-                                    self.nodeIdx[response[k].json.hostname][1]++;
                                     self.countResponses++;
                                 }
                             }
