@@ -1081,7 +1081,6 @@
 		AppSimulator.prototype.checkStop = function() {
             this.duration = Date.now() - this.iniTime;
             if (this.reqOK + this.reqErrors >= this.reqCount) {
-                console.log(this.requests[0]);
 				this.calculating = true;
                 this.reqExecuted = this.reqCount;
 				var selfStop = this;
