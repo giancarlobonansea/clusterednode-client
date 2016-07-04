@@ -11,9 +11,6 @@
 				.get(url + '?o=' + o + '&p=' + p, {
 					"cache":   false,
 					"headers": {
-						//"Cache-Control":     'no-cache, no-store, must-revalidate',
-						//"If-Modified-Since": 'Mon, 26 Jul 1997 05:00:00 GMT',
-						//"Pragma":            'no-cache',
 						"X-ReqId":           reqId
 					}
 				})

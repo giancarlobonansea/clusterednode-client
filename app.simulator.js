@@ -1148,9 +1148,12 @@
                 if (self.timerRunning && self.countRequests < self.reqCount) {
                     self.countRequests += self.reqConn;
                     var arrReq = [];
+                    var operT = 0;
                     for (var j = 0; j < self.reqConn; j++) {
                         self.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
-                        self.requests[1].push(self.httpService.get(reqId, self.selectedUrl, self.operationProb[(Math.random() * 10) | 0], (Math.random() * 16384) | 0));
+                        operT = (Math.random() * 10) | 0;
+                        self.operType[operT]++;
+                        self.requests[1].push(self.httpService.get(reqId, self.selectedUrl, self.operationProb[operT], (Math.random() * 16384) | 0));
                         arrReq.push(self.requests[1][reqId]);
                         reqId++;
                     }
@@ -1368,6 +1371,10 @@
             this.tpRedis = 0;
 			this.observableRequests = undefined;
             this.cachedResp = [];
+            this.operType = [0,
+                             0,
+                             0,
+                             0];
             this.execMode = this.getSimulationMethod();
             this.execReq = this.reqCount;
             this.execDuration = this.reqDuration;
@@ -1381,9 +1388,12 @@
                 this.throwHTTPduration();
             }
             else {
+                var operT = 0;
                 for (var reqId = 0; reqId < this.reqCount; reqId++) {
-                    this.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
-                    this.requests[1].push(this.httpService.get(reqId, this.selectedUrl, this.operationProb[(Math.random() * 10) | 0], (Math.random() * 16384) | 0));
+                    this.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0, cached: false});
+                    operT = (Math.random() * 10) | 0;
+                    this.operType[operT]++;
+                    this.requests[1].push(this.httpService.get(reqId, this.selectedUrl, this.operationProb[operT], (Math.random() * 16384) | 0));
                 }
                 this.iniTime = Date.now();
                 this.throwHTTPrequests(this.loopCon);
