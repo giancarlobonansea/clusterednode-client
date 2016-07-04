@@ -146,8 +146,9 @@
 				<thead>
 				<tr>
 					<th class="text-center">Duration</th>
-					<th class="text-center" *ngIf="usedDurationMethod()">Requests expected</th>
-					<th class="text-center">Requests executed</th>
+					<th class="text-center" *ngIf="usedDurationMethod()">Reqs expected</th>
+					<th class="text-center">Reqs executed</th>
+					<th class="text-center">Cached responses</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -157,6 +158,7 @@
 					<td class="text-center" *ngIf="usedDurationMethod()">
 						<span class="label label-info">{{execMaxReq | number:'1.0-0'}}</span></td>
 					<td class="text-center"><span class="label label-info">{{reqExecuted | number:'1.0-0'}}</span></td>
+					<td class="text-center"><span class="label label-info">{{reqCached | number:'1.0-0'}}</span></td>
 				</tr>
 				</tbody>
 			</table>
@@ -299,6 +301,20 @@
 				</tr>
 				</tbody>
 			</table>
+		</div>
+	</div>
+	<div class="col-xs-12">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h4 class="panel-title"><i class="fa fa-server"></i>&nbsp;Cached responses&nbsp;
+					<small>({{reqCached}})</small>
+				</h4>
+			</div>
+		</div>
+		<div class="panel-body">
+			<div class="text-center">
+				<code *ngFor="let req of cachedResp">{{req}}&nbsp;</code>
+			</div>
 		</div>
 	</div>
 </div><!---------------><!-- Reference -->
