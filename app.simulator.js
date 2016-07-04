@@ -1109,6 +1109,9 @@
                             exts: response[k].exts,
                             red:  response[k].red
 						};
+                        if (response[k].cached) {
+                            self.reqCached++;
+                        }
 						if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
 							self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid, []]);
 							self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
@@ -1159,6 +1162,9 @@
                                         exts: response[k].exts,
                                         red:  response[k].red
                                     };
+                                    if (response[k].cached) {
+                                        self.reqCached++;
+                                    }
                                     if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
                                         self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
                                                                                                           []]);
@@ -1274,6 +1280,7 @@
             this.showReference = false;
             this.reqOK = 0;
             this.reqErrors = 0;
+            this.reqCached = 0;
             this.duration = 0;
             this.loopCon = 0;
             this.histogram = [[50,
