@@ -22,9 +22,9 @@
 						"json":   response.json() || {},
 						"reqId":  parseInt(h_reqId),
 						"rtt":    parseInt(h_rtt),
-						"tsn":    is_cached ? 1 : (parseFloat(response.headers.get('x-nginx-time') || response.headers.get('X-nginX-Time')) * 1000.0) | 0,
-						"exts":   is_cached ? 0.1 : parseFloat(response.headers.get('x-node-time') || response.headers.get('X-Node-Time')),
-						"red":    is_cached ? 0.1 : parseFloat(response.headers.get('x-redis-time') || response.headers.get('X-Redis-Time')),
+						"tsn":    is_cached ? 0.1 : (parseFloat(response.headers.get('x-nginx-time') || response.headers.get('X-nginX-Time')) * 1000.0) | 0,
+						"exts":   is_cached ? 0 : parseFloat(response.headers.get('x-node-time') || response.headers.get('X-Node-Time')),
+						"red":    is_cached ? 0 : parseFloat(response.headers.get('x-redis-time') || response.headers.get('X-Redis-Time')),
 						"cached": is_cached
 					};
 				})
