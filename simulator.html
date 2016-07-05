@@ -384,19 +384,19 @@
 				<tr>
 					<td *ngFor="let pid of nodes[1]" class="text-center">
 						<span *ngIf="pid[1][0].length>0">
-							<small><span class="label label-default">GET</span></small><br/>
+							<small><span class="label label-default">GET {{pid[1][0].length}}</span></small><br/>
 							<code *ngFor="let req of pid[1][0]">{{req}}<br/></code>
 						</span>
 						<span *ngIf="pid[1][1].length>0">
-							<small><span class="label label-default">SET</span></small><br/>
+							<small><span class="label label-default">SET {{pid[1][1].length}}</span></small><br/>
 							<code *ngFor="let req of pid[1][1]">{{req}}<br/></code>
 						</span>
 						<span *ngIf="pid[1][2].length>0">
-							<small><span class="label label-default">PPL</span></small><br/>
+							<small><span class="label label-default">PPL {{pid[1][2].length}}</span></small><br/>
 							<code *ngFor="let req of pid[1][2]">{{req}}<br/></code>
 						</span>
 						<span *ngIf="pid[1][3].length>0">
-							<small><span class="label label-default">TRN</span></small><br/>
+							<small><span class="label label-default">TRN {{pid[1][3].length}}</span></small><br/>
 							<code *ngFor="let req of pid[1][3]">{{req}}<br/></code>
 						</span>
 					</td>
