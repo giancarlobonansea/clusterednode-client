@@ -389,6 +389,22 @@
                         {
                             href: "http://datacratic.com/site/blog/1m-qps-nginx-and-ubuntu-1204-ec2",
                             desc: "1M QPS WITH NGINX"
+                        },
+                        {
+                            href: "https://greenhost.net/2013/04/10/multi-queue-network-interfaces-with-smp-on-linux/",
+                            desc: "Multi-queue network interfaces with SMP on Linux"
+                        },
+                        {
+                            href: "https://blog.cloudflare.com/single-rx-queue-kernel-bypass-with-netmap/",
+                            desc: "Single RX queue kernel bypass in Netmap for high packet rate networking"
+                        },
+                        {
+                            href: "http://balodeamit.blogspot.com.br/2013/10/receive-side-scaling-and-receive-packet.html",
+                            desc: "Receive Side Scaling and Receive Packet Steering"
+                        },
+                        {
+                            href: "http://blog.packagecloud.io/eng/2016/06/22/monitoring-tuning-linux-networking-stack-receiving-data/",
+                            desc: "Monitoring and Tuning the Linux Networking Stack: Receiving Data"
                         }
                     ]
                 },
@@ -755,6 +771,10 @@
                         {
                             href: "https://strongloop.com/",
                             desc: "Strongloop - Compose APIs, Build, Deploy and Monitor Node"
+                        },
+                        {
+                            href: "https://www.mnot.net/cache_docs/",
+                            desc: "Caching tutorial for Web Authors"
                         }
                     ]
                 },
