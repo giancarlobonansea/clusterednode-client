@@ -850,9 +850,11 @@
         };
         AppSimulator.prototype.setDuration = function() {
             this.isDuration = true;
+            this.setSmall();
         };
         AppSimulator.prototype.setRequests = function() {
             this.isDuration = false;
+            this.setSmall();
         };
         AppSimulator.prototype.isDurationMethod = function() {
             return this.isDuration;
