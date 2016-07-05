@@ -61,6 +61,10 @@
 			this.tpNginx = 0;
 			this.tpNode = 0;
             this.tpRedis = 0;
+            this.operAcro = ['G',
+                             'S',
+                             'P',
+                             'T'];
             this.operationProb = [0,
                                   0,
                                   0,
