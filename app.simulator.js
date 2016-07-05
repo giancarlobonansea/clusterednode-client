@@ -1156,7 +1156,8 @@
                                                                                                   []]);
                                 self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
                             }
-                            self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push(self.reqOK);
+                            self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push([self.reqOK,
+                                                                                                                                                               self.requests[2][response[k].reqId]]);
                             self.nodeIdx[response[k].json.hostname][1]++;
                         }
 					}
