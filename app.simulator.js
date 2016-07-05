@@ -1373,7 +1373,8 @@
                                0,
                                0]];
 			this.requests = [[],
-			                 []];
+                             [],
+                             []];
 			this.results = [["raspberrypi2",
 			                 []],
 			                ["raspberrypi3",
