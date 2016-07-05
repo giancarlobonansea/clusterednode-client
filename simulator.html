@@ -116,12 +116,16 @@
 				<thead>
 				<tr>
 					<th class="text-center" colspan="2">
-						Method&nbsp;<span class="label label-primary">{{execMode}}</span>
+						<small>Method&nbsp;<span class="label label-primary">{{execMode}}</span></small>
 					</th>
 				</tr>
 				<tr>
-					<th class="text-center">Requests</th>
-					<th class="text-center">Connections</th>
+					<th class="text-center">
+						<small>Requests</small>
+					</th>
+					<th class="text-center">
+						<small>Connections</small>
+					</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -135,13 +139,19 @@
 				<thead>
 				<tr>
 					<th class="text-center" colspan="3">
-						Method&nbsp;<span class="label label-primary">{{execMode}}</span>
+						<small>Method&nbsp;<span class="label label-primary">{{execMode}}</span></small>
 					</th>
 				</tr>
 				<tr>
-					<th class="text-center">Duration</th>
-					<th class="text-center">Interval</th>
-					<th class="text-center">Connections</th>
+					<th class="text-center">
+						<small>Duration</small>
+					</th>
+					<th class="text-center">
+						<small>Interval</small>
+					</th>
+					<th class="text-center">
+						<small>Connections</small>
+					</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -164,13 +174,23 @@
 			<table class="table table-condensed table-bordered table-responsive" *ngIf="usedRequestMethod()">
 				<thead>
 				<tr>
-					<th class="text-center" rowspan="2">Duration</th>
-					<th class="text-center" colspan="3">Requests</th>
+					<th class="text-center" rowspan="2">
+						<small>Duration</small>
+					</th>
+					<th class="text-center" colspan="3">
+						<small>Requests</small>
+					</th>
 				</tr>
 				<tr>
-					<th class="text-center">Executed</th>
-					<th class="text-center">Cached</th>
-					<th class="text-center">Distribution</th>
+					<th class="text-center">
+						<small>Executed</small>
+					</th>
+					<th class="text-center">
+						<small>Cached</small>
+					</th>
+					<th class="text-center">
+						<small>Distribution</small>
+					</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -180,7 +200,10 @@
 					<td class="text-center"><span class="label label-info">{{reqExecuted | number:'1.0-0'}}</span></td>
 					<td class="text-center"><span class="label label-info">{{reqCached | number:'1.0-0'}}</span></td>
 					<td class="text-center">
-						<span class="label label-default">GET={{operType[0] | number:'3.0-0'}} SET={{operType[1] | number:'3.0-0'}} PPL={{operType[2] | number:'3.0-0'}} TRN={{operType[3] | number:'3.0-0'}}</span>
+						<span class="label label-default">GET {{operType[0] | number:'3.0-0'}}</span>&nbsp;
+						<span class="label label-default">SET {{operType[1] | number:'3.0-0'}}</span>&nbsp;
+						<span class="label label-default">PPL {{operType[2] | number:'3.0-0'}}</span>&nbsp;
+						<span class="label label-default">TRN {{operType[3] | number:'3.0-0'}}</span>
 					</td>
 				</tr>
 				</tbody>
@@ -188,14 +211,26 @@
 			<table class="table table-condensed table-bordered table-responsive" *ngIf="usedDurationMethod()">
 				<thead>
 				<tr>
-					<th class="text-center" rowspan="2">Duration</th>
-					<th class="text-center" colspan="4">Requests</th>
+					<th class="text-center" rowspan="2">
+						<small>Duration</small>
+					</th>
+					<th class="text-center" colspan="4">
+						<small>Requests</small>
+					</th>
 				</tr>
 				<tr>
-					<th class="text-center">Expected</th>
-					<th class="text-center">Executed</th>
-					<th class="text-center">Cached</th>
-					<th class="text-center">Distribution</th>
+					<th class="text-center">
+						<small>Expected</small>
+					</th>
+					<th class="text-center">
+						<small>Executed</small>
+					</th>
+					<th class="text-center">
+						<small>Cached</small>
+					</th>
+					<th class="text-center">
+						<small>Distribution</small>
+					</th>
 				</tr>
 				</thead>
 				<tbody>
@@ -206,7 +241,10 @@
 					<td class="text-center"><span class="label label-info">{{reqExecuted | number:'1.0-0'}}</span></td>
 					<td class="text-center"><span class="label label-info">{{reqCached | number:'1.0-0'}}</span></td>
 					<td class="text-center">
-						<span class="label label-default">GET={{operType[0] | number:'3.0-0'}} SET={{operType[1] | number:'3.0-0'}} PPL={{operType[2] | number:'3.0-0'}} TRN={{operType[3] | number:'3.0-0'}}</span>
+						<span class="label label-default">GET {{operType[0] | number:'3.0-0'}}</span>&nbsp;
+						<span class="label label-default">SET {{operType[1] | number:'3.0-0'}}</span>&nbsp;
+						<span class="label label-default">PPL {{operType[2] | number:'3.0-0'}}</span>&nbsp;
+						<span class="label label-default">TRN {{operType[3] | number:'3.0-0'}}</span>
 					</td>
 				</tr>
 				</tbody>
