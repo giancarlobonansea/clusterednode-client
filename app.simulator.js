@@ -709,6 +709,10 @@
                     {
                         href: "https://www.youtube.com/watch?v=BJPeLJhv1Ic",
                         desc: "Node.js at CapitalOne"
+                    },
+                    {
+                        href: "http://blog.trevnorris.com/2013/07/measuring-node-performance-part-1.html",
+                        desc: "Measuring node performance"
                     }
                     ]
                 },
