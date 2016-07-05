@@ -1153,11 +1153,13 @@
                         else {
                             if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
                                 self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
-                                                                                                  []]);
+                                                                                                  [[],
+                                                                                                   [],
+                                                                                                   [],
+                                                                                                   []]]);
                                 self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
                             }
-                            self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push([self.reqOK,
-                                                                                                                                                               self.requests[2][response[k].reqId]]);
+                            self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1][self.requests[2][response[k].reqId]].push(self.reqOK);
                             self.nodeIdx[response[k].json.hostname][1]++;
                         }
 					}
@@ -1216,11 +1218,13 @@
                                     else {
                                         if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
                                             self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
-                                                                                                              []]);
+                                                                                                              [[],
+                                                                                                               [],
+                                                                                                               [],
+                                                                                                               []]]);
                                             self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
                                         }
-                                        self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1].push([self.reqOK,
-                                                                                                                                                                           self.requests[2][response[k].reqId]]);
+                                        self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1][self.requests[2][response[k].reqId]].push(self.reqOK);
                                         self.nodeIdx[response[k].json.hostname][1]++;
                                     }
                                     self.countResponses++;
