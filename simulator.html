@@ -202,8 +202,8 @@
 					<td class="text-center">
 						<span class="label label-default">GET {{operType[0] | number:'1.0-0'}}</span>&nbsp;
 						<span class="label label-default">SET {{operType[1] | number:'1.0-0'}}</span>&nbsp;
-						<span class="label label-default">PIPELINE {{operType[2] | number:'1.0-0'}}</span>&nbsp;
-						<span class="label label-default">TRANSACTION {{operType[3] | number:'1.0-0'}}</span>
+						<span class="label label-default">PPL {{operType[2] | number:'1.0-0'}}</span>&nbsp;
+						<span class="label label-default">TRN {{operType[3] | number:'1.0-0'}}</span>
 					</td>
 				</tr>
 				</tbody>
@@ -243,8 +243,8 @@
 					<td class="text-center">
 						<span class="label label-default">GET {{operType[0] | number:'1.0-0'}}</span>&nbsp;
 						<span class="label label-default">SET {{operType[1] | number:'1.0-0'}}</span>&nbsp;
-						<span class="label label-default">PIPELINE {{operType[2] | number:'1.0-0'}}</span>&nbsp;
-						<span class="label label-default">TRANSACTION {{operType[3] | number:'1.0-0'}}</span>
+						<span class="label label-default">PPL {{operType[2] | number:'1.0-0'}}</span>&nbsp;
+						<span class="label label-default">TRN {{operType[3] | number:'1.0-0'}}</span>
 					</td>
 				</tr>
 				</tbody>
@@ -772,7 +772,10 @@
 					</div>
 					<div class="col-xs-6 text-right">
 						<h4 class="panel-title">
-							<span class="label label-default">G:{{operType[0]}} S:{{operType[1]}} P:{{operType[2]}} T:{{operType[3]}}</span>&nbsp;
+							<span class="label label-default">GET {{operType[0]}}</span>&nbsp;
+							<span class="label label-default">SET {{operType[1]}}</span>&nbsp;
+							<span class="label label-default">PPL {{operType[2]}}</span>&nbsp;
+							<span class="label label-default">TRN {{operType[3]}}</span>&nbsp;
 							<span class="label label-info">CACHED {{reqCached}}</span>&nbsp;
 							<span class="label label-success">OK {{reqOK}}</span>&nbsp;
 							<span class="label label-danger">ERR {{reqErrors}}</span>
