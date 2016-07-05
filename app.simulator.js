@@ -1186,6 +1186,7 @@
                         operT = self.operationProb[(Math.random() * 10) | 0];
                         self.operType[operT]++;
                         self.requests[1].push(self.httpService.get(reqId, self.selectedUrl, operT, (Math.random() * 16384) | 0));
+                        self.requests[2].push(operT);
                         arrReq.push(self.requests[1][reqId]);
                         reqId++;
                     }
@@ -1426,6 +1427,7 @@
                     operT = this.operationProb[(Math.random() * 10) | 0];
                     this.operType[operT]++;
                     this.requests[1].push(this.httpService.get(reqId, this.selectedUrl, operT, (Math.random() * 16384) | 0));
+                    this.requests[2].push(operT);
                 }
                 this.iniTime = Date.now();
                 this.throwHTTPrequests(this.loopCon);
