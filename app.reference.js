@@ -286,66 +286,38 @@ var REFLINKS = {
 					"desc": "Performance benchmarking Socket.io 0.8.7, 0.7.11 and 0.6.17 and Node's native TCP"
 				}
 			]
+		},
+		{
+			"title":  "Open Source architectures",
+			"anchor": [
+				{
+					"href": "http://www.aosabook.org/en/index.html",
+					"desc": "The Architecture of Open Source Applications"
+				},
+				{
+					"href": "https://www.youtube.com/watch?v=jm75pxsb80c",
+					"desc": "Microservice Developer Experience"
+				},
+				{
+					"href": "https://www.youtube.com/watch?v=SYNJFX0oIBU",
+					"desc": "Node.js for Enterprise APIs Panel Discussion"
+				},
+				{
+					"href": "https://www.youtube.com/watch?v=D9TUU5bK0iE",
+					"desc": "Rebuilding the Ship as it Sails: Making Large Legacy Sites Responsive"
+				},
+				{
+					"href": "https://strongloop.com/",
+					"desc": "Strongloop - Compose APIs, Build, Deploy and Monitor Node"
+				},
+				{
+					"href": "https://www.mnot.net/cache_docs/",
+					"desc": "Caching tutorial for Web Authors"
+				}
+			]
 		}
 	],
 	"l1": [
-		{
-			"title":  "nginX (v1.11.1)",
-			"anchor": [
-				{
-					"href": "https://www.nginx.com/blog/7-tips-for-faster-http2-performance/",
-					"desc": "7 Tips for Faster HTTP/2 Performance"
-				},
-				{
-					"href": "https://www.quora.com/How-can-nginx-handle-concurrent-requests-with-a-single-worker-process",
-					"desc": "How can nginx handle concurrent requests with a single worker process?"
-				},
-				{
-					"href": "https://www.nginx.com/resources/admin-guide/load-balancer/",
-					"desc": "NGINX Load Balancing - HTTP and TCP Load Balancer"
-				},
-				{
-					"href": "https://serversforhackers.com/so-you-got-yourself-a-loadbalancer",
-					"desc": "So You Got Yourself a Loadbalancer"
-				},
-				{
-					"href": "http://www.aosabook.org/en/nginx.html",
-					"desc": "The Architecture of Open Source Applications (Volume 2): nginx"
-				},
-				{
-					"href": "https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/",
-					"desc": "Inside NGINX: How We Designed for Performance & Scale"
-				},
-				{
-					"href": "https://www.nginx.com/blog/introducing-the-nginx-microservices-reference-architecture/",
-					"desc": "Introducing the Microservices Reference Architecture from NGINX"
-				},
-				{
-					"href": "https://www.nginx.com/blog/building-microservices-using-an-api-gateway/",
-					"desc": "Building Microservices: Using an API Gateway"
-				},
-				{
-					"href": "http://www.slideshare.net/joshzhu/nginx-internals",
-					"desc": "nginX Internals - slide presentation"
-				},
-				{
-					"href": "http://www.thegeekstuff.com/2013/11/nginx-vs-apache/?utm_source=tuicool",
-					"desc": "Nginx Vs Apache: Nginx Basic Architecture and Scalability"
-				},
-				{
-					"href": "https://www.digitalocean.com/community/tutorials/apache-vs-nginx-practical-considerations",
-					"desc": "Apache vs Nginx: Practical Considerations"
-				},
-				{
-					"href": "https://www.nginx.com/blog/nginx-load-balance-deployment-models/",
-					"desc": "NGINX Load Balancing Deployment Scenarios"
-				},
-				{
-					"href": "https://www.nginx.com/blog/globo-com-delivers-live-video-streaming-to-500000-viewers-with-nginx/",
-					"desc": "Globo.com Delivers Live Video Streaming to 500,000+ Viewers with NGINX"
-				}
-			]
-		},
 		{
 			"title":  "Javascript, V8 & AngularJS 2 (v2.0.0-rc4)",
 			"anchor": [
@@ -422,6 +394,63 @@ var REFLINKS = {
 				{
 					"href": "https://analytics.google.com/",
 					"desc": "Google Analytics"
+				}
+			]
+		},
+		{
+			"title":  "nginX (v1.11.1)",
+			"anchor": [
+				{
+					"href": "https://www.nginx.com/blog/7-tips-for-faster-http2-performance/",
+					"desc": "7 Tips for Faster HTTP/2 Performance"
+				},
+				{
+					"href": "https://www.quora.com/How-can-nginx-handle-concurrent-requests-with-a-single-worker-process",
+					"desc": "How can nginx handle concurrent requests with a single worker process?"
+				},
+				{
+					"href": "https://www.nginx.com/resources/admin-guide/load-balancer/",
+					"desc": "NGINX Load Balancing - HTTP and TCP Load Balancer"
+				},
+				{
+					"href": "https://serversforhackers.com/so-you-got-yourself-a-loadbalancer",
+					"desc": "So You Got Yourself a Loadbalancer"
+				},
+				{
+					"href": "http://www.aosabook.org/en/nginx.html",
+					"desc": "The Architecture of Open Source Applications (Volume 2): nginx"
+				},
+				{
+					"href": "https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/",
+					"desc": "Inside NGINX: How We Designed for Performance & Scale"
+				},
+				{
+					"href": "https://www.nginx.com/blog/introducing-the-nginx-microservices-reference-architecture/",
+					"desc": "Introducing the Microservices Reference Architecture from NGINX"
+				},
+				{
+					"href": "https://www.nginx.com/blog/building-microservices-using-an-api-gateway/",
+					"desc": "Building Microservices: Using an API Gateway"
+				},
+				{
+					"href": "http://www.slideshare.net/joshzhu/nginx-internals",
+					"desc": "nginX Internals - slide presentation"
+				},
+				{
+					"href": "http://www.thegeekstuff.com/2013/11/nginx-vs-apache/?utm_source=tuicool",
+					"desc": "Nginx Vs Apache: Nginx Basic Architecture and Scalability"
+				},
+				{
+					"href": "https://www.digitalocean.com/community/tutorials/apache-vs-nginx-practical-considerations",
+					"desc": "Apache vs Nginx: Practical Considerations"
+				},
+				{
+					"href": "https://www.nginx.com/blog/nginx-load-balance-deployment-models/",
+					"desc": "NGINX Load Balancing Deployment Scenarios"
+				},
+				{
+					"href": "https://www.nginx.com/blog/globo-com-delivers-live-video-streaming-to-500000-viewers-with-nginx/",
+					"desc": "Globo.com Delivers Live Video Streaming to 500,000+ Viewers with NGINX"
 				}
 			]
 		},
@@ -597,35 +626,6 @@ var REFLINKS = {
 			]
 		},
 		{
-			"title":  "Open Source architectures",
-			"anchor": [
-				{
-					"href": "http://www.aosabook.org/en/index.html",
-					"desc": "The Architecture of Open Source Applications"
-				},
-				{
-					"href": "https://www.youtube.com/watch?v=jm75pxsb80c",
-					"desc": "Microservice Developer Experience"
-				},
-				{
-					"href": "https://www.youtube.com/watch?v=SYNJFX0oIBU",
-					"desc": "Node.js for Enterprise APIs Panel Discussion"
-				},
-				{
-					"href": "https://www.youtube.com/watch?v=D9TUU5bK0iE",
-					"desc": "Rebuilding the Ship as it Sails: Making Large Legacy Sites Responsive"
-				},
-				{
-					"href": "https://strongloop.com/",
-					"desc": "Strongloop - Compose APIs, Build, Deploy and Monitor Node"
-				},
-				{
-					"href": "https://www.mnot.net/cache_docs/",
-					"desc": "Caching tutorial for Web Authors"
-				}
-			]
-		},
-		{
 			"title":  "GitHub",
 			"anchor": [
 				{
@@ -651,5 +651,147 @@ var REFLINKS = {
 			]
 		}
 	],
-	"v":  []
+	"v":  [
+		{
+			"title":  "HTTP/2",
+			"anchor": [
+				{
+					"href": "https://www.youtube.com/embed/4vnLUc58NEA",
+					"desc": "Akamai's Stephen Ludin on Internet evolution"
+				},
+				{
+					"href": "https://www.youtube.com/embed/r5oT_2ndjms",
+					"desc": "HTTP/2 101 (Chrome Dev Summit 2015)"
+				},
+				{
+					"href": "https://www.youtube.com/embed/yURLTwZ3ehk",
+					"desc": "Yesterday's perf best-practices are today's HTTP/2 anti-patterns"
+				},
+				{
+					"href": "https://www.youtube.com/embed/46exugLbGFI",
+					"desc": "Optimizing networking performance (and HTTP 2.0) - Crash course on web performance"
+				},
+				{
+					"href": "https://www.youtube.com/embed/wR3o6HA47Ao",
+					"desc": "unRESTful Web Services with HTTP2 by Fabian Stäber"
+				},
+				{
+					"href": "https://www.youtube.com/embed/MARxcGRRTk4",
+					"desc": "Concur shares experience using H2"
+				}
+			]
+		},
+		{
+			"title":  "Advanced Networking",
+			"anchor": [
+				{
+					"href": "https://www.youtube.com/embed/nLrBisNqEwQ",
+					"desc": "Computer Networks: History of TCP Congestion Control"
+				},
+				{
+					"href": "https://www.youtube.com/embed/quAaZKBHvs8",
+					"desc": "Beating Bufferbloat with FQ_Codel"
+				},
+				{
+					"href": "https://www.youtube.com/embed/6Rs0p3mPNr0",
+					"desc": "How NOT to measure latency - Gil Tene at USI"
+				}
+			]
+		},
+		{
+			"title":  "nginX",
+			"anchor": [
+				{
+					"href": "https://www.youtube.com/embed/3Cdr8q1JXpM",
+					"desc": "NGINX at Google Scale"
+				},
+				{
+					"href": "https://www.youtube.com/embed/jVCYaLEBCpU",
+					"desc": "Scaling Web Applications with NGINX Load Balancing and Caching"
+				},
+				{
+					"href": "https://www.youtube.com/embed/CBh-jYYNLyo",
+					"desc": "Adobe Powers Its API Gateway with NGINX"
+				},
+				{
+					"href": "https://www.youtube.com/embed/lr_AQIxcdlE",
+					"desc": "PBS Manages Traffic Spikes with NGINX, Even During Downton Abbey"
+				},
+				{
+					"href": "https://www.youtube.com/embed/OaCLe812WpY",
+					"desc": "Accelerating HTTPS Worldwide with an NGINX Based Edge Network"
+				}
+			]
+		},
+		{
+			"title":  "Javascript, V8 & AngularJS 2",
+			"anchor": [
+				{
+					"href": "https://www.youtube.com/embed/N1swY14jiKc",
+					"desc": "V8, modern JavaScript, and beyond - Google I/O 2016"
+				},
+				{
+					"href": "https://www.youtube.com/embed/oDFWIb0pi4U",
+					"desc": "V8 Performance from the Driver's Seat (Chrome Dev Summit 2015)"
+				},
+				{
+					"href": "https://www.youtube.com/embed/7gtf47D_bu0",
+					"desc": "Bandwidth, latency, and radio performance - Crash course on web performance"
+				},
+				{
+					"href": "https://www.youtube.com/embed/7ubJzEi3HuA",
+					"desc": "Speed, Performance, and Human Perception"
+				},
+				{
+					"href": "https://www.youtube.com/embed/PkOBnYxqj3k",
+					"desc": "Critical rendering path - Crash course on web performance"
+				},
+				{
+					"href": "https://www.youtube.com/embed/rpNXWxMyzHQ",
+					"desc": "Delivering 60 FPS in the browser - Crash course on web performance"
+				},
+				{
+					"href": "https://www.youtube.com/embed/etACK2qbHfc",
+					"desc": "There is a client-side proxy (ServiceWorker) in your browser!"
+				},
+				{
+					"href": "https://www.youtube.com/embed/EwYD_xqB7Qs",
+					"desc": "Angular 2 - Google I/O 2016"
+				}
+			]
+		},
+		{
+			"title":  "Node.js",
+			"anchor": [
+				{
+					"href": "https://www.youtube.com/embed/p74282nDMX8",
+					"desc": "Node.js at Netflix"
+				},
+				{
+					"href": "https://www.youtube.com/embed/ElI5QtUISWM",
+					"desc": "Node.js at Uber"
+				},
+				{
+					"href": "https://www.youtube.com/embed/-00ImeLt9ec",
+					"desc": "Node.js at PayPal"
+				},
+				{
+					"href": "https://www.youtube.com/embed/BJPeLJhv1Ic",
+					"desc": "Node.js at CapitalOne"
+				},
+				{
+					"href": "https://www.youtube.com/embed/jm75pxsb80c",
+					"desc": "Microservice Developer Experience"
+				},
+				{
+					"href": "https://www.youtube.com/embed/SYNJFX0oIBU",
+					"desc": "Node.js for Enterprise APIs Panel Discussion"
+				},
+				{
+					"href": "https://www.youtube.com/embed/D9TUU5bK0iE",
+					"desc": "Rebuilding the Ship as it Sails: Making Large Legacy Sites Responsive"
+				}
+			]
+		}
+	]
 };

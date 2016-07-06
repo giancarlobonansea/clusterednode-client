@@ -7,18 +7,6 @@
 		HTTPService.parameters = [
 			ng.http.Http
 		];
-		HTTPService.prototype.refs = function() {
-			return this.http
-				.get('reference.json')
-				.map(function(response) {
-					return response.json() || {
-							"l0": [],
-							"l1": [],
-							"v": []
-						};
-				})
-				.catch();
-		};
 		HTTPService.prototype.get = function(reqId, url, o, p) {
 			return this.http
 				.get(url + '?o=' + o + '&p=' + p, {
