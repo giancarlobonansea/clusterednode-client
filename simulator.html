@@ -546,17 +546,6 @@
 								</dd>
 							</dl>
 						</blockquote>
-						<!-- Github -->
-						<blockquote>
-							<dl>
-								<dt>{{links['github'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['github'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['github'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
 					</div>
 					<div class="col-xs-12 col-sm-6">
 						<!-- nginX -->
@@ -632,6 +621,17 @@
 								<dd>
 									<footer *ngFor="let link of links['open'].anchor">
 										<a [href]="link.href" (click)="onRefLink(links['open'].title,link.desc)" target="_blank">{{link.desc}}</a>
+									</footer>
+								</dd>
+							</dl>
+						</blockquote>
+						<!-- Github -->
+						<blockquote>
+							<dl>
+								<dt>{{links['github'].title}}</dt>
+								<dd>
+									<footer *ngFor="let link of links['github'].anchor">
+										<a [href]="link.href" (click)="onRefLink(links['github'].title,link.desc)" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>
