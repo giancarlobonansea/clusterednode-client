@@ -822,7 +822,7 @@
 		}
 		AppSimulator.parameters = [
 			app.HTTPService,
-			ng.platformBrowser.DomSanitizationService
+			ng.platformBrowser.DomSanitizationService()
 		];
 		AppSimulator.annotations = [
 			new ng.core.Component({
