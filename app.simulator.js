@@ -1,116 +1,30 @@
 (function(app) {
 	app.AppSimulator = (function() {
 		function AppSimulator(HTTPService) {
-            this.histogram = [[50,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [75,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [87.5,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [93.75,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [96.875,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [98.4375,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [99.21875,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [100,
-                               0,
-                               0,
-                               0,
-                               0]];
-			this.requests = [[],
-			                 []];
-            this.isDuration = false;
-            this.reqConn = 2;
-			this.reqCount = 100;
-            this.reqDuration = 5;
-            this.reqInterval = 50;
-            this.running = false;
-			this.reqErrors = 0;
-			this.reqOK = 0;
-			this.loopCon = 0;
-			this.duration = 0;
-			this.totAngular = 0;
-			this.totNginx = 0;
-			this.totNode = 0;
-            this.totRedis = 0;
-			this.tpAngular = 0;
-			this.tpNginx = 0;
-			this.tpNode = 0;
-            this.tpRedis = 0;
-            this.operAcro = ['G',
-                             'S',
-                             'P',
-                             'T'];
-            this.operationProb = [0,
-                                  0,
-                                  0,
-                                  0,
-                                  0,
-                                  0,
-                                  0,
-                                  1,
-                                  2,
-                                  3];
-            this.showReference = false;
-			this.calculating = false;
-            this.liveEvents = false;
-			this.httpService = HTTPService;
-			this.urlOptions = [['https://giancarlobonansea.homeip.net:33333/api',
-			                    'DNS Public'],
-			                   ['https://raspberrypi4:8010/api',
-			                    'DNS Private'],
-			                   ['https://192.168.69.242:8010/api',
-			                    'IP Private']];
-            this.nodes = ["raspberrypi2",
-                          "raspberrypi3",
-                          "raspberrypi5",
-                          "raspberrypi6"];
-            this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
-			this.selectedUrl = this.urlOptions[0][0];
-            this.initEVMatrix();
-            this.socket = io('https://giancarlobonansea.homeip.net:33331');
-            this.liveTTL = 500;
-            var selfMtx = this;
-            // Receive redis.io realtime info
-            this.socket.on('redis', function(data) {
-                var x = data.x,
-                    y = data.y;
-                if (selfMtx.evMatrix[x][y] !== 3) {
-                    selfMtx.evMatrix[x][y] = 3;
-                    setTimeout(function() {
-                        selfMtx.evMatrix[x][y] = selfMtx.mapDBmatrix(x, y);
-                    }, selfMtx.liveTTL);
-                }
-            });
-            this.barChartOptions = {
+			//
+			// View execution variables
+			//
+			this.initViewExecVariables();
+			//
+			// View execution parameters
+			//
+			this.initViewExecParameters();
+			//
+			// View presentation variables - control
+			//
+			this.initViewPresentationControlVariables();
+			//
+			// View presentation variables - reference links
+			//
+			this.links = REFLINKS;
+			//
+			// Charts configuration and initialization
+			//
+			this.barChartOptions = {
 				chart: {
 					type:         'multiBarChart',
 					showControls: false,
-                    height:       400,
+					height:       400,
 					margin:       {
 						top:    20,
 						right:  20,
@@ -133,57 +47,57 @@
 					}
 				}
 			};
-            this.lineChartOptions = {
-                chart: {
-                    type:         'lineWithFocusChart',
-                    showControls: false,
-                    height:       400,
-                    showLegend:   true,
-                    clipEdge:     true,
-                    duration:     500,
-                    margin:       {
-                        top:    20,
-                        right:  20,
-                        bottom: 40,
-                        left:   55
-                    },
-                    x:            function(d) { return d.x; },
-                    y:            function(d) { return d.y; },
-                    useInteractiveGuideline: true,
-                    xAxis:       {
-                        axisLabel: 'Percentile (%)'
-                        // ,tickFormat:   function(d) {
-                        //     return d3.format('.5f')(d);
-                        // }
-                    },
-                    yAxis:       {
-                        axisLabel:         'AngularJS Latency (ms)',
-                        axisLabelDistance: -10,
-                        rotateYLabel:      true
-                    },
-                    x2Axis:      {
-                        // tickFormat: function(d) {
-                        //     return d3.format('.5f')(d);
-                        // }
-                    },
-                    y2Axis:      {},
-                    brushExtent: [75,
-                                  100]
-                }
-            };
+			this.lineChartOptions = {
+				chart: {
+					type:                    'lineWithFocusChart',
+					showControls:            false,
+					height:                  400,
+					showLegend:              true,
+					clipEdge:                true,
+					duration:                500,
+					margin:                  {
+						top:    20,
+						right:  20,
+						bottom: 40,
+						left:   55
+					},
+					x:                       function(d) { return d.x; },
+					y:                       function(d) { return d.y; },
+					useInteractiveGuideline: true,
+					xAxis:                   {
+						axisLabel: 'Percentile (%)'
+						// ,tickFormat:   function(d) {
+						//     return d3.format('.5f')(d);
+						// }
+					},
+					yAxis:                   {
+						axisLabel:         'AngularJS Latency (ms)',
+						axisLabelDistance: -10,
+						rotateYLabel:      true
+					},
+					x2Axis:                  {
+						// tickFormat: function(d) {
+						//     return d3.format('.5f')(d);
+						// }
+					},
+					y2Axis:                  {},
+					brushExtent:             [75,
+					                          100]
+				}
+			};
 			this.polarChartOptions = {
 				chart: {
 					type:          'pieChart',
-                    height:        299,
+					height:        299,
 					showLegend:    false,
 					donut:         true,
-                    padAngle:      0.08,
+					padAngle:      0.08,
 					cornerRadius:  5,
 					title:         'nginX',
 					x:             function(d) {return d.key;},
 					y:             function(d) {return d.y;},
 					showLabels:    true,
-                    labelType:     function(d) {return d.data.key + ': ' + (d.data.y | 0);},
+					labelType:     function(d) {return d.data.key + ': ' + (d.data.y | 0);},
 					labelsOutside: true,
 					duration:      500
 				}
@@ -191,665 +105,720 @@
 			this.polarChartOptions2 = {
 				chart: {
 					type:          'pieChart',
-                    height:        299,
+					height:        299,
 					showLegend:    false,
 					donut:         true,
-                    padAngle:      0.08,
+					padAngle:      0.08,
 					cornerRadius:  5,
 					title:         'AngularJS',
 					x:             function(d) {return d.key;},
 					y:             function(d) {return d.y;},
 					showLabels:    true,
 					labelsOutside: true,
-                    labelType:     function(d) {return d.data.key + ': ' + (d.data.y | 0);},
+					labelType:     function(d) {return d.data.key + ': ' + (d.data.y | 0);},
 					duration:      500
 				}
 			};
-            this.barChartData = [{key: 'raspberrypi2-redis', values: [{label: '', value: 0}]},
-                                 {key: 'raspberrypi3-redis', values: [{label: '', value: 0}]},
-                                 {key: 'raspberrypi5-redis', values: [{label: '', value: 0}]},
-                                 {key: 'raspberrypi6-redis', values: [{label: '', value: 0}]},
-                                 {key: 'raspberrypi2-node', values: [{label: '', value: 0}]},
-                                 {key: 'raspberrypi3-node', values: [{label: '', value: 0}]},
-                                 {key: 'raspberrypi5-node', values: [{label: '', value: 0}]},
-                                 {key: 'raspberrypi6-node', values: [{label: '', value: 0}]},
-                                 {key: 'raspberrypi2-nginx', values: [{label: '', value: 0}]},
-                                 {key: 'raspberrypi3-nginx', values: [{label: '', value: 0}]},
-                                 {key: 'raspberrypi5-nginx', values: [{label: '', value: 0}]},
-                                 {key: 'raspberrypi6-nginx', values: [{label: '', value: 0}]},
-								 {key: 'raspberrypi2-angular', values: [{label: '', value: 0}]},
-								 {key: 'raspberrypi3-angular', values: [{label: '', value: 0}]},
-								 {key: 'raspberrypi5-angular', values: [{label: '', value: 0}]},
-								 {key: 'raspberrypi6-angular', values: [{label: '', value: 0}]}
-			                     ];
+			this.barChartData = [{
+				key:    'raspberrypi2-redis',
+				values: [{
+					label: '',
+					value: 0
+				}]
+			},
+			                     {
+				                     key:    'raspberrypi3-redis',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi5-redis',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi6-redis',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi2-node',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi3-node',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi5-node',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi6-node',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi2-nginx',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi3-nginx',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi5-nginx',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi6-nginx',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi2-angular',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi3-angular',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi5-angular',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     },
+			                     {
+				                     key:    'raspberrypi6-angular',
+				                     values: [{
+					                     label: '',
+					                     value: 0
+				                     }]
+			                     }
+			];
 			this.polarChartData = [{key: 'raspberrypi2', y: 25},
 			                       {key: 'raspberrypi3', y: 25},
 			                       {key: 'raspberrypi5', y: 25},
 			                       {key: 'raspberrypi6', y: 25}];
 			this.polarChartData2 = [{key: 'raspberrypi2', y: 25},
-			                       {key: 'raspberrypi3', y: 25},
-			                       {key: 'raspberrypi5', y: 25},
-			                       {key: 'raspberrypi6', y: 25}];
-            this.lineChartData = [
-                {key: 'w/o Coord. Omission', values: [], area: false},
-                {key: 'Latency/Percentile', values: [], area: true}
-            ];
-			this.observableRequests = undefined;
-            this.links = {
-                HTTP2: {
-                    title: "HTTP/2", anchor: [
-                    {
-                        href: 'https://http2.akamai.com/demo',
-                        desc: 'HTTP/2: the Future of the Internet | Akamai'
-                    },
-                    {
-                        href: 'https://http2.github.io',
-	                    desc: "HTTP/2 Github repository"
-                    },
-                    {
-                        href: 'https://http2.github.io/http2-spec/',
-                        desc: 'Hypertext Transfer Protocol Version 2 (HTTP/2) draft-ietf-httpbis-http2-latest'
-                    },
-                    {
-                        href: 'https://docs.google.com/presentation/d/1r7QXGYOLCh4fcUq0jDdDwKJWNqWK1o4xMtYpKZCJYjM/present?slide=id.g4ec7b01d4_5_150',
-                        desc: "HTTP/2 is here, let's optimize! - Velocity 2015 - Google Slides"
-                    },
-                    {
-                        href: 'http://caniuse.com/#search=HTTP%2F2',
-                        desc: 'Can I use... HTTP/2'
-                    },
-                    {
-                        href: 'https://hpbn.co/http2/',
-                        desc: "HTTP: HTTP/2 - High Performance Browser Networking (O'Reilly)"
-                    },
-                    {
-                        href: 'https://www.smashingmagazine.com/2016/02/getting-ready-for-http2/',
-                        desc: 'Getting Ready For HTTP/2: A Guide For Web Designers And Developers'
-                    },
-                    {
-                        href: 'http://qnimate.com/post-series/http2-complete-tutorial/',
-                        desc: 'HTTP/2 Complete Tutorial'
-                    },
-                    {
-                        href: 'http://javascriptplayground.com/blog/2016/03/http2-and-you/',
-                        desc: 'HTTP/2 and You'
-                    },
-                    {
-                        href: 'https://chrome.google.com/webstore/detail/http2-and-spdy-indicator/mpbpobfflnpcgagjijhmgnchggcjblin',
-                        desc: 'HTTP/2 and SPDY indicator'
-                    },
-                    {
-                        href: "http://www.aosabook.org/en/posa/secrets-of-mobile-network-performance.html",
-                        desc: "Secrets of Mobile Network Performance"
-                    }
-                    ]
-                },
-                net:   {
-                    "title": "Advanced Networking", anchor: [
-                        {
-                            href: "http://linuxgazette.net/135/pfeiffer.html",
-                            desc: "TCP and Linux' Pluggable Congestion Control Algorithms"
-                        },
-                        {
-                            href: "http://sgros.blogspot.com.br/2012/12/controlling-which-congestion-control.html",
-                            desc: "Controlling which congestion control algorithm is used in Linux"
-                        },
-                        {
-                            href: "https://en.wikipedia.org/wiki/TCP_congestion_control",
-                            desc: "TCP congestion control"
-                        },
-                        {
-                            href: "http://elinux.org/Raspberry_Pi_Kernel_Compilation#Build_modules_for_the_running_kernel",
-                            desc: "Build modules for the running Linux kernel"
-                        },
-                        {
-                            href: "https://fasterdata.es.net/host-tuning/linux/",
-                            desc: "Linux Tunning - TCP tunning"
-                        },
-                        {
-                            href: "http://shokunin.co/blog/2014/11/11/operational_redis.html",
-                            desc: "Running Redis in production - network and CPU balancing"
-                        },
-                        {
-                            href: "https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html/Performance_Tuning_Guide/network-rps.html",
-                            desc: "RPS - Receive Packet Steering for network performance"
-                        },
-                        {
-                            href: "http://www.linuxbrigade.com/reduce-time_wait-socket-connections/",
-                            desc: "Reduce TIME_WAIT socket connections"
-                        },
-                        {
-                            href: "https://vincent.bernat.im/en/blog/2014-tcp-time-wait-state-linux.html",
-                            desc: "Coping with the TCP TIME-WAIT state on busy Linux servers"
-                        },
-                        {
-                            href: "https://easyengine.io/tutorials/linux/sysctl-conf/",
-                            desc: "Performance - Sysctl Tweaks"
-                        },
-                        {
-                            href: "https://tweaked.io/guide/kernel/",
-                            desc: "Tweaked.io making your servers fly"
-                        },
-                        {
-                            href: "https://lwn.net/Articles/616241/",
-                            desc: "A damp discussion of network queuing - fq_codel"
-                        },
-                        {
-                            href: "https://www.bufferbloat.net/projects/codel/wiki/",
-                            desc: "CoDel Overview"
-                        },
-                        {
-                            href: "https://wiki.mikejung.biz/Sysctl_tweaks",
-                            desc: "Sysctl tweaks"
-                        },
-                        {
-                            href: "https://en.wikipedia.org/wiki/Bufferbloat",
-                            desc: "Bufferbloat - the problem"
-                        },
-                        {
-                            href: "http://www.satnac.org.za/proceedings/2012/papers/2.Core_Network_Technologies/15.pdf",
-                            desc: "TCP Congestion Control Comparison (University of Stellenbosch)"
-                        },
-                        {
-                            href: "http://research.microsoft.com/en-us/um/redmond/events/tcpsummit/Slides/ms_feb07_eval.ppt.pdf",
-                            desc: "Evaluating New TCP Congestion Control Algorithms"
-                        },
-                        {
-                            href: "https://tools.ietf.org/html/rfc6937",
-                            desc: "IETF RFC6937 - Proportional Rate Reduction for TCP"
-                        },
-                        {
-                            href: "https://blog.cloudflare.com/optimizing-the-linux-stack-for-mobile-web-per/",
-                            desc: "Optimizing Your Linux Stack for Maximum Mobile Web Performance"
-                        },
-                        {
-                            href: "http://static.googleusercontent.com/media/research.google.com/en//pubs/archive/37486.pdf",
-                            desc: "Google's Proportional Rate Reduction for TCP"
-                        },
-                        {
-                            href: "http://airccse.org/journal/nsa/0912nsa02.pdf",
-                            desc: "Comparison of high speed congestion control protocols"
-                        },
-                        {
-                            href: "http://193.204.59.68/mascolo/tcp%20westwood/Tech_Rep_07_03_S.pdf",
-                            desc: "Performance Comparison of Reno, Vegas and Westwood+ TCP Congestion Control"
-                        },
-                        {
-                            href: "http://www.linux-magazine.com/Issues/2015/175/FQ-CoDel-and-MPTCP",
-                            desc: "Speeding up mobile networks with FQ CoDel and MPTCP"
-                        },
-                        {
-                            href: "https://blog.cloudflare.com/how-to-receive-a-million-packets/",
-                            desc: "How to receive a million packets per second"
-                        },
-                        {
-                            href: "https://access.redhat.com/documentation/en-US/Red_Hat_Enterprise_Linux/6/html-single/Performance_Tuning_Guide/",
-                            desc: "Linux - Performance Tuning Guide"
-                        },
-                        {
-                            href: "http://www.cubrid.org/blog/dev-platform/understanding-tcp-ip-network-stack/",
-                            desc: "Understanding TCP/IP Network Stack & Writing Network Apps"
-                        },
-                        {
-                            href: "http://datacratic.com/site/blog/1m-qps-nginx-and-ubuntu-1204-ec2",
-                            desc: "1M QPS WITH NGINX"
-                        },
-                        {
-                            href: "https://greenhost.net/2013/04/10/multi-queue-network-interfaces-with-smp-on-linux/",
-                            desc: "Multi-queue network interfaces with SMP on Linux"
-                        },
-                        {
-                            href: "https://blog.cloudflare.com/single-rx-queue-kernel-bypass-with-netmap/",
-                            desc: "Single RX queue kernel bypass in Netmap for high packet rate networking"
-                        },
-                        {
-                            href: "http://balodeamit.blogspot.com.br/2013/10/receive-side-scaling-and-receive-packet.html",
-                            desc: "Receive Side Scaling and Receive Packet Steering"
-                        },
-                        {
-                            href: "http://blog.packagecloud.io/eng/2016/06/22/monitoring-tuning-linux-networking-stack-receiving-data/",
-                            desc: "Monitoring and Tuning the Linux Networking Stack: Receiving Data"
-                        },
-                        {
-                            href: "http://rhelblog.redhat.com/2015/09/29/pushing-the-limits-of-kernel-networking/",
-                            desc: "Pushing the Limits of Kernel Networking"
-                        }
-                    ]
-                },
-                pm2:   {
-                    title: "Keymetrics pm2 (v1.1.3)", anchor: [
-                    {
-                        href: "http://pm2.keymetrics.io/",
-                        desc: "PM2 - Advanced Node.js process manager"
-                    },
-                    {
-                        href: "http://pm2.keymetrics.io/docs/usage/cluster-mode/",
-                        desc: "PM2 - Cluster Mode"
-                    },
-                    {
-                        href: "https://keymetrics.io/",
-                        desc: "Keymetrics I/O - Monitor and Augment Node.js"
-                    },
-                    {
-                        href: "http://pm2.keymetrics.io/docs/usage/application-declaration/",
-                        desc: "PM2 - Application Declaration"
-                    },
-                    {
-                        href: "http://pm2.keymetrics.io/docs/usage/deployment/",
-                        desc: "PM2 - Deployment"
-                    }
-                    ]
-                },
-                angular2: {
-	                title:  "Javascript, V8 & AngularJS 2 (v2.0.0-rc4)",
-	                anchor: [
-                    {href: "https://angular.io", desc: "One framework - Angular 2"},
-                    {href: "https://angular.io/docs/js/latest/guide/cheatsheet.html", desc: "Angular Cheat Sheet - js"},
-                    {href:    "https://medium.com/google-developer-experts/angular-2-introduction-to-new-http-module-1278499db2a0#.ttmhbubnd",
-                        desc: "Angular 2 — Introduction to new HTTP module"
-                    },
-                    {href:    "http://blog.caelum.com.br/angularjs-seo-google-analytics-e-virtual-pages/",
-                        desc: "AngularJS: SEO, Google Analytics e Virtual Pages"
-                    },
-                    {href:    "https://coryrylan.com/blog/angular-2-observable-data-services",
-                        desc: "Angular 2 Observable Data Services"
-                    },
-                    {href:    "http://blog.thoughtram.io/angular/2016/01/06/taking-advantage-of-observables-in-angular2.html",
-                        desc: "Taking advantage of Observables in Angular 2"
-                    },
-                    {
-	                    href: "https://youtu.be/PkOBnYxqj3k",
-	                    desc: "Critical rendering path - Crash course on web performance"
-                    },
-                    {
-	                    href: "https://youtu.be/N1swY14jiKc",
-	                    desc: "V8, modern JavaScript, and beyond - Google I/O 2016"
-                    },
-                    {
-	                    href: "https://youtu.be/etACK2qbHfc",
-	                    desc: "There is a client-side proxy (ServiceWorker) in your browser!"
-                    },
-                    {
-	                    href: "https://youtu.be/EwYD_xqB7Qs",
-	                    desc: "Angular 2 - Google I/O 2016"
-                    },
-                    {
-	                    href: "https://youtu.be/7gtf47D_bu0",
-	                    desc: "Bandwidth, latency, and radio performance - Crash course on web performance"
-                    },
-                    {
-	                    href: "https://youtu.be/46exugLbGFI",
-	                    desc: "Optimizing networking performance (and HTTP 2.0) - Crash course on web performance "
-                    },
-                    {
-	                    href: "https://youtu.be/7ubJzEi3HuA",
-	                    desc: "Speed, Performance, and Human Perception"
-                    },
-                    {
-	                    href: "https://youtu.be/rpNXWxMyzHQ",
-	                    desc: "Delivering 60 FPS in the browser - Crash course on web performance"
-                    }
-                    ]
-                },
-                ng2nvd3:  {
-                    title: "ng2-nvd3 Charting Library (v1.1.1)", anchor: [
-                    {href: "https://github.com/krispo/ng2-nvd3", desc: "Angular2 component for nvd3"}
-                    ]
-                },
-                stunnel:  {
-                    title: "stunnel (v5.33)", anchor: [
-                    {href:    "https://www.stunnel.org/index.html",
-                        desc: "Stunnel - a proxy designed to add TLS encryption functionality to existing clients and servers"
-                    },
-                    {href:    "http://bencane.com/2014/02/18/sending-redis-traffic-through-an-ssl-tunnel-with-stunnel/",
-                        desc: "Sending redis traffic through an SSL tunnel with stunnel"
-                    }
-                    ]
-                },
-                github:   {
-                    title: "GitHub", anchor: [
-                        {href:    "https://github.com/giancarlobonansea/clusterednode-client",
-                        desc: "NLB HA Clustered Node PoC - Client app"
-                    },
-                        {href:    "https://github.com/giancarlobonansea/clusterednode-worker",
-                        desc: "NLB HA Clustered Node PoC - Worker process"
-                    },
-                        {href:    "https://github.com/giancarlobonansea/clusterednode-hdrhist",
-                        desc: "NLB HA Clustered Node PoC - HDR Histogram service"
-                    },
-                        {
-                            href: "https://github.com/giancarlobonansea/clusterednode-pubsub",
-                            desc: "NLB HA Clustered Node PoC - Pub/Sub Redis service"
-                        },
-                        {href:    "https://github.com/giancarlobonansea/clusterednode-config",
-                        desc: "NLB HA Clustered Node PoC - Configuration files"
-                    }
-                    ]
-                },
-                nginx:    {
-                    title: "nginX (v1.11.1)", anchor: [
-                    {
-                        href: "https://www.nginx.com/blog/7-tips-for-faster-http2-performance/",
-                        desc: "7 Tips for Faster HTTP/2 Performance"
-                    },
-                    {
-                        href: "https://www.quora.com/How-can-nginx-handle-concurrent-requests-with-a-single-worker-process",
-                        desc: "How can nginx handle concurrent requests with a single worker process?"
-                    },
-                    {
-                        href: "https://www.nginx.com/resources/admin-guide/load-balancer/",
-                        desc: "NGINX Load Balancing - HTTP and TCP Load Balancer"
-                    },
-                    {
-                        href: "https://serversforhackers.com/so-you-got-yourself-a-loadbalancer",
-                        desc: "So You Got Yourself a Loadbalancer"
-                    },
-                    {
-                        href: "http://www.aosabook.org/en/nginx.html",
-                        desc: "The Architecture of Open Source Applications (Volume 2): nginx"
-                    },
-                    {
-                        href: "https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/",
-                        desc: "Inside NGINX: How We Designed for Performance & Scale"
-                    },
-                    {
-                        href: "https://www.nginx.com/blog/introducing-the-nginx-microservices-reference-architecture/",
-                        desc: "Introducing the Microservices Reference Architecture from NGINX"
-                    },
-                    {
-                        href: "https://www.nginx.com/blog/building-microservices-using-an-api-gateway/",
-                        desc: "Building Microservices: Using an API Gateway"
-                    },
-                    {
-                        href: "http://www.slideshare.net/joshzhu/nginx-internals",
-                        desc: "nginX Internals - slide presentation"
-                    },
-                    {
-                        href: "http://www.thegeekstuff.com/2013/11/nginx-vs-apache/?utm_source=tuicool",
-                        desc: "Nginx Vs Apache: Nginx Basic Architecture and Scalability"
-                    },
-                    {
-                        href: "https://www.digitalocean.com/community/tutorials/apache-vs-nginx-practical-considerations",
-                        desc: "Apache vs Nginx: Practical Considerations"
-                    },
-                    {
-                        href: "https://www.nginx.com/blog/nginx-load-balance-deployment-models/",
-                        desc: "NGINX Load Balancing Deployment Scenarios"
-                    }
-                    ]
-                },
-                hdr:      {
-                    title: "HDR Histograms w/o Coordinated Omission (v2.1.9)", anchor: [
-                    {
-                        href: "http://bravenewgeek.com/everything-you-know-about-latency-is-wrong/",
-                        desc: "Everything You Know About Latency Is Wrong"
-                    },
-                    {
-                        href: "http://hdrhistogram.org/",
-                        desc: "HdrHistogram: A High Dynamic Range Histogram"
-                    },
-                    {
-                        href: "https://github.com/giltene/wrk2",
-                        desc: "wrk2 - a HTTP benchmarking tool based mostly on wrk"
-                    },
-                    {
-                        href: "https://www.npmjs.com/package/native-hdr-histogram",
-                        desc: "node.js bindings for hdr histogram C implementation"
-                    },
-                    {
-                        href: "http://psy-lob-saw.blogspot.com.br/2015/02/hdrhistogram-better-latency-capture.html",
-                        desc: "HdrHistogram: A better latency capture method"
-                    },
-                    {
-                        href: "https://www.youtube.com/watch?v=6Rs0p3mPNr0",
-                        desc: "How NOT to measure latency - Gil Tene"
-                    },
-                    {
-                        href: "https://nirajrules.wordpress.com/2009/09/17/measuring-performance-response-vs-latency-vs-throughput-vs-load-vs-scalability-vs-stress-vs-robustness/",
-                        desc: "Performance Testing – Response vs. Latency vs. Throughput vs. Load vs. Scalability vs. Stress vs. Robustness"
-                    }
-                    ]
-                },
-                redis:    {
-                    title: "redis.io (v3.2.1)", anchor: [
-                    {
-                        href: "http://redis.io/",
-                        desc: "redis.io - open source in-memory data structure store (database, cache and message broker)"
-                    },
-                    {
-                        href: "http://redis.js.org/",
-                        desc: "REDIS - A Node.js redis client"
-                    },
-                    {
-                        href: "http://redis.io/topics/rediscli",
-                        desc: "redis-cli, the Redis command line interface"
-                    },
-                    {
-                        href: "http://bluebirdjs.com/docs/getting-started.html",
-                        desc: "Bluebird - full featured promise library with unmatched performance"
-                    },
-                    {
-                        href: "http://redis.io/topics/latency",
-                        desc: "Redis latency problems troubleshooting"
-                    },
-                    {
-                        href: "http://redis.io/topics/latency-monitor",
-                        desc: "Redis latency monitoring framework"
-                    },
-                    {
-                        href: "https://www.datadoghq.com/blog/how-to-collect-redis-metrics/",
-                        desc: "How to collect Redis metrics"
-                    },
-                    {
-                        href: "https://www.datadoghq.com/wp-content/uploads/2013/09/Understanding-the-Top-5-Redis-Performance-Metrics.pdf",
-                        desc: "Understanding the Top 5 Redis Performance Metrics"
-                    },
-                    {
-                        href: "http://www.iamtherealbill.com/2014/12/redis-performance-thoughts-2/",
-                        desc: "More Thoughts on Redis Performance"
-                    },
-                    {
-                        href: "http://redis.io/topics/cluster-tutorial",
-                        desc: "Redis cluster tutorial"
-                    },
-                    {
-                        href: "http://redis.io/topics/cluster-spec",
-                        desc: "Redis Cluster Specification"
-                    },
-                    {
-                        href: "http://redis.io/commands",
-                        desc: "Redis Command Sheet"
-                    },
-                    {
-                        href: "http://redis.io/presentation/Redis_Cluster.pdf",
-                        desc: "Redis Cluster - a pragmatic approach to distribution"
-                    },
-                    {
-                        href: "https://github.com/luin/ioredis",
-                        desc: "A robust, performance-focused and full-featured Redis client for Node"
-                    },
-                    {
-                        href: "https://github.com/luin/ioredis/wiki/Improve-Performance",
-                        desc: "ioredis - Improve Performance"
-                    },
-                    {
-                        href: "https://github.com/thunks/thunk-redis",
-                        desc: "The fastest thunk/promise-based redis client, support all redis features"
-                    },
-                    {
-                        href: "https://github.com/twitter/twemproxy",
-                        desc: "A fast, light-weight proxy for memcached and redis"
-                    },
-                    {
-                        href: "http://engineering.bloomreach.com/the-evolution-of-fault-tolerant-redis-cluster/",
-                        desc: "The Evolution of Fault Tolerant Redis Cluster"
-                    },
-                    {
-                        href: "http://www.iamtherealbill.com/2015/04/clusterizing-redis-intro/",
-                        desc: "A Primer on Clusterizing Redis"
-                    },
-                    {
-                        href: "http://redis.io/topics/distlock",
-                        desc: "Distributed locks with Redis"
-                    },
-                    {
-                        href: "http://redis.io/topics/notifications",
-                        desc: "Redis Keyspace Notifications"
-                    },
-                    {
-                        href: "https://www.infoq.com/presentations/Real-Time-Delivery-Twitter",
-                        desc: "redis use-cases: Real-Time Delivery Architecture at Twitter"
-                    },
-                    {
-                        href: "http://code.flickr.net/2011/10/11/talk-real-time-updates-on-the-cheap-for-fun-and-profit/",
-                        desc: "redis use-cases: Flickr - Real-time Updates on the Cheap for Fun and Profit"
-                    }]
-                },
-                node:     {
-                    title: "Node.js (v6.2.2)", anchor: [
-                    {
-                        href: "https://nodejs.org/en/",
-                        desc: "Node.js - a JavaScript runtime built on Chrome's V8 JavaScript engine"
-                    },
-                    {
-                        href: "http://thisdavej.com/beginners-guide-to-installing-node-js-on-a-raspberry-pi/",
-                        desc: "Beginner’s Guide to Installing Node.js on a Raspberry Pi"
-                    },
-                    {
-                        href: "http://blog.keithcirkel.co.uk/load-balancing-node-js/",
-                        desc: "Load balancing Node.js"
-                    },
-                    {
-                        href: "https://www.npmjs.com/package/http2",
-                        desc: "An HTTP/2 client and server implementation"
-                    },
-                    {
-                        href: "http://nodeschool.io/",
-                        desc: "NodeSchool.io - Node.js concepts via interactive command-line games"
-                    },
-                    {
-                        href: "https://nodejs.org/static/documents/casestudies/Nodejs-at-Uber.pdf",
-                        desc: "How Uber Uses Node.js to Scale Their Business"
-                    },
-                    {
-                        href: "https://www.youtube.com/watch?v=p74282nDMX8",
-                        desc: "Node.js at Netflix"
-                    },
-                    {
-                        href: "https://www.youtube.com/watch?v=ElI5QtUISWM",
-                        desc: "Node.js at Uber"
-                    },
-                    {
-                        href: "https://www.youtube.com/watch?v=-00ImeLt9ec",
-                        desc: "Node.js at PayPal"
-                    },
-                    {
-                        href: "https://www.youtube.com/watch?v=BJPeLJhv1Ic",
-                        desc: "Node.js at CapitalOne"
-                    },
-                    {
-                        href: "http://blog.trevnorris.com/2013/07/measuring-node-performance-part-1.html",
-                        desc: "Measuring node performance"
-                    }
-                    ]
-                },
-                ga:       {
-                    title: "Google Analytics", anchor: [
-                        {
-                            href: "https://analytics.google.com/",
-                            desc: "Google Analytics"
-                        }
-                    ]
-                },
-                quic:     {
-                    title:  "Google QUIC",
-                    anchor: [
-                        {
-                            href: "https://en.wikipedia.org/wiki/QUIC",
-                            desc: "QUIC (Quick UDP Internet Connections)"
-                        },
-                        {
-                            href: "https://docs.google.com/document/d/1RNHkx_VvKWyWg6Lr8SZ-saqsQx7rFV-ev2jRFUoVD34/edit",
-                            desc: "QUIC: Design Document and Specification Rationale"
-                        },
-                        {
-                            href: "https://docs.google.com/document/d/1lmL9EF6qKrk7gbazY8bIdvq3Pno2Xj_l_YShP40GLQE/edit",
-                            desc: "QUIC FAQ for Geeks"
-                        },
-                        {
-                            href: "https://www.youtube.com/watch?v=hQZ-0mXFmk8",
-                            desc: "QUIC: next generation multiplexed transport over UDP"
-                        },
-                        {
-                            href: "http://c3lab.poliba.it/images/3/3b/QUIC_SAC15.pdf",
-                            desc: "HTTP over UDP: an Experimental Investigation of QUIC"
-                        },
-                        {
-                            href: "https://www.chromium.org/quic",
-                            desc: "QUIC, a multiplexed stream transport over UDP"
-                        },
-                        {
-                            href: "http://blog.chromium.org/2015/04/a-quic-update-on-googles-experimental.html",
-                            desc: "A QUIC update on Google’s experimental transport"
-                        }
-                    ]
-                },
-                open:     {
-                    title:  "Open Source architectures",
-                    anchor: [
-                        {
-                            href: "http://www.aosabook.org/en/index.html",
-                            desc: "The Architecture of Open Source Applications"
-                        },
-                        {
-                            href: "https://www.youtube.com/watch?v=jm75pxsb80c",
-                            desc: "Microservice Developer Experience"
-                        },
-                        {
-                            href: "https://www.youtube.com/watch?v=SYNJFX0oIBU",
-                            desc: "Node.js for Enterprise APIs Panel Discussion"
-                        },
-                        {
-                            href: "https://www.youtube.com/watch?v=D9TUU5bK0iE",
-                            desc: "Rebuilding the Ship as it Sails: Making Large Legacy Sites Responsive"
-                        },
-                        {
-                            href: "https://strongloop.com/",
-                            desc: "Strongloop - Compose APIs, Build, Deploy and Monitor Node"
-                        },
-                        {
-                            href: "https://www.mnot.net/cache_docs/",
-                            desc: "Caching tutorial for Web Authors"
-                        }
-                    ]
-                },
-                openssl:  {
-                    title:  "OpenSSL (v1.0.2h)",
-                    anchor: [
-                        {
-                            href: "https://www.openssl.org/",
-                            desc: "OpenSSL - Cryptography and SSL/TLS Toolkit"
-                        }
-                    ]
-                },
-                socket:   {
-                    title:  "Socket.IO (v1.4.8)",
-                    anchor: [
-                        {
-                            href: "http://socket.io/blog/",
-                            desc: "Socket.IO - THE FASTEST AND MOST RELIABLE REAL-TIME ENGINE"
-                        },
-                        {
-                            href: "http://stackoverflow.com/questions/19496790/drop-packets-if-falling-behind-with-socket-io-in-node-js",
-                            desc: "How to handle dropping packets on volatile messages"
-                        },
-                        {
-                            href: "http://blog.mixu.net/2011/11/22/performance-benchmarking-socket-io-0-8-7-0-7-11-and-0-6-17-and-nodes-native-tcp/",
-                            desc: "Performance benchmarking Socket.io 0.8.7, 0.7.11 and 0.6.17 and Node's native TCP"
-                        }
-                    ]
+			                        {
+				                        key: 'raspberrypi3',
+				                        y:   25
+			                        },
+			                        {
+				                        key: 'raspberrypi5',
+				                        y:   25
+			                        },
+			                        {
+				                        key: 'raspberrypi6',
+				                        y:   25
+			                        }];
+			this.lineChartData = [
+				{
+					key:    'w/o Coord. Omission',
+					values: [],
+					area:   false
+				},
+				{
+					key:    'Latency/Percentile',
+					values: [],
+					area:   true
+				}
+			];
+			//
+			// Controller execution variables - all methods
+			//
+			this.operationProb = [0,
+			                      0,
+			                      0,
+			                      0,
+			                      0,
+			                      0,
+			                      0,
+			                      1,
+			                      2,
+			                      3];
+			this.httpService = HTTPService;
+			this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
+			//
+			// Controller execution variables - stress method
+			//
+			this.loopCon = 0;
+			//
+			// Controller execution variables - duration method
+			//
+			this.duration = 0;
+			//
+			// Statistical variables
+			//
+			this.tpAngular = 0;
+			this.tpNginx = 0;
+			this.tpNode = 0;
+			this.tpRedis = 0;
+			//
+			// Live Events socket variables and configuration
+			//
+			this.evMatrix = [
+				[0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0],
+				[0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0],
+				[0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0],
+				[0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0],
+				[0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0],
+				[0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1],
+				[1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1],
+				[1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1],
+				[1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1],
+				[1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1],
+				[1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2],
+				[2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2],
+				[2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2],
+				[2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2],
+				[2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2],
+				[2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2]
+			];
+			var ioMtx = this;
+			io('https://giancarlobonansea.homeip.net:33331').on('redis', function(data) {
+				if (ioMtx.evMatrix[data.x][data.y] !== 3) {
+					var x = data.x,
+					    y = data.y;
+					ioMtx.evMatrix[x][y] = 3;
+					setTimeout(function() {
+						ioMtx.evMatrix[x][y] = (((x * 32) + y) * 16 / 2731) | 0;
+					}, 500);
                 }
-            };
+			});
 		}
 		AppSimulator.parameters = [
 			app.HTTPService
@@ -865,6 +834,77 @@
 				directives: [nvD3]
 			})
 		];
+		AppSimulator.prototype.initViewExecVariables = function() {
+			this.resetViewExecVariables();
+			this.running = false;
+		};
+		AppSimulator.prototype.resetViewExecVariables = function() {
+			this.respErrors = 0;
+			this.respOK = 0;
+		};
+		AppSimulator.prototype.initViewExecParameters = function() {
+			this.isDuration = false;
+			this.reqConn = 2;
+			this.reqCount = 100;
+			this.reqDuration = 5;
+			this.reqInterval = 50;
+			this.urlOptions = [['https://giancarlobonansea.homeip.net:33333/api',
+			                    'DNS Public'],
+			                   ['https://raspberrypi4:8010/api',
+			                    'DNS Private'],
+			                   ['https://192.168.69.242:8010/api',
+			                    'IP Private']];
+		};
+		AppSimulator.prototype.initViewPresentationControlVariables = function() {
+			this.resetViewPresentationControlVariables();
+			this.selectedUrl = this.urlOptions[0][0];
+			this.liveEvents = false;
+		};
+		AppSimulator.prototype.resetViewPresentationControlVariables = function() {
+			this.histogram = [[50,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [75,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [87.5,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [93.75,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [96.875,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [98.4375,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [99.21875,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [100,
+			                   0,
+			                   0,
+			                   0,
+			                   0]];
+			this.showReference = false;
+			this.calculating = false;
+		};
+
 		AppSimulator.prototype.setSmall = function() {
             if (this.isDuration) {
                 this.reqDuration = 5;
@@ -1108,7 +1148,7 @@
                     selfRTT.hdrRTTresults = response;
 	                selfRTT.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
 	                for (var n = 0; n < selfRTT.hdrRTTresults.chart.length; n++) {
-                        var idx = ((selfRTT.hdrRTTresults.chart[n].percentile * selfRTT.reqOK / 100) | 0) - 1;
+		                var idx = ((selfRTT.hdrRTTresults.chart[n].percentile * selfRTT.respOK / 100) | 0) - 1;
 		                selfRTT.lineChartData[0].values.push({
 			                                                     x: selfRTT.hdrRTTresults.chart[n].percentile,
 			                                                     y: selfRTT.hdrRTTresults.chart[n].value
@@ -1136,10 +1176,10 @@
             ga('send', 'event', 'Reference', title, desc);
         };
         AppSimulator.prototype.percValue = function() {
-            return Math.ceil(this.reqOK * 100 / this.reqCount);
+	        return Math.ceil(this.respOK * 100 / this.reqCount);
         };
 		AppSimulator.prototype.calcPosition = function(hist) {
-			return Math.ceil(this.reqOK * hist / 100);
+			return Math.ceil(this.respOK * hist / 100);
 		};
         AppSimulator.prototype.getDurationRequests = function() {
             var tot = (this.reqDuration * 1000 * this.reqConn / this.reqInterval) | 0;
@@ -1150,7 +1190,7 @@
         };
 		AppSimulator.prototype.checkStop = function() {
             this.duration = Date.now() - this.iniTime;
-            if (this.reqOK + this.reqErrors >= this.reqCount) {
+			if (this.respOK + this.respErrors >= this.reqCount) {
 				this.calculating = true;
                 this.reqExecuted = this.reqCount;
 				var selfStop = this;
@@ -1178,10 +1218,10 @@
                             exts: response[k].exts,
                             red:  response[k].red
 						};
-                        ++self.reqOK;
+						++self.respOK;
                         if (response[k].cached) {
                             self.reqCached++;
-                            self.cachedResp.push(self.reqOK);
+	                        self.cachedResp.push(self.respOK);
                         }
                         else {
                             if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
@@ -1192,13 +1232,13 @@
                                                                                                    []]]);
                                 self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
                             }
-                            self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1][self.requests[2][response[k].reqId]].push(self.reqOK);
+	                        self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1][self.requests[2][response[k].reqId]].push(self.respOK);
                             self.nodeIdx[response[k].json.hostname][1]++;
                         }
 					}
 				},
 				function(error) {
-					self.reqErrors++;
+					self.respErrors++;
 				},
 				function() {
 					self.observableRequests.unsubscribe();
@@ -1243,10 +1283,10 @@
                                         exts: response[k].exts,
                                         red:  response[k].red
                                     };
-                                    ++self.reqOK;
+	                                ++self.respOK;
                                     if (response[k].cached) {
                                         self.reqCached++;
-                                        self.cachedResp.push(self.reqOK);
+	                                    self.cachedResp.push(self.respOK);
                                     }
                                     else {
                                         if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
@@ -1257,7 +1297,7 @@
                                                                                                                []]]);
                                             self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
                                         }
-                                        self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1][self.requests[2][response[k].reqId]].push(self.reqOK);
+	                                    self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1][self.requests[2][response[k].reqId]].push(self.respOK);
                                         self.nodeIdx[response[k].json.hostname][1]++;
                                     }
                                     self.countResponses++;
@@ -1276,7 +1316,7 @@
                         function(error) {
                             self.duration = Date.now() - self.iniTime;
                             if (self.countResponses < self.reqCount) {
-                                self.reqErrors++;
+	                            self.respErrors++;
                                 self.countResponses++;
                             }
                             else {
@@ -1351,66 +1391,55 @@
                 this.showReference = false;
             }
         };
-        AppSimulator.prototype.mapDBmatrix = function(x, y) {
-            return ((((x * 32) + y) * 16 / 2731) | 0);
-        };
-        AppSimulator.prototype.initEVMatrix = function() {
-            this.evMatrix = [];
-            for (var i = 0; i < 16; i++) {
-                this.evMatrix.push([]);
-                for (var j = 0; j < 32; j++) {
-                    this.evMatrix[i].push(this.mapDBmatrix(i, j));
-                }
-            }
-        };
-		AppSimulator.prototype.initSimulator = function() {
-            this.liveEvents = true;
-            this.showReference = false;
-            this.reqOK = 0;
-            this.reqErrors = 0;
+		AppSimulator.prototype.startSimulator = function() {
+			//
+			// Initialize execution variables - once for each execution
+			// all first time initialization performed on constructor function
+			//
+			//
+			// Save execution parameters
+			//
+			this.execMode = this.getSimulationMethod();
+			this.execReq = this.reqCount;
+			this.execDuration = this.reqDuration;
+			this.execInterval = this.reqInterval;
+			this.execConn = this.reqConn;
+			this.execMaxReq = this.getDurationRequests();
+			//
+			// Reset statistic variables
+			//
+			this.totAngular = 0;
+			this.totNginx = 0;
+			this.totNode = 0;
+			this.totRedis = 0;
+			this.tpAngular = 0;
+			this.tpNginx = 0;
+			this.tpNode = 0;
+			this.tpRedis = 0;
+			//
+			// Reset view presentation variables - control
+			//
+			this.resetViewPresentationControlVariables();
+			this.liveEvents = true;
+			//
+			// Reset view presentation variables - stats counters 
+			//
+			this.operType = [0,
+			                 0,
+			                 0,
+			                 0];
             this.reqCached = 0;
-            this.duration = 0;
-            this.loopCon = 0;
-            this.histogram = [[50,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [75,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [87.5,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [93.75,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [96.875,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [98.4375,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [99.21875,
-                               0,
-                               0,
-                               0,
-                               0],
-                              [100,
-                               0,
-                               0,
-                               0,
-                               0]];
+			//
+			// Reset controller execution variables - stress method
+			//
+			this.loopCon = 0;
+			//
+			// Reset controller execution variables - duration method
+			//
+			this.duration = 0;
+			//
+			// Reset Controller execution variables - all methods
+			//
 			this.requests = [[],
                              [],
                              []];
@@ -1438,28 +1467,533 @@
 				"raspberrypi5": {},
 				"raspberrypi6": {}
 			};
-			this.totAngular = 0;
-			this.totNginx = 0;
-			this.totNode = 0;
-            this.totRedis = 0;
-			this.tpAngular = 0;
-			this.tpNginx = 0;
-			this.tpNode = 0;
-            this.tpRedis = 0;
-			this.observableRequests = undefined;
             this.cachedResp = [];
-            this.operType = [0,
-                             0,
-                             0,
-                             0];
-            this.execMode = this.getSimulationMethod();
-            this.execReq = this.reqCount;
-            this.execDuration = this.reqDuration;
-            this.execInterval = this.reqInterval;
-            this.execConn = this.reqConn;
-            this.execMaxReq = this.getDurationRequests();
-            this.initEVMatrix();
-            this.running = true;
+			this.observableRequests = undefined;
+			//
+			// Reset Live Events socket variables
+			//
+			this.evMatrix = [
+				[0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0],
+				[0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0],
+				[0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0],
+				[0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0],
+				[0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0],
+				[0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 0,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1],
+				[1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1],
+				[1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1],
+				[1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1],
+				[1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1],
+				[1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 1,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2],
+				[2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2],
+				[2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2],
+				[2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2],
+				[2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2],
+				[2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2,
+				 2]
+			];
+			//
+			// Reset view execution variables
+			//
+			this.resetViewExecVariables();
+			this.running = true;
+			//
+			// Switch among simulation methods (stress or duration)
+			//
             if (this.isDuration) {
                 this.reqCount = this.getDurationRequests();
                 this.throwHTTPduration();

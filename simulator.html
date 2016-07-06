@@ -62,7 +62,7 @@
 						</div>
 						&nbsp;
 						<!-- Run Forrest... run -->
-						<button type="button" class="btn btn-success btn-sm" (click)="initSimulator()" [disabled]="isRunning()">
+						<button type="button" class="btn btn-success btn-sm" (click)="startSimulator()" [disabled]="isRunning()">
 							<i class="fa fa-play"></i></button>
 					</div>
 					<div class="col-xs-12 col-sm-6 text-right">
@@ -105,7 +105,7 @@
 		</div>
 	</div>
 </div><!-- Statistics -->
-<div class="row" *ngIf="!isRunning() && reqOK!==0 && !showReference && !liveEvents">
+<div class="row" *ngIf="!isRunning() && respOK!==0 && !showReference && !liveEvents">
 	<div class="col-xs-12 col-sm-4">
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -371,7 +371,7 @@
 	</div>
 </div>
 <!-- Balanced requests tables per node cluster -->
-<div class="row" *ngIf="!isRunning() && reqOK!==0 && !showReference && !liveEvents">
+<div class="row" *ngIf="!isRunning() && respOK!==0 && !showReference && !liveEvents">
 	<div class="col-xs-12 col-sm-6 col-md-3" *ngFor="let nodes of results">
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -848,15 +848,15 @@
 							<span class="label label-default">PPL {{operType[2]}}</span>&nbsp;
 							<span class="label label-default">TRN {{operType[3]}}</span>&nbsp;
 							<span class="label label-info">CACHED {{reqCached}}</span>&nbsp;
-							<span class="label label-success">OK {{reqOK}}</span>&nbsp;
-							<span class="label label-danger">ERR {{reqErrors}}</span>
+							<span class="label label-success">OK {{respOK}}</span>&nbsp;
+							<span class="label label-danger">ERR {{respErrors}}</span>
 						</h4>
 					</div>
 				</div>
 			</div>
 			<table class="table table-condensed">
 				<tbody>
-					<tr [hidden]="reqOK<2">
+					<tr [hidden]="respOK<2">
 						<td class="bg-primary text-right" width="{{percValue()}}%"><h4>{{percValue()}}%</h4></td>
 						<td class="bg-info" *ngIf="percValue()<100"></td>
 					</tr>
