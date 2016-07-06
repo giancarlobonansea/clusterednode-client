@@ -441,7 +441,8 @@
                     ]
                 },
                 angular2: {
-                    title: "AngularJS 2 (v2.0.0-rc4)", anchor: [
+	                title:  "Javascript, V8 & AngularJS 2 (v2.0.0-rc4)",
+	                anchor: [
                     {href: "https://angular.io", desc: "One framework - Angular 2"},
                     {href: "https://angular.io/docs/js/latest/guide/cheatsheet.html", desc: "Angular Cheat Sheet - js"},
                     {href:    "https://medium.com/google-developer-experts/angular-2-introduction-to-new-http-module-1278499db2a0#.ttmhbubnd",
@@ -455,6 +456,38 @@
                     },
                     {href:    "http://blog.thoughtram.io/angular/2016/01/06/taking-advantage-of-observables-in-angular2.html",
                         desc: "Taking advantage of Observables in Angular 2"
+                    },
+                    {
+	                    href: "https://youtu.be/PkOBnYxqj3k",
+	                    desc: "Critical rendering path - Crash course on web performance"
+                    },
+                    {
+	                    href: "https://youtu.be/N1swY14jiKc",
+	                    desc: "V8, modern JavaScript, and beyond - Google I/O 2016"
+                    },
+                    {
+	                    href: "https://youtu.be/etACK2qbHfc",
+	                    desc: "There is a client-side proxy (ServiceWorker) in your browser!"
+                    },
+                    {
+	                    href: "https://youtu.be/EwYD_xqB7Qs",
+	                    desc: "Angular 2 - Google I/O 2016"
+                    },
+                    {
+	                    href: "https://youtu.be/7gtf47D_bu0",
+	                    desc: "Bandwidth, latency, and radio performance - Crash course on web performance"
+                    },
+                    {
+	                    href: "https://youtu.be/46exugLbGFI",
+	                    desc: "Optimizing networking performance (and HTTP 2.0) - Crash course on web performance "
+                    },
+                    {
+	                    href: "https://youtu.be/7ubJzEi3HuA",
+	                    desc: "Speed, Performance, and Human Perception"
+                    },
+                    {
+	                    href: "https://youtu.be/rpNXWxMyzHQ",
+	                    desc: "Delivering 60 FPS in the browser - Crash course on web performance"
                     }
                     ]
                 },
