@@ -16,13 +16,11 @@
 					}
 				})
 				.map(function(response) {
-					var h_reqId   = response.headers.get('x-reqid'),
-					    h_rtt     = response.headers.get('x-angular-time'),
-					    is_cached = response.headers.get('x-cache-status' === 'HIT';
+					var is_cached = response.headers.get('x-cache-status') === 'HIT';
 					return {
 						"json":   response.json() || {},
-						"reqId":  parseInt(h_reqId),
-						"rtt":    parseInt(h_rtt),
+						"reqId":  parseInt(response.headers.get('x-reqid')),
+						"rtt":    parseInt(response.headers.get('x-angular-time')),
 						"tsn":    is_cached ? 0.5 : parseFloat(response.headers.get('x-nginx-time') * 1000.0) | 0,
 						"exts":   is_cached ? 0 : parseFloat(response.headers.get('x-node-time')),
 						"red":    is_cached ? 0 : parseFloat(response.headers.get('x-redis-time')),
