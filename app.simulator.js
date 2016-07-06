@@ -1172,7 +1172,7 @@
             );
             ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
         };
-        AppSimulator.prototype.onRefLink = function(title, desc) {
+		AppSimulator.prototype.onRefLinkClick = function(title, desc) {
             ga('send', 'event', 'Reference', title, desc);
         };
         AppSimulator.prototype.percValue = function() {

@@ -458,180 +458,24 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-xs-12 col-sm-6">
-						<!-- HTTP/2 -->
-						<blockquote>
+						<blockquote *ngFor="let grpLinks of links['l0']">
 							<dl>
-								<dt>{{links['HTTP2'].title}}</dt>
+								<dt>{{grpLinks.title}}</dt>
 								<dd>
-									<footer *ngFor="let link of links['HTTP2'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['HTTP2'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- Advanced Networking -->
-						<blockquote>
-							<dl>
-								<dt>{{links['net'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['net'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['net'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- QUIC -->
-						<blockquote>
-							<dl>
-								<dt>{{links['quic'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['quic'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['quic'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- pm2 -->
-						<blockquote>
-							<dl>
-								<dt>{{links['pm2'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['pm2'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['pm2'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- AngularJS 2 -->
-						<blockquote>
-							<dl>
-								<dt>{{links['angular2'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['angular2'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['angular2'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- ng2-nvd3 -->
-						<blockquote>
-							<dl>
-								<dt>{{links['ng2nvd3'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['ng2nvd3'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['ng2nvd3'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- google analytics -->
-						<blockquote>
-							<dl>
-								<dt>{{links['ga'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['ga'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['ga'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- OpenSSL -->
-						<blockquote>
-							<dl>
-								<dt>{{links['openssl'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['openssl'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['openssl'].title,link.desc)" target="_blank">{{link.desc}}</a>
+									<footer *ngFor="let link of grpLinks.anchor">
+										<a [href]="link.href" (click)="onRefLinkClick(grpLinks.title,link.desc)" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>
 						</blockquote>
 					</div>
 					<div class="col-xs-12 col-sm-6">
-						<!-- nginX -->
-						<blockquote>
+						<blockquote *ngFor="let grpLinks of links['l1']">
 							<dl>
-								<dt>{{links['nginx'].title}}</dt>
+								<dt>{{grpLinks.title}}</dt>
 								<dd>
-									<footer *ngFor="let link of links['nginx'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['nginx'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- HDR Histograms / Coordinated Omission -->
-						<blockquote>
-							<dl>
-								<dt>{{links['hdr'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['hdr'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['hdr'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- Redis.io -->
-						<blockquote>
-							<dl>
-								<dt>{{links['redis'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['redis'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['redis'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- Node.js -->
-						<blockquote>
-							<dl>
-								<dt>{{links['node'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['node'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['node'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- stunnel -->
-						<blockquote>
-							<dl>
-								<dt>{{links['stunnel'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['stunnel'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['stunnel'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- socket.io -->
-						<blockquote>
-							<dl>
-								<dt>{{links['socket'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['socket'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['socket'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- Generic Opensource -->
-						<blockquote>
-							<dl>
-								<dt>{{links['open'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['open'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['open'].title,link.desc)" target="_blank">{{link.desc}}</a>
-									</footer>
-								</dd>
-							</dl>
-						</blockquote>
-						<!-- Github -->
-						<blockquote>
-							<dl>
-								<dt>{{links['github'].title}}</dt>
-								<dd>
-									<footer *ngFor="let link of links['github'].anchor">
-										<a [href]="link.href" (click)="onRefLink(links['github'].title,link.desc)" target="_blank">{{link.desc}}</a>
+									<footer *ngFor="let link of grpLinks.anchor">
+										<a [href]="link.href" (click)="onRefLinkClick(grpLinks.title,link.desc)" target="_blank">{{link.desc}}</a>
 									</footer>
 								</dd>
 							</dl>
