@@ -1171,7 +1171,7 @@ var __extends = (this && this.__extends) || function(d, b) {
                     // calculate rtt
                     var rtt = Date.now() - _datIni;
                     var headers = Headers.fromResponseHeaderString(_xhr.getAllResponseHeaders());
-                    headers.append('X-Angular-Time', rtt);
+                    headers.append('x-angular-time', rtt);
                     // responseText is the old-school way of retrieving response (supported by IE8 & 9)
                     // response/responseType properties were introduced in XHR Level2 spec (supported by
                     // IE10)

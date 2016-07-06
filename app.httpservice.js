@@ -1,3 +1,4 @@
+'use strict';
 (function(app) {
 	app.HTTPService = (function() {
 		var HTTPService = function(http) {
@@ -11,20 +12,20 @@
 				.get(url + '?o=' + o + '&p=' + p, {
 					"cache":   false,
 					"headers": {
-						"X-ReqId":           reqId
+						"x-reqid": reqId
 					}
 				})
 				.map(function(response) {
-					var h_reqId   = response.headers.get('X-ReqId') || response.headers.get('x-reqid'),
-					    h_rtt     = response.headers.get('X-Angular-Time') || response.headers.get('x-angular-time'),
-					    is_cached = (response.headers.get('x-cache-status') || response.headers.get('X-Cache-Status')) === 'HIT';
+					var h_reqId   = response.headers.get('x-reqid'),
+					    h_rtt     = response.headers.get('x-angular-time'),
+					    is_cached = response.headers.get('x-cache-status' === 'HIT';
 					return {
 						"json":   response.json() || {},
 						"reqId":  parseInt(h_reqId),
 						"rtt":    parseInt(h_rtt),
-						"tsn":    is_cached ? 0.5 : (parseFloat(response.headers.get('x-nginx-time') || response.headers.get('X-nginX-Time')) * 1000.0) | 0,
-						"exts":   is_cached ? 0 : parseFloat(response.headers.get('x-node-time') || response.headers.get('X-Node-Time')),
-						"red":    is_cached ? 0 : parseFloat(response.headers.get('x-redis-time') || response.headers.get('X-Redis-Time')),
+						"tsn":    is_cached ? 0.5 : parseFloat(response.headers.get('x-nginx-time') * 1000.0) | 0,
+						"exts":   is_cached ? 0 : parseFloat(response.headers.get('x-node-time')),
+						"red":    is_cached ? 0 : parseFloat(response.headers.get('x-redis-time')),
 						"cached": is_cached
 					};
 				})
