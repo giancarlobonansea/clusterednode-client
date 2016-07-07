@@ -405,6 +405,14 @@ var REFLINKS = {
 					"desc": "7 Tips for Faster HTTP/2 Performance"
 				},
 				{
+					"href": "https://www.nginx.com/blog/10-tips-for-10x-application-performance/",
+					"desc": "10 Tips for 10x Application Performance"
+				},
+				{
+					"href": "https://www.nginx.com/blog/socket-sharding-nginx-release-1-9-1/",
+					"desc": "Socket Sharding in NGINX"
+				},
+				{
 					"href": "https://www.quora.com/How-can-nginx-handle-concurrent-requests-with-a-single-worker-process",
 					"desc": "How can nginx handle concurrent requests with a single worker process?"
 				},
@@ -708,6 +716,10 @@ var REFLINKS = {
 				{
 					"href": "https://www.youtube.com/embed/jVCYaLEBCpU",
 					"desc": "Scaling Web Applications with NGINX Load Balancing and Caching"
+				},
+				{
+					"href": "https://www.youtube.com/embed/eLW_NSuwYU0",
+					"desc": "NGINX Performance Testing: Konstantin Pavlov @nginxconf 2014"
 				},
 				{
 					"href": "https://www.youtube.com/embed/CBh-jYYNLyo",
