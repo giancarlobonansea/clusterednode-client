@@ -5,7 +5,7 @@
 			// Initialize services
 			//
 			this.httpService = HTTPService;
-			this.sanitizer = DOMSanitizer;
+			this.sanitizerService = DOMSanitizer;
 			//
 			// View execution variables
 			//
@@ -845,7 +845,7 @@
 			})
 		];
 		AppSimulator.prototype.safeUrl = function(url) {
-			return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+			return this.sanitizerService.bypassSecurityTrustResourceUrl(url);
 		};
 		AppSimulator.prototype.initViewExecVariables = function() {
 			this.resetViewExecVariables();
