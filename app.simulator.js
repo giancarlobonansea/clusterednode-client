@@ -1497,7 +1497,7 @@
 		//// throwHTTPrequests
 		AppSimulator.prototype.tHr = function() {
 			var self     = this,
-			    ev       = new EventEmitter(),
+			    ev       = new EventEmitter(true),
 			    recurReq = function() {
 				    var idx                = self.tHrIdx,
 				        nextIdx            = idx + self.reqConn,
@@ -1518,6 +1518,7 @@
 							        self.sHr();
 						        }
 						        else {
+							        console.log('emitiu');
 							        ev.emit();
 							        //recurReq();
 						        }
@@ -1527,8 +1528,10 @@
 			self.tHrIdx = 0;
 			self.iniTime = Date.now();
 			ev.subscribe(function() {
+				console.log('capturou');
 				recurReq();
 			});
+			console.log('emitiu');
 			ev.emit();
 			//recurReq();
 		};
