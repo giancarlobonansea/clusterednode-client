@@ -168,7 +168,7 @@
 			this.reqCached = 0;
 		};
 		AppSimulator.prototype.initCharts = function() {
-			this.barChartOptions = {
+			this.bco = {
 				chart: {
 					type:         'multiBarChart',
 					showControls: false,
@@ -195,7 +195,7 @@
 					}
 				}
 			};
-			this.lineChartOptions = {
+			this.lco = {
 				chart: {
 					type:                    'lineWithFocusChart',
 					showControls:            false,
@@ -233,7 +233,7 @@
 					                          100]
 				}
 			};
-			this.polarChartOptions = {
+			this.pco = {
 				chart: {
 					type:          'pieChart',
 					height:        299,
@@ -250,7 +250,7 @@
 					duration:      500
 				}
 			};
-			this.polarChartOptions2 = {
+			this.pco2 = {
 				chart: {
 					type:          'pieChart',
 					height:        299,
