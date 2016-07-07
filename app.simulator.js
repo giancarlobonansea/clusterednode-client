@@ -270,19 +270,19 @@
 			this.resetChartsData();
 		};
 		AppSimulator.prototype.resetChartsData = function() {
-			this.barChartData = [{
+			this.bcd = [{
 				key:    this.PI2 + this._red,
 				values: []
 			},
-			                     {
+			            {
 				                     key:    this.PI3 + this._red,
 				                     values: []
 			                     },
-			                     {
+			            {
 				                     key:    this.PI5 + this._red,
 				                     values: []
 			                     },
-			                     {
+			            {
 				                     key:    this.PI6 + this._red,
 				                     values: []
 			                     },
@@ -318,55 +318,55 @@
 				                     key:    this.PI6 + this._ngi,
 				                     values: []
 			                     },
-			                     {
+			            {
 				                     key:    this.PI2 + this._ang,
 				                     values: []
 			                     },
-			                     {
+			            {
 				                     key:    this.PI3 + this._ang,
 				                     values: []
 			                     },
-			                     {
+			            {
 				                     key:    this.PI5 + this._ang,
 				                     values: []
 			                     },
-			                     {
+			            {
 				                     key:    this.PI6 + this._ang,
 				                     values: []
 			                     }];
-			this.polarChartData = [{
+			this.pcd = [{
 				key: this.PI2,
 				y:   0
 			},
-			                       {
+			            {
 				                       key: this.PI3,
 				                       y:   0
 			                       },
-			                       {
+			            {
 				                       key: this.PI5,
 				                       y:   0
 			                       },
-			                       {
+			            {
 				                       key: this.PI6,
 				                       y:   0
 			                       }];
-			this.polarChartData2 = [{
+			this.pcd2 = [{
 				key: this.PI2,
 				y:   0
 			},
-			                        {
+			             {
 				                        key: this.PI3,
 				                        y:   0
 			                        },
-			                        {
+			             {
 				                        key: this.PI5,
 				                        y:   0
 			                        },
-			                        {
+			             {
 				                        key: this.PI6,
 				                        y:   0
 			                        }];
-			this.lineChartData = [
+			this.lcd = [
 				{
 					key:    'w/o Coord. Omission',
 					values: [],
@@ -391,22 +391,20 @@
 			                      2,
 			                      3];
 			this.urlHDR = this.baseUrl + ':33333/hdr';
-			this.loopCon = 0;
 			this.duration = 0;
 		};
 		AppSimulator.prototype.resetExecutionScopeVariables = function() {
-			this.loopCon = 0;
 			this.duration = 0;
-			this.requests = [[],
-			                 [],
-			                 []];
-			this.results = [[this.PI2,
+			this.rq = [[],
+			           [],
+			           []];
+			this.rs = [[this.PI2,
+			            []],
+			           [this.PI3,
 			                 []],
-			                [this.PI3,
+			           [this.PI5,
 			                 []],
-			                [this.PI5,
-			                 []],
-			                [this.PI6,
+			           [this.PI6,
 			                 []]];
 			this.nodeIdx = {
 				"raspberrypi2": [0,
@@ -1108,7 +1106,8 @@
 			for (var reqId = 0; reqId < this.reqCount; reqId++) {
 				var operT = this.getRandomOperation();
 				this.operType[operT]++;
-				this.requests[0].push({rtt:       0,
+				this.rq[0].push({
+					                rtt:          0,
 					                      hst:    '',
 					                      rid:    0,
 					                      tsn:    0,
@@ -1116,158 +1115,190 @@
 					                      red:    0,
 					                      cached: false
 				                      });
-				this.requests[1].push(this.httpService.get(reqId, this.selectedUrl, operT, this.getRandomDBRecord()));
-				this.requests[2].push(operT);
+				this.rq[1].push(this.httpService.get(reqId, this.selectedUrl, operT, this.getRandomDBRecord()));
+				this.rq[2].push(operT);
 			}
 		};
 
 		AppSimulator.prototype.calculateHistogram = function() {
 			this.resetChartsData();
             this.disregard = Math.ceil(this.reqExecuted * 4.55 / 100.0);
-			this.discardLower = Math.floor(this.disregard/2);
-            this.discardUpper = this.reqExecuted - Math.ceil(this.disregard / 2) - 1;
+			this.dLo = Math.floor(this.disregard / 2);
+			this.dUp = this.reqExecuted - Math.ceil(this.disregard / 2) - 1;
             //
             // Populate barchart as processed (no sorting)
             //
-            for (var i = 0; i < this.requests[0].length; i++) {
-                var rtt2 = this.requests[0][i].hst === 0 ? this.requests[0][i].rtt : 0;
-                var rtt3 = this.requests[0][i].hst === 1 ? this.requests[0][i].rtt : 0;
-                var rtt5 = this.requests[0][i].hst === 2 ? this.requests[0][i].rtt : 0;
-                var rtt6 = this.requests[0][i].hst === 3 ? this.requests[0][i].rtt : 0;
-                var tsn2 = this.requests[0][i].hst === 0 ? this.requests[0][i].tsn : 0;
-                var tsn3 = this.requests[0][i].hst === 1 ? this.requests[0][i].tsn : 0;
-                var tsn5 = this.requests[0][i].hst === 2 ? this.requests[0][i].tsn : 0;
-                var tsn6 = this.requests[0][i].hst === 3 ? this.requests[0][i].tsn : 0;
-                var exts2 = this.requests[0][i].hst === 0 ? this.requests[0][i].exts : 0;
-                var exts3 = this.requests[0][i].hst === 1 ? this.requests[0][i].exts : 0;
-                var exts5 = this.requests[0][i].hst === 2 ? this.requests[0][i].exts : 0;
-                var exts6 = this.requests[0][i].hst === 3 ? this.requests[0][i].exts : 0;
-                var red2 = this.requests[0][i].hst === 0 ? this.requests[0][i].red : 0;
-                var red3 = this.requests[0][i].hst === 1 ? this.requests[0][i].red : 0;
-                var red5 = this.requests[0][i].hst === 2 ? this.requests[0][i].red : 0;
-                var red6 = this.requests[0][i].hst === 3 ? this.requests[0][i].red : 0;
-                this.barChartData[0].values.push({label: this.requests[0][i].rid, value: Math.ceil(red2)});
-                this.barChartData[1].values.push({label: this.requests[0][i].rid, value: Math.ceil(red3)});
-                this.barChartData[2].values.push({label: this.requests[0][i].rid, value: Math.ceil(red5)});
-                this.barChartData[3].values.push({label: this.requests[0][i].rid, value: Math.ceil(red6)});
-                this.barChartData[4].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts2 - red2)});
-                this.barChartData[5].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts3 - red3)});
-                this.barChartData[6].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts5 - red5)});
-                this.barChartData[7].values.push({label: this.requests[0][i].rid, value: Math.ceil(exts6 - red6)});
-                this.barChartData[8].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn2 - exts2)});
-                this.barChartData[9].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn3 - exts3)});
-                this.barChartData[10].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn5 - exts5)});
-                this.barChartData[11].values.push({label: this.requests[0][i].rid, value: Math.floor(tsn6 - exts6)});
-                this.barChartData[12].values.push({label: this.requests[0][i].rid, value: rtt2 - tsn2});
-                this.barChartData[13].values.push({label: this.requests[0][i].rid, value: rtt3 - tsn3});
-                this.barChartData[14].values.push({label: this.requests[0][i].rid, value: rtt5 - tsn5});
-                this.barChartData[15].values.push({label: this.requests[0][i].rid, value: rtt6 - tsn6});
+			for (var i = 0; i < this.rq[0].length; i++) {
+				var rtt2 = this.rq[0][i].hst === 0 ? this.rq[0][i].rtt : 0;
+				var rtt3 = this.rq[0][i].hst === 1 ? this.rq[0][i].rtt : 0;
+				var rtt5 = this.rq[0][i].hst === 2 ? this.rq[0][i].rtt : 0;
+				var rtt6 = this.rq[0][i].hst === 3 ? this.rq[0][i].rtt : 0;
+				var tsn2 = this.rq[0][i].hst === 0 ? this.rq[0][i].tsn : 0;
+				var tsn3 = this.rq[0][i].hst === 1 ? this.rq[0][i].tsn : 0;
+				var tsn5 = this.rq[0][i].hst === 2 ? this.rq[0][i].tsn : 0;
+				var tsn6 = this.rq[0][i].hst === 3 ? this.rq[0][i].tsn : 0;
+				var exts2 = this.rq[0][i].hst === 0 ? this.rq[0][i].exts : 0;
+				var exts3 = this.rq[0][i].hst === 1 ? this.rq[0][i].exts : 0;
+				var exts5 = this.rq[0][i].hst === 2 ? this.rq[0][i].exts : 0;
+				var exts6 = this.rq[0][i].hst === 3 ? this.rq[0][i].exts : 0;
+				var red2 = this.rq[0][i].hst === 0 ? this.rq[0][i].red : 0;
+				var red3 = this.rq[0][i].hst === 1 ? this.rq[0][i].red : 0;
+				var red5 = this.rq[0][i].hst === 2 ? this.rq[0][i].red : 0;
+				var red6 = this.rq[0][i].hst === 3 ? this.rq[0][i].red : 0;
+				this.bcd[0].values.push({label:    this.rq[0][i].rid,
+					                        value: Math.ceil(red2)
+				                        });
+				this.bcd[1].values.push({label:    this.rq[0][i].rid,
+					                        value: Math.ceil(red3)
+				                        });
+				this.bcd[2].values.push({label:    this.rq[0][i].rid,
+					                        value: Math.ceil(red5)
+				                        });
+				this.bcd[3].values.push({label:    this.rq[0][i].rid,
+					                        value: Math.ceil(red6)
+				                        });
+				this.bcd[4].values.push({label:    this.rq[0][i].rid,
+					                        value: Math.ceil(exts2 - red2)
+				                        });
+				this.bcd[5].values.push({label:    this.rq[0][i].rid,
+					                        value: Math.ceil(exts3 - red3)
+				                        });
+				this.bcd[6].values.push({label:    this.rq[0][i].rid,
+					                        value: Math.ceil(exts5 - red5)
+				                        });
+				this.bcd[7].values.push({label:    this.rq[0][i].rid,
+					                        value: Math.ceil(exts6 - red6)
+				                        });
+				this.bcd[8].values.push({label:    this.rq[0][i].rid,
+					                        value: Math.floor(tsn2 - exts2)
+				                        });
+				this.bcd[9].values.push({label:    this.rq[0][i].rid,
+					                        value: Math.floor(tsn3 - exts3)
+				                        });
+				this.bcd[10].values.push({label:    this.rq[0][i].rid,
+					                         value: Math.floor(tsn5 - exts5)
+				                         });
+				this.bcd[11].values.push({label:    this.rq[0][i].rid,
+					                         value: Math.floor(tsn6 - exts6)
+				                         });
+				this.bcd[12].values.push({label:    this.rq[0][i].rid,
+					                         value: rtt2 - tsn2
+				                         });
+				this.bcd[13].values.push({label:    this.rq[0][i].rid,
+					                         value: rtt3 - tsn3
+				                         });
+				this.bcd[14].values.push({label:    this.rq[0][i].rid,
+					                         value: rtt5 - tsn5
+				                         });
+				this.bcd[15].values.push({label:    this.rq[0][i].rid,
+					                         value: rtt6 - tsn6
+				                         });
             }
             //
             // HDR by RTT (AngularJS time)
             //
             var hdrRTTpost = {"arr": []};
-            for (var n = 0; n < this.requests[0].length; n++) {
-                hdrRTTpost.arr.push(this.requests[0][n].rtt);
+			for (var n = 0; n < this.rq[0].length; n++) {
+				hdrRTTpost.arr.push(this.rq[0][n].rtt);
             }
             //
             // Sorting by RTT (AngularJS time)
             //
 			this.totReqAng = [0,0,0,0];
-			this.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
-            for (i = 0; i < this.requests[0].length; i++) {
-                rtt2 = this.requests[0][i].hst === 0 ? this.requests[0][i].rtt : 0;
-                rtt3 = this.requests[0][i].hst === 1 ? this.requests[0][i].rtt : 0;
-                rtt5 = this.requests[0][i].hst === 2 ? this.requests[0][i].rtt : 0;
-                rtt6 = this.requests[0][i].hst === 3 ? this.requests[0][i].rtt : 0;
-				this.polarChartData2[0].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?rtt2:0;
-				this.polarChartData2[1].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?rtt3:0;
-				this.polarChartData2[2].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?rtt5:0;
-				this.polarChartData2[3].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?rtt6:0;
-				this.totReqAng[0] += ((this.requests[0][i].hst===0)&&(i>=this.discardLower)&&(i<=this.discardUpper))?1:0;
-				this.totReqAng[1] += ((this.requests[0][i].hst===1)&&(i>=this.discardLower)&&(i<=this.discardUpper))?1:0;
-				this.totReqAng[2] += ((this.requests[0][i].hst===2)&&(i>=this.discardLower)&&(i<=this.discardUpper))?1:0;
-				this.totReqAng[3] += ((this.requests[0][i].hst===3)&&(i>=this.discardLower)&&(i<=this.discardUpper))?1:0;
-				this.totAngular += ((i>=this.discardLower)&&(i<=this.discardUpper))?this.requests[0][i].rtt:0;
+			this.rq[0].sort(function(a, b) {return a.rtt - b.rtt});
+			for (i = 0; i < this.rq[0].length; i++) {
+				rtt2 = this.rq[0][i].hst === 0 ? this.rq[0][i].rtt : 0;
+				rtt3 = this.rq[0][i].hst === 1 ? this.rq[0][i].rtt : 0;
+				rtt5 = this.rq[0][i].hst === 2 ? this.rq[0][i].rtt : 0;
+				rtt6 = this.rq[0][i].hst === 3 ? this.rq[0][i].rtt : 0;
+				this.pcd2[0].y += ((i >= this.dLo) && (i <= this.dUp)) ? rtt2 : 0;
+				this.pcd2[1].y += ((i >= this.dLo) && (i <= this.dUp)) ? rtt3 : 0;
+				this.pcd2[2].y += ((i >= this.dLo) && (i <= this.dUp)) ? rtt5 : 0;
+				this.pcd2[3].y += ((i >= this.dLo) && (i <= this.dUp)) ? rtt6 : 0;
+				this.totReqAng[0] += ((this.rq[0][i].hst === 0) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
+				this.totReqAng[1] += ((this.rq[0][i].hst === 1) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
+				this.totReqAng[2] += ((this.rq[0][i].hst === 2) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
+				this.totReqAng[3] += ((this.rq[0][i].hst === 3) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
+				this.totAngular += ((i >= this.dLo) && (i <= this.dUp)) ? this.rq[0][i].rtt : 0;
 			}
-			this.polarChartData2[0].y = this.polarChartData2[0].y / this.totReqAng[0];
-			this.polarChartData2[1].y = this.polarChartData2[1].y / this.totReqAng[1];
-			this.polarChartData2[2].y = this.polarChartData2[2].y / this.totReqAng[2];
-			this.polarChartData2[3].y = this.polarChartData2[3].y / this.totReqAng[3];
+			this.pcd2[0].y = this.pcd2[0].y / this.totReqAng[0];
+			this.pcd2[1].y = this.pcd2[1].y / this.totReqAng[1];
+			this.pcd2[2].y = this.pcd2[2].y / this.totReqAng[2];
+			this.pcd2[3].y = this.pcd2[3].y / this.totReqAng[3];
             this.tpAngular = Math.ceil(this.reqExecuted / (this.duration / 1000));
 			for (i = 0; i < this.histogram.length; i++) {
-                this.histogram[i][1] = this.requests[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].rtt;
+				this.histogram[i][1] = this.rq[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].rtt;
             }
 			//
 			// Sorting by TSN (nginX time)
 			//
 			this.totReqNgi = [0,0,0,0];
-			this.requests[0].sort(function(a, b) {return a.tsn - b.tsn});
+			this.rq[0].sort(function(a, b) {return a.tsn - b.tsn});
 			for (i = 0; i < this.histogram.length; i++) {
-                this.histogram[i][2] = this.requests[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].tsn;
+				this.histogram[i][2] = this.rq[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].tsn;
             }
-			for (i = 0; i < this.requests[0].length; i++) {
-                tsn2 = this.requests[0][i].hst === 0 ? this.requests[0][i].tsn : 0;
-                tsn3 = this.requests[0][i].hst === 1 ? this.requests[0][i].tsn : 0;
-                tsn5 = this.requests[0][i].hst === 2 ? this.requests[0][i].tsn : 0;
-                tsn6 = this.requests[0][i].hst === 3 ? this.requests[0][i].tsn : 0;
-				this.polarChartData[0].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?tsn2:0;
-				this.polarChartData[1].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?tsn3:0;
-				this.polarChartData[2].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?tsn5:0;
-				this.polarChartData[3].y += ((i>=this.discardLower)&&(i<=this.discardUpper))?tsn6:0;
-				this.totReqNgi[0] += ((this.requests[0][i].hst===0)&&(i>=this.discardLower)&&(i<=this.discardUpper))?1:0;
-				this.totReqNgi[1] += ((this.requests[0][i].hst===1)&&(i>=this.discardLower)&&(i<=this.discardUpper))?1:0;
-				this.totReqNgi[2] += ((this.requests[0][i].hst===2)&&(i>=this.discardLower)&&(i<=this.discardUpper))?1:0;
-				this.totReqNgi[3] += ((this.requests[0][i].hst===3)&&(i>=this.discardLower)&&(i<=this.discardUpper))?1:0;
-				this.totNginx += ((i>=this.discardLower)&&(i<=this.discardUpper))?this.requests[0][i].tsn:0;
+			for (i = 0; i < this.rq[0].length; i++) {
+				tsn2 = this.rq[0][i].hst === 0 ? this.rq[0][i].tsn : 0;
+				tsn3 = this.rq[0][i].hst === 1 ? this.rq[0][i].tsn : 0;
+				tsn5 = this.rq[0][i].hst === 2 ? this.rq[0][i].tsn : 0;
+				tsn6 = this.rq[0][i].hst === 3 ? this.rq[0][i].tsn : 0;
+				this.pcd[0].y += ((i >= this.dLo) && (i <= this.dUp)) ? tsn2 : 0;
+				this.pcd[1].y += ((i >= this.dLo) && (i <= this.dUp)) ? tsn3 : 0;
+				this.pcd[2].y += ((i >= this.dLo) && (i <= this.dUp)) ? tsn5 : 0;
+				this.pcd[3].y += ((i >= this.dLo) && (i <= this.dUp)) ? tsn6 : 0;
+				this.totReqNgi[0] += ((this.rq[0][i].hst === 0) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
+				this.totReqNgi[1] += ((this.rq[0][i].hst === 1) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
+				this.totReqNgi[2] += ((this.rq[0][i].hst === 2) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
+				this.totReqNgi[3] += ((this.rq[0][i].hst === 3) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
+				this.totNginx += ((i >= this.dLo) && (i <= this.dUp)) ? this.rq[0][i].tsn : 0;
 			}
-			this.polarChartData[0].y = this.polarChartData[0].y / this.totReqNgi[0];
-			this.polarChartData[1].y = this.polarChartData[1].y / this.totReqNgi[1];
-			this.polarChartData[2].y = this.polarChartData[2].y / this.totReqNgi[2];
-			this.polarChartData[3].y = this.polarChartData[3].y / this.totReqNgi[3];
+			this.pcd[0].y = this.pcd[0].y / this.totReqNgi[0];
+			this.pcd[1].y = this.pcd[1].y / this.totReqNgi[1];
+			this.pcd[2].y = this.pcd[2].y / this.totReqNgi[2];
+			this.pcd[3].y = this.pcd[3].y / this.totReqNgi[3];
             this.tpNginx = Math.ceil(this.tpAngular * this.totAngular / this.totNginx);
 			//
 			// Sort by EXTS (nodeJS time)
 			//
-			this.requests[0].sort(function(a, b) {return a.exts - b.exts});
+			this.rq[0].sort(function(a, b) {return a.exts - b.exts});
 			for (i = 0; i < this.histogram.length; i++) {
-                this.histogram[i][3] = this.requests[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].exts;
+				this.histogram[i][3] = this.rq[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].exts;
             }
-			for (i = 0; i < this.requests[0].length; i++) {
-				this.totNode += ((i>=this.discardLower)&&(i<=this.discardUpper))?this.requests[0][i].exts:0;
+			for (i = 0; i < this.rq[0].length; i++) {
+				this.totNode += ((i >= this.dLo) && (i <= this.dUp)) ? this.rq[0][i].exts : 0;
 			}
             this.tpNode = Math.ceil(this.tpNginx * this.totNginx / this.totNode);
             //
             // Sort by RED (redis.io time)
             //
-            this.requests[0].sort(function(a, b) {return a.red - b.red});
+			this.rq[0].sort(function(a, b) {return a.red - b.red});
             for (i = 0; i < this.histogram.length; i++) {
-                this.histogram[i][4] = this.requests[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].red;
+	            this.histogram[i][4] = this.rq[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].red;
             }
-            for (i = 0; i < this.requests[0].length; i++) {
-                this.totRedis += ((i >= this.discardLower) && (i <= this.discardUpper)) ? this.requests[0][i].red : 0;
+			for (i = 0; i < this.rq[0].length; i++) {
+				this.totRedis += ((i >= this.dLo) && (i <= this.dUp)) ? this.rq[0][i].red : 0;
             }
             this.tpRedis = Math.ceil(this.tpNode * this.totNode / this.totRedis);
             //
             // Calculating HDR Histogram
             //
             this.hdrRTTresults = {table: [], chart: []};
-			this.lineChartData[0].values = [];
-			this.lineChartData[1].values = [];
+			this.lcd[0].values = [];
+			this.lcd[1].values = [];
             var selfRTT = this;
             this.observableRTT = this.httpService.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
                 function(response) {
                     selfRTT.hdrRTTresults = response;
-	                selfRTT.requests[0].sort(function(a, b) {return a.rtt - b.rtt});
+	                selfRTT.rq[0].sort(function(a, b) {return a.rtt - b.rtt});
 	                for (var n = 0; n < selfRTT.hdrRTTresults.chart.length; n++) {
 		                var idx = ((selfRTT.hdrRTTresults.chart[n].percentile * selfRTT.respOK / 100) | 0) - 1;
-		                selfRTT.lineChartData[0].values.push({
+		                selfRTT.lcd[0].values.push({
 			                                                     x: selfRTT.hdrRTTresults.chart[n].percentile,
 			                                                     y: selfRTT.hdrRTTresults.chart[n].value
 		                                                     });
-		                selfRTT.lineChartData[1].values.push({
+		                selfRTT.lcd[1].values.push({
 			                                                     x: selfRTT.hdrRTTresults.chart[n].percentile,
-                                                                 y: selfRTT.requests[0][(idx < 0) ? 0 : idx].rtt
+			                                           y:           selfRTT.rq[0][(idx < 0) ? 0 : idx].rtt
 		                                                     });
 	                }
                 },
@@ -1292,7 +1323,7 @@
 				    hst = res.json.hostname,
 				    ndx = this.nodeIdx[hst][0],
 				    cch = res.cached;
-				this.requests[0][req] = {
+				this.rq[0][req] = {
 					rid:    'Request ' + ((req | 0) + 1),
 					hst:    ndx,
 					rtt:    res.rtt,
@@ -1308,16 +1339,16 @@
 				}
 				else {
 					var pid  = res.json.pid,
-					    oper = this.requests[2][req];
+					    oper = this.rq[2][req];
 					if (!(pid in this.pidIdx[hst])) {
-						this.results[ndx][1].push([pid,
-						                           [[],
+						this.rs[ndx][1].push([pid,
+						                      [[],
 						                            [],
 						                            [],
 						                            []]]);
-						this.pidIdx[hst][pid] = this.results[ndx][1].length - 1;
+						this.pidIdx[hst][pid] = this.rs[ndx][1].length - 1;
 					}
-					this.results[ndx][1][this.pidIdx[hst][pid]][1][oper].push(this.respOK);
+					this.rs[ndx][1][this.pidIdx[hst][pid]][1][oper].push(this.respOK);
 					this.nodeIdx[hst][1]++;
 				}
 				this.countResponses++;
@@ -1326,9 +1357,9 @@
 		AppSimulator.prototype.popResponses = function() {
 			if (this.countResponses > this.reqCount) {
 				for (var z = 0; z < this.reqConn; z++) {
-					this.requests[0].pop();
-					this.requests[1].pop();
-					this.requests[2].pop();
+					this.rq[0].pop();
+					this.rq[1].pop();
+					this.rq[2].pop();
 					this.countResponses--;
 				}
 			}
@@ -1357,7 +1388,7 @@
 			self.iniTime = Date.now();
 			for (var i = 0; i < self.reqCount; i += self.reqConn) {
 				for (var j = 0; j < self.reqConn; j++) {
-					arrReq.push(self.requests[1][i + j]);
+					arrReq.push(self.rq[1][i + j]);
 				}
 				var observableRequests = Rx.Observable.forkJoin(arrReq).subscribe(
 					function(response) {
@@ -1386,7 +1417,7 @@
                     self.countRequests += self.reqConn;
                     var arrReq = [];
                     for (var j = 0; j < self.reqConn; j++) {
-                        arrReq.push(self.requests[1][reqId]);
+	                    arrReq.push(self.rq[1][reqId]);
                         reqId++;
                     }
                     var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
