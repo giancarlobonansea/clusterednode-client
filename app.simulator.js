@@ -1129,68 +1129,90 @@
             // Populate barchart as processed (no sorting)
             //
 			for (var i = 0; i < this.rq[0].length; i++) {
-				var rtt2 = this.rq[0][i].hst === 0 ? this.rq[0][i].rtt : 0;
-				var rtt3 = this.rq[0][i].hst === 1 ? this.rq[0][i].rtt : 0;
-				var rtt5 = this.rq[0][i].hst === 2 ? this.rq[0][i].rtt : 0;
-				var rtt6 = this.rq[0][i].hst === 3 ? this.rq[0][i].rtt : 0;
-				var tsn2 = this.rq[0][i].hst === 0 ? this.rq[0][i].tsn : 0;
-				var tsn3 = this.rq[0][i].hst === 1 ? this.rq[0][i].tsn : 0;
-				var tsn5 = this.rq[0][i].hst === 2 ? this.rq[0][i].tsn : 0;
-				var tsn6 = this.rq[0][i].hst === 3 ? this.rq[0][i].tsn : 0;
-				var exts2 = this.rq[0][i].hst === 0 ? this.rq[0][i].exts : 0;
-				var exts3 = this.rq[0][i].hst === 1 ? this.rq[0][i].exts : 0;
-				var exts5 = this.rq[0][i].hst === 2 ? this.rq[0][i].exts : 0;
-				var exts6 = this.rq[0][i].hst === 3 ? this.rq[0][i].exts : 0;
-				var red2 = this.rq[0][i].hst === 0 ? this.rq[0][i].red : 0;
-				var red3 = this.rq[0][i].hst === 1 ? this.rq[0][i].red : 0;
-				var red5 = this.rq[0][i].hst === 2 ? this.rq[0][i].red : 0;
-				var red6 = this.rq[0][i].hst === 3 ? this.rq[0][i].red : 0;
-				this.bcd[0].values.push({label:    this.rq[0][i].rid,
+				var _hst  = this.rq[0][i].hst,
+				    _rtt  = this.rq[0][i].rtt,
+				    _tsn  = this.rq[0][i].tsn,
+				    _exts = this.rq[0][i].exts,
+				    _red  = this.rq[0][i].red,
+				    _rid  = this.rq[0][i].rid,
+				    rtt2  = _hst === 0 ? _rtt : 0,
+				    rtt3  = _hst === 1 ? _rtt : 0,
+				    rtt5  = _hst === 2 ? _rtt : 0,
+				    rtt6  = _hst === 3 ? _rtt : 0,
+				    tsn2  = _hst === 0 ? _tsn : 0,
+				    tsn3  = _hst === 1 ? _tsn : 0,
+				    tsn5  = _hst === 2 ? _tsn : 0,
+				    tsn6  = _hst === 3 ? _tsn : 0,
+				    exts2 = _hst === 0 ? _exts : 0,
+				    exts3 = _hst === 1 ? _exts : 0,
+				    exts5 = _hst === 2 ? _exts : 0,
+				    exts6 = _hst === 3 ? _exts : 0,
+				    red2  = _hst === 0 ? _red : 0,
+				    red3  = _hst === 1 ? _red : 0,
+				    red5  = _hst === 2 ? _red : 0,
+				    red6  = _hst === 3 ? _red : 0;
+				this.bcd[0].values.push({
+					                        label: _rid,
 					                        value: Math.ceil(red2)
 				                        });
-				this.bcd[1].values.push({label:    this.rq[0][i].rid,
+				this.bcd[1].values.push({
+					                        label: _rid,
 					                        value: Math.ceil(red3)
 				                        });
-				this.bcd[2].values.push({label:    this.rq[0][i].rid,
+				this.bcd[2].values.push({
+					                        label: _rid,
 					                        value: Math.ceil(red5)
 				                        });
-				this.bcd[3].values.push({label:    this.rq[0][i].rid,
+				this.bcd[3].values.push({
+					                        label: _rid,
 					                        value: Math.ceil(red6)
 				                        });
-				this.bcd[4].values.push({label:    this.rq[0][i].rid,
+				this.bcd[4].values.push({
+					                        label: _rid,
 					                        value: Math.ceil(exts2 - red2)
 				                        });
-				this.bcd[5].values.push({label:    this.rq[0][i].rid,
+				this.bcd[5].values.push({
+					                        label: _rid,
 					                        value: Math.ceil(exts3 - red3)
 				                        });
-				this.bcd[6].values.push({label:    this.rq[0][i].rid,
+				this.bcd[6].values.push({
+					                        label: _rid,
 					                        value: Math.ceil(exts5 - red5)
 				                        });
-				this.bcd[7].values.push({label:    this.rq[0][i].rid,
+				this.bcd[7].values.push({
+					                        label: _rid,
 					                        value: Math.ceil(exts6 - red6)
 				                        });
-				this.bcd[8].values.push({label:    this.rq[0][i].rid,
+				this.bcd[8].values.push({
+					                        label: _rid,
 					                        value: Math.floor(tsn2 - exts2)
 				                        });
-				this.bcd[9].values.push({label:    this.rq[0][i].rid,
+				this.bcd[9].values.push({
+					                        label: _rid,
 					                        value: Math.floor(tsn3 - exts3)
 				                        });
-				this.bcd[10].values.push({label:    this.rq[0][i].rid,
+				this.bcd[10].values.push({
+					                         label: _rid,
 					                         value: Math.floor(tsn5 - exts5)
 				                         });
-				this.bcd[11].values.push({label:    this.rq[0][i].rid,
+				this.bcd[11].values.push({
+					                         label: _rid,
 					                         value: Math.floor(tsn6 - exts6)
 				                         });
-				this.bcd[12].values.push({label:    this.rq[0][i].rid,
+				this.bcd[12].values.push({
+					                         label: _rid,
 					                         value: rtt2 - tsn2
 				                         });
-				this.bcd[13].values.push({label:    this.rq[0][i].rid,
+				this.bcd[13].values.push({
+					                         label: _rid,
 					                         value: rtt3 - tsn3
 				                         });
-				this.bcd[14].values.push({label:    this.rq[0][i].rid,
+				this.bcd[14].values.push({
+					                         label: _rid,
 					                         value: rtt5 - tsn5
 				                         });
-				this.bcd[15].values.push({label:    this.rq[0][i].rid,
+				this.bcd[15].values.push({
+					                         label: _rid,
 					                         value: rtt6 - tsn6
 				                         });
             }
