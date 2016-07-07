@@ -108,64 +108,64 @@
 			this.iD = false;
 			this.rqCn = 2;
 			this.rqCt = 100;
-			this.reqDuration = 5;
-			this.reqInterval = 50;
-			this.urlOptions = [[this.baseUrl + ':33333/api',
-			                    'DNS Public'],
-			                   ['https://raspberrypi4:8010/api',
+			this.rqDu = 5;
+			this.rqIn = 50;
+			this.uO = [[this.baseUrl + ':33333/api',
+			            'DNS Public'],
+			           ['https://raspberrypi4:8010/api',
 			                    'DNS Private'],
-			                   ['https://192.168.69.242:8010/api',
-			                    'IP Private']];
+			           ['https://192.168.69.242:8010/api',
+			            'IP Private']];
 		};
 		//// initViewPresentationControlVariables
 		AppSimulator.prototype.iVPCV = function() {
 			this.rVPCV();
-			this.selectedUrl = this.urlOptions[0][0];
-			this.liveEvents = false;
+			this.sU = this.uO[0][0];
+			this.lE = false;
 		};
 		//// resetViewPresentationControlVariables
 		AppSimulator.prototype.rVPCV = function() {
-			this.histogram = [[50,
+			this.hg = [[50,
+			            0,
+			            0,
+			            0,
+			            0],
+			           [75,
 			                   0,
 			                   0,
 			                   0,
 			                   0],
-			                  [75,
+			           [87.5,
+			            0,
+			            0,
+			            0,
+			            0],
+			           [93.75,
+			            0,
+			            0,
+			            0,
+			            0],
+			           [96.875,
 			                   0,
 			                   0,
 			                   0,
 			                   0],
-			                  [87.5,
+			           [98.4375,
 			                   0,
 			                   0,
 			                   0,
 			                   0],
-			                  [93.75,
+			           [99.21875,
 			                   0,
 			                   0,
 			                   0,
 			                   0],
-			                  [96.875,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			                  [98.4375,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			                  [99.21875,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			                  [100,
+			           [100,
 			                   0,
 			                   0,
 			                   0,
 			                   0]];
-			this.showReference = false;
+			this.sR = false;
 			this.calculating = false;
 			this.operType = [0,
 			                 0,
@@ -439,8 +439,8 @@
 		AppSimulator.prototype.sEPC = function() {
 			this.execMode = this.gSM();
 			this.execReq = this.rqCt;
-			this.execDuration = this.reqDuration;
-			this.execInterval = this.reqInterval;
+			this.execDuration = this.rqDu;
+			this.execInterval = this.rqIn;
 			this.execConn = this.rqCn;
 			this.execMaxReq = this.gDR();
 		};
@@ -997,8 +997,8 @@
 		//// setSmall
 		AppSimulator.prototype.sS = function() {
 			if (this.iD) {
-                this.reqDuration = 5;
-                this.reqInterval = 50;
+				this.rqDu = 5;
+				this.rqIn = 50;
 				this.rqCn = 4;
             }
             else {
@@ -1010,8 +1010,8 @@
 		//// setMedium
 		AppSimulator.prototype.sM = function() {
 			if (this.iD) {
-                this.reqDuration = 10;
-                this.reqInterval = 30;
+				this.rqDu = 10;
+				this.rqIn = 30;
 				this.rqCn = 4;
             }
             else {
@@ -1023,8 +1023,8 @@
 		//// setLarge
 		AppSimulator.prototype.sL = function() {
 			if (this.iD) {
-                this.reqDuration = 30;
-                this.reqInterval = 25;
+				this.rqDu = 30;
+				this.rqIn = 25;
 				this.rqCn = 4;
             }
             else {
@@ -1036,8 +1036,8 @@
 		//// setHuge
 		AppSimulator.prototype.sH = function() {
 			if (this.iD) {
-                this.reqDuration = 60;
-                this.reqInterval = 25;
+				this.rqDu = 60;
+				this.rqIn = 25;
 				this.rqCn = 8;
             }
             else {
@@ -1082,16 +1082,16 @@
 		};
 		//// showRef
 		AppSimulator.prototype.shR = function() {
-			this.showReference = !this.showReference;
-			if (this.showReference) {
-				this.liveEvents = false;
+			this.sR = !this.sR;
+			if (this.sR) {
+				this.lE = false;
 			}
 		};
 		//// showLive
 		AppSimulator.prototype.shL = function() {
-			this.liveEvents = !this.liveEvents;
-			if (this.liveEvents) {
-				this.showReference = false;
+			this.lE = !this.lE;
+			if (this.lE) {
+				this.sR = false;
 			}
 		};
 		//// getDatabaseStatus
@@ -1117,12 +1117,12 @@
 		};
 		//// getDurationRequests
 		AppSimulator.prototype.gDR = function() {
-			var tot = (this.reqDuration * 1000 * this.rqCn / this.reqInterval) | 0;
+			var tot = (this.rqDu * 1000 * this.rqCn / this.rqIn) | 0;
 			return tot - (tot % this.rqCn);
 		};
 		//// getDurationThroughput
 		AppSimulator.prototype.gDT = function() {
-			return (this.gDR() / this.reqDuration) | 0;
+			return (this.gDR() / this.rqDu) | 0;
 		};
 		//
 		// Execution control methods
@@ -1153,7 +1153,7 @@
 					                      red:    0,
 					                      cached: false
 				                      });
-				this.rq[1].push(this.httpService.get(reqId, this.selectedUrl, operT, this.gRD()));
+				this.rq[1].push(this.httpService.get(reqId, this.sU, operT, this.gRD()));
 				this.rq[2].push(operT);
 			}
 		};
@@ -1274,16 +1274,16 @@
 			this.pcd2[2].y = this.pcd2[2].y / this.totReqAng[2];
 			this.pcd2[3].y = this.pcd2[3].y / this.totReqAng[3];
             this.tpAngular = Math.ceil(this.reqExecuted / (this.duration / 1000));
-			for (i = 0; i < this.histogram.length; i++) {
-				this.histogram[i][1] = rq0[Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].rtt;
+			for (i = 0; i < this.hg.length; i++) {
+				this.hg[i][1] = rq0[Math.ceil(this.reqExecuted * this.hg[i][0] / 100) - 1].rtt;
             }
 			//
 			// Sorting by TSN (nginX time)
 			//
 			this.totReqNgi = [0,0,0,0];
 			rq0.sort(function(a, b) {return a.tsn - b.tsn});
-			for (i = 0; i < this.histogram.length; i++) {
-				this.histogram[i][2] = rq0[Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].tsn;
+			for (i = 0; i < this.hg.length; i++) {
+				this.hg[i][2] = rq0[Math.ceil(this.reqExecuted * this.hg[i][0] / 100) - 1].tsn;
             }
 			for (i = 0; i < rq0.length; i++) {
 				var _hstT = rq0[i].hst,
@@ -1311,8 +1311,8 @@
 			// Sort by EXTS (nodeJS time)
 			//
 			rq0.sort(function(a, b) {return a.exts - b.exts});
-			for (i = 0; i < this.histogram.length; i++) {
-				this.histogram[i][3] = rq0[Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].exts;
+			for (i = 0; i < this.hg.length; i++) {
+				this.hg[i][3] = rq0[Math.ceil(this.reqExecuted * this.hg[i][0] / 100) - 1].exts;
             }
 			for (i = 0; i < rq0.length; i++) {
 				this.totNode += ((i >= dLo) && (i <= dUp)) ? rq0[i].exts : 0;
@@ -1322,8 +1322,8 @@
             // Sort by RED (redis.io time)
             //
 			rq0.sort(function(a, b) {return a.red - b.red});
-            for (i = 0; i < this.histogram.length; i++) {
-	            this.histogram[i][4] = rq0[Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].red;
+			for (i = 0; i < this.hg.length; i++) {
+				this.hg[i][4] = rq0[Math.ceil(this.reqExecuted * this.hg[i][0] / 100) - 1].red;
             }
 			for (i = 0; i < rq0.length; i++) {
 				this.totRedis += ((i >= dLo) && (i <= dUp)) ? rq0[i].red : 0;
@@ -1360,7 +1360,7 @@
                     selfRTT.observableRTT = undefined;
 	                selfRTT.calculating = false;
                     selfRTT.running = false;
-                    selfRTT.liveEvents = false;
+	                selfRTT.lE = false;
                 }
             );
             ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
@@ -1490,9 +1490,9 @@
 	        self.iniTime = Date.now();
             setTimeout(function() {
                 self.timerRunning = false;
-            }, (self.reqDuration * 1000) + 100);
+            }, (self.rqDu * 1000) + 100);
             intervalFunction();
-            self.intervalHandler = setInterval(intervalFunction, self.reqInterval);
+			self.intervalHandler = setInterval(intervalFunction, self.rqIn);
         };
 		//// throwHTTPrequests
 		AppSimulator.prototype.tHr = function() {
@@ -1544,7 +1544,7 @@
 			// Reset view presentation variables - control
 			//
 			this.rVPCV();
-			this.liveEvents = true;
+			this.lE = true;
 			//
 			// Reset execution scope variables
 			//

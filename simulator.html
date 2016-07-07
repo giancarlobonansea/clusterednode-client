@@ -76,13 +76,13 @@
 								<!-- STRESS BY DURATION AND DELAY: Duration in seconds to run -->
 								<div class="input-group input-group-sm" *ngIf="iDM()">
 									<span class="input-group-addon">Duration</span>
-									<input type="number" class="form-control input-sm" min="5" max="600" id="durReq" [(ngModel)]="reqDuration" [disabled]="iR()"/>
+									<input type="number" class="form-control input-sm" min="5" max="600" id="durReq" [(ngModel)]="rqDu" [disabled]="iR()"/>
 									<span class="input-group-addon">s</span>
 								</div>
 								<!-- STRESS BY DURATION AND DELAY: Delay in miliseconds to wait between group of requests -->
 								<div class="input-group input-group-sm" *ngIf="iDM()">
 									<span class="input-group-addon">Interval</span>
-									<input type="number" class="form-control input-sm" min="5" max="1000" id="intReq" [(ngModel)]="reqInterval" [disabled]="iR()"/>
+									<input type="number" class="form-control input-sm" min="5" max="1000" id="intReq" [(ngModel)]="rqIn" [disabled]="iR()"/>
 									<span class="input-group-addon">ms</span>
 								</div>
 								<!-- ALL: Maximum number of concurrent HTTP connections to be fired -->
@@ -93,8 +93,8 @@
 								<!-- Endpoint configuration -->
 								<!--<div class="input-group input-group-sm">-->
 								<!--<span class="input-group-addon" id="basic-addon3"><span class="hidden-sm">API Endpoint</span><span class="visible-sm">API</span></span>-->
-								<!--<select class="form-control input-sm" id="apiUrl" [(ngModel)]="selectedUrl" [disabled]="isRunning()" required>-->
-								<!--<option *ngFor="let opt of urlOptions" [value]="opt[0]">{{opt[1]}}</option>-->
+								<!--<select class="form-control input-sm" id="apiUrl" [(ngModel)]="sU" [disabled]="isRunning()" required>-->
+								<!--<option *ngFor="let opt of uO" [value]="opt[0]">{{opt[1]}}</option>-->
 								<!--</select>-->
 								<!--</div>-->
 							</div>
@@ -105,7 +105,7 @@
 		</div>
 	</div>
 </div><!-- Statistics -->
-<div class="row" *ngIf="!iR() && rOK!==0 && !showReference && !liveEvents">
+<div class="row" *ngIf="!iR() && rOK!==0 && !sR && !lE">
 	<div class="col-xs-12 col-sm-4">
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -284,7 +284,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr *ngFor="let hst of histogram">
+					<tr *ngFor="let hst of hg">
 						<td class="text-center">
 							<small><strong>{{hst[0]}}% <i>(up to {{cP(hst[0])}})</i></strong></small>
 						</td>
@@ -371,7 +371,7 @@
 	</div>
 </div>
 <!-- Balanced requests tables per node cluster -->
-<div class="row" *ngIf="!iR() && rOK!==0 && !showReference && !liveEvents">
+<div class="row" *ngIf="!iR() && rOK!==0 && !sR && !lE">
 	<div class="col-xs-12 col-sm-6 col-md-3" *ngFor="let nodes of rs">
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -430,7 +430,7 @@
 		</div>
 	</div>
 </div><!-- Reference -->
-<div class="row" *ngIf="showReference">
+<div class="row" *ngIf="sR">
 	<!-- Sequence diagram static diagram -->
 	<div class="col-xs-12 col-lg-6">
 		<div class="panel panel-info">
@@ -541,7 +541,7 @@
 		</div>
 	</div>
 </div><!-- Database Live Events -->
-<div class="row" *ngIf="liveEvents && !showReference">
+<div class="row" *ngIf="lE && !sR">
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
