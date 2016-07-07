@@ -1351,7 +1351,7 @@
 			this.reqExecuted = this.reqCount;
 			this.startStatistics();
 		};
-		AppSimulator.prototype.throwHTTPrequests = function(i) {
+		AppSimulator.prototype.throwHTTPrequests = function() {
 			var self   = this,
 			    arrReq = [];
 			self.iniTime = Date.now();
