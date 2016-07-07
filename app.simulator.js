@@ -100,14 +100,14 @@
 		};
 		//// resetViewExecVariables
 		AppSimulator.prototype.rVEV = function() {
-			this.respErrors = 0;
-			this.respOK = 0;
+			this.rER = 0;
+			this.rOK = 0;
 		};
 		//// initViewExecParameters
 		AppSimulator.prototype.iVEP = function() {
-			this.isDuration = false;
-			this.reqConn = 2;
-			this.reqCount = 100;
+			this.iD = false;
+			this.rqCn = 2;
+			this.rqCt = 100;
 			this.reqDuration = 5;
 			this.reqInterval = 50;
 			this.urlOptions = [[this.baseUrl + ':33333/api',
@@ -438,10 +438,10 @@
 		//// saveExecutionParametersCopy
 		AppSimulator.prototype.sEPC = function() {
 			this.execMode = this.gSM();
-			this.execReq = this.reqCount;
+			this.execReq = this.rqCt;
 			this.execDuration = this.reqDuration;
 			this.execInterval = this.reqInterval;
-			this.execConn = this.reqConn;
+			this.execConn = this.rqCn;
 			this.execMaxReq = this.gDR();
 		};
 		//// initStatisticsVariables
@@ -996,73 +996,73 @@
 		//
 		//// setSmall
 		AppSimulator.prototype.sS = function() {
-            if (this.isDuration) {
+			if (this.iD) {
                 this.reqDuration = 5;
                 this.reqInterval = 50;
-                this.reqConn = 4;
+				this.rqCn = 4;
             }
             else {
-                this.reqCount = 100;
-                this.reqConn = 2;
+				this.rqCt = 100;
+				this.rqCn = 2;
             }
             ga('send', 'event', 'Simulation', 'Configuration', 'Small Preset');
 		};
 		//// setMedium
 		AppSimulator.prototype.sM = function() {
-            if (this.isDuration) {
+			if (this.iD) {
                 this.reqDuration = 10;
                 this.reqInterval = 30;
-                this.reqConn = 4;
+				this.rqCn = 4;
             }
             else {
-                this.reqCount = 512;
-                this.reqConn = 16;
+				this.rqCt = 512;
+				this.rqCn = 16;
             }
             ga('send', 'event', 'Simulation', 'Configuration', 'Medium Preset');
         };
 		//// setLarge
 		AppSimulator.prototype.sL = function() {
-            if (this.isDuration) {
+			if (this.iD) {
                 this.reqDuration = 30;
                 this.reqInterval = 25;
-                this.reqConn = 4;
+				this.rqCn = 4;
             }
             else {
-                this.reqCount = 1024;
-                this.reqConn = 64;
+				this.rqCt = 1024;
+				this.rqCn = 64;
             }
             ga('send', 'event', 'Simulation', 'Configuration', 'Large Preset');
         };
 		//// setHuge
 		AppSimulator.prototype.sH = function() {
-            if (this.isDuration) {
+			if (this.iD) {
                 this.reqDuration = 60;
                 this.reqInterval = 25;
-                this.reqConn = 8;
+				this.rqCn = 8;
             }
             else {
-                this.reqCount = 2048;
-                this.reqConn = 128;
+				this.rqCt = 2048;
+				this.rqCn = 128;
             }
             ga('send', 'event', 'Simulation', 'Configuration', 'Huge Preset');
         };
 		//// setDuration
 		AppSimulator.prototype.sD = function() {
-            this.isDuration = true;
+			this.iD = true;
 			this.sS();
         };
 		//// setRequests
 		AppSimulator.prototype.sR = function() {
-            this.isDuration = false;
+			this.iD = false;
 			this.sS();
         };
 		//// isDurationMethod
 		AppSimulator.prototype.iDM = function() {
-            return this.isDuration;
+			return this.iD;
         };
 		//// isRequestMethod
 		AppSimulator.prototype.iRM = function() {
-            return !this.isDuration;
+			return !this.iD;
         };
 		//// usedDurationMethod
 		AppSimulator.prototype.uDM = function() {
@@ -1074,7 +1074,7 @@
         };
 		//// getSimulationMethod
 		AppSimulator.prototype.gSM = function() {
-            return this.isDuration ? 'STABILITY' : 'STRESS';
+			return this.iD ? 'STABILITY' : 'STRESS';
         };
 		//// onRefLinkClick
 		AppSimulator.prototype.oRLC = function(title, desc) {
@@ -1109,16 +1109,16 @@
 		};
 		//// percValue
 		AppSimulator.prototype.pV = function() {
-			return Math.ceil(this.respOK * 100 / this.reqCount);
+			return Math.ceil(this.rOK * 100 / this.rqCt);
 		};
 		//// calcPosition
 		AppSimulator.prototype.cP = function(hist) {
-			return Math.ceil(this.respOK * hist / 100);
+			return Math.ceil(this.rOK * hist / 100);
 		};
 		//// getDurationRequests
 		AppSimulator.prototype.gDR = function() {
-			var tot = (this.reqDuration * 1000 * this.reqConn / this.reqInterval) | 0;
-			return tot - (tot % this.reqConn);
+			var tot = (this.reqDuration * 1000 * this.rqCn / this.reqInterval) | 0;
+			return tot - (tot % this.rqCn);
 		};
 		//// getDurationThroughput
 		AppSimulator.prototype.gDT = function() {
@@ -1141,7 +1141,7 @@
 		};
 		//// populateRequestSamples
 		AppSimulator.prototype.pRS = function() {
-			for (var reqId = 0; reqId < this.reqCount; reqId++) {
+			for (var reqId = 0; reqId < this.rqCt; reqId++) {
 				var operT = this.gRO();
 				this.operType[operT]++;
 				this.rq[0].push({
@@ -1341,7 +1341,7 @@
                     selfRTT.hdrRTTresults = response;
 	                selfRTT.rq[0].sort(function(a, b) {return a.rtt - b.rtt});
 	                for (var n = 0; n < selfRTT.hdrRTTresults.chart.length; n++) {
-		                var idx = ((selfRTT.hdrRTTresults.chart[n].percentile * selfRTT.respOK / 100) | 0) - 1;
+		                var idx = ((selfRTT.hdrRTTresults.chart[n].percentile * selfRTT.rOK / 100) | 0) - 1;
 		                selfRTT.lcd[0].values.push({
 			                                                     x: selfRTT.hdrRTTresults.chart[n].percentile,
 			                                                     y: selfRTT.hdrRTTresults.chart[n].value
@@ -1382,10 +1382,10 @@
 					red:    res.red,
 					cached: cch
 				};
-				++this.respOK;
+				++this.rOK;
 				if (cch) {
 					this.reqCached++;
-					this.cachedResp.push(this.respOK);
+					this.cachedResp.push(this.rOK);
 				}
 				else {
 					var pid  = res.json.pid,
@@ -1398,7 +1398,7 @@
 						                            []]]);
 						this.pidIdx[hst][pid] = this.rs[ndx][1].length - 1;
 					}
-					this.rs[ndx][1][this.pidIdx[hst][pid]][1][oper].push(this.respOK);
+					this.rs[ndx][1][this.pidIdx[hst][pid]][1][oper].push(this.rOK);
 					this.nodeIdx[hst][1]++;
 				}
 				this.countResponses++;
@@ -1406,8 +1406,8 @@
 		};
 		//// popResponses
 		AppSimulator.prototype.pR = function() {
-			if (this.countResponses > this.reqCount) {
-				for (var z = 0; z < this.reqConn; z++) {
+			if (this.countResponses > this.rqCt) {
+				for (var z = 0; z < this.rqCn; z++) {
 					this.rq[0].pop();
 					this.rq[1].pop();
 					this.rq[2].pop();
@@ -1433,7 +1433,7 @@
 		};
 		//// stopHTTPrequests
 		AppSimulator.prototype.sHr = function() {
-			this.reqExecuted = this.reqCount;
+			this.reqExecuted = this.rqCt;
 			this.sSt();
 		};
 		//// throwHTTPduration
@@ -1443,13 +1443,13 @@
             self.countRequests = 0;
             self.countResponses = 0;
             var intervalFunction = function() {
-                if (self.timerRunning && self.countRequests < self.reqCount) {
-                    self.countRequests += self.reqConn;
-	                var nextIdx             = reqId + self.reqConn,
+	            if (self.timerRunning && self.countRequests < self.rqCt) {
+		            self.countRequests += self.rqCn;
+		            var nextIdx             = reqId + self.rqCn,
 	                    observableRequestsA = Rx.Observable.forkJoin(self.rq[1].slice(reqId, nextIdx)).subscribe(
                         function(response) {
                             self.duration = Date.now() - self.iniTime;
-                            if (self.countResponses < self.reqCount) {
+	                        if (self.countResponses < self.rqCt) {
 	                            self.oR(response);
                             }
                             else {
@@ -1458,8 +1458,8 @@
                         },
                         function(error) {
                             self.duration = Date.now() - self.iniTime;
-                            if (self.countResponses < self.reqCount) {
-	                            self.respErrors++;
+	                        if (self.countResponses < self.rqCt) {
+		                        self.rER++;
                                 self.countResponses++;
                             }
                             else {
@@ -1474,7 +1474,7 @@
 	                        observableRequestsA = undefined;
                         }
                     );
-	                reqId += self.reqConn;
+		            reqId += self.rqCn;
                 }
                 else {
                     if (!self.calculating && self.countRequests === self.countResponses) {
@@ -1502,19 +1502,19 @@
 			ev.subscribe(function(f) {
 				if (f) self.iniTime = Date.now();
 				var idx  = self.tHrIdx,
-				    nIdx = idx + self.reqConn,
+				    nIdx = idx + self.rqCn,
 				    oR   = Rx.Observable.forkJoin(self.rq[1].slice(idx, nIdx)).subscribe(
 					    function(r) {
 						    self.oR(r);
 					    },
 					    function(error) {
-						    self.respErrors++;
+						    self.rER++;
 					    },
 					    function() {
 						    self.duration = Date.now() - self.iniTime;
 						    oR.unsubscribe();
-						    self.tHrIdx += self.reqConn;
-						    if (self.respOK + self.respErrors >= self.reqCount) {
+						    self.tHrIdx += self.rqCn;
+						    if (self.rOK + self.rER >= self.rqCt) {
 							    ev.unsubscribe();
 							    self.sHr();
 						    }
@@ -1561,8 +1561,8 @@
 			//
 			// Switch among simulation methods (stress or duration)
 			//
-            if (this.isDuration) {
-	            this.reqCount = this.gDR();
+			if (this.iD) {
+				this.rqCt = this.gDR();
 	            this.pRS();
 	            this.tHd();
             }
