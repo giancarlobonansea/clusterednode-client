@@ -1,5 +1,35 @@
 (function(app) {
 	app.AppSimulator = (function() {
+		//// initReferenceLinks
+		var iRL = function() {
+			var l = {
+				l0: _RL.l0,
+				l1: _RL.l1,
+				v:  []
+			};
+			for (var i = 0; i < _RL.v.length; i++) {
+				l.v.push({
+					         t: _RL.v[i].t,
+					         a: []
+				         });
+				for (var j = 0; j < _RL.v[i].a.length; j++) {
+					l.v[i].a.push({
+						              h: this.safeUrl(_RL.v[i].a[j].h),
+						              d: _RL.v[i].a[j].d
+					              });
+				}
+			}
+			return l;
+		};
+		//// Google Analytics
+		var sGA = function(a, b, c, d) {
+			ga('send', 'event', a, b, c, d);
+		};
+		//// Consts
+		const _s_SIM = "Simulation",
+		      _s_REF = "Reference",
+		      _s_CFG = "Configuration";
+		//// Constructor
 		function AppSimulator (HTTPService, DOMSanitizer) {
 			//
 			// Initialize string constants
@@ -49,7 +79,7 @@
 			//
 			// View presentation variables - reference links
 			//
-			this.iRL();
+			this.links = iRL();
 			//
 			// Charts configuration and initialization
 			//
@@ -90,25 +120,6 @@
 		//
 		// Configuration & Initialization methods
 		//
-		//// initReferenceLinks
-		AppSimulator.prototype.iRL = function() {
-			this.links = {
-				l0: REFLINKS.l0,
-				l1: REFLINKS.l1,
-				v:  []
-			};
-			for (var i = 0; i < REFLINKS.v.length; i++) {
-				this.links.v.push({title:     REFLINKS.v[i].title,
-					                  anchor: []
-				                  });
-				for (var j = 0; j < REFLINKS.v[i].anchor.length; j++) {
-					this.links.v[i].anchor.push({
-						                            href: this.safeUrl(REFLINKS.v[i].anchor[j].href),
-						                            desc: REFLINKS.v[i].anchor[j].desc
-					                            });
-				}
-			}
-		};
 		//// initViewExecVariables
 		AppSimulator.prototype.iVEV = function() {
 			this.rVEV();
@@ -1014,7 +1025,7 @@
 				this.rqCt = 100;
 				this.rqCn = 2;
             }
-            ga('send', 'event', 'Simulation', 'Configuration', 'Small Preset');
+			sGA(_s_SIM, _s_CFG, 'Small Preset', 0);
 		};
 		//// setMedium
 		AppSimulator.prototype.sM = function() {
@@ -1027,7 +1038,7 @@
 				this.rqCt = 512;
 				this.rqCn = 16;
             }
-            ga('send', 'event', 'Simulation', 'Configuration', 'Medium Preset');
+			sGA(_s_SIM, _s_CFG, 'Medium Preset', 0);
         };
 		//// setLarge
 		AppSimulator.prototype.sL = function() {
@@ -1040,7 +1051,7 @@
 				this.rqCt = 1024;
 				this.rqCn = 64;
             }
-            ga('send', 'event', 'Simulation', 'Configuration', 'Large Preset');
+			sGA(_s_SIM, _s_CFG, 'Large Preset', 0);
         };
 		//// setHuge
 		AppSimulator.prototype.sH = function() {
@@ -1053,7 +1064,7 @@
 				this.rqCt = 2048;
 				this.rqCn = 128;
             }
-            ga('send', 'event', 'Simulation', 'Configuration', 'Huge Preset');
+			sGA(_s_SIM, _s_CFG, 'Huge Preset', 0);
         };
 		//// setDuration
 		AppSimulator.prototype.sD = function() {
@@ -1087,7 +1098,7 @@
         };
 		//// onRefLinkClick
 		AppSimulator.prototype.oRLC = function(t, d) {
-			ga('send', 'event', 'Reference', t, d);
+			sGA(_s_REF, t, d, 0);
 		};
 		//// showRef
 		AppSimulator.prototype.shR = function() {
@@ -1371,7 +1382,7 @@
 		            self.lE = false;
                 }
             );
-			ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpA);
+			sGA(_s_SIM, 'Execution', 'Throughput', this.tpA);
         };
 		//// observableResponse
 		AppSimulator.prototype.oR = function(re) {

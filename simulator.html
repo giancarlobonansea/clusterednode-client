@@ -453,10 +453,10 @@
 					<div class="col-xs-12 col-sm-6">
 						<blockquote *ngFor="let grpLinks of links['l0']">
 							<dl>
-								<dt>{{grpLinks.title}}</dt>
+								<dt>{{grpLinks.t}}</dt>
 								<dd>
-									<footer *ngFor="let link of grpLinks.anchor">
-										<a [href]="link.href" (click)="oRLC(grpLinks.title,link.desc)" target="_blank">{{link.desc}}</a>
+									<footer *ngFor="let link of grpLinks.a">
+										<a [href]="link.h" (click)="oRLC(grpLinks.t,link.d)" target="_blank">{{link.d}}</a>
 									</footer>
 								</dd>
 							</dl>
@@ -465,10 +465,10 @@
 					<div class="col-xs-12 col-sm-6">
 						<blockquote *ngFor="let grpLinks of links['l1']">
 							<dl>
-								<dt>{{grpLinks.title}}</dt>
+								<dt>{{grpLinks.t}}</dt>
 								<dd>
-									<footer *ngFor="let link of grpLinks.anchor">
-										<a [href]="link.href" (click)="oRLC(grpLinks.title,link.desc)" target="_blank">{{link.desc}}</a>
+									<footer *ngFor="let link of grpLinks.a">
+										<a [href]="link.h" (click)="oRLC(grpLinks.t,link.d)" target="_blank">{{link.d}}</a>
 									</footer>
 								</dd>
 							</dl>
@@ -482,15 +482,15 @@
 	<div class="col-xs-12" *ngFor="let grpLinks of links['v']">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h4 class="panel-title"><i class="fa fa-youtube"></i>&nbsp;Video Gallery - {{grpLinks.title}}</h4>
+				<h4 class="panel-title"><i class="fa fa-youtube"></i>&nbsp;Video Gallery - {{grpLinks.t}}</h4>
 			</div>
 			<div class="panel-body">
 				<div class="row">
-					<div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let link of grpLinks.anchor">
+					<div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let link of grpLinks.a">
 						<div class="embed-responsive embed-responsive-16by9">
-							<iframe class="embed-responsive-item" [src]="link.href" allowfullscreen></iframe>
+							<iframe class="embed-responsive-item" [src]="link.h" allowfullscreen></iframe>
 						</div>
-						<small><em>{{link.desc}}</em></small>
+						<small><em>{{link.d}}</em></small>
 					</div>
 				</div>
 			</div>
