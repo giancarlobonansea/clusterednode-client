@@ -12,6 +12,7 @@
 			this._ang = "-angular";
 			this._ngi = "-nginx";
 			this._nod = "-node";
+			this.baseUrl = "https://giancarlobonansea.homeip.net";
 			//
 			// Initialize services
 			//
@@ -105,7 +106,7 @@
 			this.reqCount = 100;
 			this.reqDuration = 5;
 			this.reqInterval = 50;
-			this.urlOptions = [['https://giancarlobonansea.homeip.net:33333/api',
+			this.urlOptions = [[this.baseUrl + ':33333/api',
 			                    'DNS Public'],
 			                   ['https://raspberrypi4:8010/api',
 			                    'DNS Private'],
@@ -389,7 +390,7 @@
 			                      1,
 			                      2,
 			                      3];
-			this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
+			this.urlHDR = this.baseUrl + ':33333/hdr';
 			this.loopCon = 0;
 			this.duration = 0;
 		};
@@ -966,7 +967,7 @@
 		AppSimulator.prototype.initLiveEvents = function() {
 			this.resetLiveEventsMatrix();
 			var ioMtx = this;
-			io('https://giancarlobonansea.homeip.net:33331').on('redis', function(data) {
+			io(this.baseUrl + ':33331').on('redis', function(data) {
 				if (ioMtx.evMatrix[data.x][data.y] !== 3) {
 					var x = data.x,
 					    y = data.y;
@@ -1296,9 +1297,56 @@
 			}
 			return false;
 		};
+		AppSimulator.prototype.observableResponse = function(response) {
+			for (var k = 0; k < response.length; k++) {
+				var req = response[k].reqId,
+				    hst = response[k].json.hostname,
+				    cch = response[k].cached;
+				this.requests[0][req] = {
+					rid:    'Request ' + ((req | 0) + 1),
+					hst:    this.nodeIdx[hst][0],
+					rtt:    response[k].rtt,
+					tsn:    response[k].tsn,
+					exts:   response[k].exts,
+					red:    response[k].red,
+					cached: cch
+				};
+				++this.respOK;
+				if (cch) {
+					this.reqCached++;
+					this.cachedResp.push(self.respOK);
+				}
+				else {
+					var pid  = response[k].json.pid,
+					    oper = this.requests[2][req],
+					    ndx  = this.nodeIdx[hst][0];
+					if (!(pid in this.pidIdx[hst])) {
+						this.results[ndx][1].push([pid,
+						                           [[],
+						                            [],
+						                            [],
+						                            []]]);
+						this.pidIdx[hst][pid] = this.results[ndx][1].length - 1;
+					}
+					this.results[ndx][1][this.pidIdx[hst][pid]][1][oper].push(this.respOK);
+					this.nodeIdx[hst][1]++;
+				}
+				this.countResponses++;
+			}
+		};
+		AppSimulator.prototype.popResponses = function() {
+			if (this.countResponses > this.reqCount) {
+				for (var z = 0; z < this.reqConn; z++) {
+					this.requests[0].pop();
+					this.requests[1].pop();
+					this.requests[2].pop();
+					this.countResponses--;
+				}
+			}
+		};
 		AppSimulator.prototype.throwHTTPrequests = function(i) {
-			var self = this;
-			var arrReq = [];
+			var self   = this,
+			    arrReq = [];
 			for (var j = 0; ((j < this.reqConn) && (i + j < this.reqCount)); j++) {
 				arrReq.push(this.requests[1][i + j]);
 			}
@@ -1362,50 +1410,10 @@
                         function(response) {
                             self.duration = Date.now() - self.iniTime;
                             if (self.countResponses < self.reqCount) {
-                                for (var k = 0; k < response.length; k++) {
-	                                var req = response[k].reqId,
-	                                    hst = response[k].json.hostname;
-	                                self.requests[0][req] = {
-		                                rid:    'Request ' + ((req | 0) + 1),
-		                                hst:    self.nodeIdx[hst][0],
-                                        rtt:    response[k].rtt,
-                                        tsn:    response[k].tsn,
-                                        exts:   response[k].exts,
-		                                red:    response[k].red,
-		                                cached: response[k].cached
-                                    };
-	                                ++self.respOK;
-                                    if (response[k].cached) {
-                                        self.reqCached++;
-	                                    self.cachedResp.push(self.respOK);
-                                    }
-                                    else {
-	                                    var pid  = response[k].json.pid,
-	                                        oper = self.requests[2][req],
-	                                        ndx  = self.nodeIdx[hst][0];
-	                                    if (!(pid in self.pidIdx[hst])) {
-		                                    self.results[ndx][1].push([pid,
-		                                                               [[],
-		                                                                [],
-		                                                                [],
-		                                                                []]]);
-		                                    self.pidIdx[hst][pid] = self.results[ndx][1].length - 1;
-                                        }
-	                                    self.results[ndx][1][self.pidIdx[hst][pid]][1][oper].push(self.respOK);
-	                                    self.nodeIdx[hst][1]++;
-                                    }
-                                    self.countResponses++;
-                                }
+	                            self.observableResponse(response);
                             }
                             else {
-                                if (self.countResponses > self.reqCount) {
-                                    for (var z = 0; z < self.reqConn; z++) {
-                                        self.requests[0].pop();
-                                        self.requests[1].pop();
-	                                    self.requests[2].pop();
-                                        self.countResponses--;
-                                    }
-                                }
+	                            self.popResponses();
                             }
                         },
                         function(error) {
@@ -1415,14 +1423,7 @@
                                 self.countResponses++;
                             }
                             else {
-                                if (self.countResponses > self.reqCount) {
-                                    for (var z = 0; z < self.reqConn; z++) {
-                                        self.requests[0].pop();
-                                        self.requests[1].pop();
-	                                    self.requests[2].pop();
-	                                    self.countResponses--;
-                                    }
-                                }
+	                            self.popResponses();
                             }
                         },
                         function() {
