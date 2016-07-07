@@ -126,17 +126,11 @@
 			this.rqCt = 100;
 			this.rqDu = 5;
 			this.rqIn = 50;
-			this.uO = [[this.baseUrl + ':33333/api',
-			            'DNS Public'],
-			           ['https://raspberrypi4:8010/api',
-			                    'DNS Private'],
-			           ['https://192.168.69.242:8010/api',
-			            'IP Private']];
 		};
 		//// initViewPresentationControlVariables
 		AppSimulator.prototype.iVPCV = function() {
 			this.rVPCV();
-			this.sU = this.uO[0][0];
+			this.sU = this.baseUrl + ':33333/api';
 			this.lE = false;
 		};
 		//// resetViewPresentationControlVariables
