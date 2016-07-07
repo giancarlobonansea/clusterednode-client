@@ -59,6 +59,9 @@
 		AppSimulator.prototype.safeUrl = function(url) {
 			return this.sanitizerService.bypassSecurityTrustResourceUrl(url);
 		};
+		//
+		// Configuration & Initialization methods
+		//
 		AppSimulator.prototype.initReferenceLinks = function() {
 			this.links = {
 				l0: REFLINKS.l0,
@@ -146,6 +149,11 @@
 			                   0]];
 			this.showReference = false;
 			this.calculating = false;
+			this.operType = [0,
+			                 0,
+			                 0,
+			                 0];
+			this.reqCached = 0;
 		};
 		AppSimulator.prototype.initCharts = function() {
 			this.barChartOptions = {
@@ -958,7 +966,9 @@
 				}
 			});
 		};
-
+		//
+		// UI related methods
+		//
 		AppSimulator.prototype.setSmall = function() {
             if (this.isDuration) {
                 this.reqDuration = 5;
@@ -1030,9 +1040,49 @@
         AppSimulator.prototype.getSimulationMethod = function() {
             return this.isDuration ? 'STABILITY' : 'STRESS';
         };
-        AppSimulator.prototype.getNumCol = function() {
-            return this.isDuration ? 3 : 2;
-        };
+		AppSimulator.prototype.onRefLinkClick = function(title, desc) {
+			ga('send', 'event', 'Reference', title, desc);
+		};
+		AppSimulator.prototype.showRef = function() {
+			this.showReference = !this.showReference;
+			if (this.showReference) {
+				this.liveEvents = false;
+			}
+		};
+		AppSimulator.prototype.showLive = function() {
+			this.liveEvents = !this.liveEvents;
+			if (this.liveEvents) {
+				this.showReference = false;
+			}
+		};
+		AppSimulator.prototype.getDatabaseStatus = function(cond) {
+			switch (cond) {
+				case 0:
+					return 'text-info';
+				case 2:
+					return 'text-primary';
+				case 1:
+					return 'text-muted';
+				case 3:
+					return 'text-danger bg-danger';
+			}
+		};
+		AppSimulator.prototype.percValue = function() {
+			return Math.ceil(this.respOK * 100 / this.reqCount);
+		};
+		AppSimulator.prototype.calcPosition = function(hist) {
+			return Math.ceil(this.respOK * hist / 100);
+		};
+		AppSimulator.prototype.getDurationRequests = function() {
+			var tot = (this.reqDuration * 1000 * this.reqConn / this.reqInterval) | 0;
+			return tot - (tot % this.reqConn);
+		};
+		AppSimulator.prototype.getDurationThroughput = function() {
+			return (this.getDurationRequests() / this.reqDuration) | 0;
+		};
+		//
+		// Execution control methods
+		//
 		AppSimulator.prototype.isRunning = function() {
             return this.running;
 		};
@@ -1198,22 +1248,6 @@
                 }
             );
             ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
-        };
-		AppSimulator.prototype.onRefLinkClick = function(title, desc) {
-            ga('send', 'event', 'Reference', title, desc);
-        };
-        AppSimulator.prototype.percValue = function() {
-	        return Math.ceil(this.respOK * 100 / this.reqCount);
-        };
-		AppSimulator.prototype.calcPosition = function(hist) {
-			return Math.ceil(this.respOK * hist / 100);
-		};
-        AppSimulator.prototype.getDurationRequests = function() {
-            var tot = (this.reqDuration * 1000 * this.reqConn / this.reqInterval) | 0;
-            return tot - (tot % this.reqConn);
-        };
-        AppSimulator.prototype.getDurationThroughput = function() {
-            return (this.getDurationRequests() / this.reqDuration) | 0;
         };
 		AppSimulator.prototype.checkStop = function() {
             this.duration = Date.now() - this.iniTime;
@@ -1394,30 +1428,6 @@
             intervalFunction();
             self.intervalHandler = setInterval(intervalFunction, self.reqInterval);
         };
-        AppSimulator.prototype.getDatabaseStatus = function(cond) {
-            switch (cond) {
-                case 0:
-                    return 'text-info';
-                case 2:
-                    return 'text-primary';
-                case 1:
-                    return 'text-muted';
-                case 3:
-                    return 'text-danger bg-danger';
-            }
-        };
-        AppSimulator.prototype.showRef = function() {
-            this.showReference = !this.showReference;
-            if (this.showReference) {
-                this.liveEvents = false;
-            }
-        };
-        AppSimulator.prototype.showLive = function() {
-            this.liveEvents = !this.liveEvents;
-            if (this.liveEvents) {
-                this.showReference = false;
-            }
-        };
 		AppSimulator.prototype.startSimulator = function() {
 			////
 			//// Initialize execution variables - once for each execution
@@ -1436,14 +1446,6 @@
 			//
 			this.resetViewPresentationControlVariables();
 			this.liveEvents = true;
-			//
-			// Reset view presentation variables - stats counters 
-			//
-			this.operType = [0,
-			                 0,
-			                 0,
-			                 0];
-            this.reqCached = 0;
 			//
 			// Reset execution scope variables
 			//
