@@ -1497,7 +1497,7 @@
 		//// throwHTTPrequests
 		AppSimulator.prototype.tHr = function() {
 			var self     = this,
-			    ev       = new EventEmitter(true),
+			    ev       = new ng.core.EventEmitter(true),
 			    recurReq = function() {
 				    var idx                = self.tHrIdx,
 				        nextIdx            = idx + self.reqConn,
