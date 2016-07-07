@@ -1436,34 +1436,6 @@
 			this.reqExecuted = this.reqCount;
 			this.sSt();
 		};
-		//// throwHTTPrequests
-		AppSimulator.prototype.tHr = function() {
-			var self     = this,
-			    recurReq = function(idx) {
-				    var nextIdx            = idx + self.reqConn,
-				        observableRequests = Rx.Observable.forkJoin(self.rq[1].slice(idx, nextIdx)).subscribe(
-					    function(response) {
-						    self.oR(response);
-					    },
-					    function(error) {
-						    self.respErrors++;
-					    },
-					    function() {
-						    observableRequests.unsubscribe();
-						    observableRequests = undefined;
-						    self.duration = Date.now() - self.iniTime;
-						    if (self.respOK + self.respErrors >= self.reqCount) {
-							    self.sHr();
-						    }
-						    else {
-							    recurReq(nextIdx);
-						    }
-					    }
-				    );
-			    };
-			self.iniTime = Date.now();
-			recurReq(0);
-		};
 		//// throwHTTPduration
 		AppSimulator.prototype.tHd = function() {
             var self  = this,
@@ -1522,6 +1494,44 @@
             intervalFunction();
             self.intervalHandler = setInterval(intervalFunction, self.reqInterval);
         };
+		//// throwHTTPrequests
+		AppSimulator.prototype.tHr = function() {
+			var self     = this,
+			    ev       = new EventEmitter(),
+			    recurReq = function() {
+				    var idx                = self.tHrIdx,
+				        nextIdx            = idx + self.reqConn,
+				        observableRequests = Rx.Observable.forkJoin(self.rq[1].slice(idx, nextIdx)).subscribe(
+					        function(response) {
+						        self.oR(response);
+					        },
+					        function(error) {
+						        self.respErrors++;
+					        },
+					        function() {
+						        observableRequests.unsubscribe();
+						        observableRequests = undefined;
+						        self.duration = Date.now() - self.iniTime;
+						        self.tHrIdx += self.reqConn;
+						        if (self.respOK + self.respErrors >= self.reqCount) {
+							        ev.unsubscribe();
+							        self.sHr();
+						        }
+						        else {
+							        ev.emit();
+							        //recurReq();
+						        }
+					        }
+				        );
+			    };
+			self.tHrIdx = 0;
+			self.iniTime = Date.now();
+			ev.subscribe(function() {
+				recurReq();
+			});
+			ev.emit();
+			//recurReq();
+		};
 		//// startSimulator
 		AppSimulator.prototype.sSi = function() {
 			////
