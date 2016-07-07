@@ -27,7 +27,6 @@
 		};
 		//// Constants
 		const _s_SIM  = "Simulation",
-		      _s_REF  = "Reference",
 		      _s_CFG  = "Configuration",
 		      _s_PI2  = "raspberrypi2",
 		      _s_PI3  = "raspberrypi3",
@@ -37,33 +36,35 @@
 		      _s_ANG  = "-angular",
 		      _s_NGI  = "-nginx",
 		      _s_NOD  = "-node",
-		      _s_BURL = "https://giancarlobonansea.homeip.net";
+		      _s_BURL = "https://giancarlobonansea.homeip.net",
+		      _s_AURL = _s_BURL + ':33333/api',
+		      _s_HURL = _s_BURL + ':33333/hdr',
+		      _s_IURL = _s_BURL + ':33331',
+		      _s_STA  = "STABILITY",
+		      _s_STR  = "STRESS",
+		      _j_ERE  = {
+			      //rtt = A
+			      A: 0,
+			      //hst = H
+			      H: '',
+			      //rid = Q
+			      Q: 0,
+			      //tsn = X
+			      X: 0,
+			      //exts = N
+			      N: 0,
+			      //erd = R
+			      R: 0,
+			      //cached = C
+			      C: false
+		      };
 		//// Constructor
 		function AppSimulator (HTTPService, DOMSanitizer) {
 			//
-			// Initialize string constants
-			//
-			this.eRe = {
-				//rtt = A
-				A: 0,
-				//hst = H
-				H: '',
-				//rid = Q
-				Q: 0,
-				//tsn = X
-				X: 0,
-				//exts = N
-				N: 0,
-				//erd = R
-				R: 0,
-				//cached = C
-				C: false
-			};
-			//
 			// Initialize services
 			//
-			this.httpService = HTTPService;
-			this.sanitizerService = DOMSanitizer;
+			this.hS = HTTPService;
+			this.snS = DOMSanitizer;
 			//
 			// View execution variables
 			//
@@ -115,7 +116,7 @@
 			})
 		];
 		AppSimulator.prototype.safeUrl = function(u) {
-			return this.sanitizerService.bypassSecurityTrustResourceUrl(u);
+			return this.snS.bypassSecurityTrustResourceUrl(u);
 		};
 		//
 		// Configuration & Initialization methods
@@ -141,7 +142,7 @@
 		//// initViewPresentationControlVariables
 		AppSimulator.prototype.iVPCV = function() {
 			this.rVPCV();
-			this.sU = _s_BURL + ':33333/api';
+			this.sU = _s_AURL;
 			this.lE = false;
 		};
 		//// resetViewPresentationControlVariables
@@ -242,9 +243,6 @@
 					useInteractiveGuideline: true,
 					xAxis:                   {
 						axisLabel: 'Percentile (%)'
-						// ,tickFormat:   function(d) {
-						//     return d3.format('.5f')(d);
-						// }
 					},
 					yAxis:                   {
 						axisLabel:         'AngularJS Latency (ms)',
@@ -252,9 +250,6 @@
 						rotateYLabel:      true
 					},
 					x2Axis:                  {
-						// tickFormat: function(d) {
-						//     return d3.format('.5f')(d);
-						// }
 					},
 					y2Axis:                  {},
 					brushExtent:             [75,
@@ -420,7 +415,7 @@
 			           1,
 			           2,
 			           3];
-			this.urlHDR = _s_BURL + ':33333/hdr';
+			this.urlHDR = _s_HURL;
 			this.dur = 0;
 		};
 		//// resetExecutionScopeVariables
@@ -437,16 +432,17 @@
 			            []],
 			           [_s_PI6,
 			            []]];
-			this.nix = {
-				"raspberrypi2": [0,
-				                 0],
-				"raspberrypi3": [1,
-				                 0],
-				"raspberrypi5": [2,
-				                 0],
-				"raspberrypi6": [3,
-				                 0]
-			};
+			this.nix = JSON.parse("{" + _s_PI2 + ":[0,0]," + _s_PI3 + ":[1,0]," + _s_PI5 + ":[2,0]," + _s_PI6 + ":[3,0]}");
+			// this.nix = {
+			// 	"raspberrypi2": [0,
+			// 	                 0],
+			// 	"raspberrypi3": [1,
+			// 	                 0],
+			// 	"raspberrypi5": [2,
+			// 	                 0],
+			// 	"raspberrypi6": [3,
+			// 	                 0]
+			// };
 			this.pix = {
 				"raspberrypi2": {},
 				"raspberrypi3": {},
@@ -1000,7 +996,7 @@
 		AppSimulator.prototype.iLE = function() {
 			this.rLEM();
 			var self = this;
-			io(_s_BURL + ':33331').on('redis', function(d) {
+			io(_s_IURL).on('redis', function(d) {
 				if (self.leMx[d.x][d.y] !== 3) {
 					var x = d.x,
 					    y = d.y;
@@ -1086,19 +1082,19 @@
         };
 		//// usedDurationMethod
 		AppSimulator.prototype.uDM = function() {
-			return this.exM === 'STABILITY';
+			return this.exM === _s_STA;
         };
 		//// usedRequestMethod
 		AppSimulator.prototype.uRM = function() {
-			return this.exM === 'STRESS';
+			return this.exM === _s_STR;
         };
 		//// getSimulationMethod
 		AppSimulator.prototype.gSM = function() {
-			return this.iD ? 'STABILITY' : 'STRESS';
+			return this.iD ? _s_STA : _s_STR;
         };
 		//// onRefLinkClick
 		AppSimulator.prototype.oRLC = function(t, d) {
-			sGA(_s_REF, t, d, 0);
+			sGA("Reference", t, d, 0);
 		};
 		//// showRef
 		AppSimulator.prototype.shR = function() {
@@ -1164,8 +1160,8 @@
 			for (var q = 0; q < this.rqCt; q++) {
 				var o = this.gRO();
 				this.oT[o]++;
-				this.rq[0].push(this.eRe);
-				this.rq[1].push(this.httpService.get(q, this.sU, o, this.gRD()));
+				this.rq[0].push(_j_ERE);
+				this.rq[1].push(this.hS.get(q, this.sU, o, this.gRD()));
 				this.rq[2].push(o);
 			}
 		};
@@ -1356,7 +1352,7 @@
 			};
 			this.lcd[0].values = [];
 			this.lcd[1].values = [];
-			this.oRTT = this.httpService.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
+			this.oRTT = this.hS.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
 	            function(re) {
 		            self.hdrAr = re;
 		            self.rq[0].sort(function(a, b) {return a.A - b.A});
