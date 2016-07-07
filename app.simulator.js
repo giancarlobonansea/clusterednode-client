@@ -1127,18 +1127,22 @@
 		//
 		// Execution control methods
 		//
-		AppSimulator.prototype.isRunning = function() {
+		//// isRunning
+		AppSimulator.prototype.iR = function() {
             return this.running;
 		};
-		AppSimulator.prototype.getRandomOperation = function() {
+		//// getRandomOperation
+		AppSimulator.prototype.gRO = function() {
 			return this.operationProb[(Math.random() * 10) | 0];
 		};
-		AppSimulator.prototype.getRandomDBRecord = function() {
+		//// getRandomDBRecord
+		AppSimulator.prototype.gRD = function() {
 			return (Math.random() * 16384) | 0;
 		};
-		AppSimulator.prototype.populateRequestSamples = function() {
+		//// populateRequestSamples
+		AppSimulator.prototype.pRS = function() {
 			for (var reqId = 0; reqId < this.reqCount; reqId++) {
-				var operT = this.getRandomOperation();
+				var operT = this.gRO();
 				this.operType[operT]++;
 				this.rq[0].push({
 					                rtt:          0,
@@ -1149,11 +1153,12 @@
 					                      red:    0,
 					                      cached: false
 				                      });
-				this.rq[1].push(this.httpService.get(reqId, this.selectedUrl, operT, this.getRandomDBRecord()));
+				this.rq[1].push(this.httpService.get(reqId, this.selectedUrl, operT, this.gRD()));
 				this.rq[2].push(operT);
 			}
 		};
-		AppSimulator.prototype.calculateHistogram = function() {
+		//// calculateHistogram
+		AppSimulator.prototype.cH = function() {
 			this.rCD();
 			var disregard = Math.ceil(this.reqExecuted * 4.55 / 100.0),
 			    dLo       = Math.floor(disregard / 2),
@@ -1360,7 +1365,8 @@
             );
             ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
         };
-		AppSimulator.prototype.observableResponse = function(response) {
+		//// observableResponse
+		AppSimulator.prototype.oR = function(response) {
 			for (var k = 0; k < response.length; k++) {
 				var res = response[k],
 				    req = res.reqId,
@@ -1398,7 +1404,8 @@
 				this.countResponses++;
 			}
 		};
-		AppSimulator.prototype.popResponses = function() {
+		//// popResponses
+		AppSimulator.prototype.pR = function() {
 			if (this.countResponses > this.reqCount) {
 				for (var z = 0; z < this.reqConn; z++) {
 					this.rq[0].pop();
@@ -1408,31 +1415,35 @@
 				}
 			}
 		};
-		AppSimulator.prototype.startStatistics = function() {
+		//// startStatistics
+		AppSimulator.prototype.sSt = function() {
 			this.calculating = true;
 			var selfStop = this;
 			setTimeout(function() {
-				selfStop.calculateHistogram();
+				selfStop.cH();
 			}, 500);
 		};
-		AppSimulator.prototype.stopHTTPduration = function() {
+		//// stopHTTPduration
+		AppSimulator.prototype.sHd = function() {
 			if (this.intervalHandler) {
 				clearInterval(this.intervalHandler);
 			}
 			this.reqExecuted = this.countResponses;
-			this.startStatistics();
+			this.sSt();
 		};
-		AppSimulator.prototype.stopHTTPrequests = function() {
+		//// stopHTTPrequests
+		AppSimulator.prototype.sHr = function() {
 			this.reqExecuted = this.reqCount;
-			this.startStatistics();
+			this.sSt();
 		};
-		AppSimulator.prototype.throwHTTPrequests = function() {
+		//// throwHTTPrequests
+		AppSimulator.prototype.tHr = function() {
 			var self     = this,
 			    recurReq = function(idx) {
 				    var nextIdx            = idx + self.reqConn,
 				        observableRequests = Rx.Observable.forkJoin(self.rq[1].slice(idx, nextIdx)).subscribe(
 					    function(response) {
-						    self.observableResponse(response);
+						    self.oR(response);
 					    },
 					    function(error) {
 						    self.respErrors++;
@@ -1442,7 +1453,7 @@
 						    observableRequests = undefined;
 						    self.duration = Date.now() - self.iniTime;
 						    if (self.respOK + self.respErrors >= self.reqCount) {
-							    self.stopHTTPrequests();
+							    self.sHr();
 						    }
 						    else {
 							    recurReq(nextIdx);
@@ -1453,7 +1464,8 @@
 			self.iniTime = Date.now();
 			recurReq(0);
 		};
-        AppSimulator.prototype.throwHTTPduration = function() {
+		//// throwHTTPduration
+		AppSimulator.prototype.tHd = function() {
             var self  = this,
                 reqId = 0;
             self.countRequests = 0;
@@ -1466,10 +1478,10 @@
                         function(response) {
                             self.duration = Date.now() - self.iniTime;
                             if (self.countResponses < self.reqCount) {
-	                            self.observableResponse(response);
+	                            self.oR(response);
                             }
                             else {
-	                            self.popResponses();
+	                            self.pR();
                             }
                         },
                         function(error) {
@@ -1479,12 +1491,12 @@
                                 self.countResponses++;
                             }
                             else {
-	                            self.popResponses();
+	                            self.pR();
                             }
                         },
                         function() {
                             if (!self.timerRunning && !self.calculating && self.countRequests === self.countResponses) {
-	                            self.stopHTTPduration();
+	                            self.sHd();
                             }
                             observableRequestsA.unsubscribe();
 	                        observableRequestsA = undefined;
@@ -1494,7 +1506,7 @@
                 }
                 else {
                     if (!self.calculating && self.countRequests === self.countResponses) {
-	                    self.stopHTTPduration();
+	                    self.sHd();
                     }
 	                if (observableRequestsA) {
 		                observableRequestsA.unsubscribe();
@@ -1510,7 +1522,8 @@
             intervalFunction();
             self.intervalHandler = setInterval(intervalFunction, self.reqInterval);
         };
-		AppSimulator.prototype.startSimulator = function() {
+		//// startSimulator
+		AppSimulator.prototype.sSi = function() {
 			////
 			//// Initialize execution variables - once for each execution
 			//// all first time initialization performed on constructor function
@@ -1546,12 +1559,12 @@
 			//
             if (this.isDuration) {
 	            this.reqCount = this.gDR();
-	            this.populateRequestSamples();
-                this.throwHTTPduration();
+	            this.pRS();
+	            this.tHd();
             }
             else {
-	            this.populateRequestSamples();
-	            this.throwHTTPrequests();
+	            this.pRS();
+	            this.tHr();
             }
 		};
 		return AppSimulator;

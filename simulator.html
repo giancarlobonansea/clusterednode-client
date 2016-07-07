@@ -28,18 +28,18 @@
 				<div class="row">
 					<div class="col-xs-12 col-sm-6">
 						<!-- Show reference -->
-						<button type="button" class="btn btn-info btn-sm" (click)="shR()" [disabled]="isRunning()">
+						<button type="button" class="btn btn-info btn-sm" (click)="shR()" [disabled]="iR()">
 							<i class="fa fa-leanpub"></i>
 						</button>
 						&nbsp;
 						<!-- Live DB Events -->
-						<button type="button" class="btn btn-info btn-sm" (click)="shL()" [disabled]="isRunning()">
+						<button type="button" class="btn btn-info btn-sm" (click)="shL()" [disabled]="iR()">
 							<i class="fa fa-database"></i>
 						</button>
 						&nbsp;
 						<!-- Duration or Requests -->
 						<div class="btn-group btn-group-sm">
-							<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">
+							<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="iR()">
 								<i class="fa fa-bolt"></i>&nbsp;<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
@@ -50,7 +50,7 @@
 						&nbsp;
 						<!-- Quick settings dropdown -->
 						<div class="btn-group btn-group-sm">
-							<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="isRunning()">
+							<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" [disabled]="iR()">
 								<i class="fa fa-sliders"></i>&nbsp;<span class="caret"></span>
 							</button>
 							<ul class="dropdown-menu">
@@ -62,7 +62,7 @@
 						</div>
 						&nbsp;
 						<!-- Run Forrest... run -->
-						<button type="button" class="btn btn-success btn-sm" (click)="startSimulator()" [disabled]="isRunning()">
+						<button type="button" class="btn btn-success btn-sm" (click)="sSi()" [disabled]="iR()">
 							<i class="fa fa-play"></i></button>
 					</div>
 					<div class="col-xs-12 col-sm-6 text-right">
@@ -71,24 +71,24 @@
 								<!-- STRESS BY REQUESTS: Number of total requests to be fired -->
 								<div class="input-group input-group-sm" *ngIf="iRM()">
 									<span class="input-group-addon">Requests</span>
-									<input type="number" class="form-control input-sm" min="1" max="16384" id="numReq" [(ngModel)]="reqCount" [disabled]="isRunning()"/>
+									<input type="number" class="form-control input-sm" min="1" max="16384" id="numReq" [(ngModel)]="reqCount" [disabled]="iR()"/>
 								</div>
 								<!-- STRESS BY DURATION AND DELAY: Duration in seconds to run -->
 								<div class="input-group input-group-sm" *ngIf="iDM()">
 									<span class="input-group-addon">Duration</span>
-									<input type="number" class="form-control input-sm" min="5" max="600" id="durReq" [(ngModel)]="reqDuration" [disabled]="isRunning()"/>
+									<input type="number" class="form-control input-sm" min="5" max="600" id="durReq" [(ngModel)]="reqDuration" [disabled]="iR()"/>
 									<span class="input-group-addon">s</span>
 								</div>
 								<!-- STRESS BY DURATION AND DELAY: Delay in miliseconds to wait between group of requests -->
 								<div class="input-group input-group-sm" *ngIf="iDM()">
 									<span class="input-group-addon">Interval</span>
-									<input type="number" class="form-control input-sm" min="5" max="1000" id="intReq" [(ngModel)]="reqInterval" [disabled]="isRunning()"/>
+									<input type="number" class="form-control input-sm" min="5" max="1000" id="intReq" [(ngModel)]="reqInterval" [disabled]="iR()"/>
 									<span class="input-group-addon">ms</span>
 								</div>
 								<!-- ALL: Maximum number of concurrent HTTP connections to be fired -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Connections</span>
-									<input type="number" class="form-control input-sm" min="1" max="128" id="numConn" [(ngModel)]="reqConn" [disabled]="isRunning()"/>
+									<input type="number" class="form-control input-sm" min="1" max="128" id="numConn" [(ngModel)]="reqConn" [disabled]="iR()"/>
 								</div>
 								<!-- Endpoint configuration -->
 								<!--<div class="input-group input-group-sm">-->
@@ -105,7 +105,7 @@
 		</div>
 	</div>
 </div><!-- Statistics -->
-<div class="row" *ngIf="!isRunning() && respOK!==0 && !showReference && !liveEvents">
+<div class="row" *ngIf="!iR() && respOK!==0 && !showReference && !liveEvents">
 	<div class="col-xs-12 col-sm-4">
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -371,7 +371,7 @@
 	</div>
 </div>
 <!-- Balanced requests tables per node cluster -->
-<div class="row" *ngIf="!isRunning() && respOK!==0 && !showReference && !liveEvents">
+<div class="row" *ngIf="!iR() && respOK!==0 && !showReference && !liveEvents">
 	<div class="col-xs-12 col-sm-6 col-md-3" *ngFor="let nodes of rs">
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -505,7 +505,7 @@
 	</div>
 </div>
 <!-- Spinner -->
-<div class="row" *ngIf="isRunning()">
+<div class="row" *ngIf="iR()">
 	<div class="col-xs-12">
 		<div class="panel panel-success">
 			<div class="panel-heading">
