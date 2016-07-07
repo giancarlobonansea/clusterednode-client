@@ -430,8 +430,8 @@
 			            []],
 			           [_s_PI6,
 			            []]];
-			this.nix = JSON.parse("{" + _s_PI2 + ":[0,0]," + _s_PI3 + ":[1,0]," + _s_PI5 + ":[2,0]," + _s_PI6 + ":[3,0]}");
-			this.pix = JSON.parse("{" + _s_PI2 + ":{}," + _s_PI3 + ":{}," + _s_PI5 + ":{}," + _s_PI6 + ":{}}");
+			this.nix = JSON.parse('{"' + _s_PI2 + '":[0,0],"' + _s_PI3 + '":[1,0],"' + _s_PI5 + '":[2,0],"' + _s_PI6 + '":[3,0]}');
+			this.pix = JSON.parse('{"' + _s_PI2 + '":{},"' + _s_PI3 + '":{},"' + _s_PI5 + '":{},"' + _s_PI6 + '":{}}');
 			this.chRe = [];
 		};
 		//// saveExecutionParametersCopy
@@ -1275,10 +1275,10 @@
 				totReqAng[3] += inSDbyH(_hstR, 3, i, 1);
 				this.toA += inSD(i, _rttR);
 			}
-			this.pcd2[0].y = this.pcd2[0].y / totReqAng[0];
-			this.pcd2[1].y = this.pcd2[1].y / totReqAng[1];
-			this.pcd2[2].y = this.pcd2[2].y / totReqAng[2];
-			this.pcd2[3].y = this.pcd2[3].y / totReqAng[3];
+			this.pcd2[0].y /= totReqAng[0];
+			this.pcd2[1].y /= totReqAng[1];
+			this.pcd2[2].y /= totReqAng[2];
+			this.pcd2[3].y /= totReqAng[3];
 			this.tpA = Math.ceil(this.rqEx / (this.dur / 1000));
 			for (i = 0; i < this.hg.length; i++) {
 				this.hg[i][1] = rq0[Math.ceil(this.rqEx * this.hg[i][0] / 100) - 1].A;
@@ -1311,10 +1311,10 @@
 				totReqNgi[3] += inSDbyH(_hstT, 3, i, 1);
 				this.toX += inSD(i, _tsnT);
 			}
-			this.pcd[0].y = this.pcd[0].y / totReqNgi[0];
-			this.pcd[1].y = this.pcd[1].y / totReqNgi[1];
-			this.pcd[2].y = this.pcd[2].y / totReqNgi[2];
-			this.pcd[3].y = this.pcd[3].y / totReqNgi[3];
+			this.pcd[0].y /= totReqNgi[0];
+			this.pcd[1].y /= totReqNgi[1];
+			this.pcd[2].y /= totReqNgi[2];
+			this.pcd[3].y /= totReqNgi[3];
 			this.tpX = Math.ceil(this.tpA * this.toA / this.toX);
 			//
 			// Sort by EXTS (nodeJS time)
