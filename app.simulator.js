@@ -142,7 +142,6 @@
 		//// initViewPresentationControlVariables
 		AppSimulator.prototype.iVPCV = function() {
 			this.rVPCV();
-			this.sU = _s_AURL;
 			this.lE = false;
 		};
 		//// resetViewPresentationControlVariables
@@ -415,7 +414,6 @@
 			           1,
 			           2,
 			           3];
-			this.urlHDR = _s_HURL;
 			this.dur = 0;
 		};
 		//// resetExecutionScopeVariables
@@ -433,22 +431,7 @@
 			           [_s_PI6,
 			            []]];
 			this.nix = JSON.parse("{" + _s_PI2 + ":[0,0]," + _s_PI3 + ":[1,0]," + _s_PI5 + ":[2,0]," + _s_PI6 + ":[3,0]}");
-			// this.nix = {
-			// 	"raspberrypi2": [0,
-			// 	                 0],
-			// 	"raspberrypi3": [1,
-			// 	                 0],
-			// 	"raspberrypi5": [2,
-			// 	                 0],
-			// 	"raspberrypi6": [3,
-			// 	                 0]
-			// };
-			this.pix = {
-				"raspberrypi2": {},
-				"raspberrypi3": {},
-				"raspberrypi5": {},
-				"raspberrypi6": {}
-			};
+			this.pix = JSON.parse("{" + _s_PI2 + ":{}," + _s_PI3 + ":{}," + _s_PI5 + ":{}," + _s_PI6 + ":{}}");
 			this.chRe = [];
 		};
 		//// saveExecutionParametersCopy
@@ -1148,20 +1131,20 @@
             return this.running;
 		};
 		//// getRandomOperation
-		AppSimulator.prototype.gRO = function() {
-			return this.oP[(Math.random() * 10) | 0];
+		var gRO = function(t) {
+			return t[(Math.random() * 10) | 0];
 		};
 		//// getRandomDBRecord
-		AppSimulator.prototype.gRD = function() {
+		var gRD = function() {
 			return (Math.random() * 16384) | 0;
 		};
 		//// populateRequestSamples
 		AppSimulator.prototype.pRS = function() {
 			for (var q = 0; q < this.rqCt; q++) {
-				var o = this.gRO();
+				var o = gRO(this.oP);
 				this.oT[o]++;
 				this.rq[0].push(_j_ERE);
-				this.rq[1].push(this.hS.get(q, this.sU, o, this.gRD()));
+				this.rq[1].push(this.hS.get(q, _s_AURL, o, gRD()));
 				this.rq[2].push(o);
 			}
 		};
@@ -1255,6 +1238,18 @@
 			for (var n = 0; n < rq0.length; n++) {
 				hdrRTTpost.arr.push(rq0[n].A);
             }
+			//
+			// Helpers
+			//
+			var byH = function(hl, hv, v) {
+				return hl === hv ? v : 0;
+			};
+			var inSD = function(i, v) {
+				return ((i >= dLo) && (i <= dUp)) ? v : 0;
+			};
+			var inSDbyH = function(hl, hv, i, v) {
+				return ((hl === hv) && (i >= dLo) && (i <= dUp)) ? v : 0;
+			};
             //
             // Sorting by RTT (AngularJS time)
             //
@@ -1266,19 +1261,19 @@
 			for (i = 0; i < rq0.length; i++) {
 				var _hstR = rq0[i].H,
 				    _rttR = rq0[i].A;
-				rtt2 = _hstR === 0 ? _rttR : 0;
-				rtt3 = _hstR === 1 ? _rttR : 0;
-				rtt5 = _hstR === 2 ? _rttR : 0;
-				rtt6 = _hstR === 3 ? _rttR : 0;
-				this.pcd2[0].y += ((i >= dLo) && (i <= dUp)) ? rtt2 : 0;
-				this.pcd2[1].y += ((i >= dLo) && (i <= dUp)) ? rtt3 : 0;
-				this.pcd2[2].y += ((i >= dLo) && (i <= dUp)) ? rtt5 : 0;
-				this.pcd2[3].y += ((i >= dLo) && (i <= dUp)) ? rtt6 : 0;
-				totReqAng[0] += ((_hstR === 0) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				totReqAng[1] += ((_hstR === 1) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				totReqAng[2] += ((_hstR === 2) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				totReqAng[3] += ((_hstR === 3) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				this.toA += ((i >= dLo) && (i <= dUp)) ? _rttR : 0;
+				rtt2 = byH(_hstR, 0, _rttR);
+				rtt3 = byH(_hstR, 1, _rttR);
+				rtt5 = byH(_hstR, 2, _rttR);
+				rtt6 = byH(_hstR, 3, _rttR);
+				this.pcd2[0].y += inSD(i, rtt2);
+				this.pcd2[1].y += inSD(i, rtt3);
+				this.pcd2[2].y += inSD(i, rtt5);
+				this.pcd2[3].y += inSD(i, rtt6);
+				totReqAng[0] += inSDbyH(_hstR, 0, i, 1);
+				totReqAng[1] += inSDbyH(_hstR, 1, i, 1);
+				totReqAng[2] += inSDbyH(_hstR, 2, i, 1);
+				totReqAng[3] += inSDbyH(_hstR, 3, i, 1);
+				this.toA += inSD(i, _rttR);
 			}
 			this.pcd2[0].y = this.pcd2[0].y / totReqAng[0];
 			this.pcd2[1].y = this.pcd2[1].y / totReqAng[1];
@@ -1302,19 +1297,19 @@
 			for (i = 0; i < rq0.length; i++) {
 				var _hstT = rq0[i].H,
 				    _tsnT = rq0[i].X;
-				tsn2 = _hstT === 0 ? _tsnT : 0;
-				tsn3 = _hstT === 1 ? _tsnT : 0;
-				tsn5 = _hstT === 2 ? _tsnT : 0;
-				tsn6 = _hstT === 3 ? _tsnT : 0;
-				this.pcd[0].y += ((i >= dLo) && (i <= dUp)) ? tsn2 : 0;
-				this.pcd[1].y += ((i >= dLo) && (i <= dUp)) ? tsn3 : 0;
-				this.pcd[2].y += ((i >= dLo) && (i <= dUp)) ? tsn5 : 0;
-				this.pcd[3].y += ((i >= dLo) && (i <= dUp)) ? tsn6 : 0;
-				totReqNgi[0] += ((_hstT === 0) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				totReqNgi[1] += ((_hstT === 1) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				totReqNgi[2] += ((_hstT === 2) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				totReqNgi[3] += ((_hstT === 3) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				this.toX += ((i >= dLo) && (i <= dUp)) ? _tsnT : 0;
+				tsn2 = byH(_hstT, 0, _tsnT);
+				tsn3 = byH(_hstT, 1, _tsnT);
+				tsn5 = byH(_hstT, 2, _tsnT);
+				tsn6 = byH(_hstT, 3, _tsnT);
+				this.pcd[0].y += inSD(i, tsn2);
+				this.pcd[1].y += inSD(i, tsn3);
+				this.pcd[2].y += inSD(i, tsn5);
+				this.pcd[3].y += inSD(i, tsn6);
+				totReqNgi[0] += inSDbyH(_hstT, 0, i, 1);
+				totReqNgi[1] += inSDbyH(_hstT, 1, i, 1);
+				totReqNgi[2] += inSDbyH(_hstT, 2, i, 1);
+				totReqNgi[3] += inSDbyH(_hstT, 3, i, 1);
+				this.toX += inSD(i, _tsnT);
 			}
 			this.pcd[0].y = this.pcd[0].y / totReqNgi[0];
 			this.pcd[1].y = this.pcd[1].y / totReqNgi[1];
@@ -1329,7 +1324,7 @@
 				this.hg[i][3] = rq0[Math.ceil(this.rqEx * this.hg[i][0] / 100) - 1].N;
             }
 			for (i = 0; i < rq0.length; i++) {
-				this.toN += ((i >= dLo) && (i <= dUp)) ? rq0[i].N : 0;
+				this.toN += inSD(i, rq0[i].N);
 			}
 			this.tpN = Math.ceil(this.tpX * this.toX / this.toN);
             //
@@ -1340,30 +1335,30 @@
 				this.hg[i][4] = rq0[Math.ceil(this.rqEx * this.hg[i][0] / 100) - 1].R;
             }
 			for (i = 0; i < rq0.length; i++) {
-				this.toR += ((i >= dLo) && (i <= dUp)) ? rq0[i].R : 0;
+				this.toR += inSD(i, rq0[i].R);
             }
 			this.tpR = Math.ceil(this.tpN * this.toN / this.toR);
             //
             // Calculating HDR Histogram
             //
-			this.hdrAr = {
+			var hdrAr = {
 				table: [],
 				chart: []
 			};
 			this.lcd[0].values = [];
 			this.lcd[1].values = [];
-			this.oRTT = this.hS.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
+			this.oRTT = this.hS.post(_s_HURL, JSON.stringify(hdrRTTpost)).subscribe(
 	            function(re) {
-		            self.hdrAr = re;
+		            hdrAr = re;
 		            self.rq[0].sort(function(a, b) {return a.A - b.A});
-		            for (var n = 0; n < self.hdrAr.chart.length; n++) {
-			            var idx = ((self.hdrAr.chart[n].percentile * self.rOK / 100) | 0) - 1;
+		            for (var n = 0; n < hdrAr.chart.length; n++) {
+			            var idx = ((hdrAr.chart[n].percentile * self.rOK / 100) | 0) - 1;
 			            self.lcd[0].values.push({
-				                                    x: self.hdrAr.chart[n].percentile,
-				                                    y: self.hdrAr.chart[n].value
+				                                    x: hdrAr.chart[n].percentile,
+				                                    y: hdrAr.chart[n].value
 		                                                     });
 			            self.lcd[1].values.push({
-				                                    x: self.hdrAr.chart[n].percentile,
+				                                    x: hdrAr.chart[n].percentile,
 				                                    y: self.rq[0][(idx < 0) ? 0 : idx].A
 		                                                     });
 	                }
