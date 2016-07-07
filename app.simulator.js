@@ -1,6 +1,6 @@
 (function(app) {
 	app.AppSimulator = (function() {
-		function AppSimulator (HTTPService) {
+		function AppSimulator (HTTPService, sanitizer) {
 			//
 			// View execution variables
 			//
@@ -821,7 +821,8 @@
 			});
 		}
 		AppSimulator.parameters = [
-			app.HTTPService
+			app.HTTPService,
+			ng.platformBrowser.DomSanitizationService
 		];
 		AppSimulator.annotations = [
 			new ng.core.Component({
@@ -829,7 +830,8 @@
 				templateUrl:  'simulator.html',
 				providers:    [
 					app.HTTPService,
-					ng.http.HTTP_PROVIDERS
+					ng.http.HTTP_PROVIDERS,
+					ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
 				],
 				directives: [nvD3]
 			})
