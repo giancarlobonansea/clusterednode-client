@@ -1,7 +1,7 @@
 (function(app) {
 	app.AppSimulator = (function() {
 		//// initReferenceLinks
-		var iRL = function() {
+		var iRL = function(t) {
 			var l = {
 				l0: _RL.l0,
 				l1: _RL.l1,
@@ -14,7 +14,7 @@
 				         });
 				for (var j = 0; j < _RL.v[i].a.length; j++) {
 					l.v[i].a.push({
-						              h: this.safeUrl(_RL.v[i].a[j].h),
+						              h: t.safeUrl(_RL.v[i].a[j].h),
 						              d: _RL.v[i].a[j].d
 					              });
 				}
@@ -25,24 +25,24 @@
 		var sGA = function(a, b, c, d) {
 			ga('send', 'event', a, b, c, d);
 		};
-		//// Consts
-		const _s_SIM = "Simulation",
-		      _s_REF = "Reference",
-		      _s_CFG = "Configuration";
+		//// Constants
+		const _s_SIM  = "Simulation",
+		      _s_REF  = "Reference",
+		      _s_CFG  = "Configuration",
+		      _s_PI2  = "raspberrypi2",
+		      _s_PI3  = "raspberrypi3",
+		      _s_PI5  = "raspberrypi5",
+		      _s_PI6  = "raspberrypi6",
+		      _s_RED  = "-redis",
+		      _s_ANG  = "-angular",
+		      _s_NGI  = "-nginx",
+		      _s_NOD  = "-node",
+		      _s_BURL = "https://giancarlobonansea.homeip.net";
 		//// Constructor
 		function AppSimulator (HTTPService, DOMSanitizer) {
 			//
 			// Initialize string constants
 			//
-			this.PI2 = "raspberrypi2";
-			this.PI3 = "raspberrypi3";
-			this.PI5 = "raspberrypi5";
-			this.PI6 = "raspberrypi6";
-			this._red = "-redis";
-			this._ang = "-angular";
-			this._ngi = "-nginx";
-			this._nod = "-node";
-			this.baseUrl = "https://giancarlobonansea.homeip.net";
 			this.eRe = {
 				//rtt = A
 				A: 0,
@@ -79,7 +79,7 @@
 			//
 			// View presentation variables - reference links
 			//
-			this.links = iRL();
+			this.links = iRL(this);
 			//
 			// Charts configuration and initialization
 			//
@@ -141,7 +141,7 @@
 		//// initViewPresentationControlVariables
 		AppSimulator.prototype.iVPCV = function() {
 			this.rVPCV();
-			this.sU = this.baseUrl + ':33333/api';
+			this.sU = _s_BURL + ':33333/api';
 			this.lE = false;
 		};
 		//// resetViewPresentationControlVariables
@@ -300,100 +300,100 @@
 		//// resetChartsData
 		AppSimulator.prototype.rCD = function() {
 			this.bcd = [{
-				key:    this.PI2 + this._red,
+				key:    _s_PI2 + _s_RED,
 				values: []
 			},
 			            {
-				                     key:    this.PI3 + this._red,
+				            key:             _s_PI3 + _s_RED,
 				                     values: []
 			                     },
 			            {
-				                     key:    this.PI5 + this._red,
+				            key:             _s_PI5 + _s_RED,
 				                     values: []
 			                     },
 			            {
-				                     key:    this.PI6 + this._red,
+				            key:             _s_PI6 + _s_RED,
 				                     values: []
 			                     },
 			                     {
-				                     key:    this.PI2 + this._nod,
+				                     key:    _s_PI2 + _s_NOD,
 				                     values: []
 			                     },
 			                     {
-				                     key:    this.PI3 + this._nod,
+				                     key:    _s_PI3 + _s_NOD,
 				                     values: []
 			                     },
 			                     {
-				                     key:    this.PI5 + this._nod,
+				                     key:    _s_PI5 + _s_NOD,
 				                     values: []
 			                     },
 			                     {
-				                     key:    this.PI6 + this._nod,
+				                     key:    _s_PI6 + _s_NOD,
 				                     values: []
 			                     },
 			                     {
-				                     key:    this.PI2 + this._ngi,
+				                     key:    _s_PI2 + _s_NGI,
 				                     values: []
 			                     },
 			                     {
-				                     key:    this.PI3 + this._ngi,
+				                     key:    _s_PI3 + _s_NGI,
 				                     values: []
 			                     },
 			                     {
-				                     key:    this.PI5 + this._ngi,
+				                     key:    _s_PI5 + _s_NGI,
 				                     values: []
 			                     },
 			                     {
-				                     key:    this.PI6 + this._ngi,
+				                     key:    _s_PI6 + _s_NGI,
 				                     values: []
 			                     },
 			            {
-				                     key:    this.PI2 + this._ang,
+				            key:             _s_PI2 + _s_ANG,
 				                     values: []
 			                     },
 			            {
-				                     key:    this.PI3 + this._ang,
+				            key:             _s_PI3 + _s_ANG,
 				                     values: []
 			                     },
 			            {
-				                     key:    this.PI5 + this._ang,
+				            key:             _s_PI5 + _s_ANG,
 				                     values: []
 			                     },
 			            {
-				                     key:    this.PI6 + this._ang,
+				            key:             _s_PI6 + _s_ANG,
 				                     values: []
 			                     }];
 			this.pcd = [{
-				key: this.PI2,
+				key: _s_PI2,
 				y:   0
 			},
 			            {
-				                       key: this.PI3,
-				                       y:   0
+				            key:          _s_PI3,
+				                       y: 0
 			                       },
 			            {
-				                       key: this.PI5,
-				                       y:   0
+				            key:          _s_PI5,
+				                       y: 0
 			                       },
 			            {
-				                       key: this.PI6,
-				                       y:   0
+				            key:          _s_PI6,
+				                       y: 0
 			                       }];
 			this.pcd2 = [{
-				key: this.PI2,
+				key: _s_PI2,
 				y:   0
 			},
 			             {
-				                        key: this.PI3,
-				                        y:   0
+				             key:          _s_PI3,
+				                        y: 0
 			                        },
 			             {
-				                        key: this.PI5,
-				                        y:   0
+				             key:          _s_PI5,
+				                        y: 0
 			                        },
 			             {
-				                        key: this.PI6,
-				                        y:   0
+				             key:          _s_PI6,
+				                        y: 0
 			                        }];
 			this.lcd = [
 				{
@@ -420,7 +420,7 @@
 			           1,
 			           2,
 			           3];
-			this.urlHDR = this.baseUrl + ':33333/hdr';
+			this.urlHDR = _s_BURL + ':33333/hdr';
 			this.dur = 0;
 		};
 		//// resetExecutionScopeVariables
@@ -429,14 +429,14 @@
 			this.rq = [[],
 			           [],
 			           []];
-			this.rs = [[this.PI2,
+			this.rs = [[_s_PI2,
 			            []],
-			           [this.PI3,
-			                 []],
-			           [this.PI5,
-			                 []],
-			           [this.PI6,
-			                 []]];
+			           [_s_PI3,
+			            []],
+			           [_s_PI5,
+			            []],
+			           [_s_PI6,
+			            []]];
 			this.nix = {
 				"raspberrypi2": [0,
 				                 0],
@@ -1000,7 +1000,7 @@
 		AppSimulator.prototype.iLE = function() {
 			this.rLEM();
 			var self = this;
-			io(this.baseUrl + ':33331').on('redis', function(d) {
+			io(_s_BURL + ':33331').on('redis', function(d) {
 				if (self.leMx[d.x][d.y] !== 3) {
 					var x = d.x,
 					    y = d.y;
