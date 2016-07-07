@@ -17,6 +17,9 @@
 			// View presentation variables - reference links
 			//
 			this.links = REFLINKS;
+			for (var i = 0; i < this.links.v.length; i++) {
+				this.links.v[i].href = this.safeUrl(this.links.v[i].href);
+			}
 			//
 			// Charts configuration and initialization
 			//
