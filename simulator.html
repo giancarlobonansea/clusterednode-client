@@ -201,13 +201,13 @@
 						</td>
 						<td class="text-center"><span class="label label-info">{{reqExecuted | number:'1.0-0'}}</span>
 						</td>
-						<td class="text-center"><span class="label label-info">{{reqCached | number:'1.0-0'}}</span>
+						<td class="text-center"><span class="label label-info">{{rqCh | number:'1.0-0'}}</span>
 						</td>
 						<td class="text-center">
-							<span class="label label-default">GET {{operType[0] | number:'1.0-0'}}</span>&nbsp;
-							<span class="label label-default">SET {{operType[1] | number:'1.0-0'}}</span>&nbsp;
-							<span class="label label-default">PPL {{operType[2] | number:'1.0-0'}}</span>&nbsp;
-							<span class="label label-default">TRN {{operType[3] | number:'1.0-0'}}</span>
+							<span class="label label-default">GET {{oT[0] | number:'1.0-0'}}</span>&nbsp;
+							<span class="label label-default">SET {{oT[1] | number:'1.0-0'}}</span>&nbsp;
+							<span class="label label-default">PPL {{oT[2] | number:'1.0-0'}}</span>&nbsp;
+							<span class="label label-default">TRN {{oT[3] | number:'1.0-0'}}</span>
 						</td>
 					</tr>
 				</tbody>
@@ -246,13 +246,13 @@
 						</td>
 						<td class="text-center"><span class="label label-info">{{reqExecuted | number:'1.0-0'}}</span>
 						</td>
-						<td class="text-center"><span class="label label-info">{{reqCached | number:'1.0-0'}}</span>
+						<td class="text-center"><span class="label label-info">{{rqCh | number:'1.0-0'}}</span>
 						</td>
 						<td class="text-center">
-							<span class="label label-default">GET {{operType[0] | number:'1.0-0'}}</span>&nbsp;
-							<span class="label label-default">SET {{operType[1] | number:'1.0-0'}}</span>&nbsp;
-							<span class="label label-default">PPL {{operType[2] | number:'1.0-0'}}</span>&nbsp;
-							<span class="label label-default">TRN {{operType[3] | number:'1.0-0'}}</span>
+							<span class="label label-default">GET {{oT[0] | number:'1.0-0'}}</span>&nbsp;
+							<span class="label label-default">SET {{oT[1] | number:'1.0-0'}}</span>&nbsp;
+							<span class="label label-default">PPL {{oT[2] | number:'1.0-0'}}</span>&nbsp;
+							<span class="label label-default">TRN {{oT[3] | number:'1.0-0'}}</span>
 						</td>
 					</tr>
 				</tbody>
@@ -417,7 +417,7 @@
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-server"></i>&nbsp;Cached GET responses
-					<small>({{reqCached}})</small>
+					<small>({{rqCh}})</small>
 				</h4>
 			</div>
 			<div class="panel-body">
@@ -519,11 +519,11 @@
 					</div>
 					<div class="col-xs-6 text-right">
 						<h4 class="panel-title">
-							<span class="label label-default">GET {{operType[0]}}</span>&nbsp;
-							<span class="label label-default">SET {{operType[1]}}</span>&nbsp;
-							<span class="label label-default">PPL {{operType[2]}}</span>&nbsp;
-							<span class="label label-default">TRN {{operType[3]}}</span>&nbsp;
-							<span class="label label-info">CACHED {{reqCached}}</span>&nbsp;
+							<span class="label label-default">GET {{oT[0]}}</span>&nbsp;
+							<span class="label label-default">SET {{oT[1]}}</span>&nbsp;
+							<span class="label label-default">PPL {{oT[2]}}</span>&nbsp;
+							<span class="label label-default">TRN {{oT[3]}}</span>&nbsp;
+							<span class="label label-info">CACHED {{rqCh}}</span>&nbsp;
 							<span class="label label-success">OK {{rOK}}</span>&nbsp;
 							<span class="label label-danger">ERR {{rER}}</span>
 						</h4>

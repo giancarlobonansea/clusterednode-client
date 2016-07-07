@@ -167,11 +167,11 @@
 			                   0]];
 			this.sR = false;
 			this.calculating = false;
-			this.operType = [0,
-			                 0,
-			                 0,
-			                 0];
-			this.reqCached = 0;
+			this.oT = [0,
+			           0,
+			           0,
+			           0];
+			this.rqCh = 0;
 		};
 		//// initCharts
 		AppSimulator.prototype.iC = function() {
@@ -389,16 +389,16 @@
 		};
 		//// initExecutionScopeVariables
 		AppSimulator.prototype.iESV = function() {
-			this.operationProb = [0,
-			                      0,
-			                      0,
-			                      0,
-			                      0,
-			                      0,
-			                      0,
-			                      1,
-			                      2,
-			                      3];
+			this.oP = [0,
+			           0,
+			           0,
+			           0,
+			           0,
+			           0,
+			           0,
+			           1,
+			           2,
+			           3];
 			this.urlHDR = this.baseUrl + ':33333/hdr';
 			this.duration = 0;
 		};
@@ -1133,7 +1133,7 @@
 		};
 		//// getRandomOperation
 		AppSimulator.prototype.gRO = function() {
-			return this.operationProb[(Math.random() * 10) | 0];
+			return this.oP[(Math.random() * 10) | 0];
 		};
 		//// getRandomDBRecord
 		AppSimulator.prototype.gRD = function() {
@@ -1143,7 +1143,7 @@
 		AppSimulator.prototype.pRS = function() {
 			for (var reqId = 0; reqId < this.rqCt; reqId++) {
 				var operT = this.gRO();
-				this.operType[operT]++;
+				this.oT[operT]++;
 				this.rq[0].push({
 					                rtt:          0,
 					                      hst:    '',
@@ -1384,7 +1384,7 @@
 				};
 				++this.rOK;
 				if (cch) {
-					this.reqCached++;
+					this.rqCh++;
 					this.cachedResp.push(this.rOK);
 				}
 				else {
