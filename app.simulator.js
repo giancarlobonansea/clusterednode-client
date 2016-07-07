@@ -1402,6 +1402,7 @@
 					    },
 					    function() {
 						    observableRequests.unsubscribe();
+						    observableRequests = undefined;
 						    self.duration = Date.now() - self.iniTime;
 						    if (self.respOK + self.respErrors >= self.reqCount) {
 							    self.stopHTTPrequests();
@@ -1449,6 +1450,7 @@
 	                            self.stopHTTPduration();
                             }
                             observableRequestsA.unsubscribe();
+	                        observableRequestsA = undefined;
                         }
                     );
 	                reqId += self.reqConn;
@@ -1457,8 +1459,10 @@
                     if (!self.calculating && self.countRequests === self.countResponses) {
 	                    self.stopHTTPduration();
                     }
-	                if (observableRequestsA)
+	                if (observableRequestsA) {
 		                observableRequestsA.unsubscribe();
+		                observableRequestsA = undefined;
+	                }
                 }
             };
 	        self.timerRunning = true;
