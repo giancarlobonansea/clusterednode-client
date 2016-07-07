@@ -7,31 +7,31 @@
 		HTTPService.parameters = [
 			ng.http.Http
 		];
-		HTTPService.prototype.get = function(reqId, url, o, p) {
+		HTTPService.prototype.get = function(q, u, o, p) {
 			return this.http
-				.get(url + '?o=' + o + '&p=' + p, {
+				.get(u + '?o=' + o + '&p=' + p, {
 					"cache":   false,
 					"headers": {
-						"x-reqid": reqId
+						"x-reqid": q
 					}
 				})
-				.map(function(response) {
-					var is_cached = response.headers.get('x-cache-status') === 'HIT';
+				.map(function(re) {
+					var c = re.headers.get('x-cache-status') === 'HIT';
 					return {
-						"json":   response.json() || {},
-						"reqId":  parseInt(response.headers.get('x-reqid')),
-						"rtt":    parseInt(response.headers.get('x-angular-time')),
-						"tsn":    is_cached ? 0.5 : parseFloat(response.headers.get('x-nginx-time') * 1000.0) | 0,
-						"exts":   is_cached ? 0 : parseFloat(response.headers.get('x-node-time')),
-						"red":    is_cached ? 0 : parseFloat(response.headers.get('x-redis-time')),
-						"cached": is_cached
+						"json": re.json() || {},
+						"Q":    parseInt(re.headers.get('x-reqid')),
+						"A":    parseInt(re.headers.get('x-angular-time')),
+						"X":    c ? 0.5 : parseFloat(re.headers.get('x-nginx-time') * 1000.0) | 0,
+						"N":    c ? 0 : parseFloat(re.headers.get('x-node-time')),
+						"R":    c ? 0 : parseFloat(re.headers.get('x-redis-time')),
+						"C":    c
 					};
 				})
 				.catch();
 		};
-		HTTPService.prototype.post = function(url, body) {
+		HTTPService.prototype.post = function(u, b) {
 			return this.http
-				.post(url + '?time=' + Date.now(), body, {
+				.post(u + '?time=' + Date.now(), b, {
 					"cache":   false,
 					"headers": {
 						"Cache-Control":     'no-cache, no-store, must-revalidate',
@@ -39,8 +39,8 @@
 						"Pragma":            'no-cache'
 					}
 				})
-				.map(function(response) {
-					return response.json() || {};
+				.map(function(re) {
+					return re.json() || {};
 				})
 				.catch();
 		};

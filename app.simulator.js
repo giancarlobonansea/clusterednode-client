@@ -13,6 +13,22 @@
 			this._ngi = "-nginx";
 			this._nod = "-node";
 			this.baseUrl = "https://giancarlobonansea.homeip.net";
+			this.eRe = {
+				//rtt = A
+				A: 0,
+				//hst = H
+				H: '',
+				//rid = Q
+				Q: 0,
+				//tsn = X
+				X: 0,
+				//exts = N
+				N: 0,
+				//erd = R
+				R: 0,
+				//cached = C
+				C: false
+			}
 			//
 			// Initialize services
 			//
@@ -68,8 +84,8 @@
 				directives: [nvD3]
 			})
 		];
-		AppSimulator.prototype.safeUrl = function(url) {
-			return this.sanitizerService.bypassSecurityTrustResourceUrl(url);
+		AppSimulator.prototype.safeUrl = function(u) {
+			return this.sanitizerService.bypassSecurityTrustResourceUrl(u);
 		};
 		//
 		// Configuration & Initialization methods
@@ -165,7 +181,7 @@
 			                   0,
 			                   0,
 			                   0]];
-			this.sR = false;
+			this.sRe = false;
 			this.clc = false;
 			this.oT = [0,
 			           0,
@@ -1076,13 +1092,13 @@
 			return this.iD ? 'STABILITY' : 'STRESS';
         };
 		//// onRefLinkClick
-		AppSimulator.prototype.oRLC = function(title, desc) {
-			ga('send', 'event', 'Reference', title, desc);
+		AppSimulator.prototype.oRLC = function(t, d) {
+			ga('send', 'event', 'Reference', t, d);
 		};
 		//// showRef
 		AppSimulator.prototype.shR = function() {
-			this.sR = !this.sR;
-			if (this.sR) {
+			this.sRe = !this.sRe;
+			if (this.sRe) {
 				this.lE = false;
 			}
 		};
@@ -1090,7 +1106,7 @@
 		AppSimulator.prototype.shL = function() {
 			this.lE = !this.lE;
 			if (this.lE) {
-				this.sR = false;
+				this.sRe = false;
 			}
 		};
 		//// getDatabaseStatus
@@ -1111,8 +1127,8 @@
 			return Math.ceil(this.rOK * 100 / this.rqCt);
 		};
 		//// calcPosition
-		AppSimulator.prototype.cP = function(hist) {
-			return Math.ceil(this.rOK * hist / 100);
+		AppSimulator.prototype.cP = function(h) {
+			return Math.ceil(this.rOK * h / 100);
 		};
 		//// getDurationRequests
 		AppSimulator.prototype.gDR = function() {
@@ -1140,46 +1156,38 @@
 		};
 		//// populateRequestSamples
 		AppSimulator.prototype.pRS = function() {
-			for (var reqId = 0; reqId < this.rqCt; reqId++) {
-				var operT = this.gRO();
-				this.oT[operT]++;
-				this.rq[0].push({
-					                rtt:          0,
-					                      hst:    '',
-					                      rid:    0,
-					                      tsn:    0,
-					                      exts:   0,
-					                      red:    0,
-					                      cached: false
-				                      });
-				this.rq[1].push(this.httpService.get(reqId, this.sU, operT, this.gRD()));
-				this.rq[2].push(operT);
+			for (var q = 0; q < this.rqCt; q++) {
+				var o = this.gRO();
+				this.oT[o]++;
+				this.rq[0].push(this.eRe);
+				this.rq[1].push(this.httpService.get(q, this.sU, o, this.gRD()));
+				this.rq[2].push(o);
 			}
 		};
 		//// calculateHistogram
 		AppSimulator.prototype.cH = function() {
 			this.rCD();
-			var disregard = Math.ceil(this.reqExecuted * 4.55 / 100.0),
-			    dLo       = Math.floor(disregard / 2),
-			    dUp       = this.reqExecuted - Math.ceil(disregard / 2) - 1;
+			var dr  = Math.ceil(this.rqEx * 4.55 / 100.0),
+			    dLo = Math.floor(dr / 2),
+			    dUp = this.rqEx - Math.ceil(dr / 2) - 1;
             //
             // Populate barchart as processed (no sorting)
             //
 			var self   = this,
 			    setBcd = function(i, l, v) {
-				self.bcd[i].values.push({
+				    self.bcd[i].values.push({
 					                        label: l,
 					                        value: v
 				                        });
 			    },
 			    rq0    = this.rq[0];
 			for (var i = 0; i < rq0.length; i++) {
-				var _hst  = rq0[i].hst,
-				    _rtt  = rq0[i].rtt,
-				    _tsn  = rq0[i].tsn,
-				    _exts = rq0[i].exts,
-				    _red  = rq0[i].red,
-				    _rid  = rq0[i].rid,
+				var _hst  = rq0[i].H,
+				    _rtt  = rq0[i].A,
+				    _tsn  = rq0[i].X,
+				    _exts = rq0[i].N,
+				    _red  = rq0[i].R,
+				    _rid  = rq0[i].Q,
 				    rtt2  = 0,
 				    rtt3  = 0,
 				    rtt5  = 0,
@@ -1244,16 +1252,19 @@
             //
             var hdrRTTpost = {"arr": []};
 			for (var n = 0; n < rq0.length; n++) {
-				hdrRTTpost.arr.push(rq0[n].rtt);
+				hdrRTTpost.arr.push(rq0[n].A);
             }
             //
             // Sorting by RTT (AngularJS time)
             //
-			this.totReqAng = [0,0,0,0];
-			rq0.sort(function(a, b) {return a.rtt - b.rtt});
+			var totReqAng = [0,
+			                 0,
+			                 0,
+			                 0];
+			rq0.sort(function(a, b) {return a.A - b.A});
 			for (i = 0; i < rq0.length; i++) {
-				var _hstR = rq0[i].hst,
-				    _rttR = rq0[i].rtt;
+				var _hstR = rq0[i].H,
+				    _rttR = rq0[i].A;
 				rtt2 = _hstR === 0 ? _rttR : 0;
 				rtt3 = _hstR === 1 ? _rttR : 0;
 				rtt5 = _hstR === 2 ? _rttR : 0;
@@ -1262,31 +1273,34 @@
 				this.pcd2[1].y += ((i >= dLo) && (i <= dUp)) ? rtt3 : 0;
 				this.pcd2[2].y += ((i >= dLo) && (i <= dUp)) ? rtt5 : 0;
 				this.pcd2[3].y += ((i >= dLo) && (i <= dUp)) ? rtt6 : 0;
-				this.totReqAng[0] += ((_hstR === 0) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				this.totReqAng[1] += ((_hstR === 1) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				this.totReqAng[2] += ((_hstR === 2) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				this.totReqAng[3] += ((_hstR === 3) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				totReqAng[0] += ((_hstR === 0) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				totReqAng[1] += ((_hstR === 1) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				totReqAng[2] += ((_hstR === 2) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				totReqAng[3] += ((_hstR === 3) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
 				this.toA += ((i >= dLo) && (i <= dUp)) ? _rttR : 0;
 			}
-			this.pcd2[0].y = this.pcd2[0].y / this.totReqAng[0];
-			this.pcd2[1].y = this.pcd2[1].y / this.totReqAng[1];
-			this.pcd2[2].y = this.pcd2[2].y / this.totReqAng[2];
-			this.pcd2[3].y = this.pcd2[3].y / this.totReqAng[3];
-			this.tpA = Math.ceil(this.reqExecuted / (this.dur / 1000));
+			this.pcd2[0].y = this.pcd2[0].y / totReqAng[0];
+			this.pcd2[1].y = this.pcd2[1].y / totReqAng[1];
+			this.pcd2[2].y = this.pcd2[2].y / totReqAng[2];
+			this.pcd2[3].y = this.pcd2[3].y / totReqAng[3];
+			this.tpA = Math.ceil(this.rqEx / (this.dur / 1000));
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][1] = rq0[Math.ceil(this.reqExecuted * this.hg[i][0] / 100) - 1].rtt;
+				this.hg[i][1] = rq0[Math.ceil(this.rqEx * this.hg[i][0] / 100) - 1].A;
             }
 			//
 			// Sorting by TSN (nginX time)
 			//
-			this.totReqNgi = [0,0,0,0];
-			rq0.sort(function(a, b) {return a.tsn - b.tsn});
+			var totReqNgi = [0,
+			                 0,
+			                 0,
+			                 0];
+			rq0.sort(function(a, b) {return a.X - b.X});
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][2] = rq0[Math.ceil(this.reqExecuted * this.hg[i][0] / 100) - 1].tsn;
+				this.hg[i][2] = rq0[Math.ceil(this.rqEx * this.hg[i][0] / 100) - 1].X;
             }
 			for (i = 0; i < rq0.length; i++) {
-				var _hstT = rq0[i].hst,
-				    _tsnT = rq0[i].tsn;
+				var _hstT = rq0[i].H,
+				    _tsnT = rq0[i].X;
 				tsn2 = _hstT === 0 ? _tsnT : 0;
 				tsn3 = _hstT === 1 ? _tsnT : 0;
 				tsn5 = _hstT === 2 ? _tsnT : 0;
@@ -1295,37 +1309,37 @@
 				this.pcd[1].y += ((i >= dLo) && (i <= dUp)) ? tsn3 : 0;
 				this.pcd[2].y += ((i >= dLo) && (i <= dUp)) ? tsn5 : 0;
 				this.pcd[3].y += ((i >= dLo) && (i <= dUp)) ? tsn6 : 0;
-				this.totReqNgi[0] += ((_hstT === 0) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				this.totReqNgi[1] += ((_hstT === 1) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				this.totReqNgi[2] += ((_hstT === 2) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				this.totReqNgi[3] += ((_hstT === 3) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				totReqNgi[0] += ((_hstT === 0) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				totReqNgi[1] += ((_hstT === 1) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				totReqNgi[2] += ((_hstT === 2) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				totReqNgi[3] += ((_hstT === 3) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
 				this.toX += ((i >= dLo) && (i <= dUp)) ? _tsnT : 0;
 			}
-			this.pcd[0].y = this.pcd[0].y / this.totReqNgi[0];
-			this.pcd[1].y = this.pcd[1].y / this.totReqNgi[1];
-			this.pcd[2].y = this.pcd[2].y / this.totReqNgi[2];
-			this.pcd[3].y = this.pcd[3].y / this.totReqNgi[3];
+			this.pcd[0].y = this.pcd[0].y / totReqNgi[0];
+			this.pcd[1].y = this.pcd[1].y / totReqNgi[1];
+			this.pcd[2].y = this.pcd[2].y / totReqNgi[2];
+			this.pcd[3].y = this.pcd[3].y / totReqNgi[3];
 			this.tpX = Math.ceil(this.tpA * this.toA / this.toX);
 			//
 			// Sort by EXTS (nodeJS time)
 			//
-			rq0.sort(function(a, b) {return a.exts - b.exts});
+			rq0.sort(function(a, b) {return a.N - b.N});
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][3] = rq0[Math.ceil(this.reqExecuted * this.hg[i][0] / 100) - 1].exts;
+				this.hg[i][3] = rq0[Math.ceil(this.rqEx * this.hg[i][0] / 100) - 1].N;
             }
 			for (i = 0; i < rq0.length; i++) {
-				this.toN += ((i >= dLo) && (i <= dUp)) ? rq0[i].exts : 0;
+				this.toN += ((i >= dLo) && (i <= dUp)) ? rq0[i].N : 0;
 			}
 			this.tpN = Math.ceil(this.tpX * this.toX / this.toN);
             //
             // Sort by RED (redis.io time)
             //
-			rq0.sort(function(a, b) {return a.red - b.red});
+			rq0.sort(function(a, b) {return a.R - b.R});
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][4] = rq0[Math.ceil(this.reqExecuted * this.hg[i][0] / 100) - 1].red;
+				this.hg[i][4] = rq0[Math.ceil(this.rqEx * this.hg[i][0] / 100) - 1].R;
             }
 			for (i = 0; i < rq0.length; i++) {
-				this.toR += ((i >= dLo) && (i <= dUp)) ? rq0[i].red : 0;
+				this.toR += ((i >= dLo) && (i <= dUp)) ? rq0[i].R : 0;
             }
 			this.tpR = Math.ceil(this.tpN * this.toN / this.toR);
             //
@@ -1334,52 +1348,51 @@
             this.hdrRTTresults = {table: [], chart: []};
 			this.lcd[0].values = [];
 			this.lcd[1].values = [];
-            var selfRTT = this;
+			var self = this;
             this.observableRTT = this.httpService.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
-                function(response) {
-                    selfRTT.hdrRTTresults = response;
-	                selfRTT.rq[0].sort(function(a, b) {return a.rtt - b.rtt});
-	                for (var n = 0; n < selfRTT.hdrRTTresults.chart.length; n++) {
-		                var idx = ((selfRTT.hdrRTTresults.chart[n].percentile * selfRTT.rOK / 100) | 0) - 1;
-		                selfRTT.lcd[0].values.push({
-			                                                     x: selfRTT.hdrRTTresults.chart[n].percentile,
-			                                                     y: selfRTT.hdrRTTresults.chart[n].value
+	            function(re) {
+		            self.hdrRTTresults = re;
+		            self.rq[0].sort(function(a, b) {return a.A - b.A});
+		            for (var n = 0; n < self.hdrRTTresults.chart.length; n++) {
+			            var idx = ((self.hdrRTTresults.chart[n].percentile * self.rOK / 100) | 0) - 1;
+			            self.lcd[0].values.push({
+				                                    x: self.hdrRTTresults.chart[n].percentile,
+				                                    y: self.hdrRTTresults.chart[n].value
 		                                                     });
-		                selfRTT.lcd[1].values.push({
-			                                                     x: selfRTT.hdrRTTresults.chart[n].percentile,
-			                                           y:           selfRTT.rq[0][(idx < 0) ? 0 : idx].rtt
+			            self.lcd[1].values.push({
+				                                    x: self.hdrRTTresults.chart[n].percentile,
+				                                    y: self.rq[0][(idx < 0) ? 0 : idx].A
 		                                                     });
 	                }
                 },
-                function(error) {
+	            function(error) {
                     console.log("HDR Service error");
                 },
-                function() {
-                    selfRTT.observableRTT.unsubscribe();
-                    selfRTT.observableRTT = undefined;
-	                selfRTT.clc = false;
-                    selfRTT.running = false;
-	                selfRTT.lE = false;
+	            function() {
+		            self.observableRTT.unsubscribe();
+		            self.clc = false;
+		            self.running = false;
+		            self.lE = false;
                 }
             );
 			ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpA);
         };
 		//// observableResponse
-		AppSimulator.prototype.oR = function(response) {
-			for (var k = 0; k < response.length; k++) {
-				var res = response[k],
-				    req = res.reqId,
+		AppSimulator.prototype.oR = function(re) {
+			for (var k = 0; k < re.length; k++) {
+				var res = re[k],
+				    req = res.Q,
 				    hst = res.json.hostname,
 				    ndx = this.nix[hst][0],
-				    cch = res.cached;
+				    cch = res.C;
 				this.rq[0][req] = {
-					rid:    'Request ' + ((req | 0) + 1),
-					hst:    ndx,
-					rtt:    res.rtt,
-					tsn:    res.tsn,
-					exts:   res.exts,
-					red:    res.red,
-					cached: cch
+					Q: 'Request ' + ((req | 0) + 1),
+					H: ndx,
+					A: res.A,
+					X: res.X,
+					N: res.N,
+					R: res.R,
+					C: cch
 				};
 				++this.rOK;
 				if (cch) {
@@ -1387,8 +1400,8 @@
 					this.chRe.push(this.rOK);
 				}
 				else {
-					var pid  = res.json.pid,
-					    oper = this.rq[2][req];
+					var pid = res.json.pid,
+					    o   = this.rq[2][req];
 					if (!(pid in this.pix[hst])) {
 						this.rs[ndx][1].push([pid,
 						                      [[],
@@ -1397,58 +1410,58 @@
 						                            []]]);
 						this.pix[hst][pid] = this.rs[ndx][1].length - 1;
 					}
-					this.rs[ndx][1][this.pix[hst][pid]][1][oper].push(this.rOK);
+					this.rs[ndx][1][this.pix[hst][pid]][1][o].push(this.rOK);
 					this.nix[hst][1]++;
 				}
-				this.countResponses++;
+				this.cnRe++;
 			}
 		};
 		//// popResponses
 		AppSimulator.prototype.pR = function() {
-			if (this.countResponses > this.rqCt) {
+			if (this.cnRe > this.rqCt) {
 				for (var z = 0; z < this.rqCn; z++) {
 					this.rq[0].pop();
 					this.rq[1].pop();
 					this.rq[2].pop();
-					this.countResponses--;
+					this.cnRe--;
 				}
 			}
 		};
 		//// startStatistics
 		AppSimulator.prototype.sSt = function() {
 			this.clc = true;
-			var selfStop = this;
+			var self = this;
 			setTimeout(function() {
-				selfStop.cH();
+				self.cH();
 			}, 500);
 		};
 		//// stopHTTPduration
 		AppSimulator.prototype.sHd = function() {
-			if (this.intervalHandler) {
-				clearInterval(this.intervalHandler);
+			if (this.inH) {
+				clearInterval(this.inH);
 			}
-			this.reqExecuted = this.countResponses;
+			this.rqEx = this.cnRe;
 			this.sSt();
 		};
 		//// stopHTTPrequests
 		AppSimulator.prototype.sHr = function() {
-			this.reqExecuted = this.rqCt;
+			this.rqEx = this.rqCt;
 			this.sSt();
 		};
 		//// throwHTTPduration
 		AppSimulator.prototype.tHd = function() {
-            var self  = this,
-                reqId = 0;
-            self.countRequests = 0;
-            self.countResponses = 0;
-            var intervalFunction = function() {
-	            if (self.timerRunning && self.countRequests < self.rqCt) {
-		            self.countRequests += self.rqCn;
-		            var nextIdx             = reqId + self.rqCn,
-	                    observableRequestsA = Rx.Observable.forkJoin(self.rq[1].slice(reqId, nextIdx)).subscribe(
+            var self = this,
+                q    = 0;
+			self.cnRq = 0;
+			self.cnRe = 0;
+			var inF = function() {
+				if (self.tmR && self.cnRq < self.rqCt) {
+					self.cnRq += self.rqCn;
+					var nextIdx = q + self.rqCn,
+					    oRA     = Rx.Observable.forkJoin(self.rq[1].slice(q, nextIdx)).subscribe(
                         function(response) {
 	                        self.dur = Date.now() - self.iniTime;
-	                        if (self.countResponses < self.rqCt) {
+	                        if (self.cnRe < self.rqCt) {
 	                            self.oR(response);
                             }
                             else {
@@ -1457,41 +1470,39 @@
                         },
                         function(error) {
 	                        self.dur = Date.now() - self.iniTime;
-	                        if (self.countResponses < self.rqCt) {
+	                        if (self.cnRe < self.rqCt) {
 		                        self.rER++;
-                                self.countResponses++;
+		                        self.cnRe++;
                             }
                             else {
 	                            self.pR();
                             }
                         },
                         function() {
-	                        if (!self.timerRunning && !self.clc && self.countRequests === self.countResponses) {
+	                        if (!self.tmR && !self.clc && self.cnRq === self.cnRe) {
 	                            self.sHd();
                             }
-                            observableRequestsA.unsubscribe();
-	                        observableRequestsA = undefined;
+	                        oRA.unsubscribe();
                         }
                     );
-		            reqId += self.rqCn;
+					q += self.rqCn;
                 }
                 else {
-		            if (!self.clc && self.countRequests === self.countResponses) {
+					if (!self.clc && self.cnRq === self.cnRe) {
 	                    self.sHd();
                     }
-	                if (observableRequestsA) {
-		                observableRequestsA.unsubscribe();
-		                observableRequestsA = undefined;
+					if (oRA) {
+						oRA.unsubscribe();
 	                }
                 }
             };
-	        self.timerRunning = true;
+			self.tmR = true;
 	        self.iniTime = Date.now();
             setTimeout(function() {
-                self.timerRunning = false;
+	            self.tmR = false;
             }, (self.rqDu * 1000) + 100);
-            intervalFunction();
-			self.intervalHandler = setInterval(intervalFunction, self.rqIn);
+			inF();
+			self.inH = setInterval(inF, self.rqIn);
         };
 		//// throwHTTPrequests
 		AppSimulator.prototype.tHr = function() {
