@@ -836,6 +836,9 @@
 				directives: [nvD3]
 			})
 		];
+		AppSimulator.prototype.safeUrl = function(url) {
+			return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+		};
 		AppSimulator.prototype.initViewExecVariables = function() {
 			this.resetViewExecVariables();
 			this.running = false;
