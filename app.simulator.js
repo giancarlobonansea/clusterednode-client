@@ -2,6 +2,17 @@
 	app.AppSimulator = (function() {
 		function AppSimulator (HTTPService, DOMSanitizer) {
 			//
+			// Initialize string constants
+			//
+			this.PI2 = "raspberrypi2";
+			this.PI3 = "raspberrypi3";
+			this.PI5 = "raspberrypi5";
+			this.PI6 = "raspberrypi6";
+			this._red = "-redis";
+			this._ang = "-angular";
+			this._ngi = "-nginx";
+			this._nod = "-node";
+			//
 			// Initialize services
 			//
 			this.httpService = HTTPService;
@@ -259,99 +270,99 @@
 		};
 		AppSimulator.prototype.resetChartsData = function() {
 			this.barChartData = [{
-				key:    'raspberrypi2-redis',
+				key:    this.PI2 + this._red,
 				values: []
 			},
 			                     {
-				                     key:    'raspberrypi3-redis',
+				                     key:    this.PI3 + this._red,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi5-redis',
+				                     key:    this.PI5 + this._red,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi6-redis',
+				                     key:    this.PI6 + this._red,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi2-node',
+				                     key:    this.PI2 + this._nod,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi3-node',
+				                     key:    this.PI3 + this._nod,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi5-node',
+				                     key:    this.PI5 + this._nod,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi6-node',
+				                     key:    this.PI6 + this._nod,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi2-nginx',
+				                     key:    this.PI2 + this._ngi,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi3-nginx',
+				                     key:    this.PI3 + this._ngi,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi5-nginx',
+				                     key:    this.PI5 + this._ngi,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi6-nginx',
+				                     key:    this.PI6 + this._ngi,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi2-angular',
+				                     key:    this.PI2 + this._ang,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi3-angular',
+				                     key:    this.PI3 + this._ang,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi5-angular',
+				                     key:    this.PI5 + this._ang,
 				                     values: []
 			                     },
 			                     {
-				                     key:    'raspberrypi6-angular',
+				                     key:    this.PI6 + this._ang,
 				                     values: []
 			                     }];
 			this.polarChartData = [{
-				key: 'raspberrypi2',
+				key: this.PI2,
 				y:   0
 			},
 			                       {
-				                       key: 'raspberrypi3',
+				                       key: this.PI3,
 				                       y:   0
 			                       },
 			                       {
-				                       key: 'raspberrypi5',
+				                       key: this.PI5,
 				                       y:   0
 			                       },
 			                       {
-				                       key: 'raspberrypi6',
+				                       key: this.PI6,
 				                       y:   0
 			                       }];
 			this.polarChartData2 = [{
-				key: 'raspberrypi2',
+				key: this.PI2,
 				y:   0
 			},
 			                        {
-				                        key: 'raspberrypi3',
+				                        key: this.PI3,
 				                        y:   0
 			                        },
 			                        {
-				                        key: 'raspberrypi5',
+				                        key: this.PI5,
 				                        y:   0
 			                        },
 			                        {
-				                        key: 'raspberrypi6',
+				                        key: this.PI6,
 				                        y:   0
 			                        }];
 			this.lineChartData = [
@@ -388,13 +399,13 @@
 			this.requests = [[],
 			                 [],
 			                 []];
-			this.results = [["raspberrypi2",
+			this.results = [[this.PI2,
 			                 []],
-			                ["raspberrypi3",
+			                [this.PI3,
 			                 []],
-			                ["raspberrypi5",
+			                [this.PI5,
 			                 []],
-			                ["raspberrypi6",
+			                [this.PI6,
 			                 []]];
 			this.nodeIdx = {
 				"raspberrypi2": [0,
