@@ -1128,8 +1128,9 @@
             //
             // Populate barchart as processed (no sorting)
             //
+			var self = this;
 			var setBcd = function(i, l, v) {
-				this.bcd[i].values.push({
+				self.bcd[i].values.push({
 					                        label: l,
 					                        value: v
 				                        });
