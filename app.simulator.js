@@ -25,6 +25,129 @@
 			//
 			// Charts configuration and initialization
 			//
+			this.initCharts();
+			//
+			// Execution scope variables
+			//
+			this.initExecutionScopeVariables();
+			//
+			// Statistical variables
+			//
+			this.initStatisticsVariables();
+			//
+			// Live Events socket variables and configuration
+			//
+			this.initLiveEvents();
+		}
+		AppSimulator.parameters = [
+			app.HTTPService,
+			ng.platformBrowser.DomSanitizationService
+		];
+		AppSimulator.annotations = [
+			new ng.core.Component({
+				selector:     'node-cluster-simulator',
+				templateUrl:  'simulator.html',
+				providers:    [
+					app.HTTPService,
+					ng.http.HTTP_PROVIDERS,
+					ng.platformBrowser.DomSanitizationService,
+					ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
+				],
+				directives: [nvD3]
+			})
+		];
+		AppSimulator.prototype.safeUrl = function(url) {
+			return this.sanitizerService.bypassSecurityTrustResourceUrl(url);
+		};
+		AppSimulator.prototype.initReferenceLinks = function() {
+			this.links = {
+				l0: REFLINKS.l0,
+				l1: REFLINKS.l1,
+				v:  []
+			};
+			for (var i = 0; i < REFLINKS.v.length; i++) {
+				this.links.v.push({title:     REFLINKS.v[i].title,
+					                  anchor: []
+				                  });
+				for (var j = 0; j < REFLINKS.v[i].anchor.length; j++) {
+					this.links.v[i].anchor.push({
+						                            href: this.safeUrl(REFLINKS.v[i].anchor[j].href),
+						                            desc: REFLINKS.v[i].anchor[j].desc
+					                            });
+				}
+			}
+		};
+		AppSimulator.prototype.initViewExecVariables = function() {
+			this.resetViewExecVariables();
+			this.running = false;
+		};
+		AppSimulator.prototype.resetViewExecVariables = function() {
+			this.respErrors = 0;
+			this.respOK = 0;
+		};
+		AppSimulator.prototype.initViewExecParameters = function() {
+			this.isDuration = false;
+			this.reqConn = 2;
+			this.reqCount = 100;
+			this.reqDuration = 5;
+			this.reqInterval = 50;
+			this.urlOptions = [['https://giancarlobonansea.homeip.net:33333/api',
+			                    'DNS Public'],
+			                   ['https://raspberrypi4:8010/api',
+			                    'DNS Private'],
+			                   ['https://192.168.69.242:8010/api',
+			                    'IP Private']];
+		};
+		AppSimulator.prototype.initViewPresentationControlVariables = function() {
+			this.resetViewPresentationControlVariables();
+			this.selectedUrl = this.urlOptions[0][0];
+			this.liveEvents = false;
+		};
+		AppSimulator.prototype.resetViewPresentationControlVariables = function() {
+			this.histogram = [[50,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [75,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [87.5,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [93.75,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [96.875,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [98.4375,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [99.21875,
+			                   0,
+			                   0,
+			                   0,
+			                   0],
+			                  [100,
+			                   0,
+			                   0,
+			                   0,
+			                   0]];
+			this.showReference = false;
+			this.calculating = false;
+		};
+		AppSimulator.prototype.initCharts = function() {
 			this.barChartOptions = {
 				chart: {
 					type:         'multiBarChart',
@@ -46,7 +169,7 @@
 						showMaxMin: false
 					},
 					yAxis:        {
-						tickFormat:        function(d) {
+						tickFormat: function(d) {
 							return d3.format('d')(d);
 						}
 					}
@@ -124,135 +247,104 @@
 					duration:      500
 				}
 			};
+			this.resetChartsData();
+		};
+		AppSimulator.prototype.resetChartsData = function() {
 			this.barChartData = [{
 				key:    'raspberrypi2-redis',
-				values: [{
-					label: '',
-					value: 0
-				}]
+				values: []
 			},
 			                     {
 				                     key:    'raspberrypi3-redis',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi5-redis',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi6-redis',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi2-node',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi3-node',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi5-node',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi6-node',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi2-nginx',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi3-nginx',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi5-nginx',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi6-nginx',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi2-angular',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi3-angular',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi5-angular',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
+				                     values: []
 			                     },
 			                     {
 				                     key:    'raspberrypi6-angular',
-				                     values: [{
-					                     label: '',
-					                     value: 0
-				                     }]
-			                     }
-			];
-			this.polarChartData = [{key: 'raspberrypi2', y: 25},
-			                       {key: 'raspberrypi3', y: 25},
-			                       {key: 'raspberrypi5', y: 25},
-			                       {key: 'raspberrypi6', y: 25}];
-			this.polarChartData2 = [{key: 'raspberrypi2', y: 25},
+				                     values: []
+			                     }];
+			this.polarChartData = [{
+				key: 'raspberrypi2',
+				y:   0
+			},
+			                       {
+				                       key: 'raspberrypi3',
+				                       y:   0
+			                       },
+			                       {
+				                       key: 'raspberrypi5',
+				                       y:   0
+			                       },
+			                       {
+				                       key: 'raspberrypi6',
+				                       y:   0
+			                       }];
+			this.polarChartData2 = [{
+				key: 'raspberrypi2',
+				y:   0
+			},
 			                        {
 				                        key: 'raspberrypi3',
-				                        y:   25
+				                        y:   0
 			                        },
 			                        {
 				                        key: 'raspberrypi5',
-				                        y:   25
+				                        y:   0
 			                        },
 			                        {
 				                        key: 'raspberrypi6',
-				                        y:   25
+				                        y:   0
 			                        }];
 			this.lineChartData = [
 				{
@@ -266,9 +358,8 @@
 					area:   true
 				}
 			];
-			//
-			// Controller execution variables - all methods
-			//
+		};
+		AppSimulator.prototype.initExecutionScopeVariables = function() {
 			this.operationProb = [0,
 			                      0,
 			                      0,
@@ -280,24 +371,64 @@
 			                      2,
 			                      3];
 			this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
-			//
-			// Controller execution variables - stress method
-			//
 			this.loopCon = 0;
-			//
-			// Controller execution variables - duration method
-			//
 			this.duration = 0;
-			//
-			// Statistical variables
-			//
+		};
+		AppSimulator.prototype.resetExecutionScopeVariables = function() {
+			this.loopCon = 0;
+			this.duration = 0;
+			this.requests = [[],
+			                 [],
+			                 []];
+			this.results = [["raspberrypi2",
+			                 []],
+			                ["raspberrypi3",
+			                 []],
+			                ["raspberrypi5",
+			                 []],
+			                ["raspberrypi6",
+			                 []]];
+			this.nodeIdx = {
+				"raspberrypi2": [0,
+				                 0],
+				"raspberrypi3": [1,
+				                 0],
+				"raspberrypi5": [2,
+				                 0],
+				"raspberrypi6": [3,
+				                 0]
+			};
+			this.pidIdx = {
+				"raspberrypi2": {},
+				"raspberrypi3": {},
+				"raspberrypi5": {},
+				"raspberrypi6": {}
+			};
+			this.cachedResp = [];
+			this.observableRequests = undefined;
+		};
+		AppSimulator.prototype.saveExecutionParametersCopy = function() {
+			this.execMode = this.getSimulationMethod();
+			this.execReq = this.reqCount;
+			this.execDuration = this.reqDuration;
+			this.execInterval = this.reqInterval;
+			this.execConn = this.reqConn;
+			this.execMaxReq = this.getDurationRequests();
+		};
+		AppSimulator.prototype.initStatisticsVariables = function() {
 			this.tpAngular = 0;
 			this.tpNginx = 0;
 			this.tpNode = 0;
 			this.tpRedis = 0;
-			//
-			// Live Events socket variables and configuration
-			//
+		};
+		AppSimulator.prototype.resetStatisticsVariables = function() {
+			this.initStatisticsVariables();
+			this.totAngular = 0;
+			this.totNginx = 0;
+			this.totNode = 0;
+			this.totRedis = 0;
+		};
+		AppSimulator.prototype.resetLiveEventsMatrix = function() {
 			this.evMatrix = [
 				[0,
 				 0,
@@ -812,6 +943,9 @@
 				 2,
 				 2]
 			];
+		};
+		AppSimulator.prototype.initLiveEvents = function() {
+			this.resetLiveEventsMatrix();
 			var ioMtx = this;
 			io('https://giancarlobonansea.homeip.net:33331').on('redis', function(data) {
 				if (ioMtx.evMatrix[data.x][data.y] !== 3) {
@@ -821,116 +955,8 @@
 					setTimeout(function() {
 						ioMtx.evMatrix[x][y] = (((x * 32) + y) * 16 / 2731) | 0;
 					}, 500);
-                }
-			});
-		}
-		AppSimulator.parameters = [
-			app.HTTPService,
-			ng.platformBrowser.DomSanitizationService
-		];
-		AppSimulator.annotations = [
-			new ng.core.Component({
-				selector:     'node-cluster-simulator',
-				templateUrl:  'simulator.html',
-				providers:    [
-					app.HTTPService,
-					ng.http.HTTP_PROVIDERS,
-					ng.platformBrowser.DomSanitizationService,
-					ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
-				],
-				directives: [nvD3]
-			})
-		];
-		AppSimulator.prototype.safeUrl = function(url) {
-			return this.sanitizerService.bypassSecurityTrustResourceUrl(url);
-		};
-		AppSimulator.prototype.initReferenceLinks = function() {
-			this.links = {
-				l0: REFLINKS.l0,
-				l1: REFLINKS.l1,
-				v:  []
-			};
-			for (var i = 0; i < REFLINKS.v.length; i++) {
-				this.links.v.push({title:     REFLINKS.v[i].title,
-					                  anchor: []
-				                  });
-				for (var j = 0; j < REFLINKS.v[i].anchor.length; j++) {
-					this.links.v[i].anchor.push({
-						                            href: this.safeUrl(REFLINKS.v[i].anchor[j].href),
-						                            desc: REFLINKS.v[i].anchor[j].desc
-					                            });
 				}
-			}
-		};
-		AppSimulator.prototype.initViewExecVariables = function() {
-			this.resetViewExecVariables();
-			this.running = false;
-		};
-		AppSimulator.prototype.resetViewExecVariables = function() {
-			this.respErrors = 0;
-			this.respOK = 0;
-		};
-		AppSimulator.prototype.initViewExecParameters = function() {
-			this.isDuration = false;
-			this.reqConn = 2;
-			this.reqCount = 100;
-			this.reqDuration = 5;
-			this.reqInterval = 50;
-			this.urlOptions = [['https://giancarlobonansea.homeip.net:33333/api',
-			                    'DNS Public'],
-			                   ['https://raspberrypi4:8010/api',
-			                    'DNS Private'],
-			                   ['https://192.168.69.242:8010/api',
-			                    'IP Private']];
-		};
-		AppSimulator.prototype.initViewPresentationControlVariables = function() {
-			this.resetViewPresentationControlVariables();
-			this.selectedUrl = this.urlOptions[0][0];
-			this.liveEvents = false;
-		};
-		AppSimulator.prototype.resetViewPresentationControlVariables = function() {
-			this.histogram = [[50,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			                  [75,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			                  [87.5,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			                  [93.75,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			                  [96.875,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			                  [98.4375,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			                  [99.21875,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			                  [100,
-			                   0,
-			                   0,
-			                   0,
-			                   0]];
-			this.showReference = false;
-			this.calculating = false;
+			});
 		};
 
 		AppSimulator.prototype.setSmall = function() {
@@ -1011,34 +1037,7 @@
             return this.running;
 		};
 		AppSimulator.prototype.calculateHistogram = function() {
-            this.barChartData = [{key: 'raspberrypi2-redis', values: []},
-                                 {key: 'raspberrypi3-redis', values: []},
-                                 {key: 'raspberrypi5-redis', values: []},
-                                 {key: 'raspberrypi6-redis', values: []},
-                                 {key: 'raspberrypi2-node', values: []},
-                                 {key: 'raspberrypi3-node', values: []},
-                                 {key: 'raspberrypi5-node', values: []},
-                                 {key: 'raspberrypi6-node', values: []},
-                                 {key: 'raspberrypi2-nginx', values: []},
-                                 {key: 'raspberrypi3-nginx', values: []},
-                                 {key: 'raspberrypi5-nginx', values: []},
-                                 {key: 'raspberrypi6-nginx', values: []},
-                                 {key: 'raspberrypi2-angular', values: []},
-                                 {key: 'raspberrypi3-angular', values: []},
-                                 {key: 'raspberrypi5-angular', values: []},
-                                 {key: 'raspberrypi6-angular', values: []}];
-			this.polarChartData = [{key: 'raspberrypi2', y: 0},
-			                       {key: 'raspberrypi3', y: 0},
-			                       {key: 'raspberrypi5', y: 0},
-			                       {key: 'raspberrypi6', y: 0}];
-			this.polarChartData2 = [{key: 'raspberrypi2', y: 0},
-			                       {key: 'raspberrypi3', y: 0},
-			                       {key: 'raspberrypi5', y: 0},
-			                       {key: 'raspberrypi6', y: 0}];
-            this.lineChartData = [
-                {key: 'w/o Coord. Omission', values: [], area: false},
-                {key: 'Latency/Percentile', values: [], area: true}
-            ];
+			this.resetChartsData();
             this.disregard = Math.ceil(this.reqExecuted * 4.55 / 100.0);
 			this.discardLower = Math.floor(this.disregard/2);
             this.discardUpper = this.reqExecuted - Math.ceil(this.disregard / 2) - 1;
@@ -1420,30 +1419,18 @@
             }
         };
 		AppSimulator.prototype.startSimulator = function() {
-			//
-			// Initialize execution variables - once for each execution
-			// all first time initialization performed on constructor function
-			//
+			////
+			//// Initialize execution variables - once for each execution
+			//// all first time initialization performed on constructor function
+			////
 			//
 			// Save execution parameters
 			//
-			this.execMode = this.getSimulationMethod();
-			this.execReq = this.reqCount;
-			this.execDuration = this.reqDuration;
-			this.execInterval = this.reqInterval;
-			this.execConn = this.reqConn;
-			this.execMaxReq = this.getDurationRequests();
+			this.saveExecutionParametersCopy();
 			//
 			// Reset statistic variables
 			//
-			this.totAngular = 0;
-			this.totNginx = 0;
-			this.totNode = 0;
-			this.totRedis = 0;
-			this.tpAngular = 0;
-			this.tpNginx = 0;
-			this.tpNode = 0;
-			this.tpRedis = 0;
+			this.resetStatisticsVariables();
 			//
 			// Reset view presentation variables - control
 			//
@@ -1458,562 +1445,13 @@
 			                 0];
             this.reqCached = 0;
 			//
-			// Reset controller execution variables - stress method
+			// Reset execution scope variables
 			//
-			this.loopCon = 0;
-			//
-			// Reset controller execution variables - duration method
-			//
-			this.duration = 0;
-			//
-			// Reset Controller execution variables - all methods
-			//
-			this.requests = [[],
-                             [],
-                             []];
-			this.results = [["raspberrypi2",
-			                 []],
-			                ["raspberrypi3",
-			                 []],
-			                ["raspberrypi5",
-			                 []],
-			                ["raspberrypi6",
-			                 []]];
-			this.nodeIdx = {
-				"raspberrypi2": [0,
-				                 0],
-				"raspberrypi3": [1,
-				                 0],
-				"raspberrypi5": [2,
-				                 0],
-				"raspberrypi6": [3,
-				                 0]
-			};
-			this.pidIdx = {
-				"raspberrypi2": {},
-				"raspberrypi3": {},
-				"raspberrypi5": {},
-				"raspberrypi6": {}
-			};
-            this.cachedResp = [];
-			this.observableRequests = undefined;
+			this.resetExecutionScopeVariables();
 			//
 			// Reset Live Events socket variables
 			//
-			this.evMatrix = [
-				[0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0],
-				[0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0],
-				[0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0],
-				[0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0],
-				[0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0],
-				[0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 0,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1],
-				[1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1],
-				[1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1],
-				[1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1],
-				[1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1],
-				[1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 1,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2],
-				[2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2],
-				[2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2],
-				[2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2],
-				[2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2],
-				[2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2,
-				 2]
-			];
+			this.resetLiveEventsMatrix();
 			//
 			// Reset view execution variables
 			//
