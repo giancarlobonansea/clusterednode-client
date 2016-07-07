@@ -2,6 +2,11 @@
 	app.AppSimulator = (function() {
 		function AppSimulator (HTTPService, DOMSanitizer) {
 			//
+			// Initialize services
+			//
+			this.httpService = HTTPService;
+			this.sanitizer = DOMSanitizer;
+			//
 			// View execution variables
 			//
 			this.initViewExecVariables();
@@ -277,8 +282,6 @@
 			                      1,
 			                      2,
 			                      3];
-			this.httpService = HTTPService;
-			this.sanitizer = DOMSanitizer;
 			this.urlHDR = 'https://giancarlobonansea.homeip.net:33333/hdr';
 			//
 			// Controller execution variables - stress method
