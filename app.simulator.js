@@ -1413,7 +1413,7 @@
 				    );
 			    };
 			self.iniTime = Date.now();
-			recurReq(arrReq, 0);
+			recurReq(0);
 		};
         AppSimulator.prototype.throwHTTPduration = function() {
             var self  = this,
@@ -1423,12 +1423,8 @@
             var intervalFunction = function() {
                 if (self.timerRunning && self.countRequests < self.reqCount) {
                     self.countRequests += self.reqConn;
-                    var arrReq = [];
-                    for (var j = 0; j < self.reqConn; j++) {
-	                    arrReq.push(self.rq[1][reqId]);
-                        reqId++;
-                    }
-                    var observableRequestsA = Rx.Observable.forkJoin(arrReq).subscribe(
+	                var nextIdx             = reqId + self.reqConn,
+	                    observableRequestsA = Rx.Observable.forkJoin(self.rq[1].slice(reqId, nextIdx)).subscribe(
                         function(response) {
                             self.duration = Date.now() - self.iniTime;
                             if (self.countResponses < self.reqCount) {
@@ -1455,6 +1451,7 @@
                             observableRequestsA.unsubscribe();
                         }
                     );
+	                reqId += self.reqConn;
                 }
                 else {
                     if (!self.calculating && self.countRequests === self.countResponses) {
