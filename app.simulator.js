@@ -1284,42 +1284,31 @@
             );
             ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
         };
-		AppSimulator.prototype.checkStop = function() {
-            this.duration = Date.now() - this.iniTime;
-			if (this.respOK + this.respErrors >= this.reqCount) {
-				this.calculating = true;
-                this.reqExecuted = this.reqCount;
-				var selfStop = this;
-				setTimeout(function(){
-					selfStop.calculateHistogram();
-                }, 500);
-				return true;
-			}
-			return false;
-		};
+
 		AppSimulator.prototype.observableResponse = function(response) {
 			for (var k = 0; k < response.length; k++) {
-				var req = response[k].reqId,
-				    hst = response[k].json.hostname,
-				    cch = response[k].cached;
+				var res = response[k],
+				    req = res.reqId,
+				    hst = res.json.hostname,
+				    ndx = this.nodeIdx[hst][0],
+				    cch = res.cached;
 				this.requests[0][req] = {
 					rid:    'Request ' + ((req | 0) + 1),
-					hst:    this.nodeIdx[hst][0],
-					rtt:    response[k].rtt,
-					tsn:    response[k].tsn,
-					exts:   response[k].exts,
-					red:    response[k].red,
+					hst:    ndx,
+					rtt:    res.rtt,
+					tsn:    res.tsn,
+					exts:   res.exts,
+					red:    res.red,
 					cached: cch
 				};
 				++this.respOK;
 				if (cch) {
 					this.reqCached++;
-					this.cachedResp.push(self.respOK);
+					this.cachedResp.push(this.respOK);
 				}
 				else {
-					var pid  = response[k].json.pid,
-					    oper = this.requests[2][req],
-					    ndx  = this.nodeIdx[hst][0];
+					var pid  = res.json.pid,
+					    oper = this.requests[2][req];
 					if (!(pid in this.pidIdx[hst])) {
 						this.results[ndx][1].push([pid,
 						                           [[],
@@ -1344,54 +1333,48 @@
 				}
 			}
 		};
+		AppSimulator.prototype.startStatistics = function() {
+			this.calculating = true;
+			var selfStop = this;
+			setTimeout(function() {
+				selfStop.calculateHistogram();
+			}, 500);
+		};
+		AppSimulator.prototype.stopHTTPduration = function() {
+			if (this.intervalHandler) {
+				clearInterval(this.intervalHandler);
+			}
+			this.reqExecuted = this.countResponses;
+			this.startStatistics();
+		};
+		AppSimulator.prototype.stopHTTPrequests = function() {
+			this.reqExecuted = this.reqCount;
+			this.startStatistics();
+		};
 		AppSimulator.prototype.throwHTTPrequests = function(i) {
 			var self   = this,
 			    arrReq = [];
-			for (var j = 0; ((j < this.reqConn) && (i + j < this.reqCount)); j++) {
-				arrReq.push(this.requests[1][i + j]);
-			}
-			self.observableRequests = Rx.Observable.forkJoin(arrReq).subscribe(
-				function(response) {
-					for (var k = 0; k < response.length; k++) {
-						self.requests[0][response[k].reqId] = {
-                            rid:  'Request ' + ((response[k].reqId | 0) + 1),
-							hst:  self.nodeIdx[response[k].json.hostname][0],
-							rtt:  response[k].rtt,
-							tsn:  response[k].tsn,
-                            exts: response[k].exts,
-                            red:  response[k].red
-						};
-						++self.respOK;
-                        if (response[k].cached) {
-                            self.reqCached++;
-	                        self.cachedResp.push(self.respOK);
-                        }
-                        else {
-                            if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
-                                self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
-                                                                                                  [[],
-                                                                                                   [],
-                                                                                                   [],
-                                                                                                   []]]);
-                                self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
-                            }
-	                        self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1][self.requests[2][response[k].reqId]].push(self.respOK);
-                            self.nodeIdx[response[k].json.hostname][1]++;
-                        }
-					}
-				},
-				function(error) {
-					self.respErrors++;
-				},
-				function() {
-					self.observableRequests.unsubscribe();
-					self.observableRequests = undefined;
-					if (!self.checkStop()) {
-						self.loopCon += self.reqConn;
-						self.throwHTTPrequests(self.loopCon);
-					}
+			self.iniTime = Date.now();
+			for (var i = 0; i < self.reqCount; i += self.reqConn) {
+				for (var j = 0; j < self.reqConn; j++) {
+					arrReq.push(self.requests[1][i + j]);
 				}
-			);
+				var observableRequests = Rx.Observable.forkJoin(arrReq).subscribe(
+					function(response) {
+						self.observableResponse(response);
+					},
+					function(error) {
+						self.respErrors++;
+					},
+					function() {
+						observableRequests.unsubscribe();
+						self.duration = Date.now() - self.iniTime;
+						if (self.respOK + self.respErrors >= self.reqCount) {
+							self.stopHTTPrequests();
+						}
+					}
+				);
+			}
 		};
         AppSimulator.prototype.throwHTTPduration = function() {
             var self  = this,
@@ -1428,15 +1411,7 @@
                         },
                         function() {
                             if (!self.timerRunning && !self.calculating && self.countRequests === self.countResponses) {
-                                if (self.intervalHandler) {
-                                    clearInterval(self.intervalHandler);
-                                }
-                                self.calculating = true;
-                                var selfStop = self;
-                                self.reqExecuted = self.countResponses;
-                                setTimeout(function() {
-                                    selfStop.calculateHistogram();
-                                }, 500);
+	                            self.stopHTTPduration();
                             }
                             observableRequestsA.unsubscribe();
                         }
@@ -1444,16 +1419,10 @@
                 }
                 else {
                     if (!self.calculating && self.countRequests === self.countResponses) {
-                        if (self.intervalHandler) {
-                            clearInterval(self.intervalHandler);
-                        }
-                        self.calculating = true;
-	                    self.reqExecuted = self.countResponses;
-                        var selfStop = self;
-                        setTimeout(function() {
-                            selfStop.calculateHistogram();
-                        }, 500);
+	                    self.stopHTTPduration();
                     }
+	                if (observableRequestsA)
+		                observableRequestsA.unsubscribe();
                 }
             };
 	        self.timerRunning = true;
@@ -1505,8 +1474,7 @@
             }
             else {
 	            this.populateRequestSamples();
-                this.iniTime = Date.now();
-                this.throwHTTPrequests(this.loopCon);
+	            this.throwHTTPrequests();
             }
 		};
 		return AppSimulator;
