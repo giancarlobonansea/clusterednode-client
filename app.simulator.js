@@ -1390,28 +1390,31 @@
 			this.startStatistics();
 		};
 		AppSimulator.prototype.throwHTTPrequests = function() {
-			var self   = this,
-			    arrReq = [];
+			var self     = this,
+			    asyncReq = function(arr) {
+				    var observableRequests = Rx.Observable.forkJoin(arr).subscribe(
+					    function(response) {
+						    self.observableResponse(response);
+					    },
+					    function(error) {
+						    self.respErrors++;
+					    },
+					    function() {
+						    observableRequests.unsubscribe();
+						    self.duration = Date.now() - self.iniTime;
+						    if (self.respOK + self.respErrors >= self.reqCount) {
+							    self.stopHTTPrequests();
+						    }
+					    }
+				    );
+			    };
 			self.iniTime = Date.now();
 			for (var i = 0; i < self.reqCount; i += self.reqConn) {
+				var arrReq = [];
 				for (var j = 0; j < self.reqConn; j++) {
 					arrReq.push(self.rq[1][i + j]);
 				}
-				var observableRequests = Rx.Observable.forkJoin(arrReq).subscribe(
-					function(response) {
-						self.observableResponse(response);
-					},
-					function(error) {
-						self.respErrors++;
-					},
-					function() {
-						//observableRequests.unsubscribe();
-						self.duration = Date.now() - self.iniTime;
-						if (self.respOK + self.respErrors >= self.reqCount) {
-							self.stopHTTPrequests();
-						}
-					}
-				);
+				asyncReq(arrReq);
 			}
 		};
         AppSimulator.prototype.throwHTTPduration = function() {
