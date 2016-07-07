@@ -437,12 +437,12 @@
 		};
 		//// saveExecutionParametersCopy
 		AppSimulator.prototype.sEPC = function() {
-			this.execMode = this.getSimulationMethod();
+			this.execMode = this.gSM();
 			this.execReq = this.reqCount;
 			this.execDuration = this.reqDuration;
 			this.execInterval = this.reqInterval;
 			this.execConn = this.reqConn;
-			this.execMaxReq = this.getDurationRequests();
+			this.execMaxReq = this.gDR();
 		};
 		//// initStatisticsVariables
 		AppSimulator.prototype.iSV = function() {
@@ -994,7 +994,8 @@
 		//
 		// UI related methods
 		//
-		AppSimulator.prototype.setSmall = function() {
+		//// setSmall
+		AppSimulator.prototype.sS = function() {
             if (this.isDuration) {
                 this.reqDuration = 5;
                 this.reqInterval = 50;
@@ -1006,7 +1007,8 @@
             }
             ga('send', 'event', 'Simulation', 'Configuration', 'Small Preset');
 		};
-		AppSimulator.prototype.setMedium = function() {
+		//// setMedium
+		AppSimulator.prototype.sM = function() {
             if (this.isDuration) {
                 this.reqDuration = 10;
                 this.reqInterval = 30;
@@ -1018,7 +1020,8 @@
             }
             ga('send', 'event', 'Simulation', 'Configuration', 'Medium Preset');
         };
-		AppSimulator.prototype.setLarge = function() {
+		//// setLarge
+		AppSimulator.prototype.sL = function() {
             if (this.isDuration) {
                 this.reqDuration = 30;
                 this.reqInterval = 25;
@@ -1030,7 +1033,8 @@
             }
             ga('send', 'event', 'Simulation', 'Configuration', 'Large Preset');
         };
-		AppSimulator.prototype.setHuge = function() {
+		//// setHuge
+		AppSimulator.prototype.sH = function() {
             if (this.isDuration) {
                 this.reqDuration = 60;
                 this.reqInterval = 25;
@@ -1042,45 +1046,56 @@
             }
             ga('send', 'event', 'Simulation', 'Configuration', 'Huge Preset');
         };
-        AppSimulator.prototype.setDuration = function() {
+		//// setDuration
+		AppSimulator.prototype.sD = function() {
             this.isDuration = true;
-            this.setSmall();
+			this.sS();
         };
-        AppSimulator.prototype.setRequests = function() {
+		//// setRequests
+		AppSimulator.prototype.sR = function() {
             this.isDuration = false;
-            this.setSmall();
+			this.sS();
         };
-        AppSimulator.prototype.isDurationMethod = function() {
+		//// isDurationMethod
+		AppSimulator.prototype.iDM = function() {
             return this.isDuration;
         };
-        AppSimulator.prototype.isRequestMethod = function() {
+		//// isRequestMethod
+		AppSimulator.prototype.iRM = function() {
             return !this.isDuration;
         };
-        AppSimulator.prototype.usedDurationMethod = function() {
+		//// usedDurationMethod
+		AppSimulator.prototype.uDM = function() {
             return this.execMode === 'STABILITY';
         };
-        AppSimulator.prototype.usedRequestMethod = function() {
+		//// usedRequestMethod
+		AppSimulator.prototype.uRM = function() {
             return this.execMode === 'STRESS';
         };
-        AppSimulator.prototype.getSimulationMethod = function() {
+		//// getSimulationMethod
+		AppSimulator.prototype.gSM = function() {
             return this.isDuration ? 'STABILITY' : 'STRESS';
         };
-		AppSimulator.prototype.onRefLinkClick = function(title, desc) {
+		//// onRefLinkClick
+		AppSimulator.prototype.oRLC = function(title, desc) {
 			ga('send', 'event', 'Reference', title, desc);
 		};
-		AppSimulator.prototype.showRef = function() {
+		//// showRef
+		AppSimulator.prototype.shR = function() {
 			this.showReference = !this.showReference;
 			if (this.showReference) {
 				this.liveEvents = false;
 			}
 		};
-		AppSimulator.prototype.showLive = function() {
+		//// showLive
+		AppSimulator.prototype.shL = function() {
 			this.liveEvents = !this.liveEvents;
 			if (this.liveEvents) {
 				this.showReference = false;
 			}
 		};
-		AppSimulator.prototype.getDatabaseStatus = function(cond) {
+		//// getDatabaseStatus
+		AppSimulator.prototype.gDS = function(cond) {
 			switch (cond) {
 				case 0:
 					return 'text-info';
@@ -1092,18 +1107,22 @@
 					return 'text-danger bg-danger';
 			}
 		};
-		AppSimulator.prototype.percValue = function() {
+		//// percValue
+		AppSimulator.prototype.pV = function() {
 			return Math.ceil(this.respOK * 100 / this.reqCount);
 		};
-		AppSimulator.prototype.calcPosition = function(hist) {
+		//// calcPosition
+		AppSimulator.prototype.cP = function(hist) {
 			return Math.ceil(this.respOK * hist / 100);
 		};
-		AppSimulator.prototype.getDurationRequests = function() {
+		//// getDurationRequests
+		AppSimulator.prototype.gDR = function() {
 			var tot = (this.reqDuration * 1000 * this.reqConn / this.reqInterval) | 0;
 			return tot - (tot % this.reqConn);
 		};
-		AppSimulator.prototype.getDurationThroughput = function() {
-			return (this.getDurationRequests() / this.reqDuration) | 0;
+		//// getDurationThroughput
+		AppSimulator.prototype.gDT = function() {
+			return (this.gDR() / this.reqDuration) | 0;
 		};
 		//
 		// Execution control methods
@@ -1526,7 +1545,7 @@
 			// Switch among simulation methods (stress or duration)
 			//
             if (this.isDuration) {
-                this.reqCount = this.getDurationRequests();
+	            this.reqCount = this.gDR();
 	            this.populateRequestSamples();
                 this.throwHTTPduration();
             }
