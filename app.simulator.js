@@ -21,10 +21,7 @@
 			//
 			// View presentation variables - reference links
 			//
-			this.links = REFLINKS;
-			for (var i = 0; i < this.links.v.length; i++) {
-				this.links.v[i].href = this.safeUrl(this.links.v[i].href);
-			}
+			this.initReferenceLinks();
 			//
 			// Charts configuration and initialization
 			//
@@ -846,6 +843,24 @@
 		];
 		AppSimulator.prototype.safeUrl = function(url) {
 			return this.sanitizerService.bypassSecurityTrustResourceUrl(url);
+		};
+		AppSimulator.prototype.initReferenceLinks = function() {
+			this.links = {
+				l0: REFLINKS.l0,
+				l1: REFLINKS.l1,
+				v:  []
+			};
+			for (var i = 0; i < REFLINKS.v.length; i++) {
+				this.links.v.push({title:     REFLINKS.v[i].title,
+					                  anchor: []
+				                  });
+				for (var j = 0; j < REFLINKS.v[i].anchor.length; j++) {
+					this.links.v[i].anchor.push({
+						                            href: this.safeUrl(REFLINKS.v[i].anchor[j].href),
+						                            desc: REFLINKS.v[i].anchor[j].desc
+					                            });
+				}
+			}
 		};
 		AppSimulator.prototype.initViewExecVariables = function() {
 			this.resetViewExecVariables();
