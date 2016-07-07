@@ -21,35 +21,35 @@
 			//
 			// View execution variables
 			//
-			this.initViewExecVariables();
+			this.iVEV();
 			//
 			// View execution parameters
 			//
-			this.initViewExecParameters();
+			this.iVEP();
 			//
 			// View presentation variables - control
 			//
-			this.initViewPresentationControlVariables();
+			this.iVPCV();
 			//
 			// View presentation variables - reference links
 			//
-			this.initReferenceLinks();
+			this.iRL();
 			//
 			// Charts configuration and initialization
 			//
-			this.initCharts();
+			this.iC();
 			//
 			// Execution scope variables
 			//
-			this.initExecutionScopeVariables();
+			this.iESV();
 			//
 			// Statistical variables
 			//
-			this.initStatisticsVariables();
+			this.iSV();
 			//
 			// Live Events socket variables and configuration
 			//
-			this.initLiveEvents();
+			this.iLE();
 		}
 		AppSimulator.parameters = [
 			app.HTTPService,
@@ -74,7 +74,8 @@
 		//
 		// Configuration & Initialization methods
 		//
-		AppSimulator.prototype.initReferenceLinks = function() {
+		//// initReferenceLinks
+		AppSimulator.prototype.iRL = function() {
 			this.links = {
 				l0: REFLINKS.l0,
 				l1: REFLINKS.l1,
@@ -92,15 +93,18 @@
 				}
 			}
 		};
-		AppSimulator.prototype.initViewExecVariables = function() {
-			this.resetViewExecVariables();
+		//// initViewExecVariables
+		AppSimulator.prototype.iVEV = function() {
+			this.rVEV();
 			this.running = false;
 		};
-		AppSimulator.prototype.resetViewExecVariables = function() {
+		//// resetViewExecVariables
+		AppSimulator.prototype.rVEV = function() {
 			this.respErrors = 0;
 			this.respOK = 0;
 		};
-		AppSimulator.prototype.initViewExecParameters = function() {
+		//// initViewExecParameters
+		AppSimulator.prototype.iVEP = function() {
 			this.isDuration = false;
 			this.reqConn = 2;
 			this.reqCount = 100;
@@ -113,12 +117,14 @@
 			                   ['https://192.168.69.242:8010/api',
 			                    'IP Private']];
 		};
-		AppSimulator.prototype.initViewPresentationControlVariables = function() {
-			this.resetViewPresentationControlVariables();
+		//// initViewPresentationControlVariables
+		AppSimulator.prototype.iVPCV = function() {
+			this.rVPCV();
 			this.selectedUrl = this.urlOptions[0][0];
 			this.liveEvents = false;
 		};
-		AppSimulator.prototype.resetViewPresentationControlVariables = function() {
+		//// resetViewPresentationControlVariables
+		AppSimulator.prototype.rVPCV = function() {
 			this.histogram = [[50,
 			                   0,
 			                   0,
@@ -167,7 +173,8 @@
 			                 0];
 			this.reqCached = 0;
 		};
-		AppSimulator.prototype.initCharts = function() {
+		//// initCharts
+		AppSimulator.prototype.iC = function() {
 			this.bco = {
 				chart: {
 					type:         'multiBarChart',
@@ -267,9 +274,10 @@
 					duration:      500
 				}
 			};
-			this.resetChartsData();
+			this.rCD();
 		};
-		AppSimulator.prototype.resetChartsData = function() {
+		//// resetChartsData
+		AppSimulator.prototype.rCD = function() {
 			this.bcd = [{
 				key:    this.PI2 + this._red,
 				values: []
@@ -379,7 +387,8 @@
 				}
 			];
 		};
-		AppSimulator.prototype.initExecutionScopeVariables = function() {
+		//// initExecutionScopeVariables
+		AppSimulator.prototype.iESV = function() {
 			this.operationProb = [0,
 			                      0,
 			                      0,
@@ -393,7 +402,8 @@
 			this.urlHDR = this.baseUrl + ':33333/hdr';
 			this.duration = 0;
 		};
-		AppSimulator.prototype.resetExecutionScopeVariables = function() {
+		//// resetExecutionScopeVariables
+		AppSimulator.prototype.rESV = function() {
 			this.duration = 0;
 			this.rq = [[],
 			           [],
@@ -425,7 +435,8 @@
 			this.cachedResp = [];
 			this.observableRequests = undefined;
 		};
-		AppSimulator.prototype.saveExecutionParametersCopy = function() {
+		//// saveExecutionParametersCopy
+		AppSimulator.prototype.sEPC = function() {
 			this.execMode = this.getSimulationMethod();
 			this.execReq = this.reqCount;
 			this.execDuration = this.reqDuration;
@@ -433,20 +444,23 @@
 			this.execConn = this.reqConn;
 			this.execMaxReq = this.getDurationRequests();
 		};
-		AppSimulator.prototype.initStatisticsVariables = function() {
+		//// initStatisticsVariables
+		AppSimulator.prototype.iSV = function() {
 			this.tpAngular = 0;
 			this.tpNginx = 0;
 			this.tpNode = 0;
 			this.tpRedis = 0;
 		};
-		AppSimulator.prototype.resetStatisticsVariables = function() {
-			this.initStatisticsVariables();
+		//// resetStatisticsVariables
+		AppSimulator.prototype.rSV = function() {
+			this.iSV();
 			this.totAngular = 0;
 			this.totNginx = 0;
 			this.totNode = 0;
 			this.totRedis = 0;
 		};
-		AppSimulator.prototype.resetLiveEventsMatrix = function() {
+		//// resetLiveEventsMatrix
+		AppSimulator.prototype.rLEM = function() {
 			this.evMatrix = [
 				[0,
 				 0,
@@ -962,8 +976,9 @@
 				 2]
 			];
 		};
-		AppSimulator.prototype.initLiveEvents = function() {
-			this.resetLiveEventsMatrix();
+		//// initLiveEvents
+		AppSimulator.prototype.iLE = function() {
+			this.rLEM();
 			var ioMtx = this;
 			io(this.baseUrl + ':33331').on('redis', function(data) {
 				if (ioMtx.evMatrix[data.x][data.y] !== 3) {
@@ -1119,9 +1134,8 @@
 				this.rq[2].push(operT);
 			}
 		};
-
 		AppSimulator.prototype.calculateHistogram = function() {
-			this.resetChartsData();
+			this.rCD();
 			var disregard = Math.ceil(this.reqExecuted * 4.55 / 100.0),
 			    dLo       = Math.floor(disregard / 2),
 			    dUp       = this.reqExecuted - Math.ceil(disregard / 2) - 1;
@@ -1327,7 +1341,6 @@
             );
             ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
         };
-
 		AppSimulator.prototype.observableResponse = function(response) {
 			for (var k = 0; k < response.length; k++) {
 				var res = response[k],
@@ -1486,28 +1499,28 @@
 			//
 			// Save execution parameters
 			//
-			this.saveExecutionParametersCopy();
+			this.sEPC();
 			//
 			// Reset statistic variables
 			//
-			this.resetStatisticsVariables();
+			this.rSV();
 			//
 			// Reset view presentation variables - control
 			//
-			this.resetViewPresentationControlVariables();
+			this.rVPCV();
 			this.liveEvents = true;
 			//
 			// Reset execution scope variables
 			//
-			this.resetExecutionScopeVariables();
+			this.rESV();
 			//
 			// Reset Live Events socket variables
 			//
-			this.resetLiveEventsMatrix();
+			this.rLEM();
 			//
 			// Reset view execution variables
 			//
-			this.resetViewExecVariables();
+			this.rVEV();
 			this.running = true;
 			//
 			// Switch among simulation methods (stress or duration)
