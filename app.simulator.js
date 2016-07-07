@@ -1405,7 +1405,7 @@
 						self.respErrors++;
 					},
 					function() {
-						observableRequests.unsubscribe();
+						//observableRequests.unsubscribe();
 						self.duration = Date.now() - self.iniTime;
 						if (self.respOK + self.respErrors >= self.reqCount) {
 							self.stopHTTPrequests();
