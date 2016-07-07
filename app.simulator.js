@@ -1086,6 +1086,29 @@
 		AppSimulator.prototype.isRunning = function() {
             return this.running;
 		};
+		AppSimulator.prototype.getRandomOperation = function() {
+			return this.operationProb[(Math.random() * 10) | 0];
+		};
+		AppSimulator.prototype.getRandomDBRecord = function() {
+			return (Math.random() * 16384) | 0;
+		};
+		AppSimulator.prototype.populateRequestSamples = function() {
+			for (var reqId = 0; reqId < this.reqCount; reqId++) {
+				var operT = this.getRandomOperation();
+				this.operType[operT]++;
+				this.requests[0].push({rtt:       0,
+					                      hst:    '',
+					                      rid:    0,
+					                      tsn:    0,
+					                      exts:   0,
+					                      red:    0,
+					                      cached: false
+				                      });
+				this.requests[1].push(this.httpService.get(reqId, this.selectedUrl, operT, this.getRandomDBRecord()));
+				this.requests[2].push(operT);
+			}
+		};
+
 		AppSimulator.prototype.calculateHistogram = function() {
 			this.resetChartsData();
             this.disregard = Math.ceil(this.reqExecuted * 4.55 / 100.0);
@@ -1316,18 +1339,11 @@
                 reqId = 0;
             self.countRequests = 0;
             self.countResponses = 0;
-            self.timerRunning = true;
             var intervalFunction = function() {
                 if (self.timerRunning && self.countRequests < self.reqCount) {
                     self.countRequests += self.reqConn;
                     var arrReq = [];
-                    var operT = 0;
                     for (var j = 0; j < self.reqConn; j++) {
-                        self.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0});
-                        operT = self.operationProb[(Math.random() * 10) | 0];
-                        self.operType[operT]++;
-                        self.requests[1].push(self.httpService.get(reqId, self.selectedUrl, operT, (Math.random() * 16384) | 0));
-                        self.requests[2].push(operT);
                         arrReq.push(self.requests[1][reqId]);
                         reqId++;
                     }
@@ -1336,13 +1352,16 @@
                             self.duration = Date.now() - self.iniTime;
                             if (self.countResponses < self.reqCount) {
                                 for (var k = 0; k < response.length; k++) {
-                                    self.requests[0][response[k].reqId] = {
-                                        rid:  'Request ' + ((response[k].reqId | 0) + 1),
-                                        hst:  self.nodeIdx[response[k].json.hostname][0],
-                                        rtt:  response[k].rtt,
-                                        tsn:  response[k].tsn,
-                                        exts: response[k].exts,
-                                        red:  response[k].red
+	                                var req = response[k].reqId,
+	                                    hst = response[k].json.hostname;
+	                                self.requests[0][req] = {
+		                                rid:    'Request ' + ((req | 0) + 1),
+		                                hst:    self.nodeIdx[hst][0],
+                                        rtt:    response[k].rtt,
+                                        tsn:    response[k].tsn,
+                                        exts:   response[k].exts,
+		                                red:    response[k].red,
+		                                cached: response[k].cached
                                     };
 	                                ++self.respOK;
                                     if (response[k].cached) {
@@ -1350,16 +1369,19 @@
 	                                    self.cachedResp.push(self.respOK);
                                     }
                                     else {
-                                        if (!(response[k].json.pid in self.pidIdx[response[k].json.hostname])) {
-                                            self.results[self.nodeIdx[response[k].json.hostname][0]][1].push([response[k].json.pid,
-                                                                                                              [[],
-                                                                                                               [],
-                                                                                                               [],
-                                                                                                               []]]);
-                                            self.pidIdx[response[k].json.hostname][response[k].json.pid] = self.results[self.nodeIdx[response[k].json.hostname][0]][1].length - 1;
+	                                    var pid  = response[k].json.pid,
+	                                        oper = self.requests[2][req],
+	                                        ndx  = self.nodeIdx[hst][0];
+	                                    if (!(pid in self.pidIdx[hst])) {
+		                                    self.results[ndx][1].push([pid,
+		                                                               [[],
+		                                                                [],
+		                                                                [],
+		                                                                []]]);
+		                                    self.pidIdx[hst][pid] = self.results[ndx][1].length - 1;
                                         }
-	                                    self.results[self.nodeIdx[response[k].json.hostname][0]][1][self.pidIdx[response[k].json.hostname][response[k].json.pid]][1][self.requests[2][response[k].reqId]].push(self.respOK);
-                                        self.nodeIdx[response[k].json.hostname][1]++;
+	                                    self.results[ndx][1][self.pidIdx[hst][pid]][1][oper].push(self.respOK);
+	                                    self.nodeIdx[hst][1]++;
                                     }
                                     self.countResponses++;
                                 }
@@ -1369,6 +1391,7 @@
                                     for (var z = 0; z < self.reqConn; z++) {
                                         self.requests[0].pop();
                                         self.requests[1].pop();
+	                                    self.requests[2].pop();
                                         self.countResponses--;
                                     }
                                 }
@@ -1385,7 +1408,8 @@
                                     for (var z = 0; z < self.reqConn; z++) {
                                         self.requests[0].pop();
                                         self.requests[1].pop();
-                                        self.countResponses--;
+	                                    self.requests[2].pop();
+	                                    self.countResponses--;
                                     }
                                 }
                             }
@@ -1403,7 +1427,6 @@
                                 }, 500);
                             }
                             observableRequestsA.unsubscribe();
-                            observableRequestsA = undefined;
                         }
                     );
                 }
@@ -1413,18 +1436,19 @@
                             clearInterval(self.intervalHandler);
                         }
                         self.calculating = true;
+	                    self.reqExecuted = self.countResponses;
                         var selfStop = self;
-                        self.reqExecuted = self.countResponses;
                         setTimeout(function() {
                             selfStop.calculateHistogram();
                         }, 500);
                     }
                 }
             };
-            self.iniTime = Date.now();
+	        self.timerRunning = true;
+	        self.iniTime = Date.now();
             setTimeout(function() {
                 self.timerRunning = false;
-            }, self.reqDuration * 1000 + 10);
+            }, (self.reqDuration * 1000) + 100);
             intervalFunction();
             self.intervalHandler = setInterval(intervalFunction, self.reqInterval);
         };
@@ -1464,17 +1488,11 @@
 			//
             if (this.isDuration) {
                 this.reqCount = this.getDurationRequests();
+	            this.populateRequestSamples();
                 this.throwHTTPduration();
             }
             else {
-                var operT = 0;
-                for (var reqId = 0; reqId < this.reqCount; reqId++) {
-                    this.requests[0].push({rtt: 0, hst: '', rid: 0, tsn: 0, exts: 0, red: 0, cached: false});
-                    operT = this.operationProb[(Math.random() * 10) | 0];
-                    this.operType[operT]++;
-                    this.requests[1].push(this.httpService.get(reqId, this.selectedUrl, operT, (Math.random() * 16384) | 0));
-                    this.requests[2].push(operT);
-                }
+	            this.populateRequestSamples();
                 this.iniTime = Date.now();
                 this.throwHTTPrequests(this.loopCon);
             }
