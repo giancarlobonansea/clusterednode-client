@@ -28,7 +28,7 @@
 				R: 0,
 				//cached = C
 				C: false
-			}
+			};
 			//
 			// Initialize services
 			//
@@ -1345,22 +1345,24 @@
             //
             // Calculating HDR Histogram
             //
-            this.hdrRTTresults = {table: [], chart: []};
+			this.hdrAr = {
+				table: [],
+				chart: []
+			};
 			this.lcd[0].values = [];
 			this.lcd[1].values = [];
-			var self = this;
-            this.observableRTT = this.httpService.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
+			this.oRTT = this.httpService.post(this.urlHDR, JSON.stringify(hdrRTTpost)).subscribe(
 	            function(re) {
-		            self.hdrRTTresults = re;
+		            self.hdrAr = re;
 		            self.rq[0].sort(function(a, b) {return a.A - b.A});
-		            for (var n = 0; n < self.hdrRTTresults.chart.length; n++) {
-			            var idx = ((self.hdrRTTresults.chart[n].percentile * self.rOK / 100) | 0) - 1;
+		            for (var n = 0; n < self.hdrAr.chart.length; n++) {
+			            var idx = ((self.hdrAr.chart[n].percentile * self.rOK / 100) | 0) - 1;
 			            self.lcd[0].values.push({
-				                                    x: self.hdrRTTresults.chart[n].percentile,
-				                                    y: self.hdrRTTresults.chart[n].value
+				                                    x: self.hdrAr.chart[n].percentile,
+				                                    y: self.hdrAr.chart[n].value
 		                                                     });
 			            self.lcd[1].values.push({
-				                                    x: self.hdrRTTresults.chart[n].percentile,
+				                                    x: self.hdrAr.chart[n].percentile,
 				                                    y: self.rq[0][(idx < 0) ? 0 : idx].A
 		                                                     });
 	                }
@@ -1369,7 +1371,7 @@
                     console.log("HDR Service error");
                 },
 	            function() {
-		            self.observableRTT.unsubscribe();
+		            self.oRTT.unsubscribe();
 		            self.clc = false;
 		            self.running = false;
 		            self.lE = false;
