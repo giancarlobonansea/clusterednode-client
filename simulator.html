@@ -16,9 +16,9 @@
 					</div>
 					<div class="col-xs-6 text-right">
 						<small>
-							Simulation method&nbsp;<span class="label label-info">{{getSimulationMethod()}}</span>
+							Simulation method&nbsp;<span class="label label-info">{{gSM()}}</span>
 							<span *ngIf="iDM()">
-								&nbsp;&nbsp;Nominal requests&nbsp;<span class="label label-info">{{getDurationRequests()}}</span>&nbsp;&nbsp;Nominal throughput&nbsp;<span class="label label-info">{{getDurationThroughput()}} req/s</span>
+								&nbsp;&nbsp;Nominal requests&nbsp;<span class="label label-info">{{gDR()}}</span>&nbsp;&nbsp;Nominal throughput&nbsp;<span class="label label-info">{{gDT()}} req/s</span>
 							</span>
 						</small>
 					</div>
@@ -286,7 +286,7 @@
 				<tbody>
 					<tr *ngFor="let hst of histogram">
 						<td class="text-center">
-							<small><strong>{{hst[0]}}% <i>(up to {{calcPosition(hst[0])}})</i></strong></small>
+							<small><strong>{{hst[0]}}% <i>(up to {{cP(hst[0])}})</i></strong></small>
 						</td>
 						<td class="text-center">
 							<small>{{hst[1] | number:'1.0-0'}} ms</small>
