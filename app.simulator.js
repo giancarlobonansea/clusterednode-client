@@ -1496,44 +1496,35 @@
         };
 		//// throwHTTPrequests
 		AppSimulator.prototype.tHr = function() {
-			var self     = this,
-			    ev       = new ng.core.EventEmitter(true),
-			    recurReq = function() {
-				    var idx                = self.tHrIdx,
-				        nextIdx            = idx + self.reqConn,
-				        observableRequests = Rx.Observable.forkJoin(self.rq[1].slice(idx, nextIdx)).subscribe(
-					        function(response) {
-						        self.oR(response);
-					        },
-					        function(error) {
-						        self.respErrors++;
-					        },
-					        function() {
-						        observableRequests.unsubscribe();
-						        observableRequests = undefined;
-						        self.duration = Date.now() - self.iniTime;
-						        self.tHrIdx += self.reqConn;
-						        if (self.respOK + self.respErrors >= self.reqCount) {
-							        ev.unsubscribe();
-							        self.sHr();
-						        }
-						        else {
-							        console.log('emitiu');
-							        ev.emit();
-							        //recurReq();
-						        }
-					        }
-				        );
-			    };
+			var self = this,
+			    ev   = new ng.core.EventEmitter(true);
 			self.tHrIdx = 0;
-			self.iniTime = Date.now();
-			ev.subscribe(function() {
-				console.log('capturou');
-				recurReq();
+			ev.subscribe(function(f) {
+				if (f) self.iniTime = Date.now();
+				var idx  = self.tHrIdx,
+				    nIdx = idx + self.reqConn,
+				    oR   = Rx.Observable.forkJoin(self.rq[1].slice(idx, nIdx)).subscribe(
+					    function(r) {
+						    self.oR(r);
+					    },
+					    function(error) {
+						    self.respErrors++;
+					    },
+					    function() {
+						    self.duration = Date.now() - self.iniTime;
+						    oR.unsubscribe();
+						    self.tHrIdx += self.reqConn;
+						    if (self.respOK + self.respErrors >= self.reqCount) {
+							    ev.unsubscribe();
+							    self.sHr();
+						    }
+						    else {
+							    ev.emit(false);
+						    }
+					    }
+				    );
 			});
-			console.log('emitiu');
-			ev.emit();
-			//recurReq();
+			ev.emit(true);
 		};
 		//// startSimulator
 		AppSimulator.prototype.sSi = function() {
