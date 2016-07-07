@@ -831,6 +831,7 @@
 				providers:    [
 					app.HTTPService,
 					ng.http.HTTP_PROVIDERS,
+					ng.platformBrowser.DomSanitizationService,
 					ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
 				],
 				directives: [nvD3]
