@@ -372,7 +372,7 @@
 </div>
 <!-- Balanced requests tables per node cluster -->
 <div class="row" *ngIf="!isRunning() && respOK!==0 && !showReference && !liveEvents">
-	<div class="col-xs-12 col-sm-6 col-md-3" *ngFor="let nodes of results">
+	<div class="col-xs-12 col-sm-6 col-md-3" *ngFor="let nodes of rs">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-server"></i>&nbsp;{{nodes[0]}}
