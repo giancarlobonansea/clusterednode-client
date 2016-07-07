@@ -1391,8 +1391,9 @@
 		};
 		AppSimulator.prototype.throwHTTPrequests = function() {
 			var self     = this,
-			    asyncReq = function(arr) {
-				    var observableRequests = Rx.Observable.forkJoin(arr).subscribe(
+			    recurReq = function(idx) {
+				    var nextIdx            = idx + self.reqConn,
+				        observableRequests = Rx.Observable.forkJoin(self.rq[1].slice(idx, nextIdx)).subscribe(
 					    function(response) {
 						    self.observableResponse(response);
 					    },
@@ -1405,17 +1406,14 @@
 						    if (self.respOK + self.respErrors >= self.reqCount) {
 							    self.stopHTTPrequests();
 						    }
+						    else {
+							    recurReq(nextIdx);
+						    }
 					    }
 				    );
 			    };
 			self.iniTime = Date.now();
-			for (var i = 0; i < self.reqCount; i += self.reqConn) {
-				var arrReq = [];
-				for (var j = 0; j < self.reqConn; j++) {
-					arrReq.push(self.rq[1][i + j]);
-				}
-				asyncReq(arrReq);
-			}
+			recurReq(arrReq, 0);
 		};
         AppSimulator.prototype.throwHTTPduration = function() {
             var self  = this,
