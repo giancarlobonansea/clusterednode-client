@@ -1122,26 +1122,27 @@
 
 		AppSimulator.prototype.calculateHistogram = function() {
 			this.resetChartsData();
-            this.disregard = Math.ceil(this.reqExecuted * 4.55 / 100.0);
-			this.dLo = Math.floor(this.disregard / 2);
-			this.dUp = this.reqExecuted - Math.ceil(this.disregard / 2) - 1;
+			var disregard = Math.ceil(this.reqExecuted * 4.55 / 100.0),
+			    dLo       = Math.floor(disregard / 2),
+			    dUp       = this.reqExecuted - Math.ceil(disregard / 2) - 1;
             //
             // Populate barchart as processed (no sorting)
             //
-			var self = this;
-			var setBcd = function(i, l, v) {
+			var self   = this,
+			    setBcd = function(i, l, v) {
 				self.bcd[i].values.push({
 					                        label: l,
 					                        value: v
 				                        });
-			};
-			for (var i = 0; i < this.rq[0].length; i++) {
-				var _hst  = this.rq[0][i].hst,
-				    _rtt  = this.rq[0][i].rtt,
-				    _tsn  = this.rq[0][i].tsn,
-				    _exts = this.rq[0][i].exts,
-				    _red  = this.rq[0][i].red,
-				    _rid  = this.rq[0][i].rid,
+			    },
+			    rq0    = this.rq[0];
+			for (var i = 0; i < rq0.length; i++) {
+				var _hst  = rq0[i].hst,
+				    _rtt  = rq0[i].rtt,
+				    _tsn  = rq0[i].tsn,
+				    _exts = rq0[i].exts,
+				    _red  = rq0[i].red,
+				    _rid  = rq0[i].rid,
 				    rtt2  = 0,
 				    rtt3  = 0,
 				    rtt5  = 0,
@@ -1205,28 +1206,30 @@
             // HDR by RTT (AngularJS time)
             //
             var hdrRTTpost = {"arr": []};
-			for (var n = 0; n < this.rq[0].length; n++) {
-				hdrRTTpost.arr.push(this.rq[0][n].rtt);
+			for (var n = 0; n < rq0.length; n++) {
+				hdrRTTpost.arr.push(rq0[n].rtt);
             }
             //
             // Sorting by RTT (AngularJS time)
             //
 			this.totReqAng = [0,0,0,0];
-			this.rq[0].sort(function(a, b) {return a.rtt - b.rtt});
-			for (i = 0; i < this.rq[0].length; i++) {
-				rtt2 = this.rq[0][i].hst === 0 ? this.rq[0][i].rtt : 0;
-				rtt3 = this.rq[0][i].hst === 1 ? this.rq[0][i].rtt : 0;
-				rtt5 = this.rq[0][i].hst === 2 ? this.rq[0][i].rtt : 0;
-				rtt6 = this.rq[0][i].hst === 3 ? this.rq[0][i].rtt : 0;
-				this.pcd2[0].y += ((i >= this.dLo) && (i <= this.dUp)) ? rtt2 : 0;
-				this.pcd2[1].y += ((i >= this.dLo) && (i <= this.dUp)) ? rtt3 : 0;
-				this.pcd2[2].y += ((i >= this.dLo) && (i <= this.dUp)) ? rtt5 : 0;
-				this.pcd2[3].y += ((i >= this.dLo) && (i <= this.dUp)) ? rtt6 : 0;
-				this.totReqAng[0] += ((this.rq[0][i].hst === 0) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
-				this.totReqAng[1] += ((this.rq[0][i].hst === 1) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
-				this.totReqAng[2] += ((this.rq[0][i].hst === 2) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
-				this.totReqAng[3] += ((this.rq[0][i].hst === 3) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
-				this.totAngular += ((i >= this.dLo) && (i <= this.dUp)) ? this.rq[0][i].rtt : 0;
+			rq0.sort(function(a, b) {return a.rtt - b.rtt});
+			for (i = 0; i < rq0.length; i++) {
+				var _hstR = rq0[i].hst,
+				    _rttR = rq0[i].rtt;
+				rtt2 = _hstR === 0 ? _rttR : 0;
+				rtt3 = _hstR === 1 ? _rttR : 0;
+				rtt5 = _hstR === 2 ? _rttR : 0;
+				rtt6 = _hstR === 3 ? _rttR : 0;
+				this.pcd2[0].y += ((i >= dLo) && (i <= dUp)) ? rtt2 : 0;
+				this.pcd2[1].y += ((i >= dLo) && (i <= dUp)) ? rtt3 : 0;
+				this.pcd2[2].y += ((i >= dLo) && (i <= dUp)) ? rtt5 : 0;
+				this.pcd2[3].y += ((i >= dLo) && (i <= dUp)) ? rtt6 : 0;
+				this.totReqAng[0] += ((_hstR === 0) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				this.totReqAng[1] += ((_hstR === 1) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				this.totReqAng[2] += ((_hstR === 2) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				this.totReqAng[3] += ((_hstR === 3) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				this.totAngular += ((i >= dLo) && (i <= dUp)) ? _rttR : 0;
 			}
 			this.pcd2[0].y = this.pcd2[0].y / this.totReqAng[0];
 			this.pcd2[1].y = this.pcd2[1].y / this.totReqAng[1];
@@ -1234,30 +1237,32 @@
 			this.pcd2[3].y = this.pcd2[3].y / this.totReqAng[3];
             this.tpAngular = Math.ceil(this.reqExecuted / (this.duration / 1000));
 			for (i = 0; i < this.histogram.length; i++) {
-				this.histogram[i][1] = this.rq[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].rtt;
+				this.histogram[i][1] = rq0[Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].rtt;
             }
 			//
 			// Sorting by TSN (nginX time)
 			//
 			this.totReqNgi = [0,0,0,0];
-			this.rq[0].sort(function(a, b) {return a.tsn - b.tsn});
+			rq0.sort(function(a, b) {return a.tsn - b.tsn});
 			for (i = 0; i < this.histogram.length; i++) {
-				this.histogram[i][2] = this.rq[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].tsn;
+				this.histogram[i][2] = rq0[Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].tsn;
             }
-			for (i = 0; i < this.rq[0].length; i++) {
-				tsn2 = this.rq[0][i].hst === 0 ? this.rq[0][i].tsn : 0;
-				tsn3 = this.rq[0][i].hst === 1 ? this.rq[0][i].tsn : 0;
-				tsn5 = this.rq[0][i].hst === 2 ? this.rq[0][i].tsn : 0;
-				tsn6 = this.rq[0][i].hst === 3 ? this.rq[0][i].tsn : 0;
-				this.pcd[0].y += ((i >= this.dLo) && (i <= this.dUp)) ? tsn2 : 0;
-				this.pcd[1].y += ((i >= this.dLo) && (i <= this.dUp)) ? tsn3 : 0;
-				this.pcd[2].y += ((i >= this.dLo) && (i <= this.dUp)) ? tsn5 : 0;
-				this.pcd[3].y += ((i >= this.dLo) && (i <= this.dUp)) ? tsn6 : 0;
-				this.totReqNgi[0] += ((this.rq[0][i].hst === 0) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
-				this.totReqNgi[1] += ((this.rq[0][i].hst === 1) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
-				this.totReqNgi[2] += ((this.rq[0][i].hst === 2) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
-				this.totReqNgi[3] += ((this.rq[0][i].hst === 3) && (i >= this.dLo) && (i <= this.dUp)) ? 1 : 0;
-				this.totNginx += ((i >= this.dLo) && (i <= this.dUp)) ? this.rq[0][i].tsn : 0;
+			for (i = 0; i < rq0.length; i++) {
+				var _hstT = rq0[i].hst,
+				    _tsnT = rq0[i].tsn;
+				tsn2 = _hstT === 0 ? _tsnT : 0;
+				tsn3 = _hstT === 1 ? _tsnT : 0;
+				tsn5 = _hstT === 2 ? _tsnT : 0;
+				tsn6 = _hstT === 3 ? _tsnT : 0;
+				this.pcd[0].y += ((i >= dLo) && (i <= dUp)) ? tsn2 : 0;
+				this.pcd[1].y += ((i >= dLo) && (i <= dUp)) ? tsn3 : 0;
+				this.pcd[2].y += ((i >= dLo) && (i <= dUp)) ? tsn5 : 0;
+				this.pcd[3].y += ((i >= dLo) && (i <= dUp)) ? tsn6 : 0;
+				this.totReqNgi[0] += ((_hstT === 0) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				this.totReqNgi[1] += ((_hstT === 1) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				this.totReqNgi[2] += ((_hstT === 2) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				this.totReqNgi[3] += ((_hstT === 3) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
+				this.totNginx += ((i >= dLo) && (i <= dUp)) ? _tsnT : 0;
 			}
 			this.pcd[0].y = this.pcd[0].y / this.totReqNgi[0];
 			this.pcd[1].y = this.pcd[1].y / this.totReqNgi[1];
@@ -1267,23 +1272,23 @@
 			//
 			// Sort by EXTS (nodeJS time)
 			//
-			this.rq[0].sort(function(a, b) {return a.exts - b.exts});
+			rq0.sort(function(a, b) {return a.exts - b.exts});
 			for (i = 0; i < this.histogram.length; i++) {
-				this.histogram[i][3] = this.rq[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].exts;
+				this.histogram[i][3] = rq0[Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].exts;
             }
-			for (i = 0; i < this.rq[0].length; i++) {
-				this.totNode += ((i >= this.dLo) && (i <= this.dUp)) ? this.rq[0][i].exts : 0;
+			for (i = 0; i < rq0.length; i++) {
+				this.totNode += ((i >= dLo) && (i <= dUp)) ? rq0[i].exts : 0;
 			}
             this.tpNode = Math.ceil(this.tpNginx * this.totNginx / this.totNode);
             //
             // Sort by RED (redis.io time)
             //
-			this.rq[0].sort(function(a, b) {return a.red - b.red});
+			rq0.sort(function(a, b) {return a.red - b.red});
             for (i = 0; i < this.histogram.length; i++) {
-	            this.histogram[i][4] = this.rq[0][Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].red;
+	            this.histogram[i][4] = rq0[Math.ceil(this.reqExecuted * this.histogram[i][0] / 100) - 1].red;
             }
-			for (i = 0; i < this.rq[0].length; i++) {
-				this.totRedis += ((i >= this.dLo) && (i <= this.dUp)) ? this.rq[0][i].red : 0;
+			for (i = 0; i < rq0.length; i++) {
+				this.totRedis += ((i >= dLo) && (i <= dUp)) ? rq0[i].red : 0;
             }
             this.tpRedis = Math.ceil(this.tpNode * this.totNode / this.totRedis);
             //
