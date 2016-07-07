@@ -166,7 +166,7 @@
 			                   0,
 			                   0]];
 			this.sR = false;
-			this.calculating = false;
+			this.clc = false;
 			this.oT = [0,
 			           0,
 			           0,
@@ -400,11 +400,11 @@
 			           2,
 			           3];
 			this.urlHDR = this.baseUrl + ':33333/hdr';
-			this.duration = 0;
+			this.dur = 0;
 		};
 		//// resetExecutionScopeVariables
 		AppSimulator.prototype.rESV = function() {
-			this.duration = 0;
+			this.dur = 0;
 			this.rq = [[],
 			           [],
 			           []];
@@ -416,7 +416,7 @@
 			                 []],
 			           [this.PI6,
 			                 []]];
-			this.nodeIdx = {
+			this.nix = {
 				"raspberrypi2": [0,
 				                 0],
 				"raspberrypi3": [1,
@@ -426,42 +426,41 @@
 				"raspberrypi6": [3,
 				                 0]
 			};
-			this.pidIdx = {
+			this.pix = {
 				"raspberrypi2": {},
 				"raspberrypi3": {},
 				"raspberrypi5": {},
 				"raspberrypi6": {}
 			};
-			this.cachedResp = [];
-			this.observableRequests = undefined;
+			this.chRe = [];
 		};
 		//// saveExecutionParametersCopy
 		AppSimulator.prototype.sEPC = function() {
-			this.execMode = this.gSM();
-			this.execReq = this.rqCt;
-			this.execDuration = this.rqDu;
-			this.execInterval = this.rqIn;
-			this.execConn = this.rqCn;
-			this.execMaxReq = this.gDR();
+			this.exM = this.gSM();
+			this.exR = this.rqCt;
+			this.exD = this.rqDu;
+			this.exI = this.rqIn;
+			this.exC = this.rqCn;
+			this.exmR = this.gDR();
 		};
 		//// initStatisticsVariables
 		AppSimulator.prototype.iSV = function() {
-			this.tpAngular = 0;
-			this.tpNginx = 0;
-			this.tpNode = 0;
-			this.tpRedis = 0;
+			this.tpA = 0;
+			this.tpX = 0;
+			this.tpN = 0;
+			this.tpR = 0;
 		};
 		//// resetStatisticsVariables
 		AppSimulator.prototype.rSV = function() {
 			this.iSV();
-			this.totAngular = 0;
-			this.totNginx = 0;
-			this.totNode = 0;
-			this.totRedis = 0;
+			this.toA = 0;
+			this.toX = 0;
+			this.toN = 0;
+			this.toR = 0;
 		};
 		//// resetLiveEventsMatrix
 		AppSimulator.prototype.rLEM = function() {
-			this.evMatrix = [
+			this.leMx = [
 				[0,
 				 0,
 				 0,
@@ -979,14 +978,14 @@
 		//// initLiveEvents
 		AppSimulator.prototype.iLE = function() {
 			this.rLEM();
-			var ioMtx = this;
-			io(this.baseUrl + ':33331').on('redis', function(data) {
-				if (ioMtx.evMatrix[data.x][data.y] !== 3) {
-					var x = data.x,
-					    y = data.y;
-					ioMtx.evMatrix[x][y] = 3;
+			var self = this;
+			io(this.baseUrl + ':33331').on('redis', function(d) {
+				if (self.leMx[d.x][d.y] !== 3) {
+					var x = d.x,
+					    y = d.y;
+					self.leMx[x][y] = 3;
 					setTimeout(function() {
-						ioMtx.evMatrix[x][y] = (((x * 32) + y) * 16 / 2731) | 0;
+						self.leMx[x][y] = (((x * 32) + y) * 16 / 2731) | 0;
 					}, 500);
 				}
 			});
@@ -1066,11 +1065,11 @@
         };
 		//// usedDurationMethod
 		AppSimulator.prototype.uDM = function() {
-            return this.execMode === 'STABILITY';
+			return this.exM === 'STABILITY';
         };
 		//// usedRequestMethod
 		AppSimulator.prototype.uRM = function() {
-            return this.execMode === 'STRESS';
+			return this.exM === 'STRESS';
         };
 		//// getSimulationMethod
 		AppSimulator.prototype.gSM = function() {
@@ -1267,13 +1266,13 @@
 				this.totReqAng[1] += ((_hstR === 1) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
 				this.totReqAng[2] += ((_hstR === 2) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
 				this.totReqAng[3] += ((_hstR === 3) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				this.totAngular += ((i >= dLo) && (i <= dUp)) ? _rttR : 0;
+				this.toA += ((i >= dLo) && (i <= dUp)) ? _rttR : 0;
 			}
 			this.pcd2[0].y = this.pcd2[0].y / this.totReqAng[0];
 			this.pcd2[1].y = this.pcd2[1].y / this.totReqAng[1];
 			this.pcd2[2].y = this.pcd2[2].y / this.totReqAng[2];
 			this.pcd2[3].y = this.pcd2[3].y / this.totReqAng[3];
-            this.tpAngular = Math.ceil(this.reqExecuted / (this.duration / 1000));
+			this.tpA = Math.ceil(this.reqExecuted / (this.dur / 1000));
 			for (i = 0; i < this.hg.length; i++) {
 				this.hg[i][1] = rq0[Math.ceil(this.reqExecuted * this.hg[i][0] / 100) - 1].rtt;
             }
@@ -1300,13 +1299,13 @@
 				this.totReqNgi[1] += ((_hstT === 1) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
 				this.totReqNgi[2] += ((_hstT === 2) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
 				this.totReqNgi[3] += ((_hstT === 3) && (i >= dLo) && (i <= dUp)) ? 1 : 0;
-				this.totNginx += ((i >= dLo) && (i <= dUp)) ? _tsnT : 0;
+				this.toX += ((i >= dLo) && (i <= dUp)) ? _tsnT : 0;
 			}
 			this.pcd[0].y = this.pcd[0].y / this.totReqNgi[0];
 			this.pcd[1].y = this.pcd[1].y / this.totReqNgi[1];
 			this.pcd[2].y = this.pcd[2].y / this.totReqNgi[2];
 			this.pcd[3].y = this.pcd[3].y / this.totReqNgi[3];
-            this.tpNginx = Math.ceil(this.tpAngular * this.totAngular / this.totNginx);
+			this.tpX = Math.ceil(this.tpA * this.toA / this.toX);
 			//
 			// Sort by EXTS (nodeJS time)
 			//
@@ -1315,9 +1314,9 @@
 				this.hg[i][3] = rq0[Math.ceil(this.reqExecuted * this.hg[i][0] / 100) - 1].exts;
             }
 			for (i = 0; i < rq0.length; i++) {
-				this.totNode += ((i >= dLo) && (i <= dUp)) ? rq0[i].exts : 0;
+				this.toN += ((i >= dLo) && (i <= dUp)) ? rq0[i].exts : 0;
 			}
-            this.tpNode = Math.ceil(this.tpNginx * this.totNginx / this.totNode);
+			this.tpN = Math.ceil(this.tpX * this.toX / this.toN);
             //
             // Sort by RED (redis.io time)
             //
@@ -1326,9 +1325,9 @@
 				this.hg[i][4] = rq0[Math.ceil(this.reqExecuted * this.hg[i][0] / 100) - 1].red;
             }
 			for (i = 0; i < rq0.length; i++) {
-				this.totRedis += ((i >= dLo) && (i <= dUp)) ? rq0[i].red : 0;
+				this.toR += ((i >= dLo) && (i <= dUp)) ? rq0[i].red : 0;
             }
-            this.tpRedis = Math.ceil(this.tpNode * this.totNode / this.totRedis);
+			this.tpR = Math.ceil(this.tpN * this.toN / this.toR);
             //
             // Calculating HDR Histogram
             //
@@ -1358,12 +1357,12 @@
                 function() {
                     selfRTT.observableRTT.unsubscribe();
                     selfRTT.observableRTT = undefined;
-	                selfRTT.calculating = false;
+	                selfRTT.clc = false;
                     selfRTT.running = false;
 	                selfRTT.lE = false;
                 }
             );
-            ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpAngular);
+			ga('send', 'event', 'Simulation', 'Execution', 'Throughput', this.tpA);
         };
 		//// observableResponse
 		AppSimulator.prototype.oR = function(response) {
@@ -1371,7 +1370,7 @@
 				var res = response[k],
 				    req = res.reqId,
 				    hst = res.json.hostname,
-				    ndx = this.nodeIdx[hst][0],
+				    ndx = this.nix[hst][0],
 				    cch = res.cached;
 				this.rq[0][req] = {
 					rid:    'Request ' + ((req | 0) + 1),
@@ -1385,21 +1384,21 @@
 				++this.rOK;
 				if (cch) {
 					this.rqCh++;
-					this.cachedResp.push(this.rOK);
+					this.chRe.push(this.rOK);
 				}
 				else {
 					var pid  = res.json.pid,
 					    oper = this.rq[2][req];
-					if (!(pid in this.pidIdx[hst])) {
+					if (!(pid in this.pix[hst])) {
 						this.rs[ndx][1].push([pid,
 						                      [[],
 						                            [],
 						                            [],
 						                            []]]);
-						this.pidIdx[hst][pid] = this.rs[ndx][1].length - 1;
+						this.pix[hst][pid] = this.rs[ndx][1].length - 1;
 					}
-					this.rs[ndx][1][this.pidIdx[hst][pid]][1][oper].push(this.rOK);
-					this.nodeIdx[hst][1]++;
+					this.rs[ndx][1][this.pix[hst][pid]][1][oper].push(this.rOK);
+					this.nix[hst][1]++;
 				}
 				this.countResponses++;
 			}
@@ -1417,7 +1416,7 @@
 		};
 		//// startStatistics
 		AppSimulator.prototype.sSt = function() {
-			this.calculating = true;
+			this.clc = true;
 			var selfStop = this;
 			setTimeout(function() {
 				selfStop.cH();
@@ -1448,7 +1447,7 @@
 		            var nextIdx             = reqId + self.rqCn,
 	                    observableRequestsA = Rx.Observable.forkJoin(self.rq[1].slice(reqId, nextIdx)).subscribe(
                         function(response) {
-                            self.duration = Date.now() - self.iniTime;
+	                        self.dur = Date.now() - self.iniTime;
 	                        if (self.countResponses < self.rqCt) {
 	                            self.oR(response);
                             }
@@ -1457,7 +1456,7 @@
                             }
                         },
                         function(error) {
-                            self.duration = Date.now() - self.iniTime;
+	                        self.dur = Date.now() - self.iniTime;
 	                        if (self.countResponses < self.rqCt) {
 		                        self.rER++;
                                 self.countResponses++;
@@ -1467,7 +1466,7 @@
                             }
                         },
                         function() {
-                            if (!self.timerRunning && !self.calculating && self.countRequests === self.countResponses) {
+	                        if (!self.timerRunning && !self.clc && self.countRequests === self.countResponses) {
 	                            self.sHd();
                             }
                             observableRequestsA.unsubscribe();
@@ -1477,7 +1476,7 @@
 		            reqId += self.rqCn;
                 }
                 else {
-                    if (!self.calculating && self.countRequests === self.countResponses) {
+		            if (!self.clc && self.countRequests === self.countResponses) {
 	                    self.sHd();
                     }
 	                if (observableRequestsA) {
@@ -1511,7 +1510,7 @@
 						    self.rER++;
 					    },
 					    function() {
-						    self.duration = Date.now() - self.iniTime;
+						    self.dur = Date.now() - self.iniTime;
 						    oR.unsubscribe();
 						    self.tHrIdx += self.rqCn;
 						    if (self.rOK + self.rER >= self.rqCt) {
