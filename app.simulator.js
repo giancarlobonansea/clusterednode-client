@@ -57,7 +57,41 @@
 			      R: 0,
 			      //cached = C
 			      C: false
-		      };
+		      },
+		      _a_PRE  = [
+			      [[0,
+			        5,
+			        50,
+			        4],
+			       [100,
+			        0,
+			        0,
+			        2]],
+			      [[0,
+			        10,
+			        30,
+			        4],
+			       [512,
+			        0,
+			        0,
+			        16]],
+			      [[0,
+			        30,
+			        25,
+			        4],
+			       [1024,
+			        0,
+			        0,
+			        64]],
+			      [[0,
+			        60,
+			        25,
+			        8],
+			       [2048,
+			        0,
+			        0,
+			        128]]
+		      ];
 		//// Constructor
 		function AppSimulator (HTTPService, DOMSanitizer) {
 			//
@@ -627,57 +661,33 @@
 		//
 		// UI related methods
 		//
+		//// setMethodParameters
+		AppSimulator.sMP = function(p) {
+			var m = this.iD ? 0 : 1;
+			this.rqCt = _a_PRE[p][m][0];
+			this.rqDu = _a_PRE[p][m][1];
+			this.rqIn = _a_PRE[p][m][2];
+			this.rqCn = _a_PRE[p][m][3];
+		};
 		//// setSmall
 		AppSimulator.prototype.sS = function() {
-			if (this.iD) {
-				this.rqDu = 5;
-				this.rqIn = 50;
-				this.rqCn = 4;
-            }
-            else {
-				this.rqCt = 100;
-				this.rqCn = 2;
-            }
-			sGA(_s_SIM, _s_CFG, 'Small Preset', 0);
+			this.sMP(0);
+			sGA(_s_SIM, _s_CFG, 'Small', 0);
 		};
 		//// setMedium
 		AppSimulator.prototype.sM = function() {
-			if (this.iD) {
-				this.rqDu = 10;
-				this.rqIn = 30;
-				this.rqCn = 4;
-            }
-            else {
-				this.rqCt = 512;
-				this.rqCn = 16;
-            }
-			sGA(_s_SIM, _s_CFG, 'Medium Preset', 0);
+			this.sMP(1);
+			sGA(_s_SIM, _s_CFG, 'Medium', 0);
         };
 		//// setLarge
 		AppSimulator.prototype.sL = function() {
-			if (this.iD) {
-				this.rqDu = 30;
-				this.rqIn = 25;
-				this.rqCn = 4;
-            }
-            else {
-				this.rqCt = 1024;
-				this.rqCn = 64;
-            }
-			sGA(_s_SIM, _s_CFG, 'Large Preset', 0);
+			this.sMP(2);
+			sGA(_s_SIM, _s_CFG, 'Large', 0);
         };
 		//// setHuge
 		AppSimulator.prototype.sH = function() {
-			if (this.iD) {
-				this.rqDu = 60;
-				this.rqIn = 25;
-				this.rqCn = 8;
-            }
-            else {
-				this.rqCt = 2048;
-				this.rqCn = 128;
-            }
-			sGA(_s_SIM, _s_CFG, 'Huge Preset', 0);
+			this.sMP(3);
+			sGA(_s_SIM, _s_CFG, 'Huge', 0);
         };
 		//// setDuration
 		AppSimulator.prototype.sD = function() {
