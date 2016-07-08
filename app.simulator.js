@@ -1172,71 +1172,39 @@
 				    _exts = rq0[i].N,
 				    _red  = rq0[i].R,
 				    _rid  = rq0[i].Q,
-				    rtt2  = 0,
-				    rtt3  = 0,
-				    rtt5  = 0,
-				    rtt6  = 0,
-				    tsn2  = 0,
-				    tsn3  = 0,
-				    tsn5  = 0,
-				    tsn6  = 0,
-				    exts2 = 0,
-				    exts3 = 0,
-				    exts5 = 0,
-				    exts6 = 0,
-				    red2  = 0,
-				    red3  = 0,
-				    red5  = 0,
-				    red6  = 0;
-				switch (_hst) {
-					case 0:
-						rtt2 = _rtt;
-						tsn2 = _tsn;
-						exts2 = _exts;
-						red2 = _red;
-						break;
-					case 1:
-						rtt3 = _rtt;
-						tsn3 = _tsn;
-						exts3 = _exts;
-						red3 = _red;
-						break;
-					case 2:
-						rtt5 = _rtt;
-						tsn5 = _tsn;
-						exts5 = _exts;
-						red5 = _red;
-						break;
-					case 3:
-						rtt6 = _rtt;
-						tsn6 = _tsn;
-						exts6 = _exts;
-						red6 = _red;
-						break;
+				    rtt   = [0,
+				             0,
+				             0,
+				             0],
+				    tsn   = [0,
+				             0,
+				             0,
+				             0],
+				    exts  = [0,
+				             0,
+				             0,
+				             0],
+				    red   = [0,
+				             0,
+				             0,
+				             0];
+				rtt[_hst] = _rtt;
+				tsn[_hst] = _tsn;
+				exts[_hst] = _exts;
+				red[_hst] = _red;
+				for (i = 0; i < 4; i++) {
+					setBcd(i, _rid, Math.ceil(red[i]));
+					setBcd(i + 4, _rid, Math.ceil(exts[i] - red[i]));
+					setBcd(i + 8, _rid, Math.floor(tsn[i] - exts[i]));
+					setBcd(i + 12, _rid, rtt[i] - tsn[i]);
 				}
-				setBcd(0, _rid, Math.ceil(red2));
-				setBcd(1, _rid, Math.ceil(red3));
-				setBcd(2, _rid, Math.ceil(red5));
-				setBcd(3, _rid, Math.ceil(red6));
-				setBcd(4, _rid, Math.ceil(exts2 - red2));
-				setBcd(5, _rid, Math.ceil(exts3 - red3));
-				setBcd(6, _rid, Math.ceil(exts5 - red5));
-				setBcd(7, _rid, Math.ceil(exts6 - red6));
-				setBcd(8, _rid, Math.floor(tsn2 - exts2));
-				setBcd(9, _rid, Math.floor(tsn3 - exts3));
-				setBcd(10, _rid, Math.floor(tsn5 - exts5));
-				setBcd(11, _rid, Math.floor(tsn6 - exts6));
-				setBcd(12, _rid, rtt2 - tsn2);
-				setBcd(13, _rid, rtt3 - tsn3);
-				setBcd(14, _rid, rtt5 - tsn5);
-				setBcd(15, _rid, rtt6 - tsn6);
             }
             //
             // HDR by RTT (AngularJS time)
             //
-            var hdrRTTpost = {"arr": []};
+			var hdPD = {arr: []};
 			for (var n = 0; n < rq0.length; n++) {
-				hdrRTTpost.arr.push(rq0[n].A);
+				hdPD.arr.push(rq0[n].A);
             }
 			//
 			// Helpers
@@ -1261,24 +1229,16 @@
 			for (i = 0; i < rq0.length; i++) {
 				var _hstR = rq0[i].H,
 				    _rttR = rq0[i].A;
-				rtt2 = byH(_hstR, 0, _rttR);
-				rtt3 = byH(_hstR, 1, _rttR);
-				rtt5 = byH(_hstR, 2, _rttR);
-				rtt6 = byH(_hstR, 3, _rttR);
-				this.pcd2[0].y += inSD(i, rtt2);
-				this.pcd2[1].y += inSD(i, rtt3);
-				this.pcd2[2].y += inSD(i, rtt5);
-				this.pcd2[3].y += inSD(i, rtt6);
-				totReqAng[0] += inSDbyH(_hstR, 0, i, 1);
-				totReqAng[1] += inSDbyH(_hstR, 1, i, 1);
-				totReqAng[2] += inSDbyH(_hstR, 2, i, 1);
-				totReqAng[3] += inSDbyH(_hstR, 3, i, 1);
+				for (var j = 0; j < 4; j++) {
+					rtt[j] = byH(_hstR, j, _rttR);
+					this.pcd2[j].y += inSD(i, rtt[j]);
+					totReqAng[j] += inSDbyH(_hstR, j, i, 1);
+				}
 				this.toA += inSD(i, _rttR);
 			}
-			this.pcd2[0].y /= totReqAng[0];
-			this.pcd2[1].y /= totReqAng[1];
-			this.pcd2[2].y /= totReqAng[2];
-			this.pcd2[3].y /= totReqAng[3];
+			for (i = 0; i < 4; i++) {
+				this.pcd2[i].y /= totReqAng[i];
+			}
 			this.tpA = Math.ceil(this.rqEx / (this.dur / 1000));
 			for (i = 0; i < this.hg.length; i++) {
 				this.hg[i][1] = rq0[Math.ceil(this.rqEx * this.hg[i][0] / 100) - 1].A;
@@ -1297,24 +1257,16 @@
 			for (i = 0; i < rq0.length; i++) {
 				var _hstT = rq0[i].H,
 				    _tsnT = rq0[i].X;
-				tsn2 = byH(_hstT, 0, _tsnT);
-				tsn3 = byH(_hstT, 1, _tsnT);
-				tsn5 = byH(_hstT, 2, _tsnT);
-				tsn6 = byH(_hstT, 3, _tsnT);
-				this.pcd[0].y += inSD(i, tsn2);
-				this.pcd[1].y += inSD(i, tsn3);
-				this.pcd[2].y += inSD(i, tsn5);
-				this.pcd[3].y += inSD(i, tsn6);
-				totReqNgi[0] += inSDbyH(_hstT, 0, i, 1);
-				totReqNgi[1] += inSDbyH(_hstT, 1, i, 1);
-				totReqNgi[2] += inSDbyH(_hstT, 2, i, 1);
-				totReqNgi[3] += inSDbyH(_hstT, 3, i, 1);
+				for (j = 0; j < 4; j++) {
+					tsn[j] = byH(_hstT, j, _tsnT);
+					this.pcd[j].y += inSD(i, tsn[j]);
+					totReqNgi[j] += inSDbyH(_hstT, j, i, 1);
+				}
 				this.toX += inSD(i, _tsnT);
 			}
-			this.pcd[0].y /= totReqNgi[0];
-			this.pcd[1].y /= totReqNgi[1];
-			this.pcd[2].y /= totReqNgi[2];
-			this.pcd[3].y /= totReqNgi[3];
+			for (i = 0; i < 4; i++) {
+				this.pcd[i].y /= totReqNgi[i];
+			}
 			this.tpX = Math.ceil(this.tpA * this.toA / this.toX);
 			//
 			// Sort by EXTS (nodeJS time)
@@ -1347,7 +1299,7 @@
 			};
 			this.lcd[0].values = [];
 			this.lcd[1].values = [];
-			this.oRTT = this.hS.post(_s_HURL, JSON.stringify(hdrRTTpost)).subscribe(
+			this.oRTT = this.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
 	            function(re) {
 		            hdrAr = re;
 		            self.rq[0].sort(function(a, b) {return a.A - b.A});
