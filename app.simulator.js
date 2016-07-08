@@ -638,8 +638,8 @@
 					    y = d.y;
 					self.leMx[x][y] = 3;
 					setTimeout(function() {
-						self.leMx[x][y] = (((x * 32) + y) * 16 / 2731) | 0;
-					}, 500);
+						self.leMx[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
+					}, 1000);
 				}
 			});
 		};
