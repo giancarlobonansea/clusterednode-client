@@ -753,11 +753,11 @@
 		};
 		//// percValue
 		AppSimulator.prototype.pV = function() {
-			return Math.ceil(this.rOK * 100 / this.rqCt);
+			return ((this.rOK * 100 / this.rqCt) | 0) + 1;
 		};
 		//// calcPosition
 		AppSimulator.prototype.cP = function(h) {
-			return Math.ceil(this.rOK * h / 100);
+			return ((this.rOK * h / 100) | 0) + 1;
 		};
 		//// getDurationRequests
 		AppSimulator.prototype.gDR = function() {
@@ -797,9 +797,9 @@
 		AppSimulator.prototype.cH = function() {
 			this.lE = false;
 			this.rCD();
-			var dr     = Math.ceil(this.rqEx * 4.55 / 100.0),
+			var dr     = ((this.rqEx * 0.0455) | 0) + 1,
 			    dLo    = (dr / 2) | 0,
-			    dUp    = this.rqEx - Math.ceil(dr / 2) - 1,
+			    dUp    = this.rqEx - dLo,
 			    self   = this,
 			    setBcd = function(i, l, v) {
 				    self.bcd[i].values.push({
@@ -835,8 +835,8 @@
 				exts[_hst] = rq0[i].N;
 				red[_hst] = rq0[i].R;
 				for (var j = 0; j < 4; j++) {
-					setBcd(j, _rid, Math.ceil(red[j]));
-					setBcd(j + 4, _rid, Math.ceil(exts[j] - red[j]));
+					setBcd(j, _rid, (red[j] | 0) + 1);
+					setBcd(j + 4, _rid, ((exts[j] - red[j]) | 0) + 1);
 					setBcd(j + 8, _rid, (tsn[j] - exts[j]) | 0);
 					setBcd(j + 12, _rid, rtt[j] - tsn[j]);
 				}
@@ -881,9 +881,9 @@
 			for (i = 0; i < 4; i++) {
 				this.pcd2[i].y /= totReqAng[i];
 			}
-			this.tpA = Math.ceil(this.rqEx / (this.dur / 1000));
+			this.tpA = ((this.rqEx / (this.dur / 1000)) | 0) + 1;
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][1] = rq0[Math.ceil(this.rqEx * this.hg[i][0] / 100) - 1].A;
+				this.hg[i][1] = rq0[(this.rqEx * this.hg[i][0] / 100) | 0].A;
             }
 			//
 			// Sorting by TSN (nginX time)
@@ -894,7 +894,7 @@
 			                 0];
 			rq0.sort(function(a, b) {return a.X - b.X});
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][2] = rq0[Math.ceil(this.rqEx * this.hg[i][0] / 100) - 1].X;
+				this.hg[i][2] = rq0[(this.rqEx * this.hg[i][0] / 100) | 0].X;
             }
 			for (i = 0; i < rq0.length; i++) {
 				var _hstT = rq0[i].H,
@@ -909,29 +909,29 @@
 			for (i = 0; i < 4; i++) {
 				this.pcd[i].y /= totReqNgi[i];
 			}
-			this.tpX = Math.ceil(this.tpA * this.toA / this.toX);
+			this.tpX = ((this.tpA * this.toA / this.toX) | 0) + 1;
 			//
 			// Sort by EXTS (nodeJS time)
 			//
 			rq0.sort(function(a, b) {return a.N - b.N});
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][3] = rq0[Math.ceil(this.rqEx * this.hg[i][0] / 100) - 1].N;
+				this.hg[i][3] = rq0[(this.rqEx * this.hg[i][0] / 100) | 0].N;
             }
 			for (i = 0; i < rq0.length; i++) {
 				this.toN += inSD(i, rq0[i].N);
 			}
-			this.tpN = Math.ceil(this.tpX * this.toX / this.toN);
+			this.tpN = ((this.tpX * this.toX / this.toN) | 0) + 1;
             //
             // Sort by RED (redis.io time)
             //
 			rq0.sort(function(a, b) {return a.R - b.R});
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][4] = rq0[Math.ceil(this.rqEx * this.hg[i][0] / 100) - 1].R;
+				this.hg[i][4] = rq0[(this.rqEx * this.hg[i][0] / 100) | 0].R;
             }
 			for (i = 0; i < rq0.length; i++) {
 				this.toR += inSD(i, rq0[i].R);
             }
-			this.tpR = Math.ceil(this.tpN * this.toN / this.toR);
+			this.tpR = ((this.tpN * this.toN / this.toR) | 0) + 1;
             //
             // Calculating HDR Histogram
             //
