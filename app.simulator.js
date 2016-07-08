@@ -776,8 +776,8 @@
             return this.running;
 		};
 		//// getRandomOperation
-		var gRO = function(t) {
-			return t[(Math.random() * 10) | 0];
+		AppSimulator.prototype.gRO = function() {
+			return this.oP[(Math.random() * 10) | 0];
 		};
 		//// getRandomDBRecord
 		var gRD = function() {
@@ -786,7 +786,7 @@
 		//// populateRequestSamples
 		AppSimulator.prototype.pRS = function() {
 			for (var q = 0; q < this.rqCt; q++) {
-				var o = gRO(this.oP);
+				var o = this.gRO();
 				this.oT[o]++;
 				this.rq[0].push(_j_ERE);
 				this.rq[1].push(this.hS.get(q, _s_AURL, o, gRD()));
@@ -989,10 +989,9 @@
 					R: res.R,
 					C: cch
 				};
-				++this.rOK;
 				if (cch) {
 					this.rqCh++;
-					this.chRe.push(this.rOK);
+					this.chRe.push(++this.rOK);
 				}
 				else {
 					var pid = res.json.pid,
@@ -1005,7 +1004,7 @@
 						                            []]]);
 						this.pix[hst][pid] = this.rs[ndx][1].length - 1;
 					}
-					this.rs[ndx][1][this.pix[hst][pid]][1][o].push(this.rOK);
+					this.rs[ndx][1][this.pix[hst][pid]][1][o].push(++this.rOK);
 					this.nix[hst][1]++;
 				}
 			}
@@ -1014,9 +1013,7 @@
 		AppSimulator.prototype.sSt = function() {
 			this.clc = true;
 			var self = this;
-			setTimeout(function() {
-				self.cH();
-			}, 10);
+			setTimeout(function() {self.cH();});
 		};
 		//// throwHTTPduration
 		AppSimulator.prototype.tHd = function(rqCt, rqCn, rqDu, rqIn) {
@@ -1060,11 +1057,11 @@
 			//
 			// Initialize execution
 			//
-	        self.iniTime = Date.now();
-            setTimeout(function() {
-	            tmR = false;
-            }, rqDu * 1000);
-			inF();
+			self.iniTime = Date.now();
+			setTimeout(function() {
+				tmR = false;
+			}, (rqDu * 1000) + 10);
+			setTimeout(function() {inF()});
 			var inH = setInterval(function() {inF()}, rqIn);
         };
 		//// throwHTTPrequests
