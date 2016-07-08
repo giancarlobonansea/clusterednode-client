@@ -796,13 +796,10 @@
 		//// calculateHistogram
 		AppSimulator.prototype.cH = function() {
 			this.rCD();
-			var dr  = Math.ceil(this.rqEx * 4.55 / 100.0),
-			    dLo = Math.floor(dr / 2),
-			    dUp = this.rqEx - Math.ceil(dr / 2) - 1;
-            //
-            // Populate barchart as processed (no sorting)
-            //
-			var self   = this,
+			var dr     = Math.ceil(this.rqEx * 4.55 / 100.0),
+			    dLo    = (dr / 2) | 0,
+			    dUp    = this.rqEx - Math.ceil(dr / 2) - 1,
+			    self   = this,
 			    setBcd = function(i, l, v) {
 				    self.bcd[i].values.push({
 					                        label: l,
@@ -810,12 +807,11 @@
 				                        });
 			    },
 			    rq0    = this.rq[0];
+			//
+			// Populate barchart as processed (no sorting)
+			//
 			for (var i = 0; i < rq0.length; i++) {
 				var _hst  = rq0[i].H,
-				    _rtt  = rq0[i].A,
-				    _tsn  = rq0[i].X,
-				    _exts = rq0[i].N,
-				    _red  = rq0[i].R,
 				    _rid  = rq0[i].Q,
 				    rtt   = [0,
 				             0,
@@ -833,14 +829,14 @@
 				             0,
 				             0,
 				             0];
-				rtt[_hst] = _rtt;
-				tsn[_hst] = _tsn;
-				exts[_hst] = _exts;
-				red[_hst] = _red;
+				rtt[_hst] = rq0[i].A;
+				tsn[_hst] = rq0[i].X;
+				exts[_hst] = rq0[i].N;
+				red[_hst] = rq0[i].R;
 				for (var j = 0; j < 4; j++) {
 					setBcd(j, _rid, Math.ceil(red[j]));
 					setBcd(j + 4, _rid, Math.ceil(exts[j] - red[j]));
-					setBcd(j + 8, _rid, Math.floor(tsn[j] - exts[j]));
+					setBcd(j + 8, _rid, (tsn[j] - exts[j]) | 0);
 					setBcd(j + 12, _rid, rtt[j] - tsn[j]);
 				}
             }
