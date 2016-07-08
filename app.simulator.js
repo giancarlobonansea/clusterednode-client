@@ -662,7 +662,7 @@
 		// UI related methods
 		//
 		//// setMethodParameters
-		AppSimulator.sMP = function(p) {
+		AppSimulator.prototype.sMP = function(p) {
 			var m = this.iD ? 0 : 1;
 			this.rqCt = _a_PRE[p][m][0];
 			this.rqDu = _a_PRE[p][m][1];
