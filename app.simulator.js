@@ -1059,17 +1059,9 @@
 		AppSimulator.prototype.iDM = function() {
 			return this.iD;
         };
-		//// isRequestMethod
-		AppSimulator.prototype.iRM = function() {
-			return !this.iD;
-        };
 		//// usedDurationMethod
 		AppSimulator.prototype.uDM = function() {
 			return this.exM === _s_STA;
-        };
-		//// usedRequestMethod
-		AppSimulator.prototype.uRM = function() {
-			return this.exM === _s_STR;
         };
 		//// getSimulationMethod
 		AppSimulator.prototype.gSM = function() {
@@ -1193,10 +1185,10 @@
 				exts[_hst] = _exts;
 				red[_hst] = _red;
 				for (var j = 0; j < 4; j++) {
-					setBcd(j, _rid, Math.ceil(red[i]));
-					setBcd(j + 4, _rid, Math.ceil(exts[i] - red[i]));
-					setBcd(j + 8, _rid, Math.floor(tsn[i] - exts[i]));
-					setBcd(j + 12, _rid, rtt[i] - tsn[i]);
+					setBcd(j, _rid, Math.ceil(red[j]));
+					setBcd(j + 4, _rid, Math.ceil(exts[j] - red[j]));
+					setBcd(j + 8, _rid, Math.floor(tsn[j] - exts[j]));
+					setBcd(j + 12, _rid, rtt[j] - tsn[j]);
 				}
             }
             //

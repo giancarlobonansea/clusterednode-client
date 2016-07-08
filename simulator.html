@@ -69,7 +69,7 @@
 						<form class="form-inline">
 							<div class="form-group form-group-sm">
 								<!-- STRESS BY REQUESTS: Number of total requests to be fired -->
-								<div class="input-group input-group-sm" *ngIf="iRM()">
+								<div class="input-group input-group-sm" *ngIf="!iDM()">
 									<span class="input-group-addon">Requests</span>
 									<input type="number" class="form-control input-sm" min="1" max="16384" id="numReq" [(ngModel)]="rqCt" [disabled]="iR()"/>
 								</div>
@@ -104,7 +104,7 @@
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-wrench"></i>&nbsp;Last Run parameters</h4>
 			</div>
-			<table class="table table-condensed table-bordered table-responsive" *ngIf="uRM()">
+			<table class="table table-condensed table-bordered table-responsive" *ngIf="!uDM()">
 				<thead>
 					<tr>
 						<th class="text-center" colspan="2">
@@ -165,7 +165,7 @@
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-tachometer"></i>&nbsp;Last Run execution data</h4>
 			</div>
-			<table class="table table-condensed table-bordered table-responsive" *ngIf="uRM()">
+			<table class="table table-condensed table-bordered table-responsive" *ngIf="!uDM()">
 				<thead>
 					<tr>
 						<th class="text-center" rowspan="2">
