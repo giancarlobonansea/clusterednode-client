@@ -753,11 +753,11 @@
 		};
 		//// percValue
 		AppSimulator.prototype.pV = function() {
-			return ((this.rOK * 100 / this.rqCt) | 0) + 1;
+			return (this.rOK * 100 / this.rqCt) | 0;
 		};
 		//// calcPosition
 		AppSimulator.prototype.cP = function(h) {
-			return ((this.rOK * h / 100) | 0) + 1;
+			return (this.rOK * h / 100) | 0;
 		};
 		//// getDurationRequests
 		AppSimulator.prototype.gDR = function() {
