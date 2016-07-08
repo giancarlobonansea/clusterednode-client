@@ -1192,11 +1192,11 @@
 				tsn[_hst] = _tsn;
 				exts[_hst] = _exts;
 				red[_hst] = _red;
-				for (i = 0; i < 4; i++) {
-					setBcd(i, _rid, Math.ceil(red[i]));
-					setBcd(i + 4, _rid, Math.ceil(exts[i] - red[i]));
-					setBcd(i + 8, _rid, Math.floor(tsn[i] - exts[i]));
-					setBcd(i + 12, _rid, rtt[i] - tsn[i]);
+				for (var j = 0; j < 4; j++) {
+					setBcd(j, _rid, Math.ceil(red[i]));
+					setBcd(j + 4, _rid, Math.ceil(exts[i] - red[i]));
+					setBcd(j + 8, _rid, Math.floor(tsn[i] - exts[i]));
+					setBcd(j + 12, _rid, rtt[i] - tsn[i]);
 				}
             }
             //
@@ -1229,7 +1229,7 @@
 			for (i = 0; i < rq0.length; i++) {
 				var _hstR = rq0[i].H,
 				    _rttR = rq0[i].A;
-				for (var j = 0; j < 4; j++) {
+				for (j = 0; j < 4; j++) {
 					rtt[j] = byH(_hstR, j, _rttR);
 					this.pcd2[j].y += inSD(i, rtt[j]);
 					totReqAng[j] += inSDbyH(_hstR, j, i, 1);
