@@ -835,8 +835,8 @@
 				exts[_hst] = rq0[i].N;
 				red[_hst] = rq0[i].R;
 				for (var j = 0; j < 4; j++) {
-					setBcd(j, _rid, (red[j] | 0) + 1);
-					setBcd(j + 4, _rid, ((exts[j] - red[j]) | 0) + 1);
+					setBcd(j, _rid, red[j] | 0);
+					setBcd(j + 4, _rid, (exts[j] - red[j]) | 0);
 					setBcd(j + 8, _rid, (tsn[j] - exts[j]) | 0);
 					setBcd(j + 12, _rid, rtt[j] - tsn[j]);
 				}
