@@ -981,7 +981,7 @@
 				    ndx = this.nix[hst][0],
 				    cch = res.C;
 				this.rq[0][req] = {
-					Q: 'Request ' + ((req | 0) + 1),
+					Q: 'Req ' + ((req | 0) + 1),
 					H: ndx,
 					A: res.A,
 					X: res.X,
@@ -1008,18 +1008,6 @@
 					this.rs[ndx][1][this.pix[hst][pid]][1][o].push(this.rOK);
 					this.nix[hst][1]++;
 				}
-				this.cnRe++;
-			}
-		};
-		//// popResponses
-		AppSimulator.prototype.pR = function() {
-			if (this.cnRe > this.rqCt) {
-				for (var z = 0; z < this.rqCn; z++) {
-					this.rq[0].pop();
-					this.rq[1].pop();
-					this.rq[2].pop();
-					this.cnRe--;
-				}
 			}
 		};
 		//// startStatistics
@@ -1028,108 +1016,88 @@
 			var self = this;
 			setTimeout(function() {
 				self.cH();
-			}, 500);
-		};
-		//// stopHTTPduration
-		AppSimulator.prototype.sHd = function() {
-			if (this.inH) {
-				clearInterval(this.inH);
-			}
-			this.rqEx = this.cnRe;
-			this.sSt();
-		};
-		//// stopHTTPrequests
-		AppSimulator.prototype.sHr = function() {
-			this.rqEx = this.rqCt;
-			this.sSt();
+			}, 10);
 		};
 		//// throwHTTPduration
-		AppSimulator.prototype.tHd = function() {
+		AppSimulator.prototype.tHd = function(rqCt, rqCn, rqDu, rqIn) {
             var self = this,
-                q    = 0;
-			self.cnRq = 0;
-			self.cnRe = 0;
-			var inF = function() {
-				if (self.tmR && self.cnRq < self.rqCt) {
-					self.cnRq += self.rqCn;
-					var nextIdx = q + self.rqCn,
-					    oRA     = Rx.Observable.forkJoin(self.rq[1].slice(q, nextIdx)).subscribe(
-                        function(response) {
-	                        self.dur = Date.now() - self.iniTime;
-	                        if (self.cnRe < self.rqCt) {
-	                            self.oR(response);
-                            }
-                            else {
-	                            self.pR();
-                            }
-                        },
-                        function(error) {
-	                        self.dur = Date.now() - self.iniTime;
-	                        if (self.cnRe < self.rqCt) {
-		                        self.rER++;
-		                        self.cnRe++;
-                            }
-                            else {
-	                            self.pR();
-                            }
-                        },
-                        function() {
-	                        if (!self.tmR && !self.clc && self.cnRq === self.cnRe) {
-	                            self.sHd();
-                            }
-	                        oRA.unsubscribe();
-                        }
-                    );
-					q += self.rqCn;
-                }
-                else {
-					if (!self.clc && self.cnRq === self.cnRe) {
-	                    self.sHd();
-                    }
-					if (oRA) {
-						oRA.unsubscribe();
+                tmR  = true,
+                cnRq = 0,
+                cnRe = 0,
+                sHd  = function() {
+	                if (inH) {
+		                clearInterval(inH);
 	                }
-                }
-            };
-			self.tmR = true;
+	                self.dur = Date.now() - self.iniTime;
+	                self.rqEx = cnRe;
+	                self.sSt();
+                },
+                inF  = function() {
+	                if (tmR && cnRq < rqCt) {
+		                cnRq += rqCn;
+		                var oRA = Rx.Observable.forkJoin(self.rq[1].slice(cnRq - rqCn, cnRq)).subscribe(
+			                function(r) {
+				                self.oR(r);
+			                },
+			                function(e) {
+				                self.rER += rqCn;
+			                },
+			                function() {
+				                cnRe += rqCn;
+				                oRA.unsubscribe();
+				                if (!tmR && !self.clc && cnRq === cnRe) {
+					                sHd();
+				                }
+			                }
+		                );
+	                }
+	                else {
+		                if (!self.clc && cnRq === cnRe) {
+			                sHd();
+		                }
+	                }
+                };
+			//
+			// Initialize execution
+			//
 	        self.iniTime = Date.now();
             setTimeout(function() {
-	            self.tmR = false;
-            }, (self.rqDu * 1000) + 100);
+	            tmR = false;
+            }, rqDu * 1000);
 			inF();
-			self.inH = setInterval(inF, self.rqIn);
+			var inH = setInterval(function() {inF()}, rqIn);
         };
 		//// throwHTTPrequests
-		AppSimulator.prototype.tHr = function() {
+		AppSimulator.prototype.tHr = function(rqCt, rqCn) {
 			var self = this,
+			    cnRe = 0,
 			    ev   = new ng.core.EventEmitter(true);
-			self.tHrIdx = 0;
-			ev.subscribe(function(f) {
-				if (f) self.iniTime = Date.now();
-				var idx  = self.tHrIdx,
-				    nIdx = idx + self.rqCn,
-				    oR   = Rx.Observable.forkJoin(self.rq[1].slice(idx, nIdx)).subscribe(
+			ev.subscribe(function() {
+				var nIdx = cnRe + rqCn,
+				    oRA  = Rx.Observable.forkJoin(self.rq[1].slice(cnRe, nIdx)).subscribe(
 					    function(r) {
 						    self.oR(r);
 					    },
-					    function(error) {
-						    self.rER++;
+					    function(e) {
+						    self.rER += rqCn;
 					    },
 					    function() {
-						    self.dur = Date.now() - self.iniTime;
-						    oR.unsubscribe();
-						    self.tHrIdx += self.rqCn;
-						    if (self.rOK + self.rER >= self.rqCt) {
+						    cnRe += rqCn;
+						    oRA.unsubscribe();
+						    if (cnRe >= rqCt) {
 							    ev.unsubscribe();
-							    self.sHr();
+							    self.dur = Date.now() - self.iniTime;
+							    self.rqEx = rqCt;
+							    self.sSt();
 						    }
 						    else {
-							    ev.emit(false);
+							    ev.emit();
 						    }
 					    }
 				    );
 			});
-			ev.emit(true);
+			self.iniTime = Date.now();
+			ev.emit();
 		};
 		//// startSimulator
 		AppSimulator.prototype.sSi = function() {
@@ -1146,6 +1114,10 @@
 			//
 			this.rSV();
 			//
+			// Reset Live Events socket variables
+			//
+			this.rLEM();
+			//
 			// Reset view presentation variables - control
 			//
 			this.rVPCV();
@@ -1155,10 +1127,6 @@
 			//
 			this.rESV();
 			//
-			// Reset Live Events socket variables
-			//
-			this.rLEM();
-			//
 			// Reset view execution variables
 			//
 			this.rVEV();
@@ -1167,13 +1135,19 @@
 			// Switch among simulation methods (stress or duration)
 			//
 			if (this.iD) {
+				//
+				// Stability - duration
+				//
 				this.rqCt = this.gDR();
 	            this.pRS();
-	            this.tHd();
+				this.tHd(this.rqCt, this, rqCn, this, rqDu, this.rqIn);
             }
             else {
+				//
+				// Stress - requests
+				//
 	            this.pRS();
-	            this.tHr();
+				this.tHr(this.rqCt, this, rqCn);
             }
 		};
 		return AppSimulator;
