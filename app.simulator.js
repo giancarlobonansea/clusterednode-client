@@ -90,10 +90,6 @@
 			//
 			this.iESV();
 			//
-			// Statistical variables
-			//
-			this.iSV();
-			//
 			// Live Events socket variables and configuration
 			//
 			this.iLE();
@@ -442,21 +438,6 @@
 			this.exI = this.rqIn;
 			this.exC = this.rqCn;
 			this.exmR = this.gDR();
-		};
-		//// initStatisticsVariables
-		AppSimulator.prototype.iSV = function() {
-			this.tpA = 0;
-			this.tpX = 0;
-			this.tpN = 0;
-			this.tpR = 0;
-		};
-		//// resetStatisticsVariables
-		AppSimulator.prototype.rSV = function() {
-			this.iSV();
-			this.toA = 0;
-			this.toX = 0;
-			this.toN = 0;
-			this.toR = 0;
 		};
 		//// resetLiveEventsMatrix
 		AppSimulator.prototype.rLEM = function() {
@@ -808,6 +789,14 @@
 				                        });
 			    },
 			    rq0    = this.rq[0];
+			this.tpA = 0;
+			this.tpX = 0;
+			this.tpN = 0;
+			this.tpR = 0;
+			this.toA = 0;
+			this.toX = 0;
+			this.toN = 0;
+			this.toR = 0;
 			//
 			// Populate barchart as processed (no sorting)
 			//
@@ -1103,10 +1092,6 @@
 			// Save execution parameters
 			//
 			this.sEPC();
-			//
-			// Reset statistic variables
-			//
-			this.rSV();
 			//
 			// Reset Live Events socket variables
 			//
