@@ -883,7 +883,8 @@
 			}
 			this.tpA = ((this.rqEx / (this.dur / 1000)) | 0) + 1;
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][1] = rq0[(this.rqEx * this.hg[i][0] / 100) | 0].A;
+				console.log(((this.rqEx * this.hg[i][0] / 100) | 0));
+				this.hg[i][1] = rq0[((this.rqEx * this.hg[i][0] / 100) | 0)].A;
             }
 			//
 			// Sorting by TSN (nginX time)
