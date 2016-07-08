@@ -295,22 +295,6 @@ var _RL = {
 					d: "The Architecture of Open Source Applications"
 				},
 				{
-					h: "https://www.youtube.com/watch?v=jm75pxsb80c",
-					d: "Microservice Developer Experience"
-				},
-				{
-					h: "https://www.youtube.com/watch?v=SYNJFX0oIBU",
-					d: "Node.js for Enterprise APIs Panel Discussion"
-				},
-				{
-					h: "https://www.youtube.com/watch?v=D9TUU5bK0iE",
-					d: "Rebuilding the Ship as it Sails: Making Large Legacy Sites Responsive"
-				},
-				{
-					h: "https://strongloop.com/",
-					d: "Strongloop - Compose APIs, Build, Deploy and Monitor Node"
-				},
-				{
 					h: "https://www.mnot.net/cache_docs/",
 					d: "Caching tutorial for Web Authors"
 				}
@@ -328,6 +312,18 @@ var _RL = {
 				{
 					h: "https://angular.io/docs/js/latest/guide/cheatsheet.html",
 					d: "Angular Cheat Sheet - js"
+				},
+				{
+					"h": "https://universal.angular.io/",
+					"d": "Angular Universal - Server-side Rendering for Angular 2 apps"
+				},
+				{
+					"h": "https://cli.angular.io/",
+					"d": "Angular CLI - A command line interface for Angular"
+				},
+				{
+					"h": "https://material.angularjs.org/latest/",
+					"d": "Angular Material - UI Component framework and a reference implementation of Google's Material Design Specification"
 				},
 				{
 					h: "https://medium.com/google-developer-experts/angular-2-introduction-to-new-http-module-1278499db2a0#.ttmhbubnd",
@@ -431,14 +427,6 @@ var _RL = {
 				{
 					h: "https://www.nginx.com/blog/inside-nginx-how-we-designed-for-performance-scale/",
 					d: "Inside NGINX: How We Designed for Performance & Scale"
-				},
-				{
-					h: "https://www.nginx.com/blog/introducing-the-nginx-microservices-reference-architecture/",
-					d: "Introducing the Microservices Reference Architecture from NGINX"
-				},
-				{
-					h: "https://www.nginx.com/blog/building-microservices-using-an-api-gateway/",
-					d: "Building Microservices: Using an API Gateway"
 				},
 				{
 					h: "http://www.slideshare.net/joshzhu/nginx-internals",
@@ -630,6 +618,79 @@ var _RL = {
 				{
 					h: "http://code.flickr.net/2011/10/11/talk-real-time-updates-on-the-cheap-for-fun-and-profit/",
 					d: "redis use-cases: Flickr - Real-time Updates on the Cheap for Fun and Profit"
+				}
+			]
+		},
+		{
+			"t": "Lightweight API bus",
+			"a": [
+				{
+					h: "https://www.nginx.com/blog/introducing-the-nginx-microservices-reference-architecture/",
+					d: "Introducing the Microservices Reference Architecture from NGINX"
+				},
+				{
+					h: "https://www.nginx.com/blog/building-microservices-using-an-api-gateway/",
+					d: "Building Microservices: Using an API Gateway"
+				},
+				{
+					h: "https://strongloop.com/",
+					d: "Strongloop - Compose APIs, Build, Deploy and Monitor Node"
+				},
+				{
+					"h": "https://strongloop.com/strongblog/creating-rest-apis-from-data-models-in-api-connect/?utm_source=StrongLoop+Newsletter&utm_campaign=914572788f-June_2015_Newsletter4_6_2015&utm_medium=email&utm_term=0_5cdaff72d5-914572788f-281500181",
+					"d": "Creating REST APIs from Data Models in API Connect"
+				},
+				{
+					"h": "http://loopback.io",
+					"d": "Loopback - The Node.js API Framework"
+				},
+				{
+					"h": "http://hapijs.com",
+					"d": "hapijs - A rich framework for building applications and services"
+				},
+				{
+					"h": "http://sailsjs.org",
+					"d": "sails - The web framework of your dreams"
+				},
+				{
+					"h": "http://expressjs.org",
+					"d": "ExpressJs"
+				},
+				{
+					"h": "http://koajs.com",
+					"d": "koa - next generation framework for node.js"
+				},
+				{
+					"h": "https://developer.ibm.com/apiconnect/",
+					"d": "IBM API Connect"
+				},
+				{
+					"h": "https://developer.ibm.com/apiconnect/2016/06/02/introducing-the-api-connect-getting-started-video-series/?utm_source=StrongLoop+Newsletter&utm_campaign=914572788f-June_2015_Newsletter4_6_2015&utm_medium=email&utm_term=0_5cdaff72d5-914572788f-281500181",
+					"d": "IBM API Connect training videos"
+				},
+				{
+					"h": "http://restify.com",
+					"d": "restify - node.js module built specifically to enable you to build correct REST web services"
+				},
+				{
+					"h": "http://flatironjs.org",
+					"d": "FlatIron "
+				},
+				{
+					"h": "http://www.actionherojs.com",
+					"d": "ActionHero - The Reusable, Scalable, and Quick node.js API Server!"
+				},
+				{
+					h: "https://www.youtube.com/watch?v=jm75pxsb80c",
+					d: "Microservice Developer Experience"
+				},
+				{
+					h: "https://www.youtube.com/watch?v=SYNJFX0oIBU",
+					d: "Node.js for Enterprise APIs Panel Discussion"
+				},
+				{
+					h: "https://www.youtube.com/watch?v=D9TUU5bK0iE",
+					d: "Rebuilding the Ship as it Sails: Making Large Legacy Sites Responsive"
 				}
 			]
 		},
