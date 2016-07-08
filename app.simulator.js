@@ -883,8 +883,7 @@
 			}
 			this.tpA = ((this.rqEx / (this.dur / 1000)) | 0) + 1;
 			for (i = 0; i < this.hg.length; i++) {
-				console.log(((this.rqEx * this.hg[i][0] / 100) | 0));
-				this.hg[i][1] = rq0[((this.rqEx * this.hg[i][0] / 100) | 0)].A;
+				this.hg[i][1] = rq0[((this.rqEx * this.hg[i][0] / 100) | 0) - 1].A;
             }
 			//
 			// Sorting by TSN (nginX time)
@@ -895,7 +894,7 @@
 			                 0];
 			rq0.sort(function(a, b) {return a.X - b.X});
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][2] = rq0[(this.rqEx * this.hg[i][0] / 100) | 0].X;
+				this.hg[i][2] = rq0[((this.rqEx * this.hg[i][0] / 100) | 0) - 1].X;
             }
 			for (i = 0; i < rq0.length; i++) {
 				var _hstT = rq0[i].H,
@@ -916,7 +915,7 @@
 			//
 			rq0.sort(function(a, b) {return a.N - b.N});
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][3] = rq0[(this.rqEx * this.hg[i][0] / 100) | 0].N;
+				this.hg[i][3] = rq0[((this.rqEx * this.hg[i][0] / 100) | 0) - 1].N;
             }
 			for (i = 0; i < rq0.length; i++) {
 				this.toN += inSD(i, rq0[i].N);
@@ -927,7 +926,7 @@
             //
 			rq0.sort(function(a, b) {return a.R - b.R});
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][4] = rq0[(this.rqEx * this.hg[i][0] / 100) | 0].R;
+				this.hg[i][4] = rq0[((this.rqEx * this.hg[i][0] / 100) | 0) - 1].R;
             }
 			for (i = 0; i < rq0.length; i++) {
 				this.toR += inSD(i, rq0[i].R);
