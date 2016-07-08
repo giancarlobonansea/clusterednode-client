@@ -1140,14 +1140,14 @@
 				//
 				this.rqCt = this.gDR();
 	            this.pRS();
-				this.tHd(this.rqCt, this, rqCn, this, rqDu, this.rqIn);
+				this.tHd(this.rqCt, this.rqCn, this.rqDu, this.rqIn);
             }
             else {
 				//
 				// Stress - requests
 				//
 	            this.pRS();
-				this.tHr(this.rqCt, this, rqCn);
+				this.tHr(this.rqCt, this.rqCn);
             }
 		};
 		return AppSimulator;
