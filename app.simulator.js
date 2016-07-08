@@ -795,6 +795,7 @@
 		};
 		//// calculateHistogram
 		AppSimulator.prototype.cH = function() {
+			this.lE = false;
 			this.rCD();
 			var dr     = Math.ceil(this.rqEx * 4.55 / 100.0),
 			    dLo    = (dr / 2) | 0,
