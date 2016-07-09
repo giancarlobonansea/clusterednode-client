@@ -66,7 +66,8 @@
 			       [100,
 			        0,
 			        0,
-			        2]],
+			        2],
+			       'Small'],
 			      [[0,
 			        10,
 			        30,
@@ -74,7 +75,8 @@
 			       [512,
 			        0,
 			        0,
-			        16]],
+			        16],
+			       'Medium'],
 			      [[0,
 			        30,
 			        25,
@@ -82,7 +84,8 @@
 			       [1024,
 			        0,
 			        0,
-			        64]],
+			        64],
+			       'Large'],
 			      [[0,
 			        60,
 			        25,
@@ -90,7 +93,8 @@
 			       [2048,
 			        0,
 			        0,
-			        128]]
+			        128],
+			       'Huge']
 		      ];
 		//// Constructor
 		function AppSimulator (HTTPService, DOMSanitizer) {
@@ -668,36 +672,17 @@
 			this.rqDu = _a_PRE[p][m][1];
 			this.rqIn = _a_PRE[p][m][2];
 			this.rqCn = _a_PRE[p][m][3];
+			sGA(_s_SIM, _s_CFG, _a_PRE[p][2], 0);
 		};
-		//// setSmall
-		AppSimulator.prototype.sS = function() {
-			this.sMP(0);
-			sGA(_s_SIM, _s_CFG, 'Small', 0);
-		};
-		//// setMedium
-		AppSimulator.prototype.sM = function() {
-			this.sMP(1);
-			sGA(_s_SIM, _s_CFG, 'Medium', 0);
-        };
-		//// setLarge
-		AppSimulator.prototype.sL = function() {
-			this.sMP(2);
-			sGA(_s_SIM, _s_CFG, 'Large', 0);
-        };
-		//// setHuge
-		AppSimulator.prototype.sH = function() {
-			this.sMP(3);
-			sGA(_s_SIM, _s_CFG, 'Huge', 0);
-        };
 		//// setDuration
 		AppSimulator.prototype.sD = function() {
 			this.iD = true;
-			this.sS();
+			this.sMP(0);
         };
 		//// setRequests
 		AppSimulator.prototype.sR = function() {
 			this.iD = false;
-			this.sS();
+			this.sMP(0);
         };
 		//// isDurationMethod
 		AppSimulator.prototype.iDM = function() {
