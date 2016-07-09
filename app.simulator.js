@@ -247,7 +247,6 @@
 			//
 			// Live Events socket variables and configuration
 			//
-			this.rLEM();
 			var self = this;
 			io(_s_IURL).on('redis', function(d) {
 				if (self.leMx[d.x][d.y] < 3) {
@@ -291,15 +290,6 @@
 			this.rqCh = 0;
 			this.sRe = false;
 			this.clc = false;
-		};
-		//// saveExecutionParametersCopy & resetLiveEventsMatrix
-		AppSimulator.prototype.sEPC = function() {
-			this.exM = this.gSM();
-			this.exR = this.rqCt;
-			this.exD = this.rqDu;
-			this.exI = this.rqIn;
-			this.exC = this.rqCn;
-			this.exmR = this.gDR();
 			this.leMx = [];
 			for (var i = 0; i < 5; i++) {
 				this.leMx.push([0,
@@ -467,6 +457,15 @@
 				                2,
 				                2]);
 			}
+		};
+		//// saveExecutionParametersCopy & resetLiveEventsMatrix
+		AppSimulator.prototype.sEPC = function() {
+			this.exM = this.gSM();
+			this.exR = this.rqCt;
+			this.exD = this.rqDu;
+			this.exI = this.rqIn;
+			this.exC = this.rqCn;
+			this.exmR = this.gDR();
 		};
 		//
 		// UI related methods
@@ -959,10 +958,6 @@
 			//
 			this.sEPC();
 			//
-			// Reset view presentation variables - control
-			//
-			this.lE = true;
-			//
 			// Reset execution scope variables
 			//
 			this.dur = 0;
@@ -971,6 +966,10 @@
 			//
 			this.rVEV();
 			this.run = true;
+			//
+			// Reset view presentation variables - control
+			//
+			this.lE = true;
 			//
 			// Switch among simulation methods (stress or duration)
 			//
