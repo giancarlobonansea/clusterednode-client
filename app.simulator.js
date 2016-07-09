@@ -312,6 +312,10 @@
 			this.sRe = false;
 			this.clc = false;
 			this.leMx = this.oleMx.slice(0);
+			this.oT = [0,
+			           0,
+			           0,
+			           0];
 		};
 		//// saveExecutionParametersCopy & resetLiveEventsMatrix
 		AppSimulator.prototype.sEPC = function() {
