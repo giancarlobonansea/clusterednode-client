@@ -20,10 +20,45 @@
 				}
 			}
 			return l;
-		};
-		//// Google Analytics
-		var sGA = function(a, b, c, d) {
+		    },
+		    //// Google Analytics
+		    sGA = function(a, b, c, d) {
 			ga('send', 'event', a, b, c, d);
+		    },
+		    //// initCharts
+		    cP  = function(t) {
+			    return {
+				    chart: {
+					    type:          'pieChart',
+					    height:        299,
+					    showLegend:    false,
+					    donut:         true,
+					    padAngle:      0.08,
+					    cornerRadius:  5,
+					    title:         t,
+					    x:             function(d) {return d.key;},
+					    y:             function(d) {return d.y;},
+					    showLabels:    true,
+					    labelType:     function(d) {return d.data.key + ': ' + (d.data.y | 0);},
+					    labelsOutside: true,
+					    duration:      500
+				    }
+			    }
+		    },
+		    //// resetExecutionScopeVariables
+		    cRS = function() {
+			    return [[_s_PI2,
+			             [],
+			             0],
+			            [_s_PI3,
+			             [],
+			             0],
+			            [_s_PI5,
+			             [],
+			             0],
+			            [_s_PI6,
+			             [],
+			             0]];
 		};
 		//// Constants
 		const _s_SIM  = "Simulation",
@@ -116,7 +151,8 @@
 			//
 			// View execution variables
 			//
-			this.iVEV();
+			this.rVEV();
+			this.run = false;
 			//
 			// View execution parameters
 			//
@@ -128,7 +164,7 @@
 			//
 			// View presentation variables - control
 			//
-			this.iVPCV();
+			this.lE = false;
 			//
 			// View presentation variables - reference links
 			//
@@ -136,77 +172,6 @@
 			//
 			// Charts configuration and initialization
 			//
-			this.iC();
-			//
-			// Live Events socket variables and configuration
-			//
-			this.iLE();
-		}
-		AppSimulator.parameters = [
-			app.HTTPService,
-			ng.platformBrowser.DomSanitizationService
-		];
-		AppSimulator.annotations = [
-			new ng.core.Component({
-				selector:     'node-cluster-simulator',
-				templateUrl:  'simulator.html',
-				providers:    [
-					app.HTTPService,
-					ng.http.HTTP_PROVIDERS,
-					ng.platformBrowser.DomSanitizationService,
-					ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
-				],
-				directives: [nvD3]
-			})
-		];
-		AppSimulator.prototype.safeUrl = function(u) {
-			return this.snS.bypassSecurityTrustResourceUrl(u);
-		};
-		//
-		// Configuration & Initialization methods
-		//
-		//// initViewExecVariables
-		AppSimulator.prototype.iVEV = function() {
-			this.rVEV();
-			this.run = false;
-		};
-		//// resetViewExecVariables
-		AppSimulator.prototype.rVEV = function() {
-			this.rER = 0;
-			this.rOK = 0;
-			this.rqCh = 0;
-		};
-		//// initViewPresentationControlVariables
-		AppSimulator.prototype.iVPCV = function() {
-			this.rVPCV();
-			this.lE = false;
-		};
-		//// resetViewPresentationControlVariables
-		AppSimulator.prototype.rVPCV = function() {
-			this.sRe = false;
-			this.clc = false;
-		};
-		//// initCharts
-		var cP = function(t) {
-			return {
-				chart: {
-					type:          'pieChart',
-					height:        299,
-					showLegend:    false,
-					donut:         true,
-					padAngle:      0.08,
-					cornerRadius:  5,
-					title:         t,
-					x:             function(d) {return d.key;},
-					y:             function(d) {return d.y;},
-					showLabels:    true,
-					labelType:     function(d) {return d.data.key + ': ' + (d.data.y | 0);},
-					labelsOutside: true,
-					duration:      500
-				}
-			}
-		};
-		AppSimulator.prototype.iC = function() {
 			this.bco = {
 				chart: {
 					type:         'multiBarChart',
@@ -265,23 +230,55 @@
 			};
 			this.pco = cP('nginX');
 			this.pco2 = cP('AngularJS');
+			//
+			// Live Events socket variables and configuration
+			//
+			this.rLEM();
+			var self = this;
+			io(_s_IURL).on('redis', function(d) {
+				if (self.leMx[d.x][d.y] < 3) {
+					var x = d.x,
+					    y = d.y;
+					self.leMx[x][y] = 3;
+					var to = setTimeout(function() {
+						self.leMx[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
+						clearTimeout(to);
+					}, 1000);
+				}
+			});
+		}
+		AppSimulator.parameters = [
+			app.HTTPService,
+			ng.platformBrowser.DomSanitizationService
+		];
+		AppSimulator.annotations = [
+			new ng.core.Component({
+				selector:     'node-cluster-simulator',
+				templateUrl:  'simulator.html',
+				providers:    [
+					app.HTTPService,
+					ng.http.HTTP_PROVIDERS,
+					ng.platformBrowser.DomSanitizationService,
+					ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
+				],
+				directives: [nvD3]
+			})
+		];
+		AppSimulator.prototype.safeUrl = function(u) {
+			return this.snS.bypassSecurityTrustResourceUrl(u);
 		};
-		//// resetExecutionScopeVariables
-		var cRS = function() {
-			return [[_s_PI2,
-			         [],
-			         0],
-			        [_s_PI3,
-			         [],
-			         0],
-			        [_s_PI5,
-			         [],
-			         0],
-			        [_s_PI6,
-			         [],
-			         0]];
+		//
+		// Configuration & Initialization methods
+		//
+		//// resetViewExecVariables
+		AppSimulator.prototype.rVEV = function() {
+			this.rER = 0;
+			this.rOK = 0;
+			this.rqCh = 0;
+			this.sRe = false;
+			this.clc = false;
 		};
-		//// saveExecutionParametersCopy
+		//// saveExecutionParametersCopy & resetLiveEventsMatrix
 		AppSimulator.prototype.sEPC = function() {
 			this.exM = this.gSM();
 			this.exR = this.rqCt;
@@ -289,9 +286,6 @@
 			this.exI = this.rqIn;
 			this.exC = this.rqCn;
 			this.exmR = this.gDR();
-		};
-		//// resetLiveEventsMatrix
-		AppSimulator.prototype.rLEM = function() {
 			this.leMx = [];
 			for (var i = 0; i < 5; i++) {
 				this.leMx.push([0,
@@ -459,22 +453,6 @@
 				                2,
 				                2]);
 			}
-		};
-		//// initLiveEvents
-		AppSimulator.prototype.iLE = function() {
-			this.rLEM();
-			var self = this;
-			io(_s_IURL).on('redis', function(d) {
-				if (self.leMx[d.x][d.y] < 3) {
-					var x = d.x,
-					    y = d.y;
-					self.leMx[x][y] = 3;
-					var to = setTimeout(function() {
-						self.leMx[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
-						clearTimeout(to);
-					}, 1000);
-				}
-			});
 		};
 		//
 		// UI related methods
@@ -983,17 +961,12 @@
 			//// all first time initialization performed on constructor function
 			////
 			//
-			// Save execution parameters
+			// Save execution parameters & Reset Live Events socket variables
 			//
 			this.sEPC();
 			//
-			// Reset Live Events socket variables
-			//
-			this.rLEM();
-			//
 			// Reset view presentation variables - control
 			//
-			this.rVPCV();
 			this.lE = true;
 			//
 			// Reset execution scope variables
