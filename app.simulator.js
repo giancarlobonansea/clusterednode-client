@@ -247,6 +247,27 @@
 			//
 			// Live Events socket variables and configuration
 			//
+			this.oleMx = [];
+			var a0 = [], a01 = [], a1 = [], a12 = [], a2 = [];
+			for (var i = 0; i < 32; i++) {
+				a0[i] = 0;
+				a01[i] = i < 11 ? 0 : 1;
+				a1[i] = 1;
+				a12[i] = i < 22 ? 1 : 2;
+				a2[i] = 2;
+			}
+			for (i = 0; i < 5; i++) {
+				this.oleMx.push(a0.slice(0));
+			}
+			this.oleMx.push(a01);
+			for (i = 0; i < 4; i++) {
+				this.oleMx.push(a1.slice(0));
+			}
+			this.oleMx.push(a12);
+			for (i = 0; i < 5; i++) {
+				this.oleMx.push(a2.slice(0));
+			}
+
 			var self = this;
 			io(_s_IURL).on('redis', function(d) {
 				if (self.leMx[d.x][d.y] < 3) {
@@ -290,86 +311,7 @@
 			this.rqCh = 0;
 			this.sRe = false;
 			this.clc = false;
-			this.leMx = [];
-			var a0 = [], a1 = [], a2 = [];
-			for (var i = 0; i < 32; i++) {
-				a0[i] = 0;
-				a1[i] = 1;
-				a2[i] = 2;
-			}
-			for (i = 0; i < 5; i++) {
-				this.leMx.push(a0.slice(0));
-			}
-			this.leMx.push([0,
-			                0,
-			                0,
-			                0,
-			                0,
-			                0,
-			                0,
-			                0,
-			                0,
-			                0,
-			                0,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1]);
-			for (i = 0; i < 4; i++) {
-				this.leMx.push(a1.slice(0));
-			}
-			this.leMx.push([1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                1,
-			                2,
-			                2,
-			                2,
-			                2,
-			                2,
-			                2,
-			                2,
-			                2,
-			                2,
-			                2]);
-			for (i = 0; i < 5; i++) {
-				this.leMx.push(a2.slice(0));
-			}
+			this.leMx = this.oleMx.slice(0);
 		};
 		//// saveExecutionParametersCopy & resetLiveEventsMatrix
 		AppSimulator.prototype.sEPC = function() {
