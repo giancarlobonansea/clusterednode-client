@@ -674,14 +674,9 @@
 			this.rqCn = _a_PRE[p][m][3];
 			sGA(_s_SIM, _s_CFG, _a_PRE[p][2], 0);
 		};
-		//// setDuration
-		AppSimulator.prototype.sD = function() {
-			this.iD = true;
-			this.sMP(0);
-        };
-		//// setRequests
-		AppSimulator.prototype.sR = function() {
-			this.iD = false;
+		//// setDuration or setRequests
+		AppSimulator.prototype.sD = function(m) {
+			this.iD = m;
 			this.sMP(0);
         };
 		//// isDurationMethod
