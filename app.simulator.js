@@ -11,10 +11,10 @@
 		      _s_ANG  = "-angular",
 		      _s_NGI  = "-nginx",
 		      _s_NOD  = "-node",
-		      _s_BURL = "https://giancarlobonansea.homeip.net",
-		      _s_AURL = _s_BURL + ':33333/api',
-		      _s_HURL = _s_BURL + ':33333/hdr',
-		      _s_IURL = _s_BURL + ':33331',
+		      _s_BURL = "https://giancarlobonansea.homeip.net:3333",
+		      _s_AURL = _s_BURL + ':3/api',
+		      _s_HURL = _s_BURL + ':3/hdr',
+		      _s_IURL = _s_BURL + ':1',
 		      _s_STA  = "STABILITY",
 		      _s_STR  = "STRESS",
 		      _j_ERE  = {
@@ -706,7 +706,7 @@
 			//
 			// Set Angular view variables
 			//
-			sGA(_s_SIM, 'Execution', 'Throughput', tpA);
+			sGA(_s_SIM, 'E', 'T', tpA);
 			return [bcd,
 			        pcd,
 			        pcd2,
