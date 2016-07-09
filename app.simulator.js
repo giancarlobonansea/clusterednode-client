@@ -727,10 +727,6 @@
 			    },
 			    inSDbyH   = function(hl, hv, i, v) {
 				    return ((hl === hv) && (i >= dLo) && (i <= dUp)) ? v : 0;
-			    },
-			    hdrAr     = {
-				    table: [],
-				    chart: []
 			    };
 			//
 			// Populate barchart as processed (no sorting)
@@ -811,16 +807,15 @@
             //
 			this.oRT = this.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
 	            function(re) {
-		            hdrAr = re;
-		            for (var n = 0; n < hdrAr.chart.length; n++) {
-			            var idx = ((hdrAr.chart[n].percentile * self.rOK / 100) | 0) - 1;
+		            for (var n = 0; n < re.chart.length; n++) {
+			            var idx = ((re.chart[n].percentile * self.rOK / 100) | 0) - 1;
 			            lcd[0].values.push({
-				                                    x: hdrAr.chart[n].percentile,
-				                                    y: hdrAr.chart[n].value
+				                               x: re.chart[n].percentile,
+				                               y: re.chart[n].value
 		                                                     });
 			            lcd[1].values.push({
-				                                    x: hdrAr.chart[n].percentile,
-				                               y:      rq0[(idx < 0) ? 0 : idx].A
+				                               x: re.chart[n].percentile,
+				                               y: rq0[(idx < 0) ? 0 : idx].A
 		                                                     });
 	                }
                 },
@@ -838,15 +833,15 @@
 			//
 			// Set Angular view variables
 			//
-			this.bcd = bcd;
-			this.pcd = pcd;
-			this.pcd2 = pcd2;
-			this.tpA = tpA;
-			this.tpX = tpX;
-			this.tpN = tpN;
-			this.tpR = tpR;
-			this.hg = hg;
 			sGA(_s_SIM, 'Execution', 'Throughput', tpA);
+			return [bcd,
+			        pcd,
+			        pcd2,
+			        tpA,
+			        tpX,
+			        tpN,
+			        tpR,
+			        hg];
         };
 		//// observableResponse
 		AppSimulator.prototype.oR = function(re) {
@@ -889,7 +884,16 @@
 		AppSimulator.prototype.sSt = function() {
 			this.clc = true;
 			var self = this;
-			setTimeout(function() {self.cH(self.rqEx, self.dur, self.rq);});
+			setTimeout(function() {
+				[self.bcd,
+				 self.pcd,
+				 self.pcd2,
+				 self.tpA,
+				 self.tpX,
+				 self.tpN,
+				 self.tpR,
+				 self.hg] = self.cH(self.rqEx, self.dur, self.rq);
+			});
 		};
 		//// throwHTTPduration
 		AppSimulator.prototype.tHd = function(rqCt, rqCn, rqDu, rqIn) {
@@ -944,6 +948,7 @@
 		AppSimulator.prototype.tHr = function(rqCt, rqCn) {
 			var self = this,
 			    cnRe = 0,
+			    cnEr = 0,
 			    ev   = new ng.core.EventEmitter(true);
 			ev.subscribe(function() {
 				var nIdx = cnRe + rqCn,
@@ -952,15 +957,16 @@
 						    self.oR(r);
 					    },
 					    function(e) {
-						    self.rER += rqCn;
+						    cnEr += rqCn;
 					    },
 					    function() {
 						    cnRe += rqCn;
 						    oRA.unsubscribe();
 						    if (cnRe >= rqCt) {
 							    ev.unsubscribe();
-							    self.dur = Date.now() - self.iniTime;
+							    self.dur = Date.now() - iniTime;
 							    self.rqEx = rqCt;
+							    self.rER = cnEr;
 							    self.sSt();
 						    }
 						    else {
@@ -969,7 +975,7 @@
 					    }
 				    );
 			});
-			self.iniTime = Date.now();
+			var iniTime = Date.now();
 			ev.emit();
 		};
 		//// startSimulator
