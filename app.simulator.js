@@ -33,7 +33,7 @@
 			      //cached = C
 			      C: false
 		      },
-		      _a_PRE  = [
+		      _a_PRE = [
 			      [[0,
 			        5,
 			        50,
@@ -71,7 +71,7 @@
 			        128],
 			       'Huge']
 		      ],
-		      _a_OPE  = [0,
+		      _a_OPE = [0,
 		                 0,
 		                 0,
 		                 0,
@@ -81,10 +81,10 @@
 		                 1,
 		                 2,
 		                 3],
-		      _a_GDS  = ['text-info',
-		                 'text-primary',
-		                 'text-muted',
-		                 'text-danger'];
+		      _a_GDS = ['text-muted',
+		                'text-primary',
+		                'text-muted',
+		                'text-danger'];
 		//// helper functions
 		var iRL = function(t) {
 			var l = {
