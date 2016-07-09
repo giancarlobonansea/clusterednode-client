@@ -1,8 +1,8 @@
 (function(app) {
 	app.AppSimulator = (function() {
 		//// Constants
-		const _s_SIM  = "Simulation",
-		      _s_CFG  = "Configuration",
+		const _s_SIM  = "S",
+		      _s_CFG  = "C",
 		      _s_PI2  = "raspberrypi2",
 		      _s_PI3  = "raspberrypi3",
 		      _s_PI5  = "raspberrypi5",
@@ -270,9 +270,9 @@
 				templateUrl: 'simulator.html',
 				providers:   [
 					app.HTTPService,
-					//ng.http.HTTP_PROVIDERS,
-					ng.platformBrowser.DomSanitizationService
-					//,ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
+					ng.http.HTTP_PROVIDERS,
+					//ng.platformBrowser.DomSanitizationService
+					ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
 				],
 				directives:  [nvD3]
 			})
@@ -498,7 +498,7 @@
         };
 		//// onRefLinkClick
 		AppSimulator.prototype.oRLC = function(t, d) {
-			sGA("Reference", t, d, 0);
+			sGA("R", t, d, 0);
 		};
 		//// showRef
 		AppSimulator.prototype.shR = function() {
