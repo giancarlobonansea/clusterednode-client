@@ -283,19 +283,22 @@
 			this.dur = 0;
 		};
 		//// resetExecutionScopeVariables
+		var cRS = function() {
+			return [[_s_PI2,
+			         []],
+			        [_s_PI3,
+			         []],
+			        [_s_PI5,
+			         []],
+			        [_s_PI6,
+			         []]];
+		};
 		AppSimulator.prototype.rESV = function() {
 			this.dur = 0;
 			this.rq = [[],
 			           [],
 			           []];
-			this.rs = [[_s_PI2,
-			            []],
-			           [_s_PI3,
-			            []],
-			           [_s_PI5,
-			            []],
-			           [_s_PI6,
-			            []]];
+			this.rs = cRS();
 			this.nix = JSON.parse('{"' + _s_PI2 + '":[0,0],"' + _s_PI3 + '":[1,0],"' + _s_PI5 + '":[2,0],"' + _s_PI6 + '":[3,0]}');
 			this.pix = JSON.parse('{"' + _s_PI2 + '":{},"' + _s_PI3 + '":{},"' + _s_PI5 + '":{},"' + _s_PI6 + '":{}}');
 			this.chRe = [];
@@ -844,7 +847,7 @@
 			        hg];
         };
 		//// observableResponse
-		AppSimulator.prototype.oR = function(re) {
+		AppSimulator.prototype.oR = function(re, rs, rq) {
 			for (var k = 0; k < re.length; k++) {
 				var res = re[k],
 				    req = res.Q,
@@ -866,22 +869,22 @@
 				}
 				else {
 					var pid = res.json.pid,
-					    o   = this.rq[2][req];
+					    o   = rq[2][req];
 					if (!(pid in this.pix[hst])) {
-						this.rs[ndx][1].push([pid,
-						                      [[],
+						rs[ndx][1].push([pid,
+						                 [[],
 						                            [],
 						                            [],
 						                            []]]);
-						this.pix[hst][pid] = this.rs[ndx][1].length - 1;
+						this.pix[hst][pid] = rs[ndx][1].length - 1;
 					}
-					this.rs[ndx][1][this.pix[hst][pid]][1][o].push(++this.rOK);
+					rs[ndx][1][this.pix[hst][pid]][1][o].push(++this.rOK);
 					this.nix[hst][1]++;
 				}
 			}
 		};
 		//// startStatistics
-		AppSimulator.prototype.sSt = function() {
+		AppSimulator.prototype.sSt = function(rqEx, dur, rq) {
 			this.clc = true;
 			var self = this;
 			setTimeout(function() {
@@ -892,32 +895,37 @@
 				 self.tpX,
 				 self.tpN,
 				 self.tpR,
-				 self.hg] = self.cH(self.rqEx, self.dur, self.rq);
+				 self.hg] = self.cH(rqEx, dur, rq);
 			});
 		};
 		//// throwHTTPduration
-		AppSimulator.prototype.tHd = function(rqCt, rqCn, rqDu, rqIn) {
+		AppSimulator.prototype.tHd = function(rqCt, rqCn, rqDu, rqIn, rq) {
             var self = this,
                 tmR  = true,
                 cnRq = 0,
                 cnRe = 0,
+                cnEr = 0,
+                rs   = cRS(),
                 sHd  = function() {
 	                if (inH) {
 		                clearInterval(inH);
 	                }
-	                self.dur = Date.now() - self.iniTime;
-	                self.rqEx = cnRe;
-	                self.sSt();
+	                var finTime = Date.now() - iniTime;
+	                self.sSt(cnRe, finTime, rq);
+	                return [finTime,
+	                        cnRe,
+	                        cnEr,
+	                        rs];
                 },
                 inF  = function() {
 	                if (tmR && cnRq < rqCt) {
 		                cnRq += rqCn;
-		                var oRA = Rx.Observable.forkJoin(self.rq[1].slice(cnRq - rqCn, cnRq)).subscribe(
+		                var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - rqCn, cnRq)).subscribe(
 			                function(r) {
-				                self.oR(r);
+				                self.oR(r, rs);
 			                },
 			                function(e) {
-				                self.rER += rqCn;
+				                cnEr += rqCn;
 			                },
 			                function() {
 				                cnRe += rqCn;
@@ -937,7 +945,7 @@
 			//
 			// Initialize execution
 			//
-			self.iniTime = Date.now();
+			var iniTime = Date.now();
 			setTimeout(function() {
 				tmR = false;
 			}, (rqDu * 1000) + 10);
@@ -945,16 +953,17 @@
 			var inH = setInterval(function() {inF()}, rqIn);
         };
 		//// throwHTTPrequests
-		AppSimulator.prototype.tHr = function(rqCt, rqCn) {
+		AppSimulator.prototype.tHr = function(rqCt, rqCn, rq) {
 			var self = this,
 			    cnRe = 0,
 			    cnEr = 0,
+			    rs   = cRS(),
 			    ev   = new ng.core.EventEmitter(true);
 			ev.subscribe(function() {
 				var nIdx = cnRe + rqCn,
-				    oRA  = Rx.Observable.forkJoin(self.rq[1].slice(cnRe, nIdx)).subscribe(
+				    oRA  = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx)).subscribe(
 					    function(r) {
-						    self.oR(r);
+						    self.oR(r, rs);
 					    },
 					    function(e) {
 						    cnEr += rqCn;
@@ -964,10 +973,12 @@
 						    oRA.unsubscribe();
 						    if (cnRe >= rqCt) {
 							    ev.unsubscribe();
-							    self.dur = Date.now() - iniTime;
-							    self.rqEx = rqCt;
-							    self.rER = cnEr;
-							    self.sSt();
+							    var finTime = Date.now() - iniTime;
+							    self.sSt(rqCt, finTime, rq);
+							    return [finTime,
+							            rqCt,
+							            cnEr,
+							            rs];
 						    }
 						    else {
 							    ev.emit();
@@ -1015,14 +1026,20 @@
 				//
 				this.rqCt = this.gDR();
 	            this.pRS();
-				this.tHd(this.rqCt, this.rqCn, this.rqDu, this.rqIn);
+				[this.dur,
+				 this.rqEx,
+				 this.rER,
+				 this.rs] = this.tHd(this.rqCt, this.rqCn, this.rqDu, this.rqIn, this.rq);
             }
             else {
 				//
 				// Stress - requests
 				//
 	            this.pRS();
-				this.tHr(this.rqCt, this.rqCn);
+				[this.dur,
+				 this.rqEx,
+				 this.rER,
+				 this.rs] = this.tHr(this.rqCt, this.rqCn, this.rq);
             }
 		};
 		return AppSimulator;
