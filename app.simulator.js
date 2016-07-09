@@ -293,7 +293,6 @@
 				providers:   [
 					app.HTTPService,
 					ng.http.HTTP_PROVIDERS,
-					//ng.platformBrowser.DomSanitizationService
 					ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
 				],
 				directives:  [nvD3]
@@ -312,7 +311,7 @@
 			this.rqCh = 0;
 			this.sRe = false;
 			this.clc = false;
-			this.leMx = (this.oleMx).slice(0);
+			this.leMx = this.oleMx.slice(0);
 		};
 		//// saveExecutionParametersCopy & resetLiveEventsMatrix
 		AppSimulator.prototype.sEPC = function() {
@@ -664,7 +663,7 @@
 			for (var k = 0; k < re.length; k++) {
 				var res = re[k],
 				    req = res.Q,
-				    hst = res.json.hostname,
+				    hst = res.json.h,
 				    ndx = pix[hst][0],
 				    cch = res.C;
 				rq[0][req] = {
@@ -681,7 +680,7 @@
 					cc.push(++this.rOK);
 				}
 				else {
-					var pid = res.json.pid,
+					var pid = res.json.p,
 					    o   = rq[2][req];
 					if (!(pid in pix[hst][1])) {
 						rs[ndx][1].push([pid,
