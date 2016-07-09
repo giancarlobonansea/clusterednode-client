@@ -669,10 +669,6 @@
 			    toX       = 0,
 			    toN       = 0,
 			    toR       = 0,
-			    tpA       = 0,
-			    tpX       = 0,
-			    tpN       = 0,
-			    tpR       = 0,
 			    hg        = [[50,
 			               0,
 			               0,
@@ -794,10 +790,10 @@
 				pcd2[i].y /= totReqAng[i];
 				pcd[i].y /= totReqNgi[i];
 			}
-			tpA = ((rqEx / (dur / 1000)) | 0) + 1;
-			tpX = ((tpA * toA / toX) | 0) + 1;
-			tpN = ((tpX * toX / toN) | 0) + 1;
-			tpR = ((tpN * toN / toR) | 0) + 1;
+			var tpA = ((rqEx / (dur / 1000)) | 0) + 1,
+			    tpX = ((tpA * toA / toX) | 0) + 1,
+			    tpN = ((tpX * toX / toN) | 0) + 1,
+			    tpR = ((tpN * toN / toR) | 0) + 1;
 			for (i = 0; i < hg.length; i++) {
 				var ix = ((rqEx * hg[i][0] / 100) | 0) - 1;
 				hg[i][1] = rq0[ix].A;
