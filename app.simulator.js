@@ -120,7 +120,11 @@
 			//
 			// View execution parameters
 			//
-			this.iVEP();
+			this.iD = false;
+			this.rqCn = 2;
+			this.rqCt = 100;
+			this.rqDu = 5;
+			this.rqIn = 50;
 			//
 			// View presentation variables - control
 			//
@@ -171,14 +175,6 @@
 			this.rER = 0;
 			this.rOK = 0;
 			this.rqCh = 0;
-		};
-		//// initViewExecParameters
-		AppSimulator.prototype.iVEP = function() {
-			this.iD = false;
-			this.rqCn = 2;
-			this.rqCt = 100;
-			this.rqDu = 5;
-			this.rqIn = 50;
 		};
 		//// initViewPresentationControlVariables
 		AppSimulator.prototype.iVPCV = function() {
@@ -273,16 +269,17 @@
 		//// resetExecutionScopeVariables
 		var cRS = function() {
 			return [[_s_PI2,
-			         []],
+			         [],
+			         0],
 			        [_s_PI3,
-			         []],
+			         [],
+			         0],
 			        [_s_PI5,
-			         []],
+			         [],
+			         0],
 			        [_s_PI6,
-			         []]];
-		};
-		AppSimulator.prototype.rESV = function() {
-			this.dur = 0;
+			         [],
+			         0]];
 		};
 		//// saveExecutionParametersCopy
 		AppSimulator.prototype.sEPC = function() {
@@ -468,12 +465,13 @@
 			this.rLEM();
 			var self = this;
 			io(_s_IURL).on('redis', function(d) {
-				if (self.leMx[d.x][d.y] !== 3) {
+				if (self.leMx[d.x][d.y] < 3) {
 					var x = d.x,
 					    y = d.y;
 					self.leMx[x][y] = 3;
-					setTimeout(function() {
+					var to = setTimeout(function() {
 						self.leMx[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
+						clearTimeout(to);
 					}, 1000);
 				}
 			});
@@ -833,12 +831,12 @@
 			        hg];
         };
 		//// observableResponse
-		AppSimulator.prototype.oR = function(re, rs, rq, cc, nix, pix) {
+		AppSimulator.prototype.oR = function(re, rs, rq, cc, pix) {
 			for (var k = 0; k < re.length; k++) {
 				var res = re[k],
 				    req = res.Q,
 				    hst = res.json.hostname,
-				    ndx = nix[hst][0],
+				    ndx = pix[hst][0],
 				    cch = res.C;
 				rq[0][req] = {
 					Q: 'Req ' + ((req | 0) + 1),
@@ -856,16 +854,16 @@
 				else {
 					var pid = res.json.pid,
 					    o   = rq[2][req];
-					if (!(pid in pix[hst])) {
+					if (!(pid in pix[hst][1])) {
 						rs[ndx][1].push([pid,
 						                 [[],
 						                            [],
 						                            [],
 						                            []]]);
-						pix[hst][pid] = rs[ndx][1].length - 1;
+						pix[hst][1][pid] = rs[ndx][1].length - 1;
 					}
-					rs[ndx][1][pix[hst][pid]][1][o].push(++this.rOK);
-					nix[hst][1]++;
+					rs[ndx][1][pix[hst][1][pid]][1][o].push(++this.rOK);
+					rs[ndx][2]++;
 				}
 			}
 		};
@@ -889,10 +887,8 @@
 				 self.hg] = self.cH(rqEx, dur, rq);
 			});
 		};
-		//// createNIX
-		var cNIX = function() { return JSON.parse('{"' + _s_PI2 + '":[0,0],"' + _s_PI3 + '":[1,0],"' + _s_PI5 + '":[2,0],"' + _s_PI6 + '":[3,0]}'); };
 		//// createPIX
-		var cPIX = function() { return JSON.parse('{"' + _s_PI2 + '":{},"' + _s_PI3 + '":{},"' + _s_PI5 + '":{},"' + _s_PI6 + '":{}}'); };
+		var cPIX = function() { return JSON.parse('{"' + _s_PI2 + '":[0,{}],"' + _s_PI3 + '":[1,{}],"' + _s_PI5 + '":[2,{}],"' + _s_PI6 + '":[3,{}]}'); };
 		//// throwHTTPduration
 		AppSimulator.prototype.tHd = function(rqCt, rqCn, rqDu, rqIn, rq) {
             var self = this,
@@ -901,7 +897,6 @@
                 cnRe = 0,
                 cnEr = 0,
                 cc   = [],
-                nix  = cNIX(),
                 pix  = cPIX(),
                 rs   = cRS(),
                 sHd  = function() {
@@ -916,7 +911,7 @@
 		                cnRq += rqCn;
 		                var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - rqCn, cnRq)).subscribe(
 			                function(r) {
-				                self.oR(r, rs, rq, cc, nix, pix);
+				                self.oR(r, rs, rq, cc, pix);
 			                },
 			                function(e) {
 				                cnEr += rqCn;
@@ -952,7 +947,6 @@
 			    cnRe = 0,
 			    cnEr = 0,
 			    cc   = [],
-			    nix  = cNIX(),
 			    pix  = cPIX(),
 			    rs   = cRS(),
 			    ev   = new ng.core.EventEmitter(true);
@@ -960,7 +954,7 @@
 				var nIdx = cnRe + rqCn,
 				    oRA  = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx)).subscribe(
 					    function(r) {
-						    self.oR(r, rs, rq, cc, nix, pix);
+						    self.oR(r, rs, rq, cc, pix);
 					    },
 					    function(e) {
 						    cnEr += rqCn;
@@ -1004,7 +998,7 @@
 			//
 			// Reset execution scope variables
 			//
-			this.rESV();
+			this.dur = 0;
 			//
 			// Reset view execution variables
 			//
