@@ -229,6 +229,25 @@
 			this.rqCh = 0;
 		};
 		//// initCharts
+		var createPie = function(t) {
+			return {
+				chart: {
+					type:          'pieChart',
+					height:        299,
+					showLegend:    false,
+					donut:         true,
+					padAngle:      0.08,
+					cornerRadius:  5,
+					title:         t,
+					x:             function(d) {return d.key;},
+					y:             function(d) {return d.y;},
+					showLabels:    true,
+					labelType:     function(d) {return d.data.key + ': ' + (d.data.y | 0);},
+					labelsOutside: true,
+					duration:      500
+				}
+			}
+		};
 		AppSimulator.prototype.iC = function() {
 			this.bco = {
 				chart: {
@@ -282,47 +301,12 @@
 						axisLabelDistance: -10,
 						rotateYLabel:      true
 					},
-					x2Axis:                  {
-					},
-					y2Axis:                  {},
 					brushExtent:             [75,
 					                          100]
 				}
 			};
-			this.pco = {
-				chart: {
-					type:          'pieChart',
-					height:        299,
-					showLegend:    false,
-					donut:         true,
-					padAngle:      0.08,
-					cornerRadius:  5,
-					title:         'nginX',
-					x:             function(d) {return d.key;},
-					y:             function(d) {return d.y;},
-					showLabels:    true,
-					labelType:     function(d) {return d.data.key + ': ' + (d.data.y | 0);},
-					labelsOutside: true,
-					duration:      500
-				}
-			};
-			this.pco2 = {
-				chart: {
-					type:          'pieChart',
-					height:        299,
-					showLegend:    false,
-					donut:         true,
-					padAngle:      0.08,
-					cornerRadius:  5,
-					title:         'AngularJS',
-					x:             function(d) {return d.key;},
-					y:             function(d) {return d.y;},
-					showLabels:    true,
-					labelsOutside: true,
-					labelType:     function(d) {return d.data.key + ': ' + (d.data.y | 0);},
-					duration:      500
-				}
-			};
+			this.pco = createPie('nginX');
+			this.pco2 = createPie('AngularJS');
 			this.rCD();
 		};
 		//// resetChartsData
