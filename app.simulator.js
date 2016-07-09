@@ -689,12 +689,12 @@
 			}
 		};
 		//// calculateHistogram
-		AppSimulator.prototype.cH = function() {
+		AppSimulator.prototype.cH = function(rqEx, dur) {
 			this.lE = false;
 			this.rCD();
-			var dr     = ((this.rqEx * 0.0455) | 0) + 1,
+			var dr     = ((rqEx * 0.0455) | 0) + 1,
 			    dLo    = (dr / 2) | 0,
-			    dUp    = this.rqEx - dLo,
+			    dUp    = rqEx - dLo,
 			    self   = this,
 			    setBcd = function(i, l, v) {
 				    self.bcd[i].values.push({
@@ -702,15 +702,15 @@
 					                        value: v
 				                        });
 			    },
-			    rq0    = this.rq[0];
+			    rq0    = this.rq[0],
+			    toA    = 0,
+			    toX    = 0,
+			    toN    = 0,
+			    toR    = 0;
 			this.tpA = 0;
 			this.tpX = 0;
 			this.tpN = 0;
 			this.tpR = 0;
-			this.toA = 0;
-			this.toX = 0;
-			this.toN = 0;
-			this.toR = 0;
 			//
 			// Populate barchart as processed (no sorting)
 			//
@@ -779,14 +779,14 @@
 					this.pcd2[j].y += inSD(i, rtt[j]);
 					totReqAng[j] += inSDbyH(_hstR, j, i, 1);
 				}
-				this.toA += inSD(i, _rttR);
+				toA += inSD(i, _rttR);
 			}
 			for (i = 0; i < 4; i++) {
 				this.pcd2[i].y /= totReqAng[i];
 			}
-			this.tpA = ((this.rqEx / (this.dur / 1000)) | 0) + 1;
+			this.tpA = ((rqEx / (dur / 1000)) | 0) + 1;
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][1] = rq0[((this.rqEx * this.hg[i][0] / 100) | 0) - 1].A;
+				this.hg[i][1] = rq0[((rqEx * this.hg[i][0] / 100) | 0) - 1].A;
             }
 			//
 			// Sorting by TSN (nginX time)
@@ -797,7 +797,7 @@
 			                 0];
 			rq0.sort(function(a, b) {return a.X - b.X});
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][2] = rq0[((this.rqEx * this.hg[i][0] / 100) | 0) - 1].X;
+				this.hg[i][2] = rq0[((rqEx * this.hg[i][0] / 100) | 0) - 1].X;
             }
 			for (i = 0; i < rq0.length; i++) {
 				var _hstT = rq0[i].H,
@@ -807,34 +807,34 @@
 					this.pcd[j].y += inSD(i, tsn[j]);
 					totReqNgi[j] += inSDbyH(_hstT, j, i, 1);
 				}
-				this.toX += inSD(i, _tsnT);
+				toX += inSD(i, _tsnT);
 			}
 			for (i = 0; i < 4; i++) {
 				this.pcd[i].y /= totReqNgi[i];
 			}
-			this.tpX = ((this.tpA * this.toA / this.toX) | 0) + 1;
+			this.tpX = ((this.tpA * toA / toX) | 0) + 1;
 			//
 			// Sort by EXTS (nodeJS time)
 			//
 			rq0.sort(function(a, b) {return a.N - b.N});
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][3] = rq0[((this.rqEx * this.hg[i][0] / 100) | 0) - 1].N;
+				this.hg[i][3] = rq0[((rqEx * this.hg[i][0] / 100) | 0) - 1].N;
             }
 			for (i = 0; i < rq0.length; i++) {
-				this.toN += inSD(i, rq0[i].N);
+				toN += inSD(i, rq0[i].N);
 			}
-			this.tpN = ((this.tpX * this.toX / this.toN) | 0) + 1;
+			this.tpN = ((this.tpX * toX / toN) | 0) + 1;
             //
             // Sort by RED (redis.io time)
             //
 			rq0.sort(function(a, b) {return a.R - b.R});
 			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][4] = rq0[((this.rqEx * this.hg[i][0] / 100) | 0) - 1].R;
+				this.hg[i][4] = rq0[((rqEx * this.hg[i][0] / 100) | 0) - 1].R;
             }
 			for (i = 0; i < rq0.length; i++) {
-				this.toR += inSD(i, rq0[i].R);
+				toR += inSD(i, rq0[i].R);
             }
-			this.tpR = ((this.tpN * this.toN / this.toR) | 0) + 1;
+			this.tpR = ((this.tpN * toN / toR) | 0) + 1;
             //
             // Calculating HDR Histogram
             //
@@ -844,7 +844,7 @@
 			};
 			this.lcd[0].values = [];
 			this.lcd[1].values = [];
-			this.oRTT = this.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
+			this.oRT = this.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
 	            function(re) {
 		            hdrAr = re;
 		            self.rq[0].sort(function(a, b) {return a.A - b.A});
@@ -864,7 +864,7 @@
                     console.log("HDR Service error");
                 },
 	            function() {
-		            self.oRTT.unsubscribe();
+		            self.oRT.unsubscribe();
 		            self.clc = false;
 		            self.running = false;
 		            self.lE = false;
@@ -913,7 +913,7 @@
 		AppSimulator.prototype.sSt = function() {
 			this.clc = true;
 			var self = this;
-			setTimeout(function() {self.cH();});
+			setTimeout(function() {self.cH(self.rqEx, self.dur);});
 		};
 		//// throwHTTPduration
 		AppSimulator.prototype.tHd = function(rqCt, rqCn, rqDu, rqIn) {
