@@ -597,22 +597,22 @@
 			}
 		};
 		//// calculateHistogram
-		AppSimulator.prototype.cH = function(rqEx, dur) {
+		AppSimulator.prototype.cH = function(rqEx, dur, rq) {
 			this.lE = false;
 			//// resetChartsData
-			var cBC    = function(k1, k2) {
+			var cBC       = function(k1, k2) {
 				    return {
 					    key:    k1 + k2,
 					    values: []
 				    };
 			    },
-			    cPC    = function(k) {
+			    cPC       = function(k) {
 				    return {
 					    key: k,
 					    y:   0
 				    };
 			    },
-			    bcd    = [cBC(_s_PI2, _s_RED),
+			    bcd       = [cBC(_s_PI2, _s_RED),
 			              cBC(_s_PI3, _s_RED),
 			              cBC(_s_PI5, _s_RED),
 			              cBC(_s_PI6, _s_RED),
@@ -636,7 +636,7 @@
 			              cPC(_s_PI3),
 			              cPC(_s_PI5),
 			              cPC(_s_PI6)],
-			    lcd    = [
+			    lcd       = [
 				    {
 					    key:    'w/o Coord. Omission',
 					    values: [],
@@ -648,26 +648,29 @@
 					    area:   true
 				    }
 			    ],
-			    dr     = ((rqEx * 0.0455) | 0) + 1,
-			    dLo    = (dr / 2) | 0,
-			    dUp    = rqEx - dLo,
-			    self   = this,
-			    setBcd = function(i, l, v) {
+			    dr        = ((rqEx * 0.0455) | 0) + 1,
+			    dLo       = (dr / 2) | 0,
+			    dUp       = rqEx - dLo,
+			    self      = this,
+			    setBcd    = function(i, l, v) {
 				    bcd[i].values.push({
 					                        label: l,
 					                        value: v
 				                        });
 			    },
-			    rq0    = this.rq[0],
-			    toA    = 0,
-			    toX    = 0,
-			    toN    = 0,
-			    toR    = 0,
-			    tpA    = 0,
-			    tpX    = 0,
-			    tpN    = 0,
-			    tpR    = 0,
-			    hg     = [[50,
+			    rq0       = rq[0],
+			    rq1       = rq[0].slice(0),
+			    rq2       = rq[0].slice(0),
+			    rq3       = rq[0].slice(0),
+			    toA       = 0,
+			    toX       = 0,
+			    toN       = 0,
+			    toR       = 0,
+			    tpA       = 0,
+			    tpX       = 0,
+			    tpN       = 0,
+			    tpR       = 0,
+			    hg        = [[50,
 			               0,
 			               0,
 			               0,
@@ -706,7 +709,29 @@
 			               0,
 			               0,
 			               0,
-			               0]];
+			               0]],
+			    totReqAng = [0,
+			                 0,
+			                 0,
+			                 0],
+			    totReqNgi = [0,
+			                 0,
+			                 0,
+			                 0],
+			    hdPD      = {arr: []},
+			    byH       = function(hl, hv, v) {
+				    return hl === hv ? v : 0;
+			    },
+			    inSD      = function(i, v) {
+				    return ((i >= dLo) && (i <= dUp)) ? v : 0;
+			    },
+			    inSDbyH   = function(hl, hv, i, v) {
+				    return ((hl === hv) && (i >= dLo) && (i <= dUp)) ? v : 0;
+			    },
+			    hdrAr     = {
+				    table: [],
+				    chart: []
+			    };
 			//
 			// Populate barchart as processed (no sorting)
 			//
@@ -739,109 +764,54 @@
 					setBcd(j + 8, _rid, (tsn[j] - exts[j]) | 0);
 					setBcd(j + 12, _rid, rtt[j] - tsn[j]);
 				}
-            }
-            //
-            // HDR by RTT (AngularJS time)
-            //
-			var hdPD = {arr: []};
-			for (var n = 0; n < rq0.length; n++) {
-				hdPD.arr.push(rq0[n].A);
+				hdPD.arr.push(rq0[i].A);
             }
 			//
-			// Helpers
+			// Prepare histogram
 			//
-			var byH = function(hl, hv, v) {
-				return hl === hv ? v : 0;
-			};
-			var inSD = function(i, v) {
-				return ((i >= dLo) && (i <= dUp)) ? v : 0;
-			};
-			var inSDbyH = function(hl, hv, i, v) {
-				return ((hl === hv) && (i >= dLo) && (i <= dUp)) ? v : 0;
-			};
-            //
-            // Sorting by RTT (AngularJS time)
-            //
-			var totReqAng = [0,
-			                 0,
-			                 0,
-			                 0];
 			rq0.sort(function(a, b) {return a.A - b.A});
+			rq1.sort(function(a, b) {return a.X - b.X});
+			rq2.sort(function(a, b) {return a.N - b.N});
+			rq3.sort(function(a, b) {return a.R - b.R});
 			for (i = 0; i < rq0.length; i++) {
 				var _hstR = rq0[i].H,
-				    _rttR = rq0[i].A;
+				    _rttR = rq0[i].A,
+				    _hstT = rq1[i].H,
+				    _tsnT = rq1[i].X;
 				for (j = 0; j < 4; j++) {
 					rtt[j] = byH(_hstR, j, _rttR);
 					pcd2[j].y += inSD(i, rtt[j]);
 					totReqAng[j] += inSDbyH(_hstR, j, i, 1);
-				}
-				toA += inSD(i, _rttR);
-			}
-			for (i = 0; i < 4; i++) {
-				pcd2[i].y /= totReqAng[i];
-			}
-			tpA = ((rqEx / (dur / 1000)) | 0) + 1;
-			for (i = 0; i < hg.length; i++) {
-				hg[i][1] = rq0[((rqEx * hg[i][0] / 100) | 0) - 1].A;
-            }
-			//
-			// Sorting by TSN (nginX time)
-			//
-			var totReqNgi = [0,
-			                 0,
-			                 0,
-			                 0];
-			rq0.sort(function(a, b) {return a.X - b.X});
-			for (i = 0; i < hg.length; i++) {
-				hg[i][2] = rq0[((rqEx * hg[i][0] / 100) | 0) - 1].X;
-            }
-			for (i = 0; i < rq0.length; i++) {
-				var _hstT = rq0[i].H,
-				    _tsnT = rq0[i].X;
-				for (j = 0; j < 4; j++) {
 					tsn[j] = byH(_hstT, j, _tsnT);
 					pcd[j].y += inSD(i, tsn[j]);
 					totReqNgi[j] += inSDbyH(_hstT, j, i, 1);
 				}
+				toA += inSD(i, _rttR);
 				toX += inSD(i, _tsnT);
+				toN += inSD(i, rq2[i].N);
+				toR += inSD(i, rq3[i].R);
 			}
 			for (i = 0; i < 4; i++) {
+				pcd2[i].y /= totReqAng[i];
 				pcd[i].y /= totReqNgi[i];
 			}
+			tpA = ((rqEx / (dur / 1000)) | 0) + 1;
 			tpX = ((tpA * toA / toX) | 0) + 1;
-			//
-			// Sort by EXTS (nodeJS time)
-			//
-			rq0.sort(function(a, b) {return a.N - b.N});
-			for (i = 0; i < hg.length; i++) {
-				hg[i][3] = rq0[((rqEx * hg[i][0] / 100) | 0) - 1].N;
-            }
-			for (i = 0; i < rq0.length; i++) {
-				toN += inSD(i, rq0[i].N);
-			}
 			tpN = ((tpX * toX / toN) | 0) + 1;
-            //
-            // Sort by RED (redis.io time)
-            //
-			rq0.sort(function(a, b) {return a.R - b.R});
-			for (i = 0; i < hg.length; i++) {
-				hg[i][4] = rq0[((rqEx * hg[i][0] / 100) | 0) - 1].R;
-            }
-			for (i = 0; i < rq0.length; i++) {
-				toR += inSD(i, rq0[i].R);
-            }
 			tpR = ((tpN * toN / toR) | 0) + 1;
+			for (i = 0; i < hg.length; i++) {
+				var ix = ((rqEx * hg[i][0] / 100) | 0) - 1;
+				hg[i][1] = rq0[ix].A;
+				hg[i][2] = rq1[ix].X;
+				hg[i][3] = rq2[ix].N;
+				hg[i][4] = rq3[ix].R;
+            }
             //
             // Calculating HDR Histogram
             //
-			var hdrAr = {
-				table: [],
-				chart: []
-			};
 			this.oRT = this.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
 	            function(re) {
 		            hdrAr = re;
-		            self.rq[0].sort(function(a, b) {return a.A - b.A});
 		            for (var n = 0; n < hdrAr.chart.length; n++) {
 			            var idx = ((hdrAr.chart[n].percentile * self.rOK / 100) | 0) - 1;
 			            lcd[0].values.push({
@@ -850,7 +820,7 @@
 		                                                     });
 			            lcd[1].values.push({
 				                                    x: hdrAr.chart[n].percentile,
-				                                    y: self.rq[0][(idx < 0) ? 0 : idx].A
+				                               y:      rq0[(idx < 0) ? 0 : idx].A
 		                                                     });
 	                }
                 },
@@ -919,7 +889,7 @@
 		AppSimulator.prototype.sSt = function() {
 			this.clc = true;
 			var self = this;
-			setTimeout(function() {self.cH(self.rqEx, self.dur);});
+			setTimeout(function() {self.cH(self.rqEx, self.dur, self.rq);});
 		};
 		//// throwHTTPduration
 		AppSimulator.prototype.tHd = function(rqCt, rqCn, rqDu, rqIn) {
