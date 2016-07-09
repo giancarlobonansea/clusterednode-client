@@ -920,7 +920,7 @@
 		                cnRq += rqCn;
 		                var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - rqCn, cnRq)).subscribe(
 			                function(r) {
-				                self.oR(r, rs);
+				                self.oR(r, rs, rq);
 			                },
 			                function(e) {
 				                cnEr += rqCn;
@@ -961,7 +961,7 @@
 				var nIdx = cnRe + rqCn,
 				    oRA  = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx)).subscribe(
 					    function(r) {
-						    self.oR(r, rs);
+						    self.oR(r, rs, rq);
 					    },
 					    function(e) {
 						    cnEr += rqCn;
