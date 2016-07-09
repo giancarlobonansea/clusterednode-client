@@ -180,46 +180,6 @@
 		};
 		//// resetViewPresentationControlVariables
 		AppSimulator.prototype.rVPCV = function() {
-			this.hg = [[50,
-			            0,
-			            0,
-			            0,
-			            0],
-			           [75,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			           [87.5,
-			            0,
-			            0,
-			            0,
-			            0],
-			           [93.75,
-			            0,
-			            0,
-			            0,
-			            0],
-			           [96.875,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			           [98.4375,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			           [99.21875,
-			                   0,
-			                   0,
-			                   0,
-			                   0],
-			           [100,
-			                   0,
-			                   0,
-			                   0,
-			                   0]];
 			this.sRe = false;
 			this.clc = false;
 			this.oT = [0,
@@ -706,7 +666,47 @@
 			    tpA    = 0,
 			    tpX    = 0,
 			    tpN    = 0,
-			    tpR    = 0;
+			    tpR    = 0,
+			    hg     = [[50,
+			               0,
+			               0,
+			               0,
+			               0],
+			              [75,
+			               0,
+			               0,
+			               0,
+			               0],
+			              [87.5,
+			               0,
+			               0,
+			               0,
+			               0],
+			              [93.75,
+			               0,
+			               0,
+			               0,
+			               0],
+			              [96.875,
+			               0,
+			               0,
+			               0,
+			               0],
+			              [98.4375,
+			               0,
+			               0,
+			               0,
+			               0],
+			              [99.21875,
+			               0,
+			               0,
+			               0,
+			               0],
+			              [100,
+			               0,
+			               0,
+			               0,
+			               0]];
 			//
 			// Populate barchart as processed (no sorting)
 			//
@@ -781,8 +781,8 @@
 				pcd2[i].y /= totReqAng[i];
 			}
 			tpA = ((rqEx / (dur / 1000)) | 0) + 1;
-			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][1] = rq0[((rqEx * this.hg[i][0] / 100) | 0) - 1].A;
+			for (i = 0; i < hg.length; i++) {
+				hg[i][1] = rq0[((rqEx * hg[i][0] / 100) | 0) - 1].A;
             }
 			//
 			// Sorting by TSN (nginX time)
@@ -792,8 +792,8 @@
 			                 0,
 			                 0];
 			rq0.sort(function(a, b) {return a.X - b.X});
-			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][2] = rq0[((rqEx * this.hg[i][0] / 100) | 0) - 1].X;
+			for (i = 0; i < hg.length; i++) {
+				hg[i][2] = rq0[((rqEx * hg[i][0] / 100) | 0) - 1].X;
             }
 			for (i = 0; i < rq0.length; i++) {
 				var _hstT = rq0[i].H,
@@ -813,8 +813,8 @@
 			// Sort by EXTS (nodeJS time)
 			//
 			rq0.sort(function(a, b) {return a.N - b.N});
-			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][3] = rq0[((rqEx * this.hg[i][0] / 100) | 0) - 1].N;
+			for (i = 0; i < hg.length; i++) {
+				hg[i][3] = rq0[((rqEx * hg[i][0] / 100) | 0) - 1].N;
             }
 			for (i = 0; i < rq0.length; i++) {
 				toN += inSD(i, rq0[i].N);
@@ -824,8 +824,8 @@
             // Sort by RED (redis.io time)
             //
 			rq0.sort(function(a, b) {return a.R - b.R});
-			for (i = 0; i < this.hg.length; i++) {
-				this.hg[i][4] = rq0[((rqEx * this.hg[i][0] / 100) | 0) - 1].R;
+			for (i = 0; i < hg.length; i++) {
+				hg[i][4] = rq0[((rqEx * hg[i][0] / 100) | 0) - 1].R;
             }
 			for (i = 0; i < rq0.length; i++) {
 				toR += inSD(i, rq0[i].R);
@@ -875,6 +875,7 @@
 			this.tpX = tpX;
 			this.tpN = tpN;
 			this.tpR = tpR;
+			this.hg = hg;
 			sGA(_s_SIM, 'Execution', 'Throughput', tpA);
         };
 		//// observableResponse
