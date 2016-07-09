@@ -1,65 +1,5 @@
 (function(app) {
 	app.AppSimulator = (function() {
-		//// initReferenceLinks
-		var iRL = function(t) {
-			var l = {
-				l0: _RL.l0,
-				l1: _RL.l1,
-				v:  []
-			};
-			for (var i = 0; i < _RL.v.length; i++) {
-				l.v.push({
-					         t: _RL.v[i].t,
-					         a: []
-				         });
-				for (var j = 0; j < _RL.v[i].a.length; j++) {
-					l.v[i].a.push({
-						              h: t.safeUrl(_RL.v[i].a[j].h),
-						              d: _RL.v[i].a[j].d
-					              });
-				}
-			}
-			return l;
-		    },
-		    //// Google Analytics
-		    sGA = function(a, b, c, d) {
-			ga('send', 'event', a, b, c, d);
-		    },
-		    //// initCharts
-		    cP  = function(t) {
-			    return {
-				    chart: {
-					    type:          'pieChart',
-					    height:        299,
-					    showLegend:    false,
-					    donut:         true,
-					    padAngle:      0.08,
-					    cornerRadius:  5,
-					    title:         t,
-					    x:             function(d) {return d.key;},
-					    y:             function(d) {return d.y;},
-					    showLabels:    true,
-					    labelType:     function(d) {return d.data.key + ': ' + (d.data.y | 0);},
-					    labelsOutside: true,
-					    duration:      500
-				    }
-			    }
-		    },
-		    //// resetExecutionScopeVariables
-		    cRS = function() {
-			    return [[_s_PI2,
-			             [],
-			             0],
-			            [_s_PI3,
-			             [],
-			             0],
-			            [_s_PI5,
-			             [],
-			             0],
-			            [_s_PI6,
-			             [],
-			             0]];
-		};
 		//// Constants
 		const _s_SIM  = "Simulation",
 		      _s_CFG  = "Configuration",
@@ -140,7 +80,81 @@
 		                 0,
 		                 1,
 		                 2,
-		                 3];
+		                 3],
+		      _a_GDS  = ['text-info',
+		                 'text-primary',
+		                 'text-muted',
+		                 'text-danger'];
+		//// helper functions
+		var iRL = function(t) {
+			var l = {
+				l0: _RL.l0,
+				l1: _RL.l1,
+				v:  []
+			};
+			for (var i = 0; i < _RL.v.length; i++) {
+				l.v.push({
+					         t: _RL.v[i].t,
+					         a: []
+				         });
+				for (var j = 0; j < _RL.v[i].a.length; j++) {
+					l.v[i].a.push({
+						              h: t.safeUrl(_RL.v[i].a[j].h),
+						              d: _RL.v[i].a[j].d
+					              });
+				}
+			}
+			return l;
+		    },
+		    //// Google Analytics
+		    sGA = function(a, b, c, d) {
+			ga('send', 'event', a, b, c, d);
+		    },
+		    //// initCharts
+		    cP  = function(t) {
+			    return {
+				    chart: {
+					    type:          'pieChart',
+					    height:        299,
+					    showLegend:    false,
+					    donut:         true,
+					    padAngle:      0.08,
+					    cornerRadius:  5,
+					    title:         t,
+					    x:             function(d) {return d.key;},
+					    y:             function(d) {return d.y;},
+					    showLabels:    true,
+					    labelType:     function(d) {return d.data.key + ': ' + (d.data.y | 0);},
+					    labelsOutside: true,
+					    duration:      500
+				    }
+			    }
+		    },
+		    //// resetExecutionScopeVariables
+		    cRS = function() {
+			    return [[_s_PI2,
+			             [],
+			             0],
+			            [_s_PI3,
+			             [],
+			             0],
+			            [_s_PI5,
+			             [],
+			             0],
+			            [_s_PI6,
+			             [],
+			             0]];
+		    },
+		    //// getRandomOperation
+		    gRO  = function() {
+			    return _a_OPE[(Math.random() * 10) | 0];
+		    },
+		    //// getRandomDBRecord
+		    gRD  = function() {
+			    return (Math.random() * 16384) | 0;
+		    },
+		    //// createPIX
+		    cPIX = function() { return JSON.parse('{"' + _s_PI2 + '":[0,{}],"' + _s_PI3 + '":[1,{}],"' + _s_PI5 + '":[2,{}],"' + _s_PI6 + '":[3,{}]}'); };
 		//// Constructor
 		function AppSimulator (HTTPService, DOMSanitizer) {
 			//
@@ -502,17 +516,8 @@
 			}
 		};
 		//// getDatabaseStatus
-		AppSimulator.prototype.gDS = function(cond) {
-			switch (cond) {
-				case 0:
-					return 'text-info';
-				case 2:
-					return 'text-primary';
-				case 1:
-					return 'text-muted';
-				case 3:
-					return 'text-danger bg-danger';
-			}
+		AppSimulator.prototype.gDS = function(c) {
+			return _a_GDS[c];
 		};
 		//// percValue
 		AppSimulator.prototype.pV = function() {
@@ -537,14 +542,6 @@
 		//// isRunning
 		AppSimulator.prototype.iR = function() {
 			return this.run;
-		};
-		//// getRandomOperation
-		var gRO = function() {
-			return _a_OPE[(Math.random() * 10) | 0];
-		};
-		//// getRandomDBRecord
-		var gRD = function() {
-			return (Math.random() * 16384) | 0;
 		};
 		//// populateRequestSamples
 		AppSimulator.prototype.pRS = function(rqCt) {
@@ -771,7 +768,7 @@
             // Calculating HDR Histogram
             //
 			this.oRT = this.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
-	            function(re) {
+				function(re) {
 		            for (var n = 0; n < re.chart.length; n++) {
 			            var idx = ((re.chart[n].percentile * self.rOK / 100) | 0) - 1;
 			            lcd[0].values.push({
@@ -784,10 +781,9 @@
 		                                                     });
 	                }
                 },
-	            function(error) {
-                    console.log("HDR Service error");
+				function(e) {
                 },
-	            function() {
+				function() {
 		            self.lcd = lcd;
 		            self.oRT.unsubscribe();
 		            self.clc = false;
@@ -865,8 +861,6 @@
 				 self.hg] = self.cH(rqEx, dur, rq);
 			});
 		};
-		//// createPIX
-		var cPIX = function() { return JSON.parse('{"' + _s_PI2 + '":[0,{}],"' + _s_PI3 + '":[1,{}],"' + _s_PI5 + '":[2,{}],"' + _s_PI6 + '":[3,{}]}'); };
 		//// throwHTTPduration
 		AppSimulator.prototype.tHd = function(rqCt, rqCn, rqDu, rqIn, rq) {
             var self = this,
