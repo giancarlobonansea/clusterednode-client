@@ -163,11 +163,6 @@
 			this.hS = HTTPService;
 			this.snS = DOMSanitizer;
 			//
-			// View execution variables
-			//
-			this.rVEV();
-			this.run = false;
-			//
 			// View execution parameters
 			//
 			this.iD = false;
@@ -267,6 +262,14 @@
 			for (i = 0; i < 5; i++) {
 				this.oleMx.push(a2.slice(0));
 			}
+			//
+			// View execution variables
+			//
+			this.rVEV();
+			this.run = false;
+			//
+			// Live Events socket event handler
+			//
 			var self = this;
 			io(_s_IURL).on('redis', function(d) {
 				if (self.leMx[d.x][d.y] < 3) {
