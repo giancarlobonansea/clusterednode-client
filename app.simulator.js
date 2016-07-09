@@ -12,9 +12,9 @@
 		      _s_NGI  = "-nginx",
 		      _s_NOD  = "-node",
 		      _s_BURL = "https://giancarlobonansea.homeip.net:3333",
-		      _s_AURL = _s_BURL + ':3/api',
-		      _s_HURL = _s_BURL + ':3/hdr',
-		      _s_IURL = _s_BURL + ':1',
+		      _s_AURL = _s_BURL + '3/api',
+		      _s_HURL = _s_BURL + '3/hdr',
+		      _s_IURL = _s_BURL + '1',
 		      _s_STA  = "STABILITY",
 		      _s_STR  = "STRESS",
 		      _j_ERE  = {
