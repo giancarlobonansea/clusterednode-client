@@ -276,9 +276,8 @@
 					var x = d.x,
 					    y = d.y;
 					self.leMx[x][y] = 3;
-					var to = setTimeout(function() {
+					setTimeout(function() {
 						self.leMx[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
-						clearTimeout(to);
 					}, 1000);
 				}
 			});
