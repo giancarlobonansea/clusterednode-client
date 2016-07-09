@@ -229,7 +229,7 @@
 			this.rqCh = 0;
 		};
 		//// initCharts
-		var createPie = function(t) {
+		var cP = function(t) {
 			return {
 				chart: {
 					type:          'pieChart',
@@ -305,108 +305,48 @@
 					                          100]
 				}
 			};
-			this.pco = createPie('nginX');
-			this.pco2 = createPie('AngularJS');
+			this.pco = cP('nginX');
+			this.pco2 = cP('AngularJS');
 			this.rCD();
 		};
 		//// resetChartsData
-		AppSimulator.prototype.rCD = function() {
-			this.bcd = [{
-				key:    _s_PI2 + _s_RED,
+		var cBC = function(k1, k2) {
+			return {
+				key:    k1 + k2,
 				values: []
-			},
-			            {
-				            key:             _s_PI3 + _s_RED,
-				                     values: []
-			                     },
-			            {
-				            key:             _s_PI5 + _s_RED,
-				                     values: []
-			                     },
-			            {
-				            key:             _s_PI6 + _s_RED,
-				                     values: []
-			                     },
-			                     {
-				                     key:    _s_PI2 + _s_NOD,
-				                     values: []
-			                     },
-			                     {
-				                     key:    _s_PI3 + _s_NOD,
-				                     values: []
-			                     },
-			                     {
-				                     key:    _s_PI5 + _s_NOD,
-				                     values: []
-			                     },
-			                     {
-				                     key:    _s_PI6 + _s_NOD,
-				                     values: []
-			                     },
-			                     {
-				                     key:    _s_PI2 + _s_NGI,
-				                     values: []
-			                     },
-			                     {
-				                     key:    _s_PI3 + _s_NGI,
-				                     values: []
-			                     },
-			                     {
-				                     key:    _s_PI5 + _s_NGI,
-				                     values: []
-			                     },
-			                     {
-				                     key:    _s_PI6 + _s_NGI,
-				                     values: []
-			                     },
-			            {
-				            key:             _s_PI2 + _s_ANG,
-				                     values: []
-			                     },
-			            {
-				            key:             _s_PI3 + _s_ANG,
-				                     values: []
-			                     },
-			            {
-				            key:             _s_PI5 + _s_ANG,
-				                     values: []
-			                     },
-			            {
-				            key:             _s_PI6 + _s_ANG,
-				                     values: []
-			                     }];
-			this.pcd = [{
-				key: _s_PI2,
+			};
+		};
+		var cPC = function(k) {
+			return {
+				key: k,
 				y:   0
-			},
-			            {
-				            key:          _s_PI3,
-				                       y: 0
-			                       },
-			            {
-				            key:          _s_PI5,
-				                       y: 0
-			                       },
-			            {
-				            key:          _s_PI6,
-				                       y: 0
-			                       }];
-			this.pcd2 = [{
-				key: _s_PI2,
-				y:   0
-			},
-			             {
-				             key:          _s_PI3,
-				                        y: 0
-			                        },
-			             {
-				             key:          _s_PI5,
-				                        y: 0
-			                        },
-			             {
-				             key:          _s_PI6,
-				                        y: 0
-			                        }];
+			};
+		};
+		AppSimulator.prototype.rCD = function() {
+			this.bcd = [cBC(_s_PI2, _s_RED),
+			            cBC(_s_PI3, _s_RED),
+			            cBC(_s_PI5, _s_RED),
+			            cBC(_s_PI6, _s_RED),
+			            cBC(_s_PI2, _s_NOD),
+			            cBC(_s_PI3, _s_NOD),
+			            cBC(_s_PI5, _s_NOD),
+			            cBC(_s_PI6, _s_NOD),
+			            cBC(_s_PI2, _s_NGI),
+			            cBC(_s_PI3, _s_NGI),
+			            cBC(_s_PI5, _s_NGI),
+			            cBC(_s_PI6, _s_NGI),
+			            cBC(_s_PI2, _s_ANG),
+			            cBC(_s_PI3, _s_ANG),
+			            cBC(_s_PI5, _s_ANG),
+			            cBC(_s_PI6, _s_ANG)];
+			this.pcd = [cPC(_s_PI2),
+			            cPC(_s_PI3),
+			            cPC(_s_PI5),
+			            cPC(_s_PI6)];
+			this.pcd2 = [cPC(_s_PI2),
+			             cPC(_s_PI3),
+			             cPC(_s_PI5),
+			             cPC(_s_PI6)];
 			this.lcd = [
 				{
 					key:    'w/o Coord. Omission',
