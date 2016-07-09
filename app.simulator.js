@@ -291,39 +291,14 @@
 			this.sRe = false;
 			this.clc = false;
 			this.leMx = [];
-			for (var i = 0; i < 5; i++) {
-				this.leMx.push([0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0,
-				                0]);
+			var a0 = [], a1 = [], a2 = [];
+			for (var i = 0; i < 32; i++) {
+				a0[i] = 0;
+				a1[i] = 1;
+				a2[i] = 2;
+			}
+			for (i = 0; i < 5; i++) {
+				this.leMx.push(a0.slice(0));
 			}
 			this.leMx.push([0,
 			                0,
@@ -358,38 +333,7 @@
 			                1,
 			                1]);
 			for (i = 0; i < 4; i++) {
-				this.leMx.push([1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1,
-				                1]);
+				this.leMx.push(a1.slice(0));
 			}
 			this.leMx.push([1,
 			                1,
@@ -424,38 +368,7 @@
 			                2,
 			                2]);
 			for (i = 0; i < 5; i++) {
-				this.leMx.push([2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2,
-				                2]);
+				this.leMx.push(a2.slice(0));
 			}
 		};
 		//// saveExecutionParametersCopy & resetLiveEventsMatrix
@@ -519,12 +432,12 @@
 			return _a_GDS[c];
 		};
 		//// percValue
-		AppSimulator.prototype.pV = function() {
-			return (this.rOK * 100 / this.rqCt) | 0;
+		AppSimulator.prototype.pV = function(o, c) {
+			return (o * 100 / c) | 0;
 		};
 		//// calcPosition
-		AppSimulator.prototype.cP = function(h) {
-			return (this.rOK * h / 100) | 0;
+		AppSimulator.prototype.cP = function(o, h) {
+			return (o * h / 100) | 0;
 		};
 		//// getDurationRequests
 		AppSimulator.prototype.gDR = function() {
