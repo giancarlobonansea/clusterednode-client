@@ -267,7 +267,6 @@
 			for (i = 0; i < 5; i++) {
 				this.oleMx.push(a2.slice(0));
 			}
-
 			var self = this;
 			io(_s_IURL).on('redis', function(d) {
 				if (self.leMx[d.x][d.y] < 3) {
@@ -311,7 +310,7 @@
 			this.rqCh = 0;
 			this.sRe = false;
 			this.clc = false;
-			this.leMx = this.oleMx.slice(0);
+			this.leMx = (this.oleMx).slice(0);
 		};
 		//// saveExecutionParametersCopy & resetLiveEventsMatrix
 		AppSimulator.prototype.sEPC = function() {
