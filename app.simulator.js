@@ -134,10 +134,6 @@
 			//
 			this.iC();
 			//
-			// Execution scope variables
-			//
-			this.iESV();
-			//
 			// Live Events socket variables and configuration
 			//
 			this.iLE();
@@ -168,12 +164,13 @@
 		//// initViewExecVariables
 		AppSimulator.prototype.iVEV = function() {
 			this.rVEV();
-			this.running = false;
+			this.run = false;
 		};
 		//// resetViewExecVariables
 		AppSimulator.prototype.rVEV = function() {
 			this.rER = 0;
 			this.rOK = 0;
+			this.rqCh = 0;
 		};
 		//// initViewExecParameters
 		AppSimulator.prototype.iVEP = function() {
@@ -192,7 +189,6 @@
 		AppSimulator.prototype.rVPCV = function() {
 			this.sRe = false;
 			this.clc = false;
-			this.rqCh = 0;
 		};
 		//// initCharts
 		var cP = function(t) {
@@ -274,10 +270,6 @@
 			this.pco = cP('nginX');
 			this.pco2 = cP('AngularJS');
 		};
-		//// initExecutionScopeVariables
-		AppSimulator.prototype.iESV = function() {
-			this.dur = 0;
-		};
 		//// resetExecutionScopeVariables
 		var cRS = function() {
 			return [[_s_PI2,
@@ -291,10 +283,6 @@
 		};
 		AppSimulator.prototype.rESV = function() {
 			this.dur = 0;
-			this.rs = cRS();
-			this.nix = JSON.parse('{"' + _s_PI2 + '":[0,0],"' + _s_PI3 + '":[1,0],"' + _s_PI5 + '":[2,0],"' + _s_PI6 + '":[3,0]}');
-			this.pix = JSON.parse('{"' + _s_PI2 + '":{},"' + _s_PI3 + '":{},"' + _s_PI5 + '":{},"' + _s_PI6 + '":{}}');
-			this.chRe = [];
 		};
 		//// saveExecutionParametersCopy
 		AppSimulator.prototype.sEPC = function() {
@@ -572,7 +560,7 @@
 		//
 		//// isRunning
 		AppSimulator.prototype.iR = function() {
-            return this.running;
+			return this.run;
 		};
 		//// getRandomOperation
 		var gRO = function() {
@@ -598,8 +586,8 @@
 				rq[1].push(this.hS.get(q, _s_AURL, o, gRD()));
 				rq[2].push(o);
 			}
-			this.oT = oT;
-			return rq;
+			return [rq,
+			        oT];
 		};
 		//// calculateHistogram
 		AppSimulator.prototype.cH = function(rqEx, dur, rq) {
@@ -827,7 +815,7 @@
 		            self.lcd = lcd;
 		            self.oRT.unsubscribe();
 		            self.clc = false;
-		            self.running = false;
+		            self.run = false;
 		            self.lE = false;
                 }
             );
@@ -845,12 +833,12 @@
 			        hg];
         };
 		//// observableResponse
-		AppSimulator.prototype.oR = function(re, rs, rq) {
+		AppSimulator.prototype.oR = function(re, rs, rq, cc, nix, pix) {
 			for (var k = 0; k < re.length; k++) {
 				var res = re[k],
 				    req = res.Q,
 				    hst = res.json.hostname,
-				    ndx = this.nix[hst][0],
+				    ndx = nix[hst][0],
 				    cch = res.C;
 				rq[0][req] = {
 					Q: 'Req ' + ((req | 0) + 1),
@@ -863,31 +851,32 @@
 				};
 				if (cch) {
 					this.rqCh++;
-					this.chRe.push(++this.rOK);
+					cc.push(++this.rOK);
 				}
 				else {
 					var pid = res.json.pid,
 					    o   = rq[2][req];
-					if (!(pid in this.pix[hst])) {
+					if (!(pid in pix[hst])) {
 						rs[ndx][1].push([pid,
 						                 [[],
 						                            [],
 						                            [],
 						                            []]]);
-						this.pix[hst][pid] = rs[ndx][1].length - 1;
+						pix[hst][pid] = rs[ndx][1].length - 1;
 					}
-					rs[ndx][1][this.pix[hst][pid]][1][o].push(++this.rOK);
-					this.nix[hst][1]++;
+					rs[ndx][1][pix[hst][pid]][1][o].push(++this.rOK);
+					nix[hst][1]++;
 				}
 			}
 		};
 		//// startStatistics
-		AppSimulator.prototype.sSt = function(rqEx, dur, cnEr, rq, rs) {
+		AppSimulator.prototype.sSt = function(rqEx, dur, cnEr, rq, rs, cc) {
 			this.clc = true;
 			this.dur = dur;
 			this.rqEx = rqEx;
 			this.rER = cnEr;
 			this.rs = rs;
+			this.chRe = cc;
 			var self = this;
 			setTimeout(function() {
 				[self.bcd,
@@ -900,6 +889,10 @@
 				 self.hg] = self.cH(rqEx, dur, rq);
 			});
 		};
+		//// createNIX
+		var cNIX = function() { return JSON.parse('{"' + _s_PI2 + '":[0,0],"' + _s_PI3 + '":[1,0],"' + _s_PI5 + '":[2,0],"' + _s_PI6 + '":[3,0]}'); };
+		//// createPIX
+		var cPIX = function() { return JSON.parse('{"' + _s_PI2 + '":{},"' + _s_PI3 + '":{},"' + _s_PI5 + '":{},"' + _s_PI6 + '":{}}'); };
 		//// throwHTTPduration
 		AppSimulator.prototype.tHd = function(rqCt, rqCn, rqDu, rqIn, rq) {
             var self = this,
@@ -907,20 +900,23 @@
                 cnRq = 0,
                 cnRe = 0,
                 cnEr = 0,
+                cc   = [],
+                nix  = cNIX(),
+                pix  = cPIX(),
                 rs   = cRS(),
                 sHd  = function() {
 	                if (inH) {
 		                clearInterval(inH);
 	                }
 	                var finTime = Date.now() - iniTime;
-	                self.sSt(cnRe, finTime, cnEr, rq, rs);
+	                self.sSt(cnRe, finTime, cnEr, rq, rs, cc);
                 },
                 inF  = function() {
 	                if (tmR && cnRq < rqCt) {
 		                cnRq += rqCn;
 		                var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - rqCn, cnRq)).subscribe(
 			                function(r) {
-				                self.oR(r, rs, rq);
+				                self.oR(r, rs, rq, cc, nix, pix);
 			                },
 			                function(e) {
 				                cnEr += rqCn;
@@ -955,13 +951,16 @@
 			var self = this,
 			    cnRe = 0,
 			    cnEr = 0,
+			    cc   = [],
+			    nix  = cNIX(),
+			    pix  = cPIX(),
 			    rs   = cRS(),
 			    ev   = new ng.core.EventEmitter(true);
 			ev.subscribe(function() {
 				var nIdx = cnRe + rqCn,
 				    oRA  = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx)).subscribe(
 					    function(r) {
-						    self.oR(r, rs, rq);
+						    self.oR(r, rs, rq, cc, nix, pix);
 					    },
 					    function(e) {
 						    cnEr += rqCn;
@@ -972,7 +971,7 @@
 						    if (cnRe >= rqCt) {
 							    ev.unsubscribe();
 							    var finTime = Date.now() - iniTime;
-							    self.sSt(rqCt, finTime, cnEr, rq, rs);
+							    self.sSt(rqCt, finTime, cnEr, rq, rs, cc);
 						    }
 						    else {
 							    ev.emit();
@@ -1010,22 +1009,27 @@
 			// Reset view execution variables
 			//
 			this.rVEV();
-			this.running = true;
+			this.run = true;
 			//
 			// Switch among simulation methods (stress or duration)
 			//
+			var rq = [];
 			if (this.iD) {
 				//
 				// Stability - duration
 				//
 				this.rqCt = this.gDR();
-				this.tHd(this.rqCt, this.rqCn, this.rqDu, this.rqIn, this.pRS(this.rqCt));
+				[rq,
+				 this.oT] = this.pRS(this.rqCt);
+				this.tHd(this.rqCt, this.rqCn, this.rqDu, this.rqIn, rq);
             }
             else {
 				//
 				// Stress - requests
 				//
-				this.tHr(this.rqCt, this.rqCn, this.pRS(this.rqCt));
+				[rq,
+				 this.oT] = this.pRS(this.rqCt);
+				this.tHr(this.rqCt, this.rqCn, rq);
             }
 		};
 		return AppSimulator;
