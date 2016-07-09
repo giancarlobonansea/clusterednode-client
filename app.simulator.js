@@ -266,15 +266,15 @@
 		];
 		AppSimulator.annotations = [
 			new ng.core.Component({
-				selector:     'node-cluster-simulator',
-				templateUrl:  'simulator.html',
-				providers:    [
+				selector:    'n-c-s',
+				templateUrl: 'simulator.html',
+				providers:   [
 					app.HTTPService,
-					ng.http.HTTP_PROVIDERS,
-					ng.platformBrowser.DomSanitizationService,
-					ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
+					//ng.http.HTTP_PROVIDERS,
+					ng.platformBrowser.DomSanitizationService
+					//,ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
 				],
-				directives: [nvD3]
+				directives:  [nvD3]
 			})
 		];
 		AppSimulator.prototype.safeUrl = function(u) {
