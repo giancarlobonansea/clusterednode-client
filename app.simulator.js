@@ -829,22 +829,23 @@
 			//
 			// Switch among simulation methods (stress or duration)
 			//
+			var aR = [];
 			if (this.iD) {
 				//
 				// Stability - duration
 				//
 				this.rqCt = this.gDR();
-				var aR = this.pRS(this.rqCt);
-				this.oT = ar[1];
-				this.tHd(this.rqCt, this.rqCn, this.rqDu, this.rqIn, ar[0]);
+				aR = this.pRS(this.rqCt);
+				this.oT = aR[1];
+				this.tHd(this.rqCt, this.rqCn, this.rqDu, this.rqIn, aR[0]);
             }
             else {
 				//
 				// Stress - requests
 				//
-				var aR = this.pRS(this.rqCt);
-				this.oT = ar[1];
-				this.tHr(this.rqCt, this.rqCn, ar[0]);
+				aR = this.pRS(this.rqCt);
+				this.oT = aR[1];
+				this.tHr(this.rqCt, this.rqCn, aR[0]);
             }
 		};
 		return AppSimulator;
