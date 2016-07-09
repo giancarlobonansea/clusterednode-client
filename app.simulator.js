@@ -95,7 +95,17 @@
 			        0,
 			        128],
 			       'Huge']
-		      ];
+		      ],
+		      _a_OPE  = [0,
+		                 0,
+		                 0,
+		                 0,
+		                 0,
+		                 0,
+		                 0,
+		                 1,
+		                 2,
+		                 3];
 		//// Constructor
 		function AppSimulator (HTTPService, DOMSanitizer) {
 			//
@@ -182,10 +192,6 @@
 		AppSimulator.prototype.rVPCV = function() {
 			this.sRe = false;
 			this.clc = false;
-			this.oT = [0,
-			           0,
-			           0,
-			           0];
 			this.rqCh = 0;
 		};
 		//// initCharts
@@ -270,16 +276,6 @@
 		};
 		//// initExecutionScopeVariables
 		AppSimulator.prototype.iESV = function() {
-			this.oP = [0,
-			           0,
-			           0,
-			           0,
-			           0,
-			           0,
-			           0,
-			           1,
-			           2,
-			           3];
 			this.dur = 0;
 		};
 		//// resetExecutionScopeVariables
@@ -295,9 +291,6 @@
 		};
 		AppSimulator.prototype.rESV = function() {
 			this.dur = 0;
-			this.rq = [[],
-			           [],
-			           []];
 			this.rs = cRS();
 			this.nix = JSON.parse('{"' + _s_PI2 + '":[0,0],"' + _s_PI3 + '":[1,0],"' + _s_PI5 + '":[2,0],"' + _s_PI6 + '":[3,0]}');
 			this.pix = JSON.parse('{"' + _s_PI2 + '":{},"' + _s_PI3 + '":{},"' + _s_PI5 + '":{},"' + _s_PI6 + '":{}}');
@@ -582,22 +575,31 @@
             return this.running;
 		};
 		//// getRandomOperation
-		AppSimulator.prototype.gRO = function() {
-			return this.oP[(Math.random() * 10) | 0];
+		var gRO = function() {
+			return _a_OPE[(Math.random() * 10) | 0];
 		};
 		//// getRandomDBRecord
 		var gRD = function() {
 			return (Math.random() * 16384) | 0;
 		};
 		//// populateRequestSamples
-		AppSimulator.prototype.pRS = function() {
-			for (var q = 0; q < this.rqCt; q++) {
-				var o = this.gRO();
-				this.oT[o]++;
-				this.rq[0].push(_j_ERE);
-				this.rq[1].push(this.hS.get(q, _s_AURL, o, gRD()));
-				this.rq[2].push(o);
+		AppSimulator.prototype.pRS = function(rqCt) {
+			var rq = [[],
+			          [],
+			          []],
+			    oT = [0,
+			          0,
+			          0,
+			          0];
+			for (var q = 0; q < rqCt; q++) {
+				var o = gRO();
+				oT[o]++;
+				rq[0].push(_j_ERE);
+				rq[1].push(this.hS.get(q, _s_AURL, o, gRD()));
+				rq[2].push(o);
 			}
+			this.oT = oT;
+			return rq;
 		};
 		//// calculateHistogram
 		AppSimulator.prototype.cH = function(rqEx, dur, rq) {
@@ -880,8 +882,12 @@
 			}
 		};
 		//// startStatistics
-		AppSimulator.prototype.sSt = function(rqEx, dur, rq) {
+		AppSimulator.prototype.sSt = function(rqEx, dur, cnEr, rq, rs) {
 			this.clc = true;
+			this.dur = dur;
+			this.rqEx = rqEx;
+			this.rER = cnEr;
+			this.rs = rs;
 			var self = this;
 			setTimeout(function() {
 				[self.bcd,
@@ -907,11 +913,7 @@
 		                clearInterval(inH);
 	                }
 	                var finTime = Date.now() - iniTime;
-	                self.sSt(cnRe, finTime, rq);
-	                return [finTime,
-	                        cnRe,
-	                        cnEr,
-	                        rs];
+	                self.sSt(cnRe, finTime, cnEr, rq, rs);
                 },
                 inF  = function() {
 	                if (tmR && cnRq < rqCt) {
@@ -970,11 +972,7 @@
 						    if (cnRe >= rqCt) {
 							    ev.unsubscribe();
 							    var finTime = Date.now() - iniTime;
-							    self.sSt(rqCt, finTime, rq);
-							    return [finTime,
-							            rqCt,
-							            cnEr,
-							            rs];
+							    self.sSt(rqCt, finTime, cnEr, rq, rs);
 						    }
 						    else {
 							    ev.emit();
@@ -1021,21 +1019,13 @@
 				// Stability - duration
 				//
 				this.rqCt = this.gDR();
-	            this.pRS();
-				[this.dur,
-				 this.rqEx,
-				 this.rER,
-				 this.rs] = this.tHd(this.rqCt, this.rqCn, this.rqDu, this.rqIn, this.rq);
+				this.tHd(this.rqCt, this.rqCn, this.rqDu, this.rqIn, this.pRS(this.rqCt));
             }
             else {
 				//
 				// Stress - requests
 				//
-	            this.pRS();
-				[this.dur,
-				 this.rqEx,
-				 this.rER,
-				 this.rs] = this.tHr(this.rqCt, this.rqCn, this.rq);
+				this.tHr(this.rqCt, this.rqCn, this.pRS(this.rqCt));
             }
 		};
 		return AppSimulator;
