@@ -312,10 +312,6 @@
 			this.sRe = false;
 			this.clc = false;
 			this.leMx = this.oleMx.slice(0);
-			this.oT = [0,
-			           0,
-			           0,
-			           0];
 		};
 		//// saveExecutionParametersCopy & resetLiveEventsMatrix
 		AppSimulator.prototype.sEPC = function() {
@@ -709,14 +705,15 @@
 			this.chRe = cc;
 			var self = this;
 			setTimeout(function() {
-				[self.bcd,
-				 self.pcd,
-				 self.pcd2,
-				 self.tpA,
-				 self.tpX,
-				 self.tpN,
-				 self.tpR,
-				 self.hg] = self.cH(rqEx, dur, rq);
+				var aR = self.cH(rqEx, dur, rq);
+				self.bcd = aR[0];
+				self.pcd = aR[1];
+				self.pcd2 = aR[2];
+				self.tpA = aR[3];
+				self.tpX = aR[4];
+				self.tpN = aR[5];
+				self.tpR = aR[6];
+				self.hg = aR[7];
 			});
 		};
 		//// throwHTTPduration
@@ -832,23 +829,22 @@
 			//
 			// Switch among simulation methods (stress or duration)
 			//
-			var rq = [];
 			if (this.iD) {
 				//
 				// Stability - duration
 				//
 				this.rqCt = this.gDR();
-				[rq,
-				 this.oT] = this.pRS(this.rqCt);
-				this.tHd(this.rqCt, this.rqCn, this.rqDu, this.rqIn, rq);
+				var aR = this.pRS(this.rqCt);
+				this.oT = ar[1];
+				this.tHd(this.rqCt, this.rqCn, this.rqDu, this.rqIn, ar[0]);
             }
             else {
 				//
 				// Stress - requests
 				//
-				[rq,
-				 this.oT] = this.pRS(this.rqCt);
-				this.tHr(this.rqCt, this.rqCn, rq);
+				var aR = this.pRS(this.rqCt);
+				this.oT = ar[1];
+				this.tHr(this.rqCt, this.rqCn, ar[0]);
             }
 		};
 		return AppSimulator;
