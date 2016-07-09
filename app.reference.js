@@ -594,6 +594,38 @@ var _RL = {
 				{
 					h: "http://pm2.keymetrics.io/docs/usage/deployment/",
 					d: "PM2 - Deployment"
+				},
+				{
+					h: "https://github.com/pm2-hive/pm2-auto-pull",
+					d: "pm2-auto-pull: Synchronize all applications managed by PM2 + GIT automatically"
+				},
+				{
+					h: "https://github.com/pm2-hive/pm2-server-monit",
+					d: "pm2-server-monit: Monitor server CPU / Memory / Process / Zombie Process / Disk size / Security Packages / Network Input / Network Output"
+				},
+				{
+					h: "https://github.com/pm2-hive/pm2-logrotate",
+					d: "pm2-logrotate: Automatically log rotate all applications logs managed by PM2"
+				},
+				{
+					h: "https://github.com/pm2-hive/pm2-nginx",
+					d: "pm2-nginx: Monitor key nginX server metrics"
+				},
+				{
+					h: "https://github.com/pm2-hive/pm2-mongodb",
+					d: "pm2-mongodb: Monitor vital signs of your mongodb"
+				},
+				{
+					h: "https://github.com/pm2-hive/pm2-redis",
+					d: "pm2-redis: Module to monitor redis"
+				},
+				{
+					h: "https://github.com/pm2-hive/pm2-couchdb",
+					d: "pm2-couchdb: Monitor key CouchDB server metrics"
+				},
+				{
+					h: "https://github.com/pm2-hive/pm2-webshell",
+					d: "Expose a fully capable terminal in your browser"
 				}
 			]
 		},
