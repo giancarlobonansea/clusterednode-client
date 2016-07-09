@@ -852,7 +852,7 @@
 				    hst = res.json.hostname,
 				    ndx = this.nix[hst][0],
 				    cch = res.C;
-				this.rq[0][req] = {
+				rq[0][req] = {
 					Q: 'Req ' + ((req | 0) + 1),
 					H: ndx,
 					A: res.A,
