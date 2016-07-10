@@ -226,7 +226,7 @@
             t.rs = rs;
             t.chRe = cc;
             setTimeout(function() {
-                var aR = t.cH(rqEx, dur, rq);
+                var aR = cH(rqEx, dur, rq);
                 t.bcd = aR[0];
                 t.pcd = aR[1];
                 t.pcd2 = aR[2];
@@ -338,246 +338,10 @@
             }
             return [rq,
                     oT];
-        };
-        //// Constructor
-        function AppSimulator (HTTPService, DOMSanitizer) {
-            //
-            // Initialize services
-            //
-            this.hS = HTTPService;
-            this.snS = DOMSanitizer;
-            //
-            // View execution parameters
-            //
-            this.iD = false;
-            this.rqCn = 2;
-            this.rqCt = 100;
-            this.rqDu = 5;
-            this.rqIn = 50;
-            //
-            // View presentation variables - control
-            //
-            this.lE = false;
-            //
-            // View presentation variables - reference links
-            //
-            this.links = iRL(this);
-            //
-            // Charts configuration and initialization
-            //
-            this.bco = {
-                chart: {
-                    type: 'multiBarChart',
-                    showControls: false,
-                    height: 400,
-                    margin: {
-                        top: 20,
-                        right: 20,
-                        bottom: 20,
-                        left: 45
-                    },
-                    x: function(d) {return d.label;},
-                    y: function(d) {return d.value;},
-                    clipEdge: true,
-                    stacked: true,
-                    showXAxis: false,
-                    duration: 500,
-                    xAxis: {
-                        showMaxMin: false
-                    },
-                    yAxis: {
-                        tickFormat: function(d) {
-                            return d3.format('d')(d);
-                        }
-                    }
-                }
-            };
-            this.lco = {
-                chart: {
-                    type: 'lineWithFocusChart',
-                    showControls: false,
-                    height: 400,
-                    showLegend: true,
-                    clipEdge: true,
-                    duration: 500,
-                    margin: {
-                        top: 20,
-                        right: 20,
-                        bottom: 40,
-                        left: 55
-                    },
-                    x: function(d) { return d.x; },
-                    y: function(d) { return d.y; },
-                    useInteractiveGuideline: true,
-                    xAxis: {
-                        axisLabel: 'Percentile (%)'
-                    },
-                    yAxis: {
-                        axisLabel: 'AngularJS Latency (ms)',
-                        axisLabelDistance: -10,
-                        rotateYLabel: true
-                    },
-                    brushExtent: [75,
-                                  100]
-                }
-            };
-            this.pco = cP('nginX');
-            this.pco2 = cP('AngularJS');
-            //
-            // Live Events socket variables and configuration
-            //
-            this.oleMx = [];
-            var a0 = [], a01 = [], a1 = [], a12 = [], a2 = [];
-            for (var i = 0; i < 32; i++) {
-                a0[i] = 0;
-                a01[i] = i < 11 ? 0 : 1;
-                a1[i] = 1;
-                a12[i] = i < 22 ? 1 : 2;
-                a2[i] = 2;
-            }
-            for (i = 0; i < 5; i++) {
-                this.oleMx.push(a0.slice(0));
-            }
-            this.oleMx.push(a01);
-            for (i = 0; i < 4; i++) {
-                this.oleMx.push(a1.slice(0));
-            }
-            this.oleMx.push(a12);
-            for (i = 0; i < 5; i++) {
-                this.oleMx.push(a2.slice(0));
-            }
-            //
-            // View execution variables
-            //
-            this.rVEV();
-            this.run = false;
-            //
-            // Live Events socket event handler
-            //
-        }
-
-        AppSimulator.parameters = [
-            app.HTTPService,
-            ng.platformBrowser.DomSanitizationService
-        ];
-        AppSimulator.annotations = [
-            new ng.core.Component({
-                selector: 'n-c-s',
-                templateUrl: 'simulator.html',
-                providers: [
-                    app.HTTPService,
-                    ng.http.HTTP_PROVIDERS,
-                    ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
-                ],
-                directives: [nvD3]
-            })
-        ];
-        AppSimulator.prototype.safeUrl = function(u) {
-            return this.snS.bypassSecurityTrustResourceUrl(u);
-        };
-        //
-        // Configuration & Initialization methods
-        //
-        //// resetViewExecVariables
-        AppSimulator.prototype.rVEV = function() {
-            this.rER = 0;
-            this.rOK = 0;
-            this.rqCh = 0;
-            this.sRe = false;
-            this.clc = false;
-            this.leMx = this.oleMx.slice(0);
-        };
-        //// saveExecutionParametersCopy & resetLiveEventsMatrix
-        AppSimulator.prototype.sEPC = function() {
-            this.exM = this.gSM();
-            this.exR = this.rqCt;
-            this.exD = this.rqDu;
-            this.exI = this.rqIn;
-            this.exC = this.rqCn;
-            this.exmR = this.gDR();
-        };
-        //
-        // UI related methods
-        //
-        //// setMethodParameters
-        AppSimulator.prototype.sMP = function(p) {
-            var m = this.iD ? 0 : 1;
-            this.rqCt = _a_PRE[p][m][0];
-            this.rqDu = _a_PRE[p][m][1];
-            this.rqIn = _a_PRE[p][m][2];
-            this.rqCn = _a_PRE[p][m][3];
-            sGA(_s_SIM, _s_CFG, _a_PRE[p][2], 0);
-        };
-        //// setDuration or setRequests
-        AppSimulator.prototype.sD = function(m) {
-            this.iD = m;
-            this.sMP(0);
-        };
-        //// isDurationMethod
-        AppSimulator.prototype.iDM = function() {
-            return this.iD;
-        };
-        //// usedDurationMethod
-        AppSimulator.prototype.uDM = function() {
-            return this.exM === _s_STA;
-        };
-        //// getSimulationMethod
-        AppSimulator.prototype.gSM = function() {
-            return this.iD ? _s_STA : _s_STR;
-        };
-        //// onRefLinkClick
-        AppSimulator.prototype.oRLC = function(t, d) {
-            sGA('R', t, d, 0);
-        };
-        //// showRef
-        AppSimulator.prototype.shR = function() {
-            this.sRe = !this.sRe;
-            if (this.sRe) {
-                this.lE = false;
-                dLE();
-            }
-        };
-        //// showLive
-        AppSimulator.prototype.shL = function() {
-            this.lE = !this.lE;
-            if (this.lE) {
-                aLE(this.leMx);
-                this.sRe = false;
-            } else {
-                dLE();
-            }
-        };
-        //// getDatabaseStatus
-        AppSimulator.prototype.gDS = function(c) {
-            return _a_GDS[c];
-        };
-        //// percValue
-        AppSimulator.prototype.pV = function(o, c) {
-            return (o * 100 / c) | 0;
-        };
-        //// calcPosition
-        AppSimulator.prototype.cP = function(o, h) {
-            return (o * h / 100) | 0;
-        };
-        //// getDurationRequests
-        AppSimulator.prototype.gDR = function() {
-            var tot = (this.rqDu * 1000 * this.rqCn / this.rqIn) | 0;
-            return tot - (tot % this.rqCn);
-        };
-        //// getDurationThroughput
-        AppSimulator.prototype.gDT = function() {
-            return (this.gDR() / this.rqDu) | 0;
-        };
-        //
-        // Execution control methods
-        //
-        //// isRunning
-        AppSimulator.prototype.iR = function() {
-            return this.run;
-        };
+        },
         //// calculateHistogram
-        AppSimulator.prototype.cH = function(rqEx, dur, rq) {
-            this.lE = false;
+        cH = function(t, rqEx, dur, rq) {
+            t.lE = false;
             //// resetChartsData
             var cBC = function(k1, k2) {
                     return {
@@ -630,7 +394,6 @@
                 dr = ((rqEx * 0.0455) | 0) + 1,
                 dLo = (dr / 2) | 0,
                 dUp = rqEx - dLo,
-                self = this,
                 setBcd = function(i, l, v) {
                     bcd[i].values.push({
                                            label: l,
@@ -783,7 +546,7 @@
             this.oRT = this.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
                 function(re) {
                     for (var n = 0; n < re.chart.length; n++) {
-                        var idx = ((re.chart[n].percentile * self.rOK / 100) | 0) - 1;
+                        var idx = ((re.chart[n].percentile * t.rOK / 100) | 0) - 1;
                         lcd[0].values.push({
                                                x: re.chart[n].percentile,
                                                y: re.chart[n].value
@@ -797,11 +560,11 @@
                 function(e) {
                 },
                 function() {
-                    self.lcd = lcd;
-                    self.oRT.unsubscribe();
-                    self.clc = false;
-                    self.run = false;
-                    self.lE = false;
+                    t.lcd = lcd;
+                    t.oRT.unsubscribe();
+                    t.clc = false;
+                    t.run = false;
+                    t.lE = false;
                 }
             );
             //
@@ -816,6 +579,241 @@
                     tpN,
                     tpR,
                     hg];
+        };
+        //// Constructor
+        function AppSimulator (HTTPService, DOMSanitizer) {
+            //
+            // Initialize services
+            //
+            this.hS = HTTPService;
+            this.snS = DOMSanitizer;
+            //
+            // View execution parameters
+            //
+            this.iD = false;
+            this.rqCn = 2;
+            this.rqCt = 100;
+            this.rqDu = 5;
+            this.rqIn = 50;
+            //
+            // View presentation variables - control
+            //
+            this.lE = false;
+            //
+            // View presentation variables - reference links
+            //
+            this.links = iRL(this);
+            //
+            // Charts configuration and initialization
+            //
+            this.bco = {
+                chart: {
+                    type: 'multiBarChart',
+                    showControls: false,
+                    height: 400,
+                    margin: {
+                        top: 20,
+                        right: 20,
+                        bottom: 20,
+                        left: 45
+                    },
+                    x: function(d) {return d.label;},
+                    y: function(d) {return d.value;},
+                    clipEdge: true,
+                    stacked: true,
+                    showXAxis: false,
+                    duration: 500,
+                    xAxis: {
+                        showMaxMin: false
+                    },
+                    yAxis: {
+                        tickFormat: function(d) {
+                            return d3.format('d')(d);
+                        }
+                    }
+                }
+            };
+            this.lco = {
+                chart: {
+                    type: 'lineWithFocusChart',
+                    showControls: false,
+                    height: 400,
+                    showLegend: true,
+                    clipEdge: true,
+                    duration: 500,
+                    margin: {
+                        top: 20,
+                        right: 20,
+                        bottom: 40,
+                        left: 55
+                    },
+                    x: function(d) { return d.x; },
+                    y: function(d) { return d.y; },
+                    useInteractiveGuideline: true,
+                    xAxis: {
+                        axisLabel: 'Percentile (%)'
+                    },
+                    yAxis: {
+                        axisLabel: 'AngularJS Latency (ms)',
+                        axisLabelDistance: -10,
+                        rotateYLabel: true
+                    },
+                    brushExtent: [75,
+                                  100]
+                }
+            };
+            this.pco = cP('nginX');
+            this.pco2 = cP('AngularJS');
+            //
+            // Live Events socket variables and configuration
+            //
+            this.oleMx = [];
+            var a0 = [], a01 = [], a1 = [], a12 = [], a2 = [];
+            for (var i = 0; i < 32; i++) {
+                a0[i] = 0;
+                a01[i] = i < 11 ? 0 : 1;
+                a1[i] = 1;
+                a12[i] = i < 22 ? 1 : 2;
+                a2[i] = 2;
+            }
+            for (i = 0; i < 5; i++) {
+                this.oleMx.push(a0.slice(0));
+            }
+            this.oleMx.push(a01);
+            for (i = 0; i < 4; i++) {
+                this.oleMx.push(a1.slice(0));
+            }
+            this.oleMx.push(a12);
+            for (i = 0; i < 5; i++) {
+                this.oleMx.push(a2.slice(0));
+            }
+            //
+            // View execution variables
+            //
+            this.rVEV();
+            this.run = false;
+            //
+            // Live Events socket event handler
+            //
+        };
+        AppSimulator.parameters = [
+            app.HTTPService,
+            ng.platformBrowser.DomSanitizationService
+        ];
+        AppSimulator.annotations = [
+            new ng.core.Component({
+                selector: 'n-c-s',
+                templateUrl: 'simulator.html',
+                providers: [
+                    app.HTTPService,
+                    ng.http.HTTP_PROVIDERS,
+                    ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
+                ],
+                directives: [nvD3]
+            })
+        ];
+        AppSimulator.prototype.safeUrl = function(u) {
+            return this.snS.bypassSecurityTrustResourceUrl(u);
+        };
+        //
+        // Configuration & Initialization methods
+        //
+        //// resetViewExecVariables
+        AppSimulator.prototype.rVEV = function() {
+            this.rER = 0;
+            this.rOK = 0;
+            this.rqCh = 0;
+            this.sRe = false;
+            this.clc = false;
+            this.leMx = this.oleMx.slice(0);
+        };
+        //// saveExecutionParametersCopy & resetLiveEventsMatrix
+        AppSimulator.prototype.sEPC = function() {
+            this.exM = this.gSM();
+            this.exR = this.rqCt;
+            this.exD = this.rqDu;
+            this.exI = this.rqIn;
+            this.exC = this.rqCn;
+            this.exmR = this.gDR();
+        };
+        //
+        // UI related methods
+        //
+        //// setMethodParameters
+        AppSimulator.prototype.sMP = function(p) {
+            var m = this.iD ? 0 : 1;
+            this.rqCt = _a_PRE[p][m][0];
+            this.rqDu = _a_PRE[p][m][1];
+            this.rqIn = _a_PRE[p][m][2];
+            this.rqCn = _a_PRE[p][m][3];
+            sGA(_s_SIM, _s_CFG, _a_PRE[p][2], 0);
+        };
+        //// setDuration or setRequests
+        AppSimulator.prototype.sD = function(m) {
+            this.iD = m;
+            this.sMP(0);
+        };
+        //// isDurationMethod
+        AppSimulator.prototype.iDM = function() {
+            return this.iD;
+        };
+        //// usedDurationMethod
+        AppSimulator.prototype.uDM = function() {
+            return this.exM === _s_STA;
+        };
+        //// getSimulationMethod
+        AppSimulator.prototype.gSM = function() {
+            return this.iD ? _s_STA : _s_STR;
+        };
+        //// onRefLinkClick
+        AppSimulator.prototype.oRLC = function(t, d) {
+            sGA('R', t, d, 0);
+        };
+        //// showRef
+        AppSimulator.prototype.shR = function() {
+            this.sRe = !this.sRe;
+            if (this.sRe) {
+                this.lE = false;
+                dLE();
+            }
+        };
+        //// showLive
+        AppSimulator.prototype.shL = function() {
+            this.lE = !this.lE;
+            if (this.lE) {
+                aLE(this.leMx);
+                this.sRe = false;
+            } else {
+                dLE();
+            }
+        };
+        //// getDatabaseStatus
+        AppSimulator.prototype.gDS = function(c) {
+            return _a_GDS[c];
+        };
+        //// percValue
+        AppSimulator.prototype.pV = function(o, c) {
+            return (o * 100 / c) | 0;
+        };
+        //// calcPosition
+        AppSimulator.prototype.cP = function(o, h) {
+            return (o * h / 100) | 0;
+        };
+        //// getDurationRequests
+        AppSimulator.prototype.gDR = function() {
+            var tot = (this.rqDu * 1000 * this.rqCn / this.rqIn) | 0;
+            return tot - (tot % this.rqCn);
+        };
+        //// getDurationThroughput
+        AppSimulator.prototype.gDT = function() {
+            return (this.gDR() / this.rqDu) | 0;
+        };
+        //
+        // Execution control methods
+        //
+        //// isRunning
+        AppSimulator.prototype.iR = function() {
+            return this.run;
         };
         //// startSimulator
         AppSimulator.prototype.sSi = function() {
