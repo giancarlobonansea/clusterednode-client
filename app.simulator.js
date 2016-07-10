@@ -280,9 +280,10 @@
                     pix = cPIX(),
                     rs = cRS(),
                     ev = [],
-                    fSendOK = function() {
-                        var proReq = cnRq++;
-                        console.log('disparou '+cnRq)
+                    fSendOK = function(d) {
+                        var proReq = cnRq++,
+                            eid = d;
+                        console.log('disparou '+proReq)
                         if (proReq<tRqCt) {
                             rq[1][proReq].subscribe(
                                 function(r) {
@@ -294,32 +295,23 @@
                                 },
                                 function() {
                                     console.log('respondeu '+proReq)
+                                    if (++cnRe >= tRqCt) {
+                                        ev[eid].unsubscribe();
+                                        sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
+                                    }
+                                    else {
+                                        ev[eid].emit();
+                                    }
                                     this.unsubscribe();
                                 }
                             );
                         }
                     },
-                    fSendERR = function() {
-                    },
-                    fSendFIN = function() {
-                        console.log('completou '+cnRe);
-                        if (++cnRe >= tRqCt) {
-                            this.unsubscribe();
-                            sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
-                        }
-                        else {
-                            this.emit();
-                        }
-                    },
                     iniTime = Date.now();
                 for(var e=0;e<tRqCn;e++) {
                     ev.push(new ng.core.EventEmitter(true));
-                    ev[e].subscribe(
-                        fSendOK,
-                        fSendERR,
-                        fSendFIN
-                    );
-                    ev[e].emit();
+                    ev[e].subscribe(fSendOK);
+                    ev[e].emit(e);
                 }
             },
         //// populateRequestSamples
