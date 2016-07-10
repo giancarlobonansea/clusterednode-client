@@ -280,20 +280,18 @@
                     pix = cPIX(),
                     rs = cRS(),
                     ev = [],
-                    th = this,
                     fSend = function() {
                         var proReq = cnRq++,
-                            _t = th.t,
-                            _tRqCt = th.tRqCt,
-                            _rq = th.rq,
-                            _cnRe = th.cnRe,
-                            _cnEr = th.cnEr,
-                            _cc = th.cc,
-                            _pix = th.pix,
-                            _rs = th.rs,
-                            _ev = th.ev,
-                            _iniTime = th.iniTime,
-                            eid = this.idx;
+                            _t = t,
+                            _tRqCt = tRqCt,
+                            _rq = rq,
+                            _cnRe = cnRe,
+                            _cnEr = cnEr,
+                            _cc = cc,
+                            _pix = pix,
+                            _rs = rs,
+                            _iniTime = iniTime,
+                            evi = this;
                         if (proReq<tRqCt) {
                             rq[1][proReq].subscribe(
                                 function(r) {
@@ -306,11 +304,11 @@
                                 function() {
                                     console.log(_rq);
                                     if (++_cnRe >= _tRqCt) {
-                                        _ev[eid].unsubscribe();
+                                        evi.unsubscribe();
                                         sSt(_t, _tRqCt, Date.now() - _iniTime, _cnEr, _rq, _rs, _cc);
                                     }
                                     else {
-                                        _ev[eid].emit();
+                                        evi.emit();
                                     }
                                     this.unsubscribe();
                                 }
@@ -322,7 +320,7 @@
                     iniTime = Date.now();
                 for(var e=0;e<tRqCn;e++) {
                     ev.push(new ng.core.EventEmitter(true));
-                    ev[e].subscribe({idx:e,next:fSend});
+                    ev[e].subscribe(fSend);
                     ev[e].emit();
                 }
             },
