@@ -279,7 +279,7 @@
                     pix = cPIX(),
                     rs = cRS(),
                     ev = [],
-                    fSend = function(tev) {
+                    fSend = function() {
                         rq[1][cnRe++].subscribe(
                             function(r) {
                                 oR(t, r, rs, rq, cc, pix);
@@ -289,11 +289,11 @@
                             },
                             function() {
                                 if (cnRe >= tRqCt) {
-                                    ev[tev].unsubscribe();
+                                    ev[this.parent.idx].unsubscribe();
                                     sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                                 }
                                 else {
-                                    ev[tev].emit();
+                                    ev[this.parent.idx].emit();
                                 }
                             }
                         );
@@ -320,7 +320,7 @@
                     iniTime = Date.now();
                 for(var e=0;e<tRqCn;e++) {
                     ev.push(new ng.core.EventEmitter(true));
-                    ev[e].subscribe(fSend(e));
+                    ev[e].subscribe({idx:e,next:fSend});
                     ev[e].emit();
                 }
             },
