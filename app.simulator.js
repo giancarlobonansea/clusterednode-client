@@ -81,10 +81,6 @@
                       1,
                       2,
                       3],
-            _a_GDS = ['text-muted',
-                      'text-primary',
-                      'text-muted',
-                      'text-danger'],
             _o_SIO = io(_s_IURL,{autoConnect:false}),
             _e_SIO = {},
         //// helper functions
@@ -181,81 +177,123 @@
                 });
             },
         //// observableResponse
-        oR = function(t, re, rs, rq, cc, pix) {
-            for (var k = 0; k < re.length; k++) {
-                var res = re[k],
-                    req = res.Q,
-                    hst = res.json.h,
-                    ndx = pix[hst][0],
-                    cch = res.C;
-                rq[0][req] = {
-                    Q: 'Req ' + ((req | 0) + 1),
-                    H: ndx,
-                    A: res.A,
-                    X: res.X,
-                    N: res.N,
-                    R: res.R,
-                    C: cch
-                };
-                if (cch) {
-                    t.rqCh++;
-                    cc.push(++t.rOK);
-                }
-                else {
-                    var pid = res.json.p,
-                        o = rq[2][req];
-                    if (!(pid in pix[hst][1])) {
-                        rs[ndx][1].push([pid,
-                                            [[],
-                                                [],
-                                                [],
-                                                []]]);
-                        pix[hst][1][pid] = rs[ndx][1].length - 1;
+            oR = function(t, re, rs, rq, cc, pix) {
+                for (var k = 0; k < re.length; k++) {
+                    var res = re[k],
+                        req = res.Q,
+                        hst = res.json.h,
+                        ndx = pix[hst][0],
+                        cch = res.C;
+                    rq[0][req] = {
+                        Q: 'Req ' + ((req | 0) + 1),
+                        H: ndx,
+                        A: res.A,
+                        X: res.X,
+                        N: res.N,
+                        R: res.R,
+                        C: cch
+                    };
+                    if (cch) {
+                        t.rqCh++;
+                        cc.push(++t.rOK);
                     }
-                    rs[ndx][1][pix[hst][1][pid]][1][o].push(++t.rOK);
-                    rs[ndx][2]++;
+                    else {
+                        var pid = res.json.p,
+                            o = rq[2][req];
+                        if (!(pid in pix[hst][1])) {
+                            rs[ndx][1].push([pid,
+                                                [[],
+                                                    [],
+                                                    [],
+                                                    []]]);
+                            pix[hst][1][pid] = rs[ndx][1].length - 1;
+                        }
+                        rs[ndx][1][pix[hst][1][pid]][1][o].push(++t.rOK);
+                        rs[ndx][2]++;
+                    }
                 }
-            }
-        },
+            },
         //// startStatistics
-        sSt = function(t, rqEx, dur, cnEr, rq, rs, cc) {
-            t.clc = true;
-            t.dur = dur;
-            t.rqEx = rqEx;
-            t.rER = cnEr;
-            t.rs = rs;
-            t.chRe = cc;
-            setTimeout(function(){
-                var aR = cH(t, rqEx, dur, rq);
-                t.bcd = aR[0];
-                t.pcd = aR[1];
-                t.pcd2 = aR[2];
-                t.tpA = aR[3];
-                t.tpX = aR[4];
-                t.tpN = aR[5];
-                t.tpR = aR[6];
-                t.hg = aR[7];
-            });
-        },
+            sSt = function(t, rqEx, dur, cnEr, rq, rs, cc) {
+                t.clc = true;
+                t.dur = dur;
+                t.rqEx = rqEx;
+                t.rER = cnEr;
+                t.rs = rs;
+                t.chRe = cc;
+                setTimeout(function(){
+                    var aR = cH(t, rqEx, dur, rq);
+                    t.bcd = aR[0];
+                    t.pcd = aR[1];
+                    t.pcd2 = aR[2];
+                    t.tpA = aR[3];
+                    t.tpX = aR[4];
+                    t.tpN = aR[5];
+                    t.tpR = aR[6];
+                    t.hg = aR[7];
+                });
+            },
         //// throwHTTPduration
-        tHd = function(t, tRqCt, tRqCn, tRqDu, tRqIn, rq, tClc) {
-            var tmR = true,
-                cnRq = 0,
-                cnRe = 0,
-                cnEr = 0,
-                cc = [],
-                pix = cPIX(),
-                rs = cRS(),
-                sHd = function() {
-                    if (inH) {
-                        clearInterval(inH);
-                    }
-                    sSt(t, cnRe, Date.now() - iniTime, cnEr, rq, rs, cc);
-                },
-                inF = function() {
-                    if (tmR && cnRq < tRqCt) {
-                        cnRq += tRqCn;
-                        var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - tRqCn, cnRq)).subscribe(
+            tHd = function(t, tRqCt, tRqCn, tRqDu, tRqIn, rq, tClc) {
+                var tmR = true,
+                    cnRq = 0,
+                    cnRe = 0,
+                    cnEr = 0,
+                    cc = [],
+                    pix = cPIX(),
+                    rs = cRS(),
+                    sHd = function() {
+                        if (inH) {
+                            clearInterval(inH);
+                        }
+                        sSt(t, cnRe, Date.now() - iniTime, cnEr, rq, rs, cc);
+                    },
+                    inF = function() {
+                        if (tmR && cnRq < tRqCt) {
+                            cnRq += tRqCn;
+                            var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - tRqCn, cnRq)).subscribe(
+                                function(r) {
+                                    oR(t, r, rs, rq, cc, pix);
+                                },
+                                function(e) {
+                                    cnEr += tRqCn;
+                                },
+                                function() {
+                                    cnRe += tRqCn;
+                                    if (!tmR && !tClc && cnRq === cnRe) {
+                                        sHd();
+                                    }
+                                    oRA.unsubscribe();
+                                }
+                            );
+                        }
+                        else {
+                            if (!tClc && cnRq === cnRe) {
+                                sHd();
+                            }
+                        }
+                    };
+                //
+                // Initialize execution
+                //
+                var iniTime = Date.now();
+                setTimeout(function() {
+                    tmR = false;
+                }, (tRqDu * 1000) + 10);
+                setTimeout(function() {inF();});
+                var inH = setInterval(function() {inF();}, tRqIn);
+            },
+        //// throwHTTPrequests
+            tHr = function(t, tRqCt, tRqCn, rq) {
+                var cnRe = 0,
+                    cnEr = 0,
+                    cc = [],
+                    pix = cPIX(),
+                    rs = cRS(),
+                    ev = new ng.core.EventEmitter(true);
+                ev.subscribe(function() {
+                    var nIdx = cnRe + tRqCn,
+                        oRA = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx)).subscribe(
                             function(r) {
                                 oR(t, r, rs, rq, cc, pix);
                             },
@@ -264,324 +302,282 @@
                             },
                             function() {
                                 cnRe += tRqCn;
-                                if (!tmR && !tClc && cnRq === cnRe) {
-                                    sHd();
-                                }
                                 oRA.unsubscribe();
+                                if (cnRe >= tRqCt) {
+                                    sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
+                                    ev.unsubscribe();
+                                }
+                                else {
+                                    ev.emit();
+                                }
                             }
                         );
-                    }
-                    else {
-                        if (!tClc && cnRq === cnRe) {
-                            sHd();
-                        }
-                    }
-                };
-            //
-            // Initialize execution
-            //
-            var iniTime = Date.now();
-            setTimeout(function() {
-                tmR = false;
-            }, (tRqDu * 1000) + 10);
-            setTimeout(function() {inF();});
-            var inH = setInterval(function() {inF();}, tRqIn);
-        },
-        //// throwHTTPrequests
-        tHr = function(t, tRqCt, tRqCn, rq) {
-            var cnRe = 0,
-                cnEr = 0,
-                cc = [],
-                pix = cPIX(),
-                rs = cRS(),
-                ev = new ng.core.EventEmitter(true);
-            ev.subscribe(function() {
-                var nIdx = cnRe + tRqCn,
-                    oRA = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx)).subscribe(
-                        function(r) {
-                            oR(t, r, rs, rq, cc, pix);
-                        },
-                        function(e) {
-                            cnEr += tRqCn;
-                        },
-                        function() {
-                            cnRe += tRqCn;
-                            oRA.unsubscribe();
-                            if (cnRe >= tRqCt) {
-                                sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
-                                ev.unsubscribe();
-                            }
-                            else {
-                                ev.emit();
-                            }
-                        }
-                    );
-            });
-            var iniTime = Date.now();
-            ev.emit();
-        },
+                });
+                var iniTime = Date.now();
+                ev.emit();
+            },
         //// populateRequestSamples
-        pRS = function(t) {
-            var rq = [[],
-                    [],
-                    []],
-                oT = [0,
-                      0,
-                      0,
-                      0];
-            for (var q = 0; q < t.rqCt; q++) {
-                var o = gRO();
-                oT[o]++;
-                rq[0].push(_j_ERE);
-                rq[1].push(t.hS.get(q, _s_AURL, o, gRD()));
-                rq[2].push(o);
-            }
-            return [rq,
-                    oT];
-        },
+            pRS = function(t) {
+                var rq = [[],
+                        [],
+                        []],
+                    oT = [0,
+                          0,
+                          0,
+                          0];
+                for (var q = 0; q < t.rqCt; q++) {
+                    var o = gRO();
+                    oT[o]++;
+                    rq[0].push(_j_ERE);
+                    rq[1].push(t.hS.get(q, _s_AURL, o, gRD()));
+                    rq[2].push(o);
+                }
+                return [rq,
+                        oT];
+            },
         //// calculateHistogram
-        cH = function(t, rqEx, dur, rq) {
-            t.lE = false;
-            //// resetChartsData
-            var cBC = function(k1, k2) {
-                    return {
-                        key: k1 + k2,
-                        values: []
-                    };
-                },
-                cPC = function(k) {
-                    return {
-                        key: k,
-                        y: 0
-                    };
-                },
-                bcd = [cBC(_s_PI2, _s_RED),
-                       cBC(_s_PI3, _s_RED),
-                       cBC(_s_PI5, _s_RED),
-                       cBC(_s_PI6, _s_RED),
-                       cBC(_s_PI2, _s_NOD),
-                       cBC(_s_PI3, _s_NOD),
-                       cBC(_s_PI5, _s_NOD),
-                       cBC(_s_PI6, _s_NOD),
-                       cBC(_s_PI2, _s_NGI),
-                       cBC(_s_PI3, _s_NGI),
-                       cBC(_s_PI5, _s_NGI),
-                       cBC(_s_PI6, _s_NGI),
-                       cBC(_s_PI2, _s_ANG),
-                       cBC(_s_PI3, _s_ANG),
-                       cBC(_s_PI5, _s_ANG),
-                       cBC(_s_PI6, _s_ANG)],
-                pcd = [cPC(_s_PI2),
-                       cPC(_s_PI3),
-                       cPC(_s_PI5),
-                       cPC(_s_PI6)],
-                pcd2 = [cPC(_s_PI2),
-                        cPC(_s_PI3),
-                        cPC(_s_PI5),
-                        cPC(_s_PI6)],
-                lcd = [
-                    {
-                        key: 'w/o Coord. Omission',
-                        values: [],
-                        area: false
+            cH = function(t, rqEx, dur, rq) {
+                t.lE = false;
+                //// resetChartsData
+                var cBC = function(k1, k2) {
+                        return {
+                            key: k1 + k2,
+                            values: []
+                        };
                     },
-                    {
-                        key: 'Latency/Percentile',
-                        values: [],
-                        area: true
-                    }
-                ],
-                dr = ((rqEx * 0.0455) | 0) + 1,
-                dLo = (dr / 2) | 0,
-                dUp = rqEx - dLo,
-                setBcd = function(i, l, v) {
-                    bcd[i].values.push({
-                                           label: l,
-                                           value: v
-                                       });
-                },
-                rq0 = rq[0],
-                rq1 = rq[0].slice(0),
-                rq2 = rq[0].slice(0),
-                rq3 = rq[0].slice(0),
-                toA = 0,
-                toX = 0,
-                toN = 0,
-                toR = 0,
-                hg = [[50,
-                       0,
-                       0,
-                       0,
-                       0],
-                    [75,
-                     0,
-                     0,
-                     0,
-                     0],
-                    [87.5,
-                     0,
-                     0,
-                     0,
-                     0],
-                    [93.75,
-                     0,
-                     0,
-                     0,
-                     0],
-                    [96.875,
-                     0,
-                     0,
-                     0,
-                     0],
-                    [98.4375,
-                     0,
-                     0,
-                     0,
-                     0],
-                    [99.21875,
-                     0,
-                     0,
-                     0,
-                     0],
-                    [100,
-                     0,
-                     0,
-                     0,
-                     0]],
-                totReqAng = [0,
-                             0,
-                             0,
-                             0],
-                totReqNgi = [0,
-                             0,
-                             0,
-                             0],
-                hdPD = {arr: []},
-                byH = function(hl, hv, v) {
-                    return hl === hv ? v : 0;
-                },
-                inSD = function(i, v) {
-                    return ((i >= dLo) && (i <= dUp)) ? v : 0;
-                },
-                inSDbyH = function(hl, hv, i, v) {
-                    return ((hl === hv) && (i >= dLo) && (i <= dUp)) ? v : 0;
-                };
-            //
-            // Populate barchart as processed (no sorting)
-            //
-            var rtt = [], tsn = [], exts = [], red = [];
-            for (var i = 0; i < rq0.length; i++) {
-                var _hst = rq0[i].H,
-                    _rid = rq0[i].Q;
-                rtt = [0,
-                       0,
-                       0,
-                       0];
-                    tsn = [0,
+                    cPC = function(k) {
+                        return {
+                            key: k,
+                            y: 0
+                        };
+                    },
+                    bcd = [cBC(_s_PI2, _s_RED),
+                           cBC(_s_PI3, _s_RED),
+                           cBC(_s_PI5, _s_RED),
+                           cBC(_s_PI6, _s_RED),
+                           cBC(_s_PI2, _s_NOD),
+                           cBC(_s_PI3, _s_NOD),
+                           cBC(_s_PI5, _s_NOD),
+                           cBC(_s_PI6, _s_NOD),
+                           cBC(_s_PI2, _s_NGI),
+                           cBC(_s_PI3, _s_NGI),
+                           cBC(_s_PI5, _s_NGI),
+                           cBC(_s_PI6, _s_NGI),
+                           cBC(_s_PI2, _s_ANG),
+                           cBC(_s_PI3, _s_ANG),
+                           cBC(_s_PI5, _s_ANG),
+                           cBC(_s_PI6, _s_ANG)],
+                    pcd = [cPC(_s_PI2),
+                           cPC(_s_PI3),
+                           cPC(_s_PI5),
+                           cPC(_s_PI6)],
+                    pcd2 = [cPC(_s_PI2),
+                            cPC(_s_PI3),
+                            cPC(_s_PI5),
+                            cPC(_s_PI6)],
+                    lcd = [
+                        {
+                            key: 'w/o Coord. Omission',
+                            values: [],
+                            area: false
+                        },
+                        {
+                            key: 'Latency/Percentile',
+                            values: [],
+                            area: true
+                        }
+                    ],
+                    dr = ((rqEx * 0.0455) | 0) + 1,
+                    dLo = (dr / 2) | 0,
+                    dUp = rqEx - dLo,
+                    setBcd = function(i, l, v) {
+                        bcd[i].values.push({
+                                               label: l,
+                                               value: v
+                                           });
+                    },
+                    rq0 = rq[0],
+                    rq1 = rq[0].slice(0),
+                    rq2 = rq[0].slice(0),
+                    rq3 = rq[0].slice(0),
+                    toA = 0,
+                    toX = 0,
+                    toN = 0,
+                    toR = 0,
+                    hg = [[50,
+                           0,
+                           0,
+                           0,
+                           0],
+                        [75,
+                         0,
+                         0,
+                         0,
+                         0],
+                        [87.5,
+                         0,
+                         0,
+                         0,
+                         0],
+                        [93.75,
+                         0,
+                         0,
+                         0,
+                         0],
+                        [96.875,
+                         0,
+                         0,
+                         0,
+                         0],
+                        [98.4375,
+                         0,
+                         0,
+                         0,
+                         0],
+                        [99.21875,
+                         0,
+                         0,
+                         0,
+                         0],
+                        [100,
+                         0,
+                         0,
+                         0,
+                         0]],
+                    totReqAng = [0,
+                                 0,
+                                 0,
+                                 0],
+                    totReqNgi = [0,
+                                 0,
+                                 0,
+                                 0],
+                    hdPD = {arr: []},
+                    byH = function(hl, hv, v) {
+                        return hl === hv ? v : 0;
+                    },
+                    inSD = function(i, v) {
+                        return ((i >= dLo) && (i <= dUp)) ? v : 0;
+                    },
+                    inSDbyH = function(hl, hv, i, v) {
+                        return ((hl === hv) && (i >= dLo) && (i <= dUp)) ? v : 0;
+                    };
+                //
+                // Populate barchart as processed (no sorting)
+                //
+                var rtt = [], tsn = [], exts = [], red = [];
+                for (var i = 0; i < rq0.length; i++) {
+                    var _hst = rq0[i].H,
+                        _rid = rq0[i].Q;
+                    rtt = [0,
                            0,
                            0,
                            0];
-                    exts = [0,
-                            0,
-                            0,
-                            0];
-                    red = [0,
-                           0,
-                           0,
-                           0];
-                rtt[_hst] = rq0[i].A;
-                tsn[_hst] = rq0[i].X;
-                exts[_hst] = rq0[i].N;
-                red[_hst] = rq0[i].R;
-                for (var j = 0; j < 4; j++) {
-                    setBcd(j, _rid, red[j] | 0);
-                    setBcd(j + 4, _rid, (exts[j] - red[j]) | 0);
-                    setBcd(j + 8, _rid, (tsn[j] - exts[j]) | 0);
-                    setBcd(j + 12, _rid, rtt[j] - tsn[j]);
-                }
-                hdPD.arr.push(rq0[i].A);
-            }
-            //
-            // Prepare histogram
-            //
-            rq0.sort(function(a, b) {return a.A - b.A});
-            rq1.sort(function(a, b) {return a.X - b.X});
-            rq2.sort(function(a, b) {return a.N - b.N});
-            rq3.sort(function(a, b) {return a.R - b.R});
-            for (i = 0; i < rq0.length; i++) {
-                var _hstR = rq0[i].H,
-                    _rttR = rq0[i].A,
-                    _hstT = rq1[i].H,
-                    _tsnT = rq1[i].X;
-                for (j = 0; j < 4; j++) {
-                    rtt[j] = byH(_hstR, j, _rttR);
-                    pcd2[j].y += inSD(i, rtt[j]);
-                    totReqAng[j] += inSDbyH(_hstR, j, i, 1);
-                    tsn[j] = byH(_hstT, j, _tsnT);
-                    pcd[j].y += inSD(i, tsn[j]);
-                    totReqNgi[j] += inSDbyH(_hstT, j, i, 1);
-                }
-                toA += inSD(i, _rttR);
-                toX += inSD(i, _tsnT);
-                toN += inSD(i, rq2[i].N);
-                toR += inSD(i, rq3[i].R);
-            }
-            for (i = 0; i < 4; i++) {
-                pcd2[i].y /= totReqAng[i];
-                pcd[i].y /= totReqNgi[i];
-            }
-            var tpA = ((rqEx / (dur / 1000)) | 0) + 1,
-                tpX = ((tpA * toA / toX) | 0) + 1,
-                tpN = ((tpX * toX / toN) | 0) + 1,
-                tpR = ((tpN * toN / toR) | 0) + 1;
-            for (i = 0; i < hg.length; i++) {
-                var ix = ((rqEx * hg[i][0] / 100) | 0) - 1;
-                hg[i][1] = rq0[ix].A;
-                hg[i][2] = rq1[ix].X;
-                hg[i][3] = rq2[ix].N;
-                hg[i][4] = rq3[ix].R;
-            }
-            //
-            // Calculating HDR Histogram
-            //
-            var oRT = t.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
-                function(re) {
-                    for (var n = 0; n < re.chart.length; n++) {
-                        var idx = ((re.chart[n].percentile * t.rOK / 100) | 0) - 1;
-                        lcd[0].values.push({
-                                               x: re.chart[n].percentile,
-                                               y: re.chart[n].value
-                                           });
-                        lcd[1].values.push({
-                                               x: re.chart[n].percentile,
-                                               y: rq0[(idx < 0) ? 0 : idx].A
-                                           });
+                        tsn = [0,
+                               0,
+                               0,
+                               0];
+                        exts = [0,
+                                0,
+                                0,
+                                0];
+                        red = [0,
+                               0,
+                               0,
+                               0];
+                    rtt[_hst] = rq0[i].A;
+                    tsn[_hst] = rq0[i].X;
+                    exts[_hst] = rq0[i].N;
+                    red[_hst] = rq0[i].R;
+                    for (var j = 0; j < 4; j++) {
+                        setBcd(j, _rid, red[j] | 0);
+                        setBcd(j + 4, _rid, (exts[j] - red[j]) | 0);
+                        setBcd(j + 8, _rid, (tsn[j] - exts[j]) | 0);
+                        setBcd(j + 12, _rid, rtt[j] - tsn[j]);
                     }
-                },
-                function(e) {
-                },
-                function() {
-                    t.lcd = lcd;
-                    oRT.unsubscribe();
-                    t.clc = false;
-                    t.run = false;
-                    t.lE = false;
+                    hdPD.arr.push(rq0[i].A);
                 }
-            );
-            //
-            // Set Angular view variables
-            //
-            sGA(_s_SIM, 'E', 'T', tpA);
-            return [bcd,
-                    pcd,
-                    pcd2,
-                    tpA,
-                    tpX,
-                    tpN,
-                    tpR,
-                    hg];
-        },
-            //// Create Live Events matrix
+                //
+                // Prepare histogram
+                //
+                rq0.sort(function(a, b) {return a.A - b.A});
+                rq1.sort(function(a, b) {return a.X - b.X});
+                rq2.sort(function(a, b) {return a.N - b.N});
+                rq3.sort(function(a, b) {return a.R - b.R});
+                for (i = 0; i < rq0.length; i++) {
+                    var _hstR = rq0[i].H,
+                        _rttR = rq0[i].A,
+                        _hstT = rq1[i].H,
+                        _tsnT = rq1[i].X;
+                    for (j = 0; j < 4; j++) {
+                        rtt[j] = byH(_hstR, j, _rttR);
+                        pcd2[j].y += inSD(i, rtt[j]);
+                        totReqAng[j] += inSDbyH(_hstR, j, i, 1);
+                        tsn[j] = byH(_hstT, j, _tsnT);
+                        pcd[j].y += inSD(i, tsn[j]);
+                        totReqNgi[j] += inSDbyH(_hstT, j, i, 1);
+                    }
+                    toA += inSD(i, _rttR);
+                    toX += inSD(i, _tsnT);
+                    toN += inSD(i, rq2[i].N);
+                    toR += inSD(i, rq3[i].R);
+                }
+                for (i = 0; i < 4; i++) {
+                    pcd2[i].y /= totReqAng[i];
+                    pcd[i].y /= totReqNgi[i];
+                }
+                var tpA = ((rqEx / (dur / 1000)) | 0) + 1,
+                    tpX = ((tpA * toA / toX) | 0) + 1,
+                    tpN = ((tpX * toX / toN) | 0) + 1,
+                    tpR = ((tpN * toN / toR) | 0) + 1;
+                for (i = 0; i < hg.length; i++) {
+                    var ix = ((rqEx * hg[i][0] / 100) | 0) - 1;
+                    hg[i][1] = rq0[ix].A;
+                    hg[i][2] = rq1[ix].X;
+                    hg[i][3] = rq2[ix].N;
+                    hg[i][4] = rq3[ix].R;
+                }
+                //
+                // Calculating HDR Histogram
+                //
+                var oRT = t.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
+                    function(re) {
+                        for (var n = 0; n < re.chart.length; n++) {
+                            var idx = ((re.chart[n].percentile * t.rOK / 100) | 0) - 1;
+                            lcd[0].values.push({
+                                                   x: re.chart[n].percentile,
+                                                   y: re.chart[n].value
+                                               });
+                            lcd[1].values.push({
+                                                   x: re.chart[n].percentile,
+                                                   y: rq0[(idx < 0) ? 0 : idx].A
+                                               });
+                        }
+                    },
+                    function(e) {
+                    },
+                    function() {
+                        t.lcd = lcd;
+                        oRT.unsubscribe();
+                        t.clc = false;
+                        t.run = false;
+                        t.lE = false;
+                    }
+                );
+                //
+                // Set Angular view variables
+                //
+                sGA(_s_SIM, 'E', 'T', tpA);
+                return [bcd,
+                        pcd,
+                        pcd2,
+                        tpA,
+                        tpX,
+                        tpN,
+                        tpR,
+                        hg];
+            },
+        //// Create Live Events matrix
             cLE = function() {
                 var lva = [], a0 = [], a01 = [], a1 = [], a12 = [], a2 = [];
                 for (var i = 0; i < 32; i++) {
@@ -684,15 +680,16 @@
             // Live Events socket variables and configuration
             //
             this.lE = false;
+            this.gDS = ['text-muted',
+                      'text-primary',
+                      'text-muted',
+                      'text-danger'];
             this.oleMx = cLE();
             //
             // View execution variables
             //
             this.rVEV();
             this.run = false;
-            //
-            // Live Events socket event handler
-            //
         }
         AppSimulator.parameters = [
             app.HTTPService,
@@ -725,15 +722,6 @@
             this.clc = false;
             this.leMx = this.oleMx.slice(0);
         };
-        //// saveExecutionParametersCopy & resetLiveEventsMatrix
-        AppSimulator.prototype.sEPC = function() {
-            this.exM = this.gSM();
-            this.exR = this.rqCt;
-            this.exD = this.rqDu;
-            this.exI = this.rqIn;
-            this.exC = this.rqCn;
-            this.exmR = this.gDR();
-        };
         //
         // UI related methods
         //
@@ -750,10 +738,6 @@
         AppSimulator.prototype.sD = function(m) {
             this.iD = m;
             this.sMP(0);
-        };
-        //// usedDurationMethod
-        AppSimulator.prototype.uDM = function() {
-            return this.exM === _s_STA;
         };
         //// getSimulationMethod
         AppSimulator.prototype.gSM = function() {
@@ -780,10 +764,6 @@
             } else {
                 dLE();
             }
-        };
-        //// getDatabaseStatus
-        AppSimulator.prototype.gDS = function(c) {
-            return _a_GDS[c];
         };
         //// percValue
         AppSimulator.prototype.pV = function(o, c) {
@@ -814,7 +794,13 @@
             //
             // Save execution parameters & Reset Live Events socket variables
             //
-            this.sEPC();
+            this.exM = this.gSM();
+            this.exiD = this.exM === _s_STA;
+            this.exR = this.rqCt;
+            this.exD = this.rqDu;
+            this.exI = this.rqIn;
+            this.exC = this.rqCn;
+            this.exmR = this.gDR();
             //
             // Reset execution scope variables
             //

@@ -104,7 +104,7 @@
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-wrench"></i>&nbsp;Last Run parameters</h4>
 			</div>
-			<table class="table table-condensed table-bordered table-responsive" *ngIf="!uDM()">
+			<table class="table table-condensed table-bordered table-responsive" *ngIf="!exiD">
 				<thead>
 					<tr>
 						<th class="text-center" colspan="2">
@@ -127,7 +127,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<table class="table table-condensed table-bordered table-responsive" *ngIf="uDM()">
+			<table class="table table-condensed table-bordered table-responsive" *ngIf="exiD">
 				<thead>
 					<tr>
 						<th class="text-center" colspan="3">
@@ -165,7 +165,7 @@
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-tachometer"></i>&nbsp;Last Run execution data</h4>
 			</div>
-			<table class="table table-condensed table-bordered table-responsive" *ngIf="!uDM()">
+			<table class="table table-condensed table-bordered table-responsive" *ngIf="!exiD">
 				<thead>
 					<tr>
 						<th class="text-center" rowspan="2">
@@ -205,7 +205,7 @@
 					</tr>
 				</tbody>
 			</table>
-			<table class="table table-condensed table-bordered table-responsive" *ngIf="uDM()">
+			<table class="table table-condensed table-bordered table-responsive" *ngIf="exiD">
 				<thead>
 					<tr>
 						<th class="text-center" rowspan="2">
@@ -566,7 +566,7 @@
 								<tbody>
 									<tr *ngFor="let evy of leMx">
 										<td *ngFor="let evx of evy">
-											<small [class]="gDS(evx)">
+											<small [class]="gDS[evx]">
 												<i class="fa fa-database" style="margin-right:1px;"></i>
 											</small>
 										</td>
