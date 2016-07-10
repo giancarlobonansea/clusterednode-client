@@ -84,9 +84,11 @@
             _a_GDS = ['text-muted',
                       'text-primary',
                       'text-muted',
-                      'text-danger'];
+                      'text-danger'],
+            _o_SIO = {},
+            _e_SIO = {},
         //// helper functions
-        var iRL = function(t) {
+            iRL = function(t) {
                 var l = {
                     l0: _RL.l0,
                     l1: _RL.l1,
@@ -270,17 +272,6 @@
             //
             // Live Events socket event handler
             //
-            var self = this;
-            io(_s_IURL).on('redis', function(d) {
-                if (self.leMx[d.x][d.y] < 3) {
-                    var x = d.x,
-                        y = d.y;
-                    self.leMx[x][y] = 3;
-                    setTimeout(function() {
-                        self.leMx[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
-                    }, 1000);
-                }
-            });
         }
 
         AppSimulator.parameters = [
@@ -352,6 +343,27 @@
         AppSimulator.prototype.gSM = function() {
             return this.iD ? _s_STA : _s_STR;
         };
+        //// activateLiveEvents
+        AppSimulator.prototype.aLE = function() {
+            var self = this;
+            _o_SIO = io(_s_IURL);
+            _e_SIO = _o_SIO.on('redis', function(d) {
+                if (self.leMx[d.x][d.y] < 3) {
+                    var x = d.x,
+                        y = d.y;
+                    self.leMx[x][y] = 3;
+                    setTimeout(function() {
+                        self.leMx[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
+                    }, 1000);
+                }
+            });
+        };
+        //// deactivateLiveEvents
+        AppSimulator.prototype.dLE = function() {
+            _e_SIO.destroy();
+            _o_SIO.close();
+            _o_SIO = undefined;
+        };
         //// onRefLinkClick
         AppSimulator.prototype.oRLC = function(t, d) {
             sGA('R', t, d, 0);
@@ -367,7 +379,10 @@
         AppSimulator.prototype.shL = function() {
             this.lE = !this.lE;
             if (this.lE) {
+                this.aLE();
                 this.sRe = false;
+            } else {
+                this.dLE();
             }
         };
         //// getDatabaseStatus
