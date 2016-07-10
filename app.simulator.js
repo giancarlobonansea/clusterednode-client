@@ -284,33 +284,33 @@
                         var proReq = cnRq++,
                             eid = this.idx,
                             _t = t,
-                            _rs = rs,
+                            //_rs = rs,
                             _rq = rq,
-                            _cc = cc,
-                            _cnRe = cnRe,
-                            _cnEr = cnEr,
-                            _pix = pix,
-                            _tRqCt = tRqCt,
-                            _ini = iniTime,
-                            _ev = ev;
+                            //_cc = cc,
+                            //_cnRe = cnRe,
+                            //_cnEr = cnEr,
+                            //_pix = pix,
+                            _tRqCt = tRqCt;
+                            //_ini = iniTime,
+                            //_ev = ev;
                         if (proReq<tRqCt) {
                             rq[1][proReq].subscribe(
                                 function(r) {
-                                    oR(_t, r, _rs, _rq, _cc, _pix);
+                                    oR(_t, r, rs, _rq, cc, pix);
                                 },
                                 function(e) {
-                                    _cnEr++;
+                                    cnEr++;
                                 },
                                 function() {
-                                    _cnRe++;
-                                    if (_cnRe >= _tRqCt) {
-                                        _ev[eid].unsubscribe();
-                                        console.log(_rs);
+                                    cnRe++;
+                                    if (cnRe >= _tRqCt) {
+                                        ev[eid].unsubscribe();
+                                        console.log(rs);
                                         console.log(_rq);
-                                        sSt(_t, _tRqCt, Date.now() - _ini, _cnEr, _rq, _rs, _cc);
+                                        sSt(_t, _tRqCt, Date.now() - iniTime, cnEr, _rq, rs, cc);
                                     }
                                     else {
-                                        _ev[eid].emit();
+                                        ev[eid].emit();
                                     }
                                     this.unsubscribe();
                                 }
