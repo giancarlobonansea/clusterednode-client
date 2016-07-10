@@ -223,6 +223,7 @@
             },
         //// throwHTTPduration
             tHd = function(t, tRqCt, tRqCn, tRqDu, tRqIn, rq, tClc) {
+                console.log(tmR,cnRq,tRqCt,tClc);
                 var tmR = true,
                     cnRq = 0,
                     cnRe = 0,
@@ -240,7 +241,7 @@
                         console.log(tmR,cnRq,tRqCt,tClc);
                         if (tmR && cnRq < tRqCt) {
                             cnRq += tRqCn;
-                            var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - tRqCn, cnRq)).subscribe(
+                            var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - tRqCn, cnRq<tRqCt?cnRq:tRqCt)).subscribe(
                                 function(r) {
                                     oR(t, r, rs, rq, cc, pix);
                                 },
