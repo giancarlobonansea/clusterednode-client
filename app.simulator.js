@@ -225,6 +225,7 @@
             t.rER = cnEr;
             t.rs = rs;
             t.chRe = cc;
+            console.log("sst",rq);
             var aR = cH(rqEx, dur, rq);
             t.bcd = aR[0];
             t.pcd = aR[1];
@@ -306,6 +307,7 @@
                             cnRe += tRqCn;
                             oRA.unsubscribe();
                             if (cnRe >= tRqCt) {
+                                console.log("thr",rq);
                                 sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                                 ev.unsubscribe();
                             }
@@ -339,6 +341,7 @@
         },
         //// calculateHistogram
         cH = function(t, rqEx, dur, rq) {
+            console.log("ch",rq);
             t.lE = false;
             //// resetChartsData
             var cBC = function(k1, k2) {
