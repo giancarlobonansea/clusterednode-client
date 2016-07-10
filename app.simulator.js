@@ -225,16 +225,17 @@
             t.rER = cnEr;
             t.rs = rs;
             t.chRe = cc;
-            console.log("sst",rq);
-            var aR = cH(rqEx, dur, rq);
-            t.bcd = aR[0];
-            t.pcd = aR[1];
-            t.pcd2 = aR[2];
-            t.tpA = aR[3];
-            t.tpX = aR[4];
-            t.tpN = aR[5];
-            t.tpR = aR[6];
-            t.hg = aR[7];
+            setTimeout(function(){
+                var aR = cH(t, rqEx, dur, rq);
+                t.bcd = aR[0];
+                t.pcd = aR[1];
+                t.pcd2 = aR[2];
+                t.tpA = aR[3];
+                t.tpX = aR[4];
+                t.tpN = aR[5];
+                t.tpR = aR[6];
+                t.hg = aR[7];
+            });
         },
         //// throwHTTPduration
         tHd = function(t, tRqCt, tRqCn, tRqDu, tRqIn, rq, tClc) {
@@ -307,7 +308,6 @@
                             cnRe += tRqCn;
                             oRA.unsubscribe();
                             if (cnRe >= tRqCt) {
-                                console.log("thr",rq);
                                 sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                                 ev.unsubscribe();
                             }
@@ -341,7 +341,6 @@
         },
         //// calculateHistogram
         cH = function(t, rqEx, dur, rq) {
-            console.log("ch",rq);
             t.lE = false;
             //// resetChartsData
             var cBC = function(k1, k2) {
