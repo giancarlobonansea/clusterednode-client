@@ -591,11 +591,7 @@
             //
             // View execution parameters
             //
-            this.iD = false;
-            this.rqCn = 2;
-            this.rqCt = 100;
-            this.rqDu = 5;
-            this.rqIn = 50;
+            this.sD(false);
             //
             // View presentation variables - control
             //
@@ -668,8 +664,7 @@
             //
             // Live Events socket variables and configuration
             //
-            this.oleMx = [];
-            var a0 = [], a01 = [], a1 = [], a12 = [], a2 = [];
+            var lva = [], a0 = [], a01 = [], a1 = [], a12 = [], a2 = [];
             for (var i = 0; i < 32; i++) {
                 a0[i] = 0;
                 a01[i] = i < 11 ? 0 : 1;
@@ -678,16 +673,17 @@
                 a2[i] = 2;
             }
             for (i = 0; i < 5; i++) {
-                this.oleMx.push(a0.slice(0));
+                lva.push(a0.slice(0));
             }
             this.oleMx.push(a01);
             for (i = 0; i < 4; i++) {
-                this.oleMx.push(a1.slice(0));
+                lva.push(a1.slice(0));
             }
             this.oleMx.push(a12);
             for (i = 0; i < 5; i++) {
-                this.oleMx.push(a2.slice(0));
+                lva.push(a2.slice(0));
             }
+            this.oleMx = lva;
             //
             // View execution variables
             //
@@ -696,7 +692,7 @@
             //
             // Live Events socket event handler
             //
-        };
+        }
         AppSimulator.parameters = [
             app.HTTPService,
             ng.platformBrowser.DomSanitizationService
