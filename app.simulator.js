@@ -280,6 +280,7 @@
                     rs = cRS(),
                     ev = [],
                     fSend = function() {
+                        console.log(this);
                         rq[1][cnRe++].subscribe(
                             function(r) {
                                 oR(t, r, rs, rq, cc, pix);
@@ -289,11 +290,11 @@
                             },
                             function() {
                                 if (cnRe >= tRqCt) {
-                                    ev[this.parent.idx].unsubscribe();
+                                    ev[this.idx].unsubscribe();
                                     sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                                 }
                                 else {
-                                    ev[this.parent.idx].emit();
+                                    ev[this.idx].emit();
                                 }
                             }
                         );
