@@ -223,7 +223,6 @@
             },
         //// throwHTTPduration
             tHd = function(t, tRqCt, tRqCn, tRqDu, tRqIn, rq, tClc) {
-                console.log(tmR,cnRq,tRqCt,tClc);
                 var tmR = true,
                     cnRq = 0,
                     cnRe = 0,
@@ -238,10 +237,9 @@
                         sSt(t, cnRe, Date.now() - iniTime, cnEr, rq, rs, cc);
                     },
                     inF = function() {
-                        console.log(tmR,cnRq,tRqCt,tClc);
                         if (tmR && cnRq < tRqCt) {
                             cnRq += tRqCn;
-                            var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - tRqCn, cnRq<tRqCt?cnRq:tRqCt)).subscribe(
+                            var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - tRqCn, cnRq<tRqCt?cnRq:tRqCt-1)).subscribe(
                                 function(r) {
                                     oR(t, r, rs, rq, cc, pix);
                                 },
@@ -249,7 +247,6 @@
                                     cnEr += tRqCn;
                                 },
                                 function() {
-                                    console.log(tmR,tClc);
                                     cnRe += tRqCn;
                                     oRA.unsubscribe();
                                     if (!tmR && !tClc && cnRq === cnRe) {
@@ -269,7 +266,6 @@
                 //
                 var iniTime = Date.now();
                 setTimeout(function() {
-                    console.log('deu');
                     tmR = false;
                 }, (tRqDu * 1000) + 10);
                 setTimeout(function() {inF();});
@@ -285,7 +281,7 @@
                     ev = new ng.core.EventEmitter(true);
                 ev.subscribe(function() {
                     var nIdx = cnRe + tRqCn,
-                        oRA = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx)).subscribe(
+                        oRA = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx<tRqCt?nIdx:tRqCt-1)).subscribe(
                             function(r) {
                                 oR(t, r, rs, rq, cc, pix);
                             },
