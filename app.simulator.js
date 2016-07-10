@@ -239,7 +239,7 @@
                     inF = function() {
                         if (tmR && cnRq < tRqCt) {
                             cnRq += tRqCn;
-                            var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - tRqCn, cnRq<tRqCt?cnRq:tRqCt-1)).subscribe(
+                            var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - tRqCn, cnRq<tRqCt?cnRq:tRqCt)).subscribe(
                                 function(r) {
                                     oR(t, r, rs, rq, cc, pix);
                                 },
@@ -281,7 +281,7 @@
                     ev = new ng.core.EventEmitter(true);
                 ev.subscribe(function() {
                     var nIdx = cnRe + tRqCn,
-                        oRA = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx<tRqCt?nIdx:tRqCt-1)).subscribe(
+                        oRA = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx<tRqCt?nIdx:tRqCt)).subscribe(
                             function(r) {
                                 oR(t, r, rs, rq, cc, pix);
                             },
