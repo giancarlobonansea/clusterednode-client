@@ -225,18 +225,15 @@
             t.rER = cnEr;
             t.rs = rs;
             t.chRe = cc;
-            var async = function() {
-                var aR = cH(rqEx, dur, rq);
-                t.bcd = aR[0];
-                t.pcd = aR[1];
-                t.pcd2 = aR[2];
-                t.tpA = aR[3];
-                t.tpX = aR[4];
-                t.tpN = aR[5];
-                t.tpR = aR[6];
-                t.hg = aR[7];
-            };
-            setTimeout(function(){async();});
+            var aR = cH(rqEx, dur, rq);
+            t.bcd = aR[0];
+            t.pcd = aR[1];
+            t.pcd2 = aR[2];
+            t.tpA = aR[3];
+            t.tpX = aR[4];
+            t.tpN = aR[5];
+            t.tpR = aR[6];
+            t.hg = aR[7];
         },
         //// throwHTTPduration
         tHd = function(t, tRqCt, tRqCn, tRqDu, tRqIn, rq, tClc) {
