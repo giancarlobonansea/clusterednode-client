@@ -3,14 +3,8 @@
         //// Constants
         var _s_SIM = 'S',
             _s_CFG = 'C',
-            _s_PI2 = 'raspberrypi2',
-            _s_PI3 = 'raspberrypi3',
-            _s_PI5 = 'raspberrypi5',
-            _s_PI6 = 'raspberrypi6',
-            _s_RED = '-redis',
-            _s_ANG = '-angular',
-            _s_NGI = '-nginx',
-            _s_NOD = '-node',
+            _s_PI = ['raspberrypi2','raspberrypi3','raspberrypi5','raspberrypi6'],
+            _s_STG = ['-redis','-node','-nginx','-angular'],
             _s_BURL = 'https://giancarlobonansea.homeip.net:3333',
             _s_AURL = _s_BURL + '3/api',
             _s_HURL = _s_BURL + '3/hdr',
@@ -133,21 +127,20 @@
             },
         //// resetExecutionScopeVariables
             cRS = function() {
-                return [[_s_PI2,
-                    [],
-                         0],
-                    [_s_PI3,
-                        [],
-                     0],
-                    [_s_PI5,
-                        [],
-                     0],
-                    [_s_PI6,
-                        [],
-                     0]];
+                var j = [];
+                for(var i=0;i<4;i++) {
+                    j.push([_s_PI[i],[],0]);
+                }
+                return j;
             },
         //// createPIX
-            cPIX = function() { return JSON.parse('{"' + _s_PI2 + '":[0,{}],"' + _s_PI3 + '":[1,{}],"' + _s_PI5 + '":[2,{}],"' + _s_PI6 + '":[3,{}]}'); },
+            cPIX = function() {
+                var j = {};
+                for(var i=0;i<4;i++) {
+                    j[_s_PI[i]]=[i,{}];
+                }
+                return j;
+            },
         //// deactivateLiveEvents
             dLE = function() {
                 if (_e_SIO) {
@@ -346,30 +339,15 @@
                             y: 0
                         };
                     },
-                    bcd = [cBC(_s_PI2, _s_RED),
-                           cBC(_s_PI3, _s_RED),
-                           cBC(_s_PI5, _s_RED),
-                           cBC(_s_PI6, _s_RED),
-                           cBC(_s_PI2, _s_NOD),
-                           cBC(_s_PI3, _s_NOD),
-                           cBC(_s_PI5, _s_NOD),
-                           cBC(_s_PI6, _s_NOD),
-                           cBC(_s_PI2, _s_NGI),
-                           cBC(_s_PI3, _s_NGI),
-                           cBC(_s_PI5, _s_NGI),
-                           cBC(_s_PI6, _s_NGI),
-                           cBC(_s_PI2, _s_ANG),
-                           cBC(_s_PI3, _s_ANG),
-                           cBC(_s_PI5, _s_ANG),
-                           cBC(_s_PI6, _s_ANG)],
-                    pcd = [cPC(_s_PI2),
-                           cPC(_s_PI3),
-                           cPC(_s_PI5),
-                           cPC(_s_PI6)],
-                    pcd2 = [cPC(_s_PI2),
-                            cPC(_s_PI3),
-                            cPC(_s_PI5),
-                            cPC(_s_PI6)],
+                    bcd = [],
+                    pcd = [cPC(_s_PI[0]),
+                           cPC(_s_PI[1]),
+                           cPC(_s_PI[2]),
+                           cPC(_s_PI[3])],
+                    pcd2 = [cPC(_s_PI[0]),
+                            cPC(_s_PI[1]),
+                            cPC(_s_PI[2]),
+                            cPC(_s_PI[3])],
                     lcd = [
                         {
                             key: 'w/o Coord. Omission',
@@ -456,12 +434,19 @@
                     },
                     inSDbyH = function(hl, hv, i, v) {
                         return ((hl === hv) && (i >= dLo) && (i <= dUp)) ? v : 0;
-                    };
+                    },rtt = [], tsn = [], exts = [], red = [];
+                //
+                // Populate barchart structure
+                //
+                for(var i=0;i<4;i++) {
+                    for(var j=0;j<4;j++) {
+                        bcd.push(cBC(_s_PI[j], _s_STG[i]));
+                    }
+                }
                 //
                 // Populate barchart as processed (no sorting)
                 //
-                var rtt = [], tsn = [], exts = [], red = [];
-                for (var i = 0; i < rq0.length; i++) {
+                for (i = 0; i < rq0.length; i++) {
                     var _hst = rq0[i].H,
                         _rid = rq0[i].Q;
                     rtt = [0,
