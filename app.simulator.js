@@ -104,6 +104,9 @@
                 }
                 return l;
             },
+            mR = function(v) {
+                return (Math.random() * v) | 0;
+            },
         //// Google Analytics
             sGA = function(a, b, c, d) {
                 ga('send', 'event', a, b, c, d);
@@ -142,14 +145,6 @@
                     [_s_PI6,
                         [],
                      0]];
-            },
-        //// getRandomOperation
-            gRO = function() {
-                return _a_OPE[(Math.random() * 10) | 0];
-            },
-        //// getRandomDBRecord
-            gRD = function() {
-                return (Math.random() * 16384) | 0;
             },
         //// createPIX
             cPIX = function() { return JSON.parse('{"' + _s_PI2 + '":[0,{}],"' + _s_PI3 + '":[1,{}],"' + _s_PI5 + '":[2,{}],"' + _s_PI6 + '":[3,{}]}'); },
@@ -326,10 +321,10 @@
                           0,
                           0];
                 for (var q = 0; q < t.rqCt; q++) {
-                    var o = gRO();
+                    var o = _a_OPE[mR(10)];
                     oT[o]++;
                     rq[0].push(_j_ERE);
-                    rq[1].push(t.hS.get(q, _s_AURL, o, gRD()));
+                    rq[1].push(t.hS.get(q, _s_AURL, o, mR(16384)));
                     rq[2].push(o);
                 }
                 return [rq,
@@ -774,13 +769,13 @@
             return (o * h / 100) | 0;
         };
         //// getDurationRequests
-        AppSimulator.prototype.gDR = function() {
-            var tot = (this.rqDu * 1000 * this.rqCn / this.rqIn) | 0;
-            return tot - (tot % this.rqCn);
+        AppSimulator.prototype.gDR = function(d, c, i) {
+            var tot = (d * 1000 * c / i) | 0;
+            return tot - (tot % c);
         };
         //// getDurationThroughput
-        AppSimulator.prototype.gDT = function() {
-            return (this.gDR() / this.rqDu) | 0;
+        AppSimulator.prototype.gDT = function(d, c, i) {
+            return (this.gDR(d, c, i) / d) | 0;
         };
         //
         // Execution control methods
