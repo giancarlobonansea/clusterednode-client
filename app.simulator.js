@@ -250,8 +250,7 @@
                     if (inH) {
                         clearInterval(inH);
                     }
-                    var finTime = Date.now() - iniTime;
-                    sSt(t, cnRe, finTime, cnEr, rq, rs, cc);
+                    sSt(t, cnRe, Date.now() - iniTime, cnEr, rq, rs, cc);
                 },
                 inF = function() {
                     if (tmR && cnRq < tRqCt) {
@@ -310,8 +309,7 @@
                             oRA.unsubscribe();
                             if (cnRe >= tRqCt) {
                                 ev.unsubscribe();
-                                var dur = Date.now() - iniTime;
-                                sSt(t, tRqCt, dur, cnEr, rq, rs, cc);
+                                sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                             }
                             else {
                                 ev.emit();
