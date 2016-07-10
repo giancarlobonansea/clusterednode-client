@@ -248,10 +248,10 @@
                                 },
                                 function() {
                                     cnRe += tRqCn;
+                                    oRA.unsubscribe();
                                     if (!tmR && !tClc && cnRq === cnRe) {
                                         sHd();
                                     }
-                                    oRA.unsubscribe();
                                 }
                             );
                         }
@@ -292,8 +292,8 @@
                                 cnRe += tRqCn;
                                 oRA.unsubscribe();
                                 if (cnRe >= tRqCt) {
-                                    sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                                     ev.unsubscribe();
+                                    sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                                 }
                                 else {
                                     ev.emit();
