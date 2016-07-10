@@ -281,44 +281,28 @@
                     ev = [],
                     fSend = function() {
                         var eid = this.idx;
-                        rq[1][cnRe++].subscribe(
-                            function(r) {
-                                oR(t, r, rs, rq, cc, pix);
-                            },
-                            function(e) {
-                                cnEr++;
-                            },
-                            function() {
-                                console.log(this);
-                                this.unsubscribe();
-                                if (cnRe >= tRqCt) {
-                                    ev[eid].unsubscribe();
-                                    sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
+                        if (cnRe<tRqCt) {
+                            rq[1][cnRe++].subscribe(
+                                function(r) {
+                                    oR(t, r, rs, rq, cc, pix);
+                                },
+                                function(e) {
+                                    cnEr++;
+                                },
+                                function() {
+                                    this.unsubscribe();
+                                    if (cnRe >= tRqCt) {
+                                        ev[eid].unsubscribe();
+                                        sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
+                                    }
+                                    else {
+                                        ev[eid].emit();
+                                    }
                                 }
-                                else {
-                                    ev[eid].emit();
-                                }
-                            }
-                        );
-                        // oRA = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx<tRqCt?nIdx:tRqCt)).subscribe(
-                        //     function(r) {
-                        //         oR(t, r, rs, rq, cc, pix);
-                        //     },
-                        //     function(e) {
-                        //         cnEr += tRqCn;
-                        //     },
-                        //     function() {
-                        //         cnRe += tRqCn;
-                        //         oRA.unsubscribe();
-                        //         if (cnRe >= tRqCt) {
-                        //             ev.unsubscribe();
-                        //             sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
-                        //         }
-                        //         else {
-                        //             ev.emit();
-                        //         }
-                        //     }
-                        // );
+                            );
+                        } else {
+                            ev[eid].unsubscribe();
+                        }
                     },
                     iniTime = Date.now();
                 for(var e=0;e<tRqCn;e++) {
