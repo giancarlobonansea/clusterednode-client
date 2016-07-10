@@ -283,16 +283,16 @@
                     fSend = function() {
                         console.log(this);
                         var proReq = cnRq++,
-                            _t = this.t,
-                            _tRqCt = this.tRqCt,
-                            _rq = this.rq,
-                            _cnRe = this.cnRe,
-                            _cnEr = this.cnEr,
-                            _cc = this.cc,
-                            _pix = this.pix,
-                            _rs = this.rs,
-                            _ev = this.ev,
-                            _iniTime = this.iniTime,
+                            _t = t,
+                            _tRqCt = tRqCt,
+                            _rq = rq,
+                            _cnRe = cnRe,
+                            _cnEr = cnEr,
+                            _cc = cc,
+                            _pix = pix,
+                            _rs = rs,
+                            _ev = ev,
+                            _iniTime = iniTime,
                             eid = this.idx;
                         if (proReq<tRqCt) {
                             rq[1][proReq].subscribe(
@@ -322,7 +322,7 @@
                     iniTime = Date.now();
                 for(var e=0;e<tRqCn;e++) {
                     ev.push(new ng.core.EventEmitter(true));
-                    ev[e].subscribe({idx:e,t:t,tRqCt:tRqCt,rq:rq,cnRe:cnRe,cnEr:cnEr,cc:cc,pix:pix,rs:rs,ev:ev,iniTime:iniTime,next:fSend});
+                    ev[e].subscribe({idx:e,next:fSend});
                     ev[e].emit();
                 }
             },
