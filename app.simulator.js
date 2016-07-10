@@ -319,8 +319,26 @@
             });
             var iniTime = Date.now();
             ev.emit();
+        },
+        //// populateRequestSamples
+        pRS = function(t) {
+            var rq = [[],
+                    [],
+                    []],
+                oT = [0,
+                      0,
+                      0,
+                      0];
+            for (var q = 0; q < t.rqCt; q++) {
+                var o = gRO();
+                oT[o]++;
+                rq[0].push(_j_ERE);
+                rq[1].push(t.hS.get(q, _s_AURL, o, gRD()));
+                rq[2].push(o);
+            }
+            return [rq,
+                    oT];
         };
-
         //// Constructor
         function AppSimulator (HTTPService, DOMSanitizer) {
             //
@@ -556,25 +574,6 @@
         //// isRunning
         AppSimulator.prototype.iR = function() {
             return this.run;
-        };
-        //// populateRequestSamples
-        var pRS = function(t) {
-            var rq = [[],
-                    [],
-                    []],
-                oT = [0,
-                      0,
-                      0,
-                      0];
-            for (var q = 0; q < t.rqCt; q++) {
-                var o = gRO();
-                oT[o]++;
-                rq[0].push(_j_ERE);
-                rq[1].push(t.hS.get(q, _s_AURL, o, gRD()));
-                rq[2].push(o);
-            }
-            return [rq,
-                    oT];
         };
         //// calculateHistogram
         AppSimulator.prototype.cH = function(rqEx, dur, rq) {
@@ -840,7 +839,7 @@
             //
             // Reset view presentation variables - control
             //
-            this.shl();
+            this.shL();
             //
             // Switch among simulation methods (stress or duration)
             //
