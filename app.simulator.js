@@ -171,8 +171,8 @@
                         req = res.Q,
                         hst = res.json.h,
                         ndx = pix[hst][0],
-                        cch = res.C,
-                    ret1 = {
+                        cch = res.C;
+                    rq[0][req] = {
                         Q: 'Req ' + ((req | 0) + 1),
                         H: ndx,
                         A: res.A,
@@ -180,21 +180,9 @@
                         N: res.N,
                         R: res.R,
                         C: cch
-                    },
-                        ret2 = 0, //rqCh
-                        ret3 = 1; //rqOK
-                    // rq[0][req] = {
-                    //     Q: 'Req ' + ((req | 0) + 1),
-                    //     H: ndx,
-                    //     A: res.A,
-                    //     X: res.X,
-                    //     N: res.N,
-                    //     R: res.R,
-                    //     C: cch
-                    // };
+                    };
                     if (cch) {
                         t.rqCh++;
-                        ret2++;
                         cc.push(++t.rOK);
                     }
                     else {
