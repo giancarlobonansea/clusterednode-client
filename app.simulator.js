@@ -544,7 +544,7 @@
             //
             // Calculating HDR Histogram
             //
-            this.oRT = t.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
+            var oRT = t.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
                 function(re) {
                     for (var n = 0; n < re.chart.length; n++) {
                         var idx = ((re.chart[n].percentile * t.rOK / 100) | 0) - 1;
@@ -562,7 +562,7 @@
                 },
                 function() {
                     t.lcd = lcd;
-                    t.oRT.unsubscribe();
+                    oRT.unsubscribe();
                     t.clc = false;
                     t.run = false;
                     t.lE = false;
