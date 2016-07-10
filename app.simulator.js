@@ -85,7 +85,7 @@
                       'text-primary',
                       'text-muted',
                       'text-danger'],
-            _o_SIO = {},
+            _o_SIO = io(_s_IURL,{autoConnect:false}),
             _e_SIO = {},
         //// helper functions
             iRL = function(t) {
@@ -346,7 +346,7 @@
         //// activateLiveEvents
         AppSimulator.prototype.aLE = function() {
             var self = this;
-            _o_SIO = io(_s_IURL);
+            _o_SIO.connect();
             _e_SIO = _o_SIO.on('redis', function(d) {
                 if (self.leMx[d.x][d.y] < 3) {
                     var x = d.x,
@@ -360,9 +360,12 @@
         };
         //// deactivateLiveEvents
         AppSimulator.prototype.dLE = function() {
-            _e_SIO.destroy();
-            _o_SIO.close();
-            _o_SIO = undefined;
+            if (_e_SIO) {
+                _e_SIO.destroy();
+                if (_o_SIO.connected) {
+                    _o_SIO.close();
+                }
+            }
         };
         //// onRefLinkClick
         AppSimulator.prototype.oRLC = function(t, d) {
@@ -373,6 +376,7 @@
             this.sRe = !this.sRe;
             if (this.sRe) {
                 this.lE = false;
+                this.dLE();
             }
         };
         //// showLive
