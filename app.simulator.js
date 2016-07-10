@@ -469,21 +469,22 @@
             //
             // Populate barchart as processed (no sorting)
             //
+            var rtt = [], tsn = [], exts = [], red = [];
             for (var i = 0; i < rq0.length; i++) {
                 var _hst = rq0[i].H,
-                    _rid = rq0[i].Q,
-                    rtt = [0,
-                           0,
-                           0,
-                           0],
+                    _rid = rq0[i].Q;
+                rtt = [0,
+                       0,
+                       0,
+                       0];
                     tsn = [0,
                            0,
                            0,
-                           0],
+                           0];
                     exts = [0,
                             0,
                             0,
-                            0],
+                            0];
                     red = [0,
                            0,
                            0,
@@ -512,7 +513,7 @@
                     _rttR = rq0[i].A,
                     _hstT = rq1[i].H,
                     _tsnT = rq1[i].X;
-                for (j = 0; j < 4; j++) {
+                for (var j = 0; j < 4; j++) {
                     rtt[j] = byH(_hstR, j, _rttR);
                     pcd2[j].y += inSD(i, rtt[j]);
                     totReqAng[j] += inSDbyH(_hstR, j, i, 1);
@@ -543,7 +544,7 @@
             //
             // Calculating HDR Histogram
             //
-            this.oRT = this.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
+            this.oRT = t.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
                 function(re) {
                     for (var n = 0; n < re.chart.length; n++) {
                         var idx = ((re.chart[n].percentile * t.rOK / 100) | 0) - 1;
