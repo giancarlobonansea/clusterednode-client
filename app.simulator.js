@@ -282,15 +282,18 @@
                     ev = [],
                     fSendOK = function() {
                         var proReq = cnRq++;
+                        console.log('disparou '+cnRq)
                         if (proReq<tRqCt) {
                             rq[1][proReq].subscribe(
                                 function(r) {
+                                    console.log('chamou '+proReq);
                                     oR(t, r, rs, rq, cc, pix);
                                 },
                                 function(e) {
                                     cnEr++;
                                 },
                                 function() {
+                                    console.log('respondeu '+proReq)
                                     this.unsubscribe();
                                 }
                             );
@@ -299,6 +302,7 @@
                     fSendERR = function() {
                     },
                     fSendFIN = function() {
+                        console.log('completou '+cnRe);
                         if (++cnRe >= tRqCt) {
                             this.unsubscribe();
                             sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
