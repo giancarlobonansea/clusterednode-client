@@ -283,28 +283,29 @@
                     fSendOK = function(d) {
                         var proReq = cnRq++,
                             eid = d;
-                        console.log('disparou '+proReq)
                         if (proReq<tRqCt) {
                             rq[1][proReq].subscribe(
                                 function(r) {
-                                    console.log('chamou '+proReq);
                                     oR(t, r, rs, rq, cc, pix);
                                 },
                                 function(e) {
                                     cnEr++;
                                 },
                                 function() {
-                                    console.log('respondeu '+proReq)
                                     if (++cnRe >= tRqCt) {
+                                        console.log('terminou '+d);
                                         ev[eid].unsubscribe();
                                         sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                                     }
                                     else {
-                                        ev[eid].emit();
+                                        ev[eid].emit(eid);
                                     }
                                     this.unsubscribe();
                                 }
                             );
+                        } else {
+                            console.log('cancelou '+d);
+                            ev[eid].unsubscribe();
                         }
                     },
                     iniTime = Date.now();
