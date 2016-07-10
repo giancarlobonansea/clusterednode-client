@@ -273,17 +273,18 @@
             },
         //// throwHTTPrequests
             tHr = function(t, tRqCt, tRqCn, rq) {
-                var cnRe = 0,
+                var cnRq = 0,
+                    cnRe = 0,
                     cnEr = 0,
                     cc = [],
                     pix = cPIX(),
                     rs = cRS(),
                     ev = [],
                     fSend = function() {
-                        var proRec = cnRe++,
+                        var proReq = cnRq++,
                             eid = this.idx;
-                        if (proRec<tRqCt) {
-                            rq[1][proRec].subscribe(
+                        if (proReq<tRqCt) {
+                            rq[1][proReq].subscribe(
                                 function(r) {
                                     oR(t, r, rs, rq, cc, pix);
                                 },
@@ -291,14 +292,15 @@
                                     cnEr++;
                                 },
                                 function() {
+                                    cnRe++;
                                     this.unsubscribe();
-                                    if (proRec >= tRqCt) {
-                                        console.log('chegou ao ultimo envio'+eid+' - '+proRec);
+                                    if (cnRe >= tRqCt) {
+                                        console.log('chegou ao ultimo envio'+eid+' - '+proReq);
                                         ev[eid].unsubscribe();
                                         sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                                     }
                                     else {
-                                        console.log('loop envio '+eid+' - '+proRec);
+                                        console.log('loop envio '+eid+' - '+proReq);
                                         ev[eid].emit();
                                     }
                                 }
