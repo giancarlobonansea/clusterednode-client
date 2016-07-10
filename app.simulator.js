@@ -286,10 +286,10 @@
                             oR(t, r, rs, rq, cc, pix);
                         },
                         fERR = function(e) {
-                            cnEr += tRqCn;
+                            cnEr++;
                         },
                         fFIN = function() {
-                            cnRe += tRqCn;
+                            cnRe++;
                             if (cnRe >= tRqCt) {
                                 ev.unsubscribe();
                                 sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
