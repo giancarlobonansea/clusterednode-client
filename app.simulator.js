@@ -281,7 +281,8 @@
                     ev = new ng.core.EventEmitter(true);
                 ev.subscribe(function() {
                     var nIdx = cnRe + tRqCn,
-                        rqSs = rq[1].slice(cnRe, nIdx<tRqCt?nIdx:tRqCt),
+                        rqSs = rq[1].slice(cnRe, tRqCt>nIdx?nIdx:tRqCt),
+                        cntEv = 0,
                         fOK = function(r) {
                             oR(t, r, rs, rq, cc, pix);
                         },
@@ -289,13 +290,14 @@
                             cnEr++;
                         },
                         fFIN = function() {
-                            cnRe++;
-                            if (cnRe >= tRqCt) {
+                            if (++cnRe >= tRqCt) {
                                 ev.unsubscribe();
                                 sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                             }
                             else {
-                                ev.emit();
+                                if (++cntEv===3) {
+                                    ev.emit();
+                                }
                             }
                         };
                     for(var i=0;i<rqSs.length;i++) {
