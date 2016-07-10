@@ -675,11 +675,11 @@
             for (i = 0; i < 5; i++) {
                 lva.push(a0.slice(0));
             }
-            this.oleMx.push(a01);
+            lva.push(a01);
             for (i = 0; i < 4; i++) {
                 lva.push(a1.slice(0));
             }
-            this.oleMx.push(a12);
+            lva.push(a12);
             for (i = 0; i < 5; i++) {
                 lva.push(a2.slice(0));
             }
