@@ -783,7 +783,7 @@
             this.exD = this.rqDu;
             this.exI = this.rqIn;
             this.exC = this.rqCn;
-            this.exmR = this.gDR();
+            this.exmR = this.gDR(this.rqDu,this.rqCn,this.rqIn);
             //
             // Reset execution scope variables
             //
@@ -804,7 +804,7 @@
                 //
                 // Stability - duration
                 //
-                this.rqCt = this.gDR();
+                this.rqCt = this.exmR|0;
             }
             var aR = pRS(this);
             this.oT = aR[1];
