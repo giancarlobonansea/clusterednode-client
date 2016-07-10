@@ -266,6 +266,7 @@
                 //
                 var iniTime = Date.now();
                 setTimeout(function() {
+                    console.log('deu');
                     tmR = false;
                 }, (tRqDu * 1000) + 10);
                 setTimeout(function() {inF();});
