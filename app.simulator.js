@@ -303,7 +303,6 @@
                                 },
                                 function() {
                                     _cnRe++;
-                                    this.unsubscribe();
                                     if (_cnRe >= _tRqCt) {
                                         _ev[eid].unsubscribe();
                                         console.log(_rs);
@@ -313,6 +312,7 @@
                                     else {
                                         _ev[eid].emit();
                                     }
+                                    this.unsubscribe();
                                 }
                             );
                         } else {
