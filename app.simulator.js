@@ -303,10 +303,10 @@
                                     _cnEr++;
                                 },
                                 function() {
+                                    console.log(_rs);
+                                    console.log(_rq);
                                     if (++_cnRe >= _tRqCt) {
                                         _ev[eid].unsubscribe();
-                                        console.log(_rs);
-                                        console.log(_rq);
                                         sSt(_t, _tRqCt, Date.now() - _iniTime, _cnEr, _rq, _rs, _cc);
                                     }
                                     else {
