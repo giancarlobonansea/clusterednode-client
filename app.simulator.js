@@ -287,6 +287,8 @@
                             rq[1][proReq].subscribe(
                                 function(r) {
                                     oR(t, r, rs, rq, cc, pix);
+                                    console.log(rq);
+                                    console.log(rs);
                                 },
                                 function(e) {
                                     cnEr++;
