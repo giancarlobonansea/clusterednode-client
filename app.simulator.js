@@ -281,25 +281,45 @@
                     ev = new ng.core.EventEmitter(true);
                 ev.subscribe(function() {
                     var nIdx = cnRe + tRqCn,
-                        oRA = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx<tRqCt?nIdx:tRqCt)).subscribe(
-                            function(r) {
-                                oR(t, r, rs, rq, cc, pix);
-                            },
-                            function(e) {
-                                cnEr += tRqCn;
-                            },
-                            function() {
-                                cnRe += tRqCn;
-                                oRA.unsubscribe();
-                                if (cnRe >= tRqCt) {
-                                    ev.unsubscribe();
-                                    sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
-                                }
-                                else {
-                                    ev.emit();
-                                }
+                        rqSs = rq[1].slice(cnRe, nIdx<tRqCt?nIdx:tRqCt),
+                        fOK = function(r) {
+                            oR(t, r, rs, rq, cc, pix);
+                        },
+                        fERR = function(e) {
+                            cnEr += tRqCn;
+                        },
+                        fFIN = function() {
+                            cnRe += tRqCn;
+                            if (cnRe >= tRqCt) {
+                                ev.unsubscribe();
+                                sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                             }
-                        );
+                            else {
+                                ev.emit();
+                            }
+                        };
+                    for(var i=0;i<rqSs.length;i++) {
+                        rqSs[i].subscribe(fOK,fERR,fFIN);
+                    }
+                    // oRA = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx<tRqCt?nIdx:tRqCt)).subscribe(
+                    //     function(r) {
+                    //         oR(t, r, rs, rq, cc, pix);
+                    //     },
+                    //     function(e) {
+                    //         cnEr += tRqCn;
+                    //     },
+                    //     function() {
+                    //         cnRe += tRqCn;
+                    //         oRA.unsubscribe();
+                    //         if (cnRe >= tRqCt) {
+                    //             ev.unsubscribe();
+                    //             sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
+                    //         }
+                    //         else {
+                    //             ev.emit();
+                    //         }
+                    //     }
+                    // );
                 });
                 var iniTime = Date.now();
                 ev.emit();
