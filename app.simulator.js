@@ -237,6 +237,7 @@
                         sSt(t, cnRe, Date.now() - iniTime, cnEr, rq, rs, cc);
                     },
                     inF = function() {
+                        console.log(tmR,cnRq,tRqCt);
                         if (tmR && cnRq < tRqCt) {
                             cnRq += tRqCn;
                             var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - tRqCn, cnRq)).subscribe(
@@ -247,6 +248,7 @@
                                     cnEr += tRqCn;
                                 },
                                 function() {
+                                    console.log(tmR,tClc);
                                     cnRe += tRqCn;
                                     oRA.unsubscribe();
                                     if (!tmR && !tClc && cnRq === cnRe) {
