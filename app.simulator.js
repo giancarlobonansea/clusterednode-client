@@ -281,7 +281,6 @@
                     rs = cRS(),
                     ev = [],
                     fSend = function() {
-                        console.log(this);
                         var proReq = cnRq++,
                             _t = t,
                             _tRqCt = tRqCt,
@@ -298,12 +297,12 @@
                             rq[1][proReq].subscribe(
                                 function(r) {
                                     oR(_t, r, _rs, _rq, _cc, _pix);
+                                    console.log(_rq);
                                 },
                                 function(e) {
                                     _cnEr++;
                                 },
                                 function() {
-                                    console.log(_rs);
                                     console.log(_rq);
                                     if (++_cnRe >= _tRqCt) {
                                         _ev[eid].unsubscribe();
