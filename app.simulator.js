@@ -280,48 +280,41 @@
                     pix = cPIX(),
                     rs = cRS(),
                     ev = [],
-                    fSend = function() {
-                        console.log(this);
-                        var proReq = cnRq++,
-                            _t = t,
-                            _tRqCt = tRqCt,
-                            _rq = rq,
-                            _cnRe = cnRe,
-                            _cnEr = cnEr,
-                            _cc = cc,
-                            _pix = pix,
-                            _rs = rs,
-                            _iniTime = iniTime,
-                            evi = this;
+                    fSendOK = function() {
+                        var proReq = cnRq++;
                         if (proReq<tRqCt) {
                             rq[1][proReq].subscribe(
                                 function(r) {
-                                    oR(_t, r, _rs, _rq, _cc, _pix);
-                                    console.log(_rq);
+                                    oR(t, r, rs, rq, cc, pix);
                                 },
                                 function(e) {
-                                    _cnEr++;
+                                    cnEr++;
                                 },
                                 function() {
-                                    console.log(_rq);
-                                    if (++_cnRe >= _tRqCt) {
-                                        evi.unsubscribe();
-                                        sSt(_t, _tRqCt, Date.now() - _iniTime, _cnEr, _rq, _rs, _cc);
-                                    }
-                                    else {
-                                        evi.emit();
-                                    }
                                     this.unsubscribe();
                                 }
                             );
-                        } else {
-                            ev[eid].unsubscribe();
+                        }
+                    },
+                    fSendERR = function() {
+                    },
+                    fSendFIN = function() {
+                        if (++cnRe >= tRqCt) {
+                            this.unsubscribe();
+                            sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
+                        }
+                        else {
+                            this.emit();
                         }
                     },
                     iniTime = Date.now();
                 for(var e=0;e<tRqCn;e++) {
                     ev.push(new ng.core.EventEmitter(true));
-                    ev[e].subscribe(fSend);
+                    ev[e].subscribe(
+                        fSendOK,
+                        fSendERR,
+                        fSendFIN
+                    );
                     ev[e].emit();
                 }
             },
