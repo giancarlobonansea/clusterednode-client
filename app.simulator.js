@@ -280,9 +280,10 @@
                     rs = cRS(),
                     ev = [],
                     fSend = function() {
-                        var eid = this.idx;
-                        if (cnRe<tRqCt) {
-                            rq[1][cnRe++].subscribe(
+                        var proRec = cnRe++,
+                            eid = this.idx;
+                        if (proRec<tRqCt) {
+                            rq[1][proRec].subscribe(
                                 function(r) {
                                     oR(t, r, rs, rq, cc, pix);
                                 },
@@ -291,13 +292,13 @@
                                 },
                                 function() {
                                     this.unsubscribe();
-                                    if (cnRe >= tRqCt) {
-                                        console.log('chegou ao ultimo envio'+eid+' - '+cnRe);
+                                    if (proRec >= tRqCt) {
+                                        console.log('chegou ao ultimo envio'+eid+' - '+proRec);
                                         ev[eid].unsubscribe();
                                         sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                                     }
                                     else {
-                                        console.log('loop envio '+eid+' - '+cnRe);
+                                        console.log('loop envio '+eid+' - '+proRec);
                                         ev[eid].emit();
                                     }
                                 }
