@@ -225,7 +225,7 @@
             t.rER = cnEr;
             t.rs = rs;
             t.chRe = cc;
-            setTimeout(function() {
+            var async = function() {
                 var aR = cH(rqEx, dur, rq);
                 t.bcd = aR[0];
                 t.pcd = aR[1];
@@ -235,7 +235,8 @@
                 t.tpN = aR[5];
                 t.tpR = aR[6];
                 t.hg = aR[7];
-            });
+            };
+            setTimeout(function(){async();});
         },
         //// throwHTTPduration
         tHd = function(t, tRqCt, tRqCn, tRqDu, tRqIn, rq, tClc) {
@@ -513,7 +514,7 @@
                     _rttR = rq0[i].A,
                     _hstT = rq1[i].H,
                     _tsnT = rq1[i].X;
-                for (var j = 0; j < 4; j++) {
+                for (j = 0; j < 4; j++) {
                     rtt[j] = byH(_hstR, j, _rttR);
                     pcd2[j].y += inSD(i, rtt[j]);
                     totReqAng[j] += inSDbyH(_hstR, j, i, 1);
@@ -580,7 +581,30 @@
                     tpN,
                     tpR,
                     hg];
-        };
+        },
+            //// Create Live Events matrix
+            cLE = function() {
+                var lva = [], a0 = [], a01 = [], a1 = [], a12 = [], a2 = [];
+                for (var i = 0; i < 32; i++) {
+                    a0[i] = 0;
+                    a01[i] = i < 11 ? 0 : 1;
+                    a1[i] = 1;
+                    a12[i] = i < 22 ? 1 : 2;
+                    a2[i] = 2;
+                }
+                for (i = 0; i < 5; i++) {
+                    lva.push(a0.slice(0));
+                }
+                lva.push(a01);
+                for (i = 0; i < 4; i++) {
+                    lva.push(a1.slice(0));
+                }
+                lva.push(a12);
+                for (i = 0; i < 5; i++) {
+                    lva.push(a2.slice(0));
+                }
+                return lva;
+            };
         //// Constructor
         function AppSimulator (HTTPService, DOMSanitizer) {
             //
@@ -592,10 +616,6 @@
             // View execution parameters
             //
             this.sD(false);
-            //
-            // View presentation variables - control
-            //
-            this.lE = false;
             //
             // View presentation variables - reference links
             //
@@ -664,26 +684,8 @@
             //
             // Live Events socket variables and configuration
             //
-            var lva = [], a0 = [], a01 = [], a1 = [], a12 = [], a2 = [];
-            for (var i = 0; i < 32; i++) {
-                a0[i] = 0;
-                a01[i] = i < 11 ? 0 : 1;
-                a1[i] = 1;
-                a12[i] = i < 22 ? 1 : 2;
-                a2[i] = 2;
-            }
-            for (i = 0; i < 5; i++) {
-                lva.push(a0.slice(0));
-            }
-            lva.push(a01);
-            for (i = 0; i < 4; i++) {
-                lva.push(a1.slice(0));
-            }
-            lva.push(a12);
-            for (i = 0; i < 5; i++) {
-                lva.push(a2.slice(0));
-            }
-            this.oleMx = lva;
+            this.lE = false;
+            this.oleMx = cLE();
             //
             // View execution variables
             //
