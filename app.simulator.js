@@ -171,8 +171,8 @@
                         req = res.Q,
                         hst = res.json.h,
                         ndx = pix[hst][0],
-                        cch = res.C;
-                    rq[0][req] = {
+                        cch = res.C,
+                    ret1 = {
                         Q: 'Req ' + ((req | 0) + 1),
                         H: ndx,
                         A: res.A,
@@ -180,9 +180,21 @@
                         N: res.N,
                         R: res.R,
                         C: cch
-                    };
+                    },
+                        ret2 = 0, //rqCh
+                        ret3 = 1; //rqOK
+                    // rq[0][req] = {
+                    //     Q: 'Req ' + ((req | 0) + 1),
+                    //     H: ndx,
+                    //     A: res.A,
+                    //     X: res.X,
+                    //     N: res.N,
+                    //     R: res.R,
+                    //     C: cch
+                    // };
                     if (cch) {
                         t.rqCh++;
+                        ret2++;
                         cc.push(++t.rOK);
                     }
                     else {
@@ -199,6 +211,40 @@
                         rs[ndx][1][pix[hst][1][pid]][1][o].push(++t.rOK);
                         rs[ndx][2]++;
                     }
+                }
+            },
+            oR1 = function(t, re, rs, rq, cc, pix) {
+                var res = re,
+                    req = res.Q,
+                    hst = res.json.h,
+                    ndx = pix[hst][0],
+                    cch = res.C;
+                rq[0][req] = {
+                    Q: 'Req ' + ((req | 0) + 1),
+                    H: ndx,
+                    A: res.A,
+                    X: res.X,
+                    N: res.N,
+                    R: res.R,
+                    C: cch
+                };
+                if (cch) {
+                    t.rqCh++;
+                    cc.push(++t.rOK);
+                }
+                else {
+                    var pid = res.json.p,
+                        o = rq[2][req];
+                    if (!(pid in pix[hst][1])) {
+                        rs[ndx][1].push([pid,
+                                            [[],
+                                                [],
+                                                [],
+                                                []]]);
+                        pix[hst][1][pid] = rs[ndx][1].length - 1;
+                    }
+                    rs[ndx][1][pix[hst][1][pid]][1][o].push(++t.rOK);
+                    rs[ndx][2]++;
                 }
             },
         //// startStatistics
@@ -286,9 +332,7 @@
                         if (proReq<tRqCt) {
                             rq[1][proReq].subscribe(
                                 function(r) {
-                                    oR(t, r, rs, rq, cc, pix);
-                                    console.log(rq);
-                                    console.log(rs);
+                                    oR1(t, r, rs, rq, cc, pix);
                                 },
                                 function(e) {
                                     cnEr++;
