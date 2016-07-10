@@ -750,10 +750,6 @@
             this.iD = m;
             this.sMP(0);
         };
-        //// isDurationMethod
-        AppSimulator.prototype.iDM = function() {
-            return this.iD;
-        };
         //// usedDurationMethod
         AppSimulator.prototype.uDM = function() {
             return this.exM === _s_STA;
@@ -808,10 +804,6 @@
         //
         // Execution control methods
         //
-        //// isRunning
-        AppSimulator.prototype.iR = function() {
-            return this.run;
-        };
         //// startSimulator
         AppSimulator.prototype.sSi = function() {
             ////
