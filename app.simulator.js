@@ -292,15 +292,18 @@
                                 function() {
                                     this.unsubscribe();
                                     if (cnRe >= tRqCt) {
+                                        console.log('chegou ao ultimo envio'+eid+' - '+cnRe);
                                         ev[eid].unsubscribe();
                                         sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                                     }
                                     else {
+                                        console.log('loop envio '+eid+' - '+cnRe);
                                         ev[eid].emit();
                                     }
                                 }
                             );
                         } else {
+                            console.log('não tem mais o que enviar '+eid);
                             ev[eid].unsubscribe();
                         }
                     },
