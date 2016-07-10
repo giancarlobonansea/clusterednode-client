@@ -327,7 +327,6 @@
                                 },
                                 function() {
                                     if (++cnRe >= tRqCt) {
-                                        console.log('terminou '+d);
                                         ev[eid].unsubscribe();
                                         sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                                     }
@@ -338,7 +337,6 @@
                                 }
                             );
                         } else {
-                            console.log('cancelou '+d);
                             ev[eid].unsubscribe();
                         }
                     },
