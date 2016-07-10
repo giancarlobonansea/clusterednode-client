@@ -278,53 +278,51 @@
                     cc = [],
                     pix = cPIX(),
                     rs = cRS(),
-                    ev = new ng.core.EventEmitter(true);
-                ev.subscribe(function() {
-                    var nIdx = cnRe + tRqCn,
-                        rqSs = rq[1].slice(cnRe, tRqCt>nIdx?nIdx:tRqCt),
-                        cntEv = 0,
-                        fOK = function(r) {
-                            oR(t, r, rs, rq, cc, pix);
-                        },
-                        fERR = function(e) {
-                            cnEr++;
-                        },
-                        fFIN = function() {
-                            if (++cnRe >= tRqCt) {
-                                ev.unsubscribe();
-                                sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
-                            }
-                            else {
-                                if (++cntEv===3) {
-                                    ev.emit();
+                    ev = [],
+                    fSend = function(tev) {
+                        rq[1][cnRe++].subscribe(
+                            function(r) {
+                                oR(t, r, rs, rq, cc, pix);
+                            },
+                            function(e) {
+                                cnEr++;
+                            },
+                            function() {
+                                if (cnRe >= tRqCt) {
+                                    ev[tev].unsubscribe();
+                                    sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
+                                }
+                                else {
+                                    ev[tev].emit();
                                 }
                             }
-                        };
-                    for(var i=0;i<rqSs.length;i++) {
-                        rqSs[i].subscribe(fOK,fERR,fFIN);
-                    }
-                    // oRA = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx<tRqCt?nIdx:tRqCt)).subscribe(
-                    //     function(r) {
-                    //         oR(t, r, rs, rq, cc, pix);
-                    //     },
-                    //     function(e) {
-                    //         cnEr += tRqCn;
-                    //     },
-                    //     function() {
-                    //         cnRe += tRqCn;
-                    //         oRA.unsubscribe();
-                    //         if (cnRe >= tRqCt) {
-                    //             ev.unsubscribe();
-                    //             sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
-                    //         }
-                    //         else {
-                    //             ev.emit();
-                    //         }
-                    //     }
-                    // );
-                });
-                var iniTime = Date.now();
-                ev.emit();
+                        );
+                        // oRA = Rx.Observable.forkJoin(rq[1].slice(cnRe, nIdx<tRqCt?nIdx:tRqCt)).subscribe(
+                        //     function(r) {
+                        //         oR(t, r, rs, rq, cc, pix);
+                        //     },
+                        //     function(e) {
+                        //         cnEr += tRqCn;
+                        //     },
+                        //     function() {
+                        //         cnRe += tRqCn;
+                        //         oRA.unsubscribe();
+                        //         if (cnRe >= tRqCt) {
+                        //             ev.unsubscribe();
+                        //             sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
+                        //         }
+                        //         else {
+                        //             ev.emit();
+                        //         }
+                        //     }
+                        // );
+                    },
+                    iniTime = Date.now();
+                for(var e=0;e<tRqCn;e++) {
+                    ev.push(new ng.core.EventEmitter(true));
+                    ev[e].subscribe(fSend(e));
+                    ev[e].emit();
+                }
             },
         //// populateRequestSamples
             pRS = function(t) {
