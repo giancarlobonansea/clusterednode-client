@@ -156,7 +156,30 @@
                 return (Math.random() * 16384) | 0;
             },
         //// createPIX
-            cPIX = function() { return JSON.parse('{"' + _s_PI2 + '":[0,{}],"' + _s_PI3 + '":[1,{}],"' + _s_PI5 + '":[2,{}],"' + _s_PI6 + '":[3,{}]}'); };
+            cPIX = function() { return JSON.parse('{"' + _s_PI2 + '":[0,{}],"' + _s_PI3 + '":[1,{}],"' + _s_PI5 + '":[2,{}],"' + _s_PI6 + '":[3,{}]}'); },
+        //// deactivateLiveEvents
+            dLE = function() {
+                if (_e_SIO) {
+                    _e_SIO.destroy();
+                    if (_o_SIO.connected) {
+                        _o_SIO.close();
+                    }
+                }
+            },
+        //// activateLiveEvents
+            aLE = function(m) {
+                _o_SIO.connect();
+                _e_SIO = _o_SIO.on('redis', function(d) {
+                    if (m[d.x][d.y] < 3) {
+                        var x = d.x,
+                            y = d.y;
+                        m[x][y] = 3;
+                        setTimeout(function() {
+                            m[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
+                        }, 750);
+                    }
+                });
+            };
         //// Constructor
         function AppSimulator (HTTPService, DOMSanitizer) {
             //
@@ -343,30 +366,6 @@
         AppSimulator.prototype.gSM = function() {
             return this.iD ? _s_STA : _s_STR;
         };
-        //// activateLiveEvents
-        AppSimulator.prototype.aLE = function() {
-            var self = this;
-            _o_SIO.connect();
-            _e_SIO = _o_SIO.on('redis', function(d) {
-                if (self.leMx[d.x][d.y] < 3) {
-                    var x = d.x,
-                        y = d.y;
-                    self.leMx[x][y] = 3;
-                    setTimeout(function() {
-                        self.leMx[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
-                    }, 1000);
-                }
-            });
-        };
-        //// deactivateLiveEvents
-        AppSimulator.prototype.dLE = function() {
-            if (_e_SIO) {
-                _e_SIO.destroy();
-                if (_o_SIO.connected) {
-                    _o_SIO.close();
-                }
-            }
-        };
         //// onRefLinkClick
         AppSimulator.prototype.oRLC = function(t, d) {
             sGA('R', t, d, 0);
@@ -376,17 +375,17 @@
             this.sRe = !this.sRe;
             if (this.sRe) {
                 this.lE = false;
-                this.dLE();
+                dLE();
             }
         };
         //// showLive
         AppSimulator.prototype.shL = function() {
             this.lE = !this.lE;
             if (this.lE) {
-                this.aLE();
+                aLE(this.leMx);
                 this.sRe = false;
             } else {
-                this.dLE();
+                dLE();
             }
         };
         //// getDatabaseStatus
