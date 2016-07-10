@@ -282,37 +282,38 @@
                     ev = [],
                     fSend = function() {
                         var proReq = cnRq++,
-                            eid = this.idx;
+                            eid = this.idx,
+                            ctx = this.ctx;
                         if (proReq<tRqCt) {
-                            rq[1][proReq].subscribe(
+                            ctx.rq[1][proReq].subscribe(
                                 function(r) {
-                                    oR(t, r, rs, rq, cc, pix);
+                                    oR(ctx.t, r, ctx.rs, ctx.rq, ctx.cc, ctx.pix);
                                 },
                                 function(e) {
-                                    cnEr++;
+                                    ctx.cnEr++;
                                 },
                                 function() {
-                                    cnRe++;
+                                    ctx.cnRe++;
                                     this.unsubscribe();
-                                    if (cnRe >= tRqCt) {
-                                        ev[eid].unsubscribe();
-                                        console.log(rs);
-                                        console.log(rq);
-                                        sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
+                                    if (ctx.cnRe >= ctx.tRqCt) {
+                                        ctx.ev[eid].unsubscribe();
+                                        console.log(ctx.rs);
+                                        console.log(ctx.rq);
+                                        sSt(ctx.t, ctx.tRqCt, Date.now() - ctx.iniTime, ctx.cnEr, ctx.rq, ctx.rs, ctx.cc);
                                     }
                                     else {
-                                        ev[eid].emit();
+                                        ctx.ev[eid].emit();
                                     }
                                 }
                             );
                         } else {
-                            ev[eid].unsubscribe();
+                            ctx.ev[eid].unsubscribe();
                         }
                     },
                     iniTime = Date.now();
                 for(var e=0;e<tRqCn;e++) {
                     ev.push(new ng.core.EventEmitter(true));
-                    ev[e].subscribe({idx:e,next:fSend});
+                    ev[e].subscribe({idx:e,ctx:this,next:fSend});
                     ev[e].emit();
                 }
             },
