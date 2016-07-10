@@ -221,7 +221,7 @@
         sSt = function(t, rqEx, dur, cnEr, rq, rs, cc) {
             t.clc = true;
             t.dur = dur;
-            t.exR = rqEx;
+            t.rqEx = rqEx;
             t.rER = cnEr;
             t.rs = rs;
             t.chRe = cc;
