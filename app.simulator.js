@@ -164,41 +164,10 @@
                     }
                 });
             },
-        //// observableResponse
+        //// observableResponses
             oR = function(t, re, rs, rq, cc, pix) {
                 for (var k = 0; k < re.length; k++) {
-                    var res = re[k],
-                        req = res.Q,
-                        hst = res.json.h,
-                        ndx = pix[hst][0],
-                        cch = res.C;
-                    rq[0][req] = {
-                        Q: 'Req ' + ((req | 0) + 1),
-                        H: ndx,
-                        A: res.A,
-                        X: res.X,
-                        N: res.N,
-                        R: res.R,
-                        C: cch
-                    };
-                    if (cch) {
-                        t.rqCh++;
-                        cc.push(++t.rOK);
-                    }
-                    else {
-                        var pid = res.json.p,
-                            o = rq[2][req];
-                        if (!(pid in pix[hst][1])) {
-                            rs[ndx][1].push([pid,
-                                                [[],
-                                                    [],
-                                                    [],
-                                                    []]]);
-                            pix[hst][1][pid] = rs[ndx][1].length - 1;
-                        }
-                        rs[ndx][1][pix[hst][1][pid]][1][o].push(++t.rOK);
-                        rs[ndx][2]++;
-                    }
+                    oR1(t, re[k], rs, rq, cc, pix);
                 }
             },
             oR1 = function(t, re, rs, rq, cc, pix) {
@@ -255,96 +224,88 @@
                     t.hg = aR[7];
                 });
             },
-        //// throwHTTPduration
-            tHd = function(t, tRqCt, tRqCn, tRqDu, tRqIn, rq, tClc) {
-                var tmR = true,
-                    cnRq = 0,
-                    cnRe = 0,
-                    cnEr = 0,
-                    cc = [],
-                    pix = cPIX(),
-                    rs = cRS(),
-                    sHd = function() {
-                        if (inH) {
-                            clearInterval(inH);
-                        }
-                        sSt(t, cnRe, Date.now() - iniTime, cnEr, rq, rs, cc);
-                    },
-                    inF = function() {
-                        if (tmR && cnRq < tRqCt) {
-                            cnRq += tRqCn;
-                            var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - tRqCn, cnRq<tRqCt?cnRq:tRqCt)).subscribe(
-                                function(r) {
-                                    oR(t, r, rs, rq, cc, pix);
-                                },
-                                function(e) {
-                                    cnEr += tRqCn;
-                                },
-                                function() {
-                                    cnRe += tRqCn;
-                                    oRA.unsubscribe();
-                                    if (!tmR && !tClc && cnRq === cnRe) {
-                                        sHd();
-                                    }
-                                }
-                            );
-                        }
-                        else {
-                            if (!tClc && cnRq === cnRe) {
-                                sHd();
-                            }
-                        }
-                    };
-                //
-                // Initialize execution
-                //
-                var iniTime = Date.now();
-                setTimeout(function() {
-                    tmR = false;
-                }, (tRqDu * 1000) + 10);
-                setTimeout(function() {inF();});
-                var inH = setInterval(function() {inF();}, tRqIn);
-            },
-        //// throwHTTPrequests
-            tHr = function(t, tRqCt, tRqCn, rq) {
+        //// throwHTTP
+            tHr = function(tHt, t, tRqCt, tRqCn, tRqDu, tRqIn, rq, tClc) {
                 var cnRq = 0,
                     cnRe = 0,
                     cnEr = 0,
                     cc = [],
                     pix = cPIX(),
                     rs = cRS(),
-                    ev = [],
-                    fSendOK = function(d) {
-                        var proReq = cnRq++,
-                            eid = d;
-                        if (proReq<tRqCt) {
-                            rq[1][proReq].subscribe(
-                                function(r) {
-                                    oR1(t, r, rs, rq, cc, pix);
-                                },
-                                function(e) {
-                                    cnEr++;
-                                },
-                                function() {
-                                    if (++cnRe >= tRqCt) {
-                                        ev[eid].unsubscribe();
-                                        sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
-                                    }
-                                    else {
-                                        ev[eid].emit(eid);
-                                    }
-                                    this.unsubscribe();
-                                }
-                            );
-                        } else {
-                            ev[eid].unsubscribe();
-                        }
-                    },
                     iniTime = Date.now();
-                for(var e=0;e<tRqCn;e++) {
-                    ev.push(new ng.core.EventEmitter(true));
-                    ev[e].subscribe(fSendOK);
-                    ev[e].emit(e);
+                if (!tHt) {
+                    // STRESS
+                    var ev = [],
+                        fROK = function(d) {
+                            var proReq = cnRq++,
+                                eid = d;
+                            if (proReq<tRqCt) {
+                                rq[1][proReq].subscribe(
+                                    function(r) {
+                                        oR1(t, r, rs, rq, cc, pix);
+                                    },
+                                    function(e) {
+                                        cnEr++;
+                                    },
+                                    function() {
+                                        if (++cnRe >= tRqCt) {
+                                            ev[eid].unsubscribe();
+                                            sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
+                                        }
+                                        else {
+                                            ev[eid].emit(eid);
+                                        }
+                                        this.unsubscribe();
+                                    }
+                                );
+                            } else {
+                                ev[eid].unsubscribe();
+                            }
+                        };
+                    for(var e=0;e<tRqCn;e++) {
+                        ev.push(new ng.core.EventEmitter(true));
+                        ev[e].subscribe(fROK);
+                        ev[e].emit(e);
+                    }
+                } else {
+                    // DURATION
+                    var tmR = true,
+                        sHd = function() {
+                            if (inH) {
+                                clearInterval(inH);
+                            }
+                            sSt(t, cnRe, Date.now() - iniTime, cnEr, rq, rs, cc);
+                        },
+                        inF = function() {
+                            if (tmR && cnRq < tRqCt) {
+                                cnRq += tRqCn;
+                                var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - tRqCn, cnRq<tRqCt?cnRq:tRqCt)).subscribe(
+                                    function(r) {
+                                        oR(t, r, rs, rq, cc, pix);
+                                    },
+                                    function(e) {
+                                        cnEr += tRqCn;
+                                    },
+                                    function() {
+                                        cnRe += tRqCn;
+                                        oRA.unsubscribe();
+                                        if (!tmR && !tClc && cnRq === cnRe) {
+                                            sHd();
+                                        }
+                                    }
+                                );
+                            }
+                            else {
+                                if (!tClc && cnRq === cnRe) {
+                                    sHd();
+                                }
+                            }
+                        };
+                    setTimeout(function() {
+                        tmR = false;
+                    }, (tRqDu * 1000) + 10);
+                    setTimeout(function() {inF();});
+                    var inH = setInterval(function() {inF();}, tRqIn);
                 }
             },
         //// populateRequestSamples
@@ -841,25 +802,11 @@
             // Switch among simulation methods (stress or duration)
             //
             if (this.iD) {
-                //
-                // Stability - duration
-                //
                 this.rqCt = this.exmR|0;
             }
             var aR = pRS(this);
             this.oT = aR[1];
-            if (this.iD) {
-                //
-                // Stability - duration
-                //
-                tHd(this, this.rqCt, this.rqCn, this.rqDu, this.rqIn, aR[0], this.clc);
-            }
-            else {
-                //
-                // Stress - requests
-                //
-                tHr(this, this.rqCt, this.rqCn, aR[0]);
-            }
+            tHr(this.iD, this, this.rqCt, this.rqCn, this.rqDu, this.rqIn, aR[0], this.clc);
         };
         return AppSimulator;
     })();
