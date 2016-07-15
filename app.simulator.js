@@ -170,8 +170,7 @@
                     oR1(t, re[k], rs, rq, cc, pix);
                 }
             },
-            //// for STRESS
-            oR1 = function(t, re, rs, rq, cc, pix, eid) {
+            oR1 = function(t, re, rs, rq, cc, pix) {
                 var res = re,
                     req = res.Q,
                     hst = res.json.h,
@@ -184,8 +183,7 @@
                     X: res.X,
                     N: res.N,
                     R: res.R,
-                    C: cch,
-                    T: eid
+                    C: cch
                 };
                 if (cch) {
                     t.rqCh++;
@@ -242,7 +240,7 @@
                             var proReq = cnRq++,
                                 eid = d;
                             if (proReq<tRqCt) {
-                                console.log(rq[1][proReq]);
+                            	rq[3].push(eid);
                                 rq[1][proReq].subscribe(
                                     function(r) {
                                         oR1(t, r, rs, rq, cc, pix, eid);
@@ -253,6 +251,7 @@
                                     function() {
                                         if (++cnRe >= tRqCt) {
                                             ev[eid].unsubscribe();
+	                                        console.log(rq[3]);
                                             sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                                         }
                                         else {
@@ -315,7 +314,7 @@
             pRS = function(t) {
                 var rq = [[],
                         [],
-                        []],
+                        [],[]],
                     oT = [0,
                           0,
                           0,
