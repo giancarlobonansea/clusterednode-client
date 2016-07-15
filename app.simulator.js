@@ -242,6 +242,7 @@
                             var proReq = cnRq++,
                                 eid = d;
                             if (proReq<tRqCt) {
+                                console.log(rq[1][proReq]);
                                 rq[1][proReq].subscribe(
                                     function(r) {
                                         oR1(t, r, rs, rq, cc, pix, eid);
