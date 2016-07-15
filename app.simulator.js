@@ -170,6 +170,7 @@
                     oR1(t, re[k], rs, rq, cc, pix);
                 }
             },
+            //// for STRESS
             oR1 = function(t, re, rs, rq, cc, pix, eid) {
                 var res = re,
                     req = res.Q,
