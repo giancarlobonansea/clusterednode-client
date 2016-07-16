@@ -245,7 +245,7 @@
                             	rq[3][proReq] = eid;
                                 rq[1][proReq].subscribe(
                                     function(r) {
-                                        oR1(t, r, rs, rq, cc, pix, eid);
+                                        oR1(t, r, rs, rq, cc, pix);
                                     },
                                     function(e) {
                                         cnEr++;
@@ -543,6 +543,7 @@
                 }
                 for (i=0; i<rq0.length; i++) {
                     var th1 = (rq[3][i]/quebra)|0, th2 = rq[3][i] % quebra;
+                    console.log(th1,th2);
                     tReq[th1][th2].push(i);
                 }
                 //
