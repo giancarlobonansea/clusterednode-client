@@ -541,7 +541,7 @@
                         tReq[i].push([]);
                     }
                 }
-                for (i=0; i<rq0.length; i++) {
+                for (i=0; i<rqEx; i++) {
                     var th1 = (rq[3][i]/quebra)|0, th2 = rq[3][i] % quebra;
                     tReq[th1][th2].push(i);
                 }
