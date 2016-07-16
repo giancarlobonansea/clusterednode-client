@@ -251,7 +251,6 @@
                                     function() {
                                         if (++cnRe >= tRqCt) {
                                             ev[eid].unsubscribe();
-	                                        console.log(rq[3]);
                                             sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
                                         }
                                         else {
