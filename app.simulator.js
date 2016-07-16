@@ -530,8 +530,18 @@
                 // Prepare threaded requests
                 //
                 var tReq = [];
-                for(i=0;i<cn;i++) { tReq.push([]); }
-                for (i=0; i< rq0.length; i++) { tReq[rq[3][i]].push(i); }
+                for(i=0; i<((cn/32)|0)+1; i++) {
+                    tReq.push([]);
+                    var lim = (i+1)*32;
+                    if (lim>cn) { lim=cn; }
+                    for(j=0; j<lim; j++) {
+                        tReq[i].push([]);
+                    }
+                }
+                for (i=0; i<rq0.length; i++) {
+                    var th1 = (rq[3][i]/32)|0, th2 = rq[3][i] % 32;
+                    tReq[th1][th2].push(i);
+                }
                 //
                 // Calculating HDR Histogram
                 //
