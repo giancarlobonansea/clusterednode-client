@@ -277,7 +277,7 @@
                             if (inH) {
                                 clearInterval(inH);
                             }
-                            sSt(t, cnRe, Date.now() - iniTime, cnEr, rq, rs, cc);
+                            sSt(t, cnRe, Date.now() - iniTime, cnEr, rq, rs, cc, tRqCn);
                         },
                         inF = function() {
                             if (tmR && cnRq < tRqCt) {
@@ -541,10 +541,8 @@
                         tReq[i].push([]);
                     }
                 }
-                console.log(tReq);
                 for (i=0; i<rq0.length; i++) {
                     var th1 = (rq[3][i]/quebra)|0, th2 = rq[3][i] % quebra;
-                    console.log(th1,th2);
                     tReq[th1][th2].push(i);
                 }
                 //
