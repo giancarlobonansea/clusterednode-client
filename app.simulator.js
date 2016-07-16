@@ -167,6 +167,7 @@
         //// observableResponses
             oR = function(t, re, rs, rq, cc, pix) {
                 for (var k = 0; k < re.length; k++) {
+                    rq[3][re[k].Q] = k;
                     oR1(t, re[k], rs, rq, cc, pix);
                 }
             },
@@ -205,7 +206,7 @@
                 }
             },
         //// startStatistics
-            sSt = function(t, rqEx, dur, cnEr, rq, rs, cc) {
+            sSt = function(t, rqEx, dur, cnEr, rq, rs, cc, cn) {
                 t.clc = true;
                 t.dur = dur;
                 t.rqEx = rqEx;
@@ -213,7 +214,7 @@
                 t.rs = rs;
                 t.chRe = cc;
                 setTimeout(function(){
-                    var aR = cH(t, rqEx, dur, rq);
+                    var aR = cH(t, rqEx, dur, rq, cn);
                     t.bcd = aR[0];
                     t.pcd = aR[1];
                     t.pcd2 = aR[2];
@@ -222,6 +223,7 @@
                     t.tpN = aR[5];
                     t.tpR = aR[6];
                     t.hg = aR[7];
+                    t.tReq = aR[8];
                 });
             },
         //// throwHTTP
@@ -240,7 +242,7 @@
                             var proReq = cnRq++,
                                 eid = d;
                             if (proReq<tRqCt) {
-                            	rq[3].push(eid);
+                            	rq[3][proReq] = eid;
                                 rq[1][proReq].subscribe(
                                     function(r) {
                                         oR1(t, r, rs, rq, cc, pix, eid);
@@ -251,7 +253,7 @@
                                     function() {
                                         if (++cnRe >= tRqCt) {
                                             ev[eid].unsubscribe();
-                                            sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc);
+                                            sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc, tRqCn);
                                         }
                                         else {
                                             ev[eid].emit(eid);
@@ -313,7 +315,8 @@
             pRS = function(t) {
                 var rq = [[],
                         [],
-                        [],[]],
+                        [],
+                        []],
                     oT = [0,
                           0,
                           0,
@@ -324,12 +327,13 @@
                     rq[0].push(_j_ERE);
                     rq[1].push(t.hS.get(q, _s_AURL, o, mR(16384)));
                     rq[2].push(o);
+                    rq[3].push(0);
                 }
                 return [rq,
                         oT];
             },
         //// calculateHistogram
-            cH = function(t, rqEx, dur, rq) {
+            cH = function(t, rqEx, dur, rq, cn) {
                 t.lE = false;
                 //// resetChartsData
                 var cBC = function(k1, k2) {
@@ -523,6 +527,12 @@
                     hg[i][4] = rq3[ix].R;
                 }
                 //
+                // Prepare threaded requests
+                //
+                var tReq = [];
+                for(i=0;i<cn;i++) tReq.push([]);
+                for (i=0; i< rq0.length; i++) tReq[rq0[3][i]].push(i);
+                //
                 // Calculating HDR Histogram
                 //
                 var oRT = t.hS.post(_s_HURL, JSON.stringify(hdPD)).subscribe(
@@ -560,7 +570,8 @@
                         tpX,
                         tpN,
                         tpR,
-                        hg];
+                        hg,
+                        tReq];
             },
         //// Create Live Events matrix
             cLE = function() {
@@ -705,6 +716,7 @@
             this.rqCh = 0;
             this.sRe = false;
             this.clc = false;
+            this.tReq = [];
             this.leMx = this.oleMx.slice(0);
         };
         //
