@@ -530,8 +530,8 @@
                 // Prepare threaded requests
                 //
                 var tReq = [];
-                for(i=0;i<cn;i++) tReq.push([]);
-                for (i=0; i< rq0.length; i++) tReq[rq0[3][i]].push(i);
+                for(i=0;i<cn;i++) { tReq.push([]); }
+                for (i=0; i< rq0.length; i++) { tReq[rq[3][i]].push(i); }
                 //
                 // Calculating HDR Histogram
                 //
