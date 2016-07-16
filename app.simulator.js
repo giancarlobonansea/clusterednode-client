@@ -531,8 +531,9 @@
                 //
                 var quebra = 12,
                     tReq = [],
-                    numTH = ((cn/quebra)|0)+1;
-                for(i=0; i<numTH; i++) {
+                    numTH = ((cn/quebra)|0)+1,
+                    cnTH = numTH<cn?numTH:cn;
+                for(i=0; i<cnTH; i++) {
                     tReq.push([]);
                     var lim = (i+1)*quebra;
                     if (lim>cn) { lim=cn; }
