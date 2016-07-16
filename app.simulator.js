@@ -455,7 +455,7 @@
                 //
                 // Populate barchart as processed (no sorting)
                 //
-                for (i = 0; i < rq0.length; i++) {
+                for (i = 0; i < rqEx; i++) {
                     var _hst = rq0[i].H,
                         _rid = rq0[i].Q;
                     rtt = [0,
@@ -493,7 +493,7 @@
                 rq1.sort(function(a, b) {return a.X - b.X});
                 rq2.sort(function(a, b) {return a.N - b.N});
                 rq3.sort(function(a, b) {return a.R - b.R});
-                for (i = 0; i < rq0.length; i++) {
+                for (i = 0; i < rqEx; i++) {
                     var _hstR = rq0[i].H,
                         _rttR = rq0[i].A,
                         _hstT = rq1[i].H,
