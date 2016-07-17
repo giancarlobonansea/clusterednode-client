@@ -577,6 +577,14 @@ var _RL = {
 				{
 					h: "http://blog.trevnorris.com/2013/07/measuring-node-performance-part-1.html",
 					d: "Measuring node performance"
+				},
+				{
+					h: "https://eng.uber.com/intro-to-ringpop/",
+					d: "How ringpop from Uber Engineering helps distribute your application"
+				},
+				{
+					h: "https://ringpop.readthedocs.io/en/latest/index.html",
+					d: "Ringpop - a library that maintains a consistent hash ring atop a membership protocol"
 				}
 			]
 		},
