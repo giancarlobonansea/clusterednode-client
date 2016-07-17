@@ -297,6 +297,10 @@ var _RL = {
 				{
 					h: "https://www.mnot.net/cache_docs/",
 					d: "Caching tutorial for Web Authors"
+				},
+				{
+					h: "http://uber.github.io/",
+					d: "Open Source at Uber"
 				}
 			]
 		},
@@ -520,6 +524,10 @@ var _RL = {
 				{
 					h: "https://www.nginx.com/blog/globo-com-delivers-live-video-streaming-to-500000-viewers-with-nginx/",
 					d: "Globo.com Delivers Live Video Streaming to 500,000+ Viewers with NGINX"
+				},
+				{
+					h: "http://tecadmin.net/ip-failover-setup-using-keepalived-on-centos-redhat-6/#",
+					d: "IP FailOver Setup Using KeepAlived "
 				}
 			]
 		},
