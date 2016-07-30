@@ -258,7 +258,7 @@ var _RL = {
 			]
 		},
 		{
-			t: "stunnel (v5.33)",
+			t: "stunnel (v5.35)",
 			a: [
 				{
 					h: "https://www.stunnel.org/index.html",
@@ -515,7 +515,7 @@ var _RL = {
 			]
 		},
 		{
-			t: "nginX (v1.11.1)",
+			t: "nginX (v1.11.3)",
 			a: [
 				{
 					h: "https://www.nginx.com/blog/7-tips-for-faster-http2-performance/",
@@ -576,7 +576,7 @@ var _RL = {
 			]
 		},
 		{
-			t: "Node.js (v6.3.0)",
+			t: "Node.js (v6.3.1)",
 			a: [
 				{
 					h: "https://nodejs.org/en/",
@@ -633,7 +633,7 @@ var _RL = {
 			]
 		},
 		{
-			t: "Keymetrics pm2 (v1.1.3)",
+			t: "Keymetrics pm2 (v2.0.1)",
 			a: [
 				{
 					h: "http://pm2.keymetrics.io/",
