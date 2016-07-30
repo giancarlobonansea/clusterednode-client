@@ -493,6 +493,14 @@ var _RL = {
 				{
 					h: "http://blog.chromium.org/2015/03/new-javascript-techniques-for-rapid.html",
 					d: "New JavaScript techniques for rapid page loads"
+				},
+				{
+					h: "https://docs.google.com/document/d/1Qk0qC4s_XNCLemj42FqfsRLp49nDQMZ1y7fwf5YjaI4/view",
+					d: "A Strong Mode for JavaScript (Strawman proposal)"
+				},
+				{
+					h: "https://drive.google.com/file/d/0B1v38H64XQBNT1p2XzFGWWhCR1k/view",
+					d: "Experimental New Directionsfor JavaScript"
 				}
 			]
 		},
