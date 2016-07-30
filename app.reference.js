@@ -449,6 +449,50 @@ var _RL = {
 				{
 					h: "https://youtu.be/rpNXWxMyzHQ",
 					d: "Delivering 60 FPS in the browser - Crash course on web performance"
+				},
+				{
+					h: "https://developers.google.com/v8/experiments",
+					d: "Experiments with Strengthening JavaScript - Strong mode"
+				},
+				{
+					h: "http://v8project.blogspot.com.br/2016/07/v8-at-blinkon-6-conference.html",
+					d: "Real-world JavaScript Performance"
+				},
+				{
+					h: "https://docs.google.com/document/d/1hOaE7vbwdLLXWj3C8hTnnkpE0qSa2P--dtDvwXXEeD0/pub",
+					d: "Crankshafting from the ground up"
+				},
+				{
+					h: "http://wingolog.org/archives/2011/08/02/a-closer-look-at-crankshaft-v8s-optimizing-compiler",
+					d: "A closer look at crankshaft, V8's optimizing compiler"
+				},
+				{
+					h: "http://wingolog.org/archives/2011/07/05/v8-a-tale-of-two-compilers",
+					d: "V8: a tale of two compilers"
+				},
+				{
+					h: "http://wingolog.org/archives/2011/06/10/v8-is-faster-than-gcc",
+					d: "V8 is faster than GCC"
+				},
+				{
+					h: "http://wingolog.org/archives/2011/06/20/on-stack-replacement-in-v8",
+					d: "On-stack replacement in v8"
+				},
+				{
+					h: "http://wingolog.org/archives/2011/06/08/what-does-v8-do-with-that-loop",
+					d: "What does V8 do with that loop?"
+				},
+				{
+					h: "https://developers.google.com/v8/design",
+					d: "V8 Architectural Design Elements"
+				},
+				{
+					h: "http://blog.chromium.org/2015/07/revving-up-javascript-performance-with.html",
+					d: "Revving up JavaScript performance with TurboFan"
+				},
+				{
+					h: "http://blog.chromium.org/2015/03/new-javascript-techniques-for-rapid.html",
+					d: "New JavaScript techniques for rapid page loads"
 				}
 			]
 		},
