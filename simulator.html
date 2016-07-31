@@ -487,8 +487,8 @@
 							<dl>
 								<dt>{{grpLinks.t}}</dt>
 								<dd>
-									<footer *ngFor="let link of grpLinks.a">
-										<a [href]="link.h" (click)="oRLC(grpLinks.t,link.d)" target="_blank">{{link.d}}</a>
+									<footer *ngFor="let link of grpLinks.a; let l0Idx = index">
+										<a [href]="link.h" (click)="oRLC(grpLinks.t,link.d)" target="_blank">[{{l0Idx}}] {{link.d}}</a>
 									</footer>
 								</dd>
 							</dl>
@@ -499,8 +499,8 @@
 							<dl>
 								<dt>{{grpLinks.t}}</dt>
 								<dd>
-									<footer *ngFor="let link of grpLinks.a">
-										<a [href]="link.h" (click)="oRLC(grpLinks.t,link.d)" target="_blank">{{link.d}}</a>
+									<footer *ngFor="let link of grpLinks.a; let l1Idx = index">
+										<a [href]="link.h" (click)="oRLC(grpLinks.t,link.d)" target="_blank">[{{l1Idx}}] {{link.d}}</a>
 									</footer>
 								</dd>
 							</dl>
