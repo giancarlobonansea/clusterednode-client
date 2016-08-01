@@ -216,6 +216,23 @@ var _RL = {
 			]
 		},
 		{
+			t: "IPSEC/L2TP secure tunneling",
+			a: [
+				{
+					h: "http://scruss.com/blog/2013/06/07/well-that-was-unexpected-the-raspberry-pis-hardware-random-number-generator/",
+					d: "hwrng - Hardware random number generator"
+				},
+				{
+					h: "https://www.openswan.org",
+					d: "Openswan - IPsec implementation for Linux - support for IKEv2, X.509 Digital Certificates, NAT Traversal"
+				},
+				{
+					h: "http://linux.tips/tutorials/how-to-setup-l2tp-vpn-server-on-raspberry-pi",
+					d: "How to setup L2TP VPN server on Raspberry Pi"
+				}
+			]
+		},
+		{
 			t: "HDR Histograms w/o Coordinated Omission (v2.1.9)",
 			a: [
 				{
@@ -791,23 +808,6 @@ var _RL = {
 				{
 					h: "http://code.flickr.net/2011/10/11/talk-real-time-updates-on-the-cheap-for-fun-and-profit/",
 					d: "redis use-cases: Flickr - Real-time Updates on the Cheap for Fun and Profit"
-				}
-			]
-		},
-		{
-			t: "IPSEC/L2TP secure tunneling",
-			a: [
-				{
-					h: "http://scruss.com/blog/2013/06/07/well-that-was-unexpected-the-raspberry-pis-hardware-random-number-generator/",
-					d: "hwrng - Hardware random number generator"
-				},
-				{
-					h: "https://www.openswan.org",
-					d: "Openswan - IPsec implementation for Linux - support for IKEv2, X.509 Digital Certificates, NAT Traversal"
-				},
-				{
-					h: "http://linux.tips/tutorials/how-to-setup-l2tp-vpn-server-on-raspberry-pi",
-					d: "How to setup L2TP VPN server on Raspberry Pi"
 				}
 			]
 		},
