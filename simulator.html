@@ -457,7 +457,7 @@
 <!-- Reference -->
 <div class="row" *ngIf="sRe">
 	<!-- Sequence diagram static diagram -->
-	<div class="col-xs-12 col-lg-6">
+	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-sitemap"></i>&nbsp;Sequence Diagram</h4>
@@ -466,7 +466,7 @@
 		</div>
 	</div>
 	<!-- Execution architecture static diagram -->
-	<div class="col-xs-12 col-lg-6">
+	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-sitemap"></i>&nbsp;Execution Architecture</h4>
@@ -487,8 +487,8 @@
 							<dl>
 								<dt>{{grpLinks.t}}</dt>
 								<dd>
-									<footer *ngFor="let link of grpLinks.a; let l0Idx = index">
-										<a [href]="link.h" (click)="oRLC(grpLinks.t,link.d)" target="_blank">[{{l0Idx}}] {{link.d}}</a>
+									<footer *ngFor="let link of grpLinks.a; let l0Idx = index+1">
+										<a [href]="link.h" (click)="oRLC(grpLinks.t,link.d)" target="_blank">{{l0Idx}}]. {{link.d}}</a>
 									</footer>
 								</dd>
 							</dl>
@@ -499,8 +499,8 @@
 							<dl>
 								<dt>{{grpLinks.t}}</dt>
 								<dd>
-									<footer *ngFor="let link of grpLinks.a; let l1Idx = index">
-										<a [href]="link.h" (click)="oRLC(grpLinks.t,link.d)" target="_blank">[{{l1Idx}}] {{link.d}}</a>
+									<footer *ngFor="let link of grpLinks.a; let l1Idx = index+1">
+										<a [href]="link.h" (click)="oRLC(grpLinks.t,link.d)" target="_blank">{{l1Idx}}. {{link.d}}</a>
 									</footer>
 								</dd>
 							</dl>
