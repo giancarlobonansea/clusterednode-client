@@ -702,7 +702,7 @@ var _RL = {
 			]
 		},
 		{
-			t: "Keymetrics pm2 (v2.0.1)",
+			t: "Keymetrics pm2 (v2.0.2)",
 			a: [
 				{
 					h: "http://pm2.keymetrics.io/",
