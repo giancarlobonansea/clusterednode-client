@@ -46,6 +46,10 @@ var _RL = {
 				{
 					h: "http://www.aosabook.org/en/posa/secrets-of-mobile-network-performance.html",
 					d: "Secrets of Mobile Network Performance"
+				},
+				{
+					h: "http://blog.httpwatch.com/2015/01/16/a-simple-performance-comparison-of-https-spdy-and-http2/comment-page-1/",
+					d: "A Simple Performance Comparison of HTTPS, SPDY and HTTP/2"
 				}
 			]
 		},
@@ -212,6 +216,10 @@ var _RL = {
 				{
 					h: "http://rhelblog.redhat.com/2015/09/29/pushing-the-limits-of-kernel-networking/",
 					d: "Pushing the Limits of Kernel Networking"
+				},
+				{
+					h: "http://www.kegel.com/c10k.html",
+					d: "The C10K problem"
 				}
 			]
 		},
@@ -229,6 +237,55 @@ var _RL = {
 				{
 					h: "http://linux.tips/tutorials/how-to-setup-l2tp-vpn-server-on-raspberry-pi",
 					d: "How to setup L2TP VPN server on Raspberry Pi"
+				}
+			]
+		},
+		{
+			t: "Linux Virtual Server",
+			a: [
+				{
+					h: "http://www.linuxvirtualserver.org",
+					d: "LVS - Linux Virtual Server"
+				},
+				{
+					h: "http://www.linuxvirtualserver.org/software/ipvs.html",
+					d: "IPVS (IP Virtual Server)"
+				},
+				{
+					h: "http://www.linuxvirtualserver.org/Documents.html",
+					d: "LVS Documentation"
+				},
+				{
+					h: "http://www.linuxvirtualserver.org/docs/sync.html",
+					d: "IPVS Connection Synchronization"
+				},
+				{
+					h: "http://www.linuxvirtualserver.org/docs/arp.html",
+					d: "ARP problem in VS/TUN and VS/DR"
+				},
+				{
+					h: "http://www.linuxvirtualserver.org/HighAvailability.html",
+					d: "LVS - High Availability"
+				},
+				{
+					h: "http://www.linuxvirtualserver.org/VS-DRouting.html",
+					d: "Virtual Server via Direct Routing"
+				},
+				{
+					h: "http://kb.linuxvirtualserver.org/wiki/LVS_Cluster_Management",
+					d: "LVS Cluster Management"
+				},
+				{
+					h: "http://www.linuxvirtualserver.org/architecture.html",
+					d: "General Architecture of LVS Clusters"
+				},
+				{
+					h: "http://kb.linuxvirtualserver.org/wiki/Performance_and_Tuning",
+					d: "LVS - Performance and Tuning"
+				},
+				{
+					h: "http://kb.linuxvirtualserver.org/wiki/Ipvsadm",
+					d: "ipvsadm - IP VS Admin"
 				}
 			]
 		},
@@ -517,7 +574,7 @@ var _RL = {
 				},
 				{
 					h: "https://drive.google.com/file/d/0B1v38H64XQBNT1p2XzFGWWhCR1k/view",
-					d: "Experimental New Directionsfor JavaScript"
+					d: "Experimental New Directions for JavaScript"
 				}
 			]
 		},
