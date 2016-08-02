@@ -349,7 +349,7 @@ var _RL = {
 			a: [
 				{
 					h: "http://socket.io/blog/",
-					d: "Socket.IO - THE FASTEST AND MOST RELIABLE REAL-TIME ENGINE"
+					d: "Socket.IO - The fastest and most reliable real-time engine"
 				},
 				{
 					h: "http://stackoverflow.com/questions/19496790/drop-packets-if-falling-behind-with-socket-io-in-node-js",
@@ -358,6 +358,10 @@ var _RL = {
 				{
 					h: "http://blog.mixu.net/2011/11/22/performance-benchmarking-socket-io-0-8-7-0-7-11-and-0-6-17-and-nodes-native-tcp/",
 					d: "Performance benchmarking Socket.io 0.8.7, 0.7.11 and 0.6.17 and Node's native TCP"
+				},
+				{
+					h: "https://devcentral.f5.com/articles/html5-web-sockets-changes-the-scalability-game",
+					d: "HTML5 Web Sockets Changes the Scalability Game"
 				}
 			]
 		},
