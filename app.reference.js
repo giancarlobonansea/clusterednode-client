@@ -362,23 +362,6 @@ var _RL = {
 			]
 		},
 		{
-			t: "Open Source architectures",
-			a: [
-				{
-					h: "http://www.aosabook.org/en/index.html",
-					d: "The Architecture of Open Source Applications"
-				},
-				{
-					h: "https://www.mnot.net/cache_docs/",
-					d: "Caching tutorial for Web Authors"
-				},
-				{
-					h: "http://uber.github.io/",
-					d: "Open Source at Uber"
-				}
-			]
-		},
-		{
 			"t": "Lightweight API bus",
 			"a": [
 				{
@@ -865,6 +848,23 @@ var _RL = {
 				{
 					h: "http://code.flickr.net/2011/10/11/talk-real-time-updates-on-the-cheap-for-fun-and-profit/",
 					d: "redis use-cases: Flickr - Real-time Updates on the Cheap for Fun and Profit"
+				}
+			]
+		},
+		{
+			t: "Open Source architectures",
+			a: [
+				{
+					h: "http://www.aosabook.org/en/index.html",
+					d: "The Architecture of Open Source Applications"
+				},
+				{
+					h: "https://www.mnot.net/cache_docs/",
+					d: "Caching tutorial for Web Authors"
+				},
+				{
+					h: "http://uber.github.io/",
+					d: "Open Source at Uber"
 				}
 			]
 		},
