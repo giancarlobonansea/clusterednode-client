@@ -50,6 +50,10 @@ var _RL = {
 				{
 					h: "http://blog.httpwatch.com/2015/01/16/a-simple-performance-comparison-of-https-spdy-and-http2/comment-page-1/",
 					d: "A Simple Performance Comparison of HTTPS, SPDY and HTTP/2"
+				},
+				{
+					h: "https://blog.cloudflare.com/tools-for-debugging-testing-and-using-http-2/",
+					d: "Tools for debugging, testing and using HTTP/2"
 				}
 			]
 		},
@@ -595,6 +599,10 @@ var _RL = {
 					d: "7 Tips for Faster HTTP/2 Performance"
 				},
 				{
+					h: "https://www.maxcdn.com/blog/nginx-application-performance-optimization/",
+					d: "6-Part Guide to NGINX Application Performance Optimization"
+				},
+				{
 					h: "https://www.nginx.com/blog/10-tips-for-10x-application-performance/",
 					d: "10 Tips for 10x Application Performance"
 				},
@@ -645,6 +653,10 @@ var _RL = {
 				{
 					h: "http://tecadmin.net/ip-failover-setup-using-keepalived-on-centos-redhat-6/#",
 					d: "IP FailOver Setup Using KeepAlived "
+				},
+				{
+					h: "https://leandromoreira.com.br/2015/10/12/how-to-optimize-nginx-configuration-for-http2-tls-ssl/",
+					d: "How To Optimize Nginx Configuration for HTTP/2 TLS (SSL)"
 				}
 			]
 		},
