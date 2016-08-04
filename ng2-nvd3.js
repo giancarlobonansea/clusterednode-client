@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
         return function (target, key) { decorator(target, key, paramIndex); }
     };
-var core_1 = require('@angular/core');
+var core_1 = ng.core;
 var nvD3 = (function () {
     function nvD3(elementRef) {
         this.el = elementRef.nativeElement;
