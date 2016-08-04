@@ -566,7 +566,7 @@ var _RL = {
 			]
 		},
 		{
-			t: "ng2-nvd3 Charting Library (v1.1.1)",
+			t: "ng2-nvd3 Charting Library (v1.1.3)",
 			a: [
 				{
 					h: "https://github.com/krispo/ng2-nvd3",
@@ -759,7 +759,7 @@ var _RL = {
 			]
 		},
 		{
-			t: "redis.io (v3.2.1)",
+			t: "redis.io (v3.2.3)",
 			a: [
 				{
 					h: "http://redis.io/",
