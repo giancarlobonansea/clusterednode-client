@@ -76,7 +76,7 @@
                       2,
                       3],
             _o_SIO = io(_s_IURL,{autoConnect:false}),
-            _e_SIO = {},
+            _e_SIO = undefined,
         //// helper functions
             iRL = function(t) {
                 var l = {
