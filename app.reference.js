@@ -476,10 +476,6 @@ var _RL = {
 					d: "Angular 2 — Introduction to new HTTP module"
 				},
 				{
-					h: "http://blog.caelum.com.br/angularjs-seo-google-analytics-e-virtual-pages/",
-					d: "AngularJS: SEO, Google Analytics e Virtual Pages"
-				},
-				{
 					h: "https://coryrylan.com/blog/angular-2-observable-data-services",
 					d: "Angular 2 Observable Data Services"
 				},
@@ -570,6 +566,18 @@ var _RL = {
 				{
 					h: "https://drive.google.com/file/d/0B1v38H64XQBNT1p2XzFGWWhCR1k/view",
 					d: "Experimental New Directions for JavaScript"
+				},
+				{
+					h: "https://www.igvita.com/2015/08/17/eliminating-roundtrips-with-preconnect/",
+					d: "Eliminating Roundtrips with Preconnect"
+				},
+				{
+					h: "https://www.webpagetest.org",
+					d: "Detailed Performance Test for websites - cloud based"
+				},
+				{
+					h: "https://hpbn.co/primer-on-web-performance/",
+					d: "High Performance Browser Networking - Primer on Web Performance"
 				}
 			]
 		},
@@ -588,6 +596,10 @@ var _RL = {
 				{
 					h: "https://analytics.google.com/",
 					d: "Google Analytics"
+				},
+				{
+					h: "http://blog.caelum.com.br/angularjs-seo-google-analytics-e-virtual-pages/",
+					d: "AngularJS: SEO, Google Analytics e Virtual Pages"
 				}
 			]
 		},
