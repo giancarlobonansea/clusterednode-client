@@ -17,6 +17,12 @@ gzip -k9fv ./favicon.png
 gzip -k9fv ./node_modules/bootstrap/dist/css/bootstrap.min.css
 gzip -k9fv ./node_modules/nvd3/build/nv.d3.min.css
 gzip -k9fv ./font-awesome-4.6.3/css/font-awesome.min.css
+gzip -k9fv ./font-awesome-4.6.3/fonts/fontawesome-webfont.woff2
+gzip -k9fv ./font-awesome-4.6.3/fonts/fontawesome-webfont.woff
+gzip -k9fv ./font-awesome-4.6.3/fonts/fontawesome-webfont.ttf
+gzip -k9fv ./font-awesome-4.6.3/fonts/fontawesome-webfont.svg
+gzip -k9fv ./font-awesome-4.6.3/fonts/fontawesome-webfont.eot
+gzip -k9fv ./font-awesome-4.6.3/fonts/fontawesome.otf
 gzip -k9fv ./node_modules/jquery/dist/jquery.min.js
 gzip -k9fv ./node_modules/bootstrap/dist/js/bootstrap.min.js
 gzip -k9fv ./node_modules/d3/d3.min.js
