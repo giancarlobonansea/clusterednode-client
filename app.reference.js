@@ -578,6 +578,14 @@ var _RL = {
 				{
 					h: "https://hpbn.co/primer-on-web-performance/",
 					d: "High Performance Browser Networking - Primer on Web Performance"
+				},
+				{
+					h: "https://www.keycdn.com/blog/resource-hints/",
+					d: "Resource Hints – What is Preload, Prefetch, and Preconnect?"
+				},
+				{
+					h: "https://www.w3.org/TR/resource-hints/",
+					d: "Resource Hints - W3C Working Draft 27 May 2016"
 				}
 			]
 		},
@@ -730,7 +738,7 @@ var _RL = {
 			]
 		},
 		{
-			t: "Keymetrics pm2 (v2.0.2)",
+			t: "Keymetrics pm2 (v2.0.3)",
 			a: [
 				{
 					h: "http://pm2.keymetrics.io/",
