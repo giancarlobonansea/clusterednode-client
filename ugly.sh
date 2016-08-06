@@ -15,6 +15,8 @@ echo Minify nv.d3.min.js
 uglifyjs ./node_modules/nvd3/build/nv.d3.min.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m -r '$,require,exports' -o  ./node_modules/nvd3/build/nv.d3.min.js --stats
 echo Minify Rx.umd.min.js
 uglifyjs ./node_modules/rxjs/bundles/Rx.umd.min.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m -r '$,require,exports' -o ./node_modules/rxjs/bundles/Rx.umd.min.js --stats
+echo Minify socket.io.js
+uglifyjs ./node_modules/socket.io-client/socket.io.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m -r '$,require,exports' -o ./node_modules/socket.io-client/socket.io.js --stats
 echo Finished minifying files
 echo Gzipping static files
 gzip -k9fv ./favicon.png
@@ -26,7 +28,7 @@ gzip -k9fv ./font-awesome-4.6.3/fonts/fontawesome-webfont.woff
 gzip -k9fv ./font-awesome-4.6.3/fonts/fontawesome-webfont.ttf
 gzip -k9fv ./font-awesome-4.6.3/fonts/fontawesome-webfont.svg
 gzip -k9fv ./font-awesome-4.6.3/fonts/fontawesome-webfont.eot
-gzip -k9fv ./font-awesome-4.6.3/fonts/fontawesome.otf
+gzip -k9fv ./font-awesome-4.6.3/fonts/FontAwesome.otf
 gzip -k9fv ./node_modules/jquery/dist/jquery.min.js
 gzip -k9fv ./node_modules/bootstrap/dist/js/bootstrap.min.js
 gzip -k9fv ./node_modules/d3/d3.min.js
