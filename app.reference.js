@@ -677,6 +677,14 @@ var _RL = {
 				{
 					h: "https://leandromoreira.com.br/2015/10/12/how-to-optimize-nginx-configuration-for-http2-tls-ssl/",
 					d: "How To Optimize Nginx Configuration for HTTP/2 TLS (SSL)"
+				},
+				{
+					h: "http://jvdc.me/fine-tune-gzip-compressing-and-enable-static-file-caching-on-nginx/",
+					d: "Fine-tune GZIP compressing and enable static file caching on NGINX"
+				},
+				{
+					h: "http://killtheradio.net/technology/using-gzip_static-in-nginx-to-cache-gzip-files/",
+					d: "Using gzip_static in nginx to cache gzip files"
 				}
 			]
 		},
