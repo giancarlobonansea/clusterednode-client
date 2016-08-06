@@ -9,6 +9,8 @@ echo Minify main.js
 uglifyjs main.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o main.js --source-map main.js.map --source-map-include-sources --stats
 echo Minify ng2-nvd3.js
 uglifyjs ng2-nvd3.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m -r '$,require,exports' -o ng2-nvd3.js --stats
+echo Minify socket.io.js
+uglifyjs ./node_modules/socket.io-client/socket.io.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m -r '$,require,exports' -o ./node_modules/socket.io-client/socket.io.js --stats
 echo Finished minifying files
 echo Gzipping static files
 gzip -k9fv ./favicon.png
