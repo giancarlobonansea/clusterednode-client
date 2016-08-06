@@ -37,4 +37,8 @@ gzip -k9 ./app.reference.js
 gzip -k9 ./app.httpservice.js
 gzip -k9 ./app.simulator.js
 gzip -k9 ./main.js
+gzip -k9 ./execution-arch.png
+gzip -k9 ./sequence-diagram.png
+gzip -k9 ./simulator.html
+gzip -k9 ./index.html
 echo Finished gzipping static files
