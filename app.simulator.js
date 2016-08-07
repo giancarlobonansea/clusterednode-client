@@ -5,7 +5,8 @@
             _s_CFG = 'C',
             _s_PI = ['raspberrypi2','raspberrypi3','raspberrypi5','raspberrypi6'],
             _s_STG = ['-redis','-node','-nginx','-angular'],
-            _s_BURL = window.location.protocol+'//'+window.location.hostname,
+            _o_WIN = window.location,
+            _s_BURL = _o_WIN.protocol+'//'+_o_WIN.hostname,
             _s_AURL = '/api',
             _s_HURL = '/hdr',
             _s_IURL = _s_BURL + ':33331',
@@ -612,6 +613,11 @@
         //// Constructor
         function AppSimulator (HTTPService, DOMSanitizer) {
             //
+            // Google Analytics setup
+            //
+            ga('create', 'UA-79558369-1', 'auto');
+            ga('send', 'pageview');
+            //
             // Initialize services
             //
             this.hS = HTTPService;
@@ -699,11 +705,6 @@
             //
             this.rVEV();
             this.run = false;
-            //
-            // Google Analytics setup
-            //
-            ga('create', 'UA-79558369-1', 'auto');
-            ga('send', 'pageview');
         }
         AppSimulator.parameters = [
             app.HTTPService,
