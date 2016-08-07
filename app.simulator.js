@@ -103,7 +103,7 @@
             },
         //// Google Analytics
             sGA = function(a, b, c, d) {
-                //ga('send', 'event', a, b, c, d);
+                ga('send', 'event', a, b, c, d);
             },
         //// initCharts
             cP = function(t) {
@@ -699,6 +699,11 @@
             //
             this.rVEV();
             this.run = false;
+            //
+            // Google Analytics setup
+            //
+            ga('create', 'UA-79558369-1', 'auto');
+            ga('send', 'pageview');
         }
         AppSimulator.parameters = [
             app.HTTPService,
