@@ -103,7 +103,7 @@
             },
         //// Google Analytics
             sGA = function(a, b, c, d) {
-                ga('send', 'event', a, b, c, d);
+                //ga('send', 'event', a, b, c, d);
             },
         //// initCharts
             cP = function(t) {
