@@ -449,7 +449,7 @@ var _RL = {
 	],
 	"l1": [
 		{
-			t: "Javascript, V8 & AngularJS 2 (v2.0.0-rc4)",
+			t: "Javascript, V8 & AngularJS 2 (v2.0.0-rc5)",
 			a: [
 				{
 					h: "https://angular.io",
