@@ -6,7 +6,8 @@
                        providers: [
                            app.HTTPService,
                            ng.http.HTTP_PROVIDERS,
-                           ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS
+                           ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS,
+                           app.LiveRedisService
                        ],
                        directives: [nvD3]
                    })
@@ -77,29 +78,6 @@
                                {}];
                        }
                        return j;
-                   },
-                   //// deactivateLiveEvents
-                   dLE: function() {
-                       if (this._e_SIO) {
-                           this._e_SIO.destroy();
-                           if (this._o_SIO.connected) {
-                               this._o_SIO.close();
-                           }
-                       }
-                   },
-                   //// activateLiveEvents
-                   aLE: function(m) {
-                       this._o_SIO.connect();
-                       this._e_SIO = this._o_SIO.on('redis', function(d) {
-                           if (m[d.x][d.y] < 3) {
-                               var x = d.x,
-                                   y = d.y;
-                               m[x][y] = 3;
-                               setTimeout(function() {
-                                   m[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
-                               }, 750);
-                           }
-                       });
                    },
                    //// observableResponses
                    oR: function(t, re, rs, rq, cc, pix) {
@@ -525,29 +503,6 @@
                                hg,
                                tReq];
                    },
-                   //// Create Live Events matrix
-                   cLE: function() {
-                       var lva = [], a0 = [], a01 = [], a1 = [], a12 = [], a2 = [];
-                       for (var i = 0; i < 32; i++) {
-                           a0[i] = 0;
-                           a01[i] = i < 11 ? 0 : 1;
-                           a1[i] = 1;
-                           a12[i] = i < 22 ? 1 : 2;
-                           a2[i] = 2;
-                       }
-                       for (i = 0; i < 5; i++) {
-                           lva.push(a0.slice(0));
-                       }
-                       lva.push(a01);
-                       for (i = 0; i < 4; i++) {
-                           lva.push(a1.slice(0));
-                       }
-                       lva.push(a12);
-                       for (i = 0; i < 5; i++) {
-                           lva.push(a2.slice(0));
-                       }
-                       return lva;
-                   },
                    //
                    // Configuration & Initialization methods
                    //
@@ -591,18 +546,18 @@
                        this.sRe = !this.sRe;
                        if (this.sRe) {
                            this.lE = false;
-                           this.dLE();
+                           this.leS.dLE();
                        }
                    },
                    //// showLive
                    shL: function() {
                        this.lE = !this.lE;
                        if (this.lE) {
-                           this.aLE(this.leMx);
+                           this.leS.aLE(this.leMx);
                            this.sRe = false;
                        }
                        else {
-                           this.dLE();
+                           this.leS.dLE();
                        }
                    },
                    //// percValue
@@ -667,7 +622,10 @@
                    safeUrl: function(u) {
                        return this.snS.bypassSecurityTrustResourceUrl(u);
                    },
-                   constructor: function(HTTPService, DOMSanitizer) {
+                   constructor: [app.HTTPService,
+                                 ng.platformBrowser.DomSanitizationService,
+                                 app.LiveRedisService,
+                                 function(HTTPService, DOMSanitizer,LRService) {
                        "use strict";
                        //// Constants
                        this._s_SIM = 'S';
@@ -682,7 +640,6 @@
                                       '-angular'];
                        this._s_AURL = '/api';
                        this._s_HURL = '/hdr';
-                       this._s_IURL = window.location.protocol + '//' + window.location.hostname + ':33331';
                        this._s_STA = 'STABILITY';
                        this._s_STR = 'STRESS';
                        this._j_ERE = {
@@ -749,8 +706,6 @@
                                       1,
                                       2,
                                       3];
-                       this._o_SIO = io(this._s_IURL, {autoConnect: false});
-                       this._e_SIO = undefined;
                        //
                        // Google Analytics setup
                        //
@@ -761,6 +716,7 @@
                        //
                        this.hS = HTTPService;
                        this.snS = DOMSanitizer;
+                       this.leS = LRService;
                        //
                        // View execution parameters
                        //
@@ -838,7 +794,7 @@
                                    'text-primary',
                                    'text-muted',
                                    'text-danger'];
-                       this.oleMx = this.cLE();
+                       this.oleMx = this.leS.cLE();
                        //
                        // View execution variables
                        //
