@@ -11,88 +11,6 @@
                        directives: [nvD3]
                    })
         .Class({
-                   //// Constants
-                   _s_SIM: 'S',
-                   _s_CFG: 'C',
-                   _s_PI: ['raspberrypi2',
-                           'raspberrypi3',
-                           'raspberrypi5',
-                           'raspberrypi6'],
-                   _s_STG: ['-redis',
-                            '-node',
-                            '-nginx',
-                            '-angular'],
-                   _s_AURL: '/api',
-                   _s_HURL: '/hdr',
-                   _s_IURL: window.location.protocol + '//' + window.location.hostname + ':33331',
-                   _s_STA: 'STABILITY',
-                   _s_STR: 'STRESS',
-                   _j_ERE: {
-                       //rtt = A
-                       A: 0,
-                       //hst = H
-                       H: '',
-                       //rid = Q
-                       Q: 0,
-                       //tsn = X
-                       X: 0,
-                       //exts = N
-                       N: 0,
-                       //erd = R
-                       R: 0,
-                       //cached = C
-                       C: false
-                   },
-                   _a_PRE: [
-                       [[0,
-                         5,
-                         50,
-                         4],
-                           [100,
-                            0,
-                            0,
-                            2],
-                           'Small'],
-                       [[0,
-                         10,
-                         30,
-                         4],
-                           [512,
-                            0,
-                            0,
-                            16],
-                           'Medium'],
-                       [[0,
-                         30,
-                         25,
-                         4],
-                           [1024,
-                            0,
-                            0,
-                            64],
-                           'Large'],
-                       [[0,
-                         60,
-                         25,
-                         8],
-                           [2048,
-                            0,
-                            0,
-                            128],
-                           'Huge']
-                   ],
-                   _a_OPE: [0,
-                            0,
-                            0,
-                            0,
-                            0,
-                            0,
-                            0,
-                            1,
-                            2,
-                            3],
-                   _o_SIO: io(this._s_IURL, {autoConnect: false}),
-                   _e_SIO: undefined,
                    //// helper functions
                    iRL: function(t) {
                        var l = {
@@ -630,102 +548,6 @@
                        }
                        return lva;
                    },
-                   constructor: function(HTTPService, DOMSanitizer) {
-                       "use strict";
-                       //
-                       // Google Analytics setup
-                       //
-                       ga('create', 'UA-79558369-1', 'auto');
-                       ga('send', 'pageview');
-                       //
-                       // Initialize services
-                       //
-                       this.hS = HTTPService;
-                       this.snS = DOMSanitizer;
-                       //
-                       // View execution parameters
-                       //
-                       this.sD(false);
-                       //
-                       // View presentation variables - reference links
-                       //
-                       this.links = this.iRL(this);
-                       //
-                       // Charts configuration and initialization
-                       //
-                       this.bco = {
-                           chart: {
-                               type: 'multiBarChart',
-                               showControls: false,
-                               height: 400,
-                               margin: {
-                                   top: 20,
-                                   right: 20,
-                                   bottom: 20,
-                                   left: 45
-                               },
-                               x: function(d) {return d.label;},
-                               y: function(d) {return d.value;},
-                               clipEdge: true,
-                               stacked: true,
-                               showXAxis: false,
-                               duration: 500,
-                               xAxis: {
-                                   showMaxMin: false
-                               },
-                               yAxis: {
-                                   tickFormat: function(d) {
-                                       return d3.format('d')(d);
-                                   }
-                               }
-                           }
-                       };
-                       this.lco = {
-                           chart: {
-                               type: 'lineWithFocusChart',
-                               showControls: false,
-                               height: 400,
-                               showLegend: true,
-                               clipEdge: true,
-                               duration: 500,
-                               margin: {
-                                   top: 20,
-                                   right: 20,
-                                   bottom: 40,
-                                   left: 55
-                               },
-                               x: function(d) { return d.x; },
-                               y: function(d) { return d.y; },
-                               useInteractiveGuideline: true,
-                               xAxis: {
-                                   axisLabel: 'Percentile (%)'
-                               },
-                               yAxis: {
-                                   axisLabel: 'AngularJS Latency (ms)',
-                                   axisLabelDistance: -10,
-                                   rotateYLabel: true
-                               },
-                               brushExtent: [75,
-                                             100]
-                           }
-                       };
-                       this.pco = this.cP('nginX');
-                       this.pco2 = this.cP('AngularJS');
-                       //
-                       // Live Events socket variables and configuration
-                       //
-                       this.lE = false;
-                       this.gDS = ['text-muted',
-                                   'text-primary',
-                                   'text-muted',
-                                   'text-danger'];
-                       this.oleMx = this.cLE();
-                       //
-                       // View execution variables
-                       //
-                       this.rVEV();
-                       this.run = false;
-                   },
                    //
                    // Configuration & Initialization methods
                    //
@@ -844,6 +666,184 @@
                    },
                    safeUrl: function(u) {
                        return this.snS.bypassSecurityTrustResourceUrl(u);
+                   },
+                   constructor: function(HTTPService, DOMSanitizer) {
+                       "use strict";
+                       //// Constants
+                       this._s_SIM = 'S';
+                       this._s_CFG = 'C';
+                       this._s_PI = ['raspberrypi2',
+                                     'raspberrypi3',
+                                     'raspberrypi5',
+                                     'raspberrypi6'];
+                       this._s_STG = ['-redis',
+                                      '-node',
+                                      '-nginx',
+                                      '-angular'];
+                       this._s_AURL = '/api';
+                       this._s_HURL = '/hdr';
+                       this._s_IURL = window.location.protocol + '//' + window.location.hostname + ':33331';
+                       this._s_STA = 'STABILITY';
+                       this._s_STR = 'STRESS';
+                       this._j_ERE = {
+                           //rtt = A
+                           A: 0,
+                           //hst = H
+                           H: '',
+                           //rid = Q
+                           Q: 0,
+                           //tsn = X
+                           X: 0,
+                           //exts = N
+                           N: 0,
+                           //erd = R
+                           R: 0,
+                           //cached = C
+                           C: false
+                       };
+                       this._a_PRE = [
+                           [[0,
+                             5,
+                             50,
+                             4],
+                               [100,
+                                0,
+                                0,
+                                2],
+                               'Small'],
+                           [[0,
+                             10,
+                             30,
+                             4],
+                               [512,
+                                0,
+                                0,
+                                16],
+                               'Medium'],
+                           [[0,
+                             30,
+                             25,
+                             4],
+                               [1024,
+                                0,
+                                0,
+                                64],
+                               'Large'],
+                           [[0,
+                             60,
+                             25,
+                             8],
+                               [2048,
+                                0,
+                                0,
+                                128],
+                               'Huge']
+                       ];
+                       this._a_OPE = [0,
+                                      0,
+                                      0,
+                                      0,
+                                      0,
+                                      0,
+                                      0,
+                                      1,
+                                      2,
+                                      3];
+                       this._o_SIO = io(this._s_IURL, {autoConnect: false});
+                       this._e_SIO = undefined;
+                       //
+                       // Google Analytics setup
+                       //
+                       ga('create', 'UA-79558369-1', 'auto');
+                       ga('send', 'pageview');
+                       //
+                       // Initialize services
+                       //
+                       this.hS = HTTPService;
+                       this.snS = DOMSanitizer;
+                       //
+                       // View execution parameters
+                       //
+                       this.sD(false);
+                       //
+                       // View presentation variables - reference links
+                       //
+                       this.links = this.iRL(this);
+                       //
+                       // Charts configuration and initialization
+                       //
+                       this.bco = {
+                           chart: {
+                               type: 'multiBarChart',
+                               showControls: false,
+                               height: 400,
+                               margin: {
+                                   top: 20,
+                                   right: 20,
+                                   bottom: 20,
+                                   left: 45
+                               },
+                               x: function(d) {return d.label;},
+                               y: function(d) {return d.value;},
+                               clipEdge: true,
+                               stacked: true,
+                               showXAxis: false,
+                               duration: 500,
+                               xAxis: {
+                                   showMaxMin: false
+                               },
+                               yAxis: {
+                                   tickFormat: function(d) {
+                                       return d3.format('d')(d);
+                                   }
+                               }
+                           }
+                       };
+                       this.lco = {
+                           chart: {
+                               type: 'lineWithFocusChart',
+                               showControls: false,
+                               height: 400,
+                               showLegend: true,
+                               clipEdge: true,
+                               duration: 500,
+                               margin: {
+                                   top: 20,
+                                   right: 20,
+                                   bottom: 40,
+                                   left: 55
+                               },
+                               x: function(d) { return d.x; },
+                               y: function(d) { return d.y; },
+                               useInteractiveGuideline: true,
+                               xAxis: {
+                                   axisLabel: 'Percentile (%)'
+                               },
+                               yAxis: {
+                                   axisLabel: 'AngularJS Latency (ms)',
+                                   axisLabelDistance: -10,
+                                   rotateYLabel: true
+                               },
+                               brushExtent: [75,
+                                             100]
+                           }
+                       };
+                       this.pco = this.cP('nginX');
+                       this.pco2 = this.cP('AngularJS');
+                       //
+                       // Live Events socket variables and configuration
+                       //
+                       this.lE = false;
+                       this.gDS = ['text-muted',
+                                   'text-primary',
+                                   'text-muted',
+                                   'text-danger'];
+                       this.oleMx = this.cLE();
+                       //
+                       // View execution variables
+                       //
+                       this.rVEV();
+                       this.run = false;
                    }
                });
 })(window.app || (window.app = {}));
