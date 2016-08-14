@@ -155,12 +155,13 @@
                            var ev = [],
                                fROK = function(d,t) {
                                    var proReq = cnRq++,
-                                       eid = d;
+                                       eid = d,
+                                       th = t;
                                    if (proReq < tRqCt) {
                                        rq[3][proReq] = eid;
                                        rq[1][proReq].subscribe(
                                            function(r) {
-                                               t.oR1(t, r, rs, rq, cc, pix);
+                                               th.oR1(t, r, rs, rq, cc, pix);
                                            },
                                            function() {
                                                cnEr++;
