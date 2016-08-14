@@ -153,15 +153,14 @@
                        if (!tHt) {
                            // STRESS
                            var ev = [],
-                               fROK = function(d,tg) {
+                               fROK = function(d) {
                                    var proReq = cnRq++,
-                                       eid = d,
-                                       th = tg;
+                                       eid = d;
                                    if (proReq < tRqCt) {
                                        rq[3][proReq] = eid;
                                        rq[1][proReq].subscribe(
                                            function(r) {
-                                               th.oR1(t, r, rs, rq, cc, pix);
+                                               t.oR1(t, r, rs, rq, cc, pix);
                                            },
                                            function() {
                                                cnEr++;
@@ -185,7 +184,7 @@
                            for (var e = 0; e < tRqCn; e++) {
                                ev.push(new ng.core.EventEmitter(true));
                                ev[e].subscribe(fROK);
-                               ev[e].emit(e,t);
+                               ev[e].emit(e);
                            }
                        }
                        else {
