@@ -1,10 +1,12 @@
 "use strict";
 (function(app) {
-    app.LiveRedisService = function() {
-        this._o_SIO = io(window.location.protocol + '//' + window.location.hostname + ':33331', {autoConnect: false});
-        this._e_SIO = undefined;
+    app.LiveRedisService = (function() {
+        var LiveRedisService = function() {
+            this._o_SIO = io(window.location.protocol + '//' + window.location.hostname + ':33331', {autoConnect: false});
+            this._e_SIO = undefined;
+        };
         //// Create Live Events matrix
-        this.cLE = function() {
+        LiveRedisService.prototype.cLE = function() {
             var lva = [], a0 = [], a01 = [], a1 = [], a12 = [], a2 = [];
             for (var i = 0; i < 32; i++) {
                 a0[i] = 0;
@@ -27,7 +29,7 @@
             return lva;
         };
         //// deactivateLiveEvents
-        this.dLE = function() {
+        LiveRedisService.prototype.dLE = function() {
             if (this._e_SIO) {
                 this._e_SIO.destroy();
                 if (this._o_SIO.connected) {
@@ -36,7 +38,7 @@
             }
         };
         //// activateLiveEvents
-        this.aLE = function(m) {
+        LiveRedisService.prototype.aLE = function(m) {
             this._o_SIO.connect();
             this._e_SIO = this._o_SIO.on('redis', function(d) {
                 if (m[d.x][d.y] < 3) {
@@ -49,5 +51,6 @@
                 }
             });
         };
-    };
+        return LiveRedisService;
+    })();
 })(window.app || (window.app = {}));

@@ -625,7 +625,7 @@
                    constructor: [app.HTTPService,
                                  ng.platformBrowser.DomSanitizationService,
                                  app.LiveRedisService,
-                                 function(HTTPService, DOMSanitizer,LRService) {
+                                 function(HTTPService, DOMSanitizer, LRService) {
                        "use strict";
                        //// Constants
                        this._s_SIM = 'S';
