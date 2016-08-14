@@ -1,13 +1,13 @@
 'use strict';
 (function(app) {
-	app.HTTPService = (function() {
-		var HTTPService = function(http) {
+	app.HTTPServiceG = (function() {
+		var HTTPServiceG = function(http) {
 			this.http = http;
 		};
-		HTTPService.parameters = [
+		HTTPServiceG.parameters = [
 			ng.http.Http
 		];
-		HTTPService.prototype.get = function(q, u, o, p) {
+		HTTPServiceG.prototype.get = function(q, u, o, p) {
 			return this.http
 				.get(u + '?o=' + o + '&p=' + p, {
 					"cache":   false,
@@ -29,21 +29,6 @@
 				})
 				.catch();
 		};
-		HTTPService.prototype.post = function(u, b) {
-			return this.http
-				.post(u + '?time=' + Date.now(), b, {
-					"cache":   false,
-					"headers": {
-						"Cache-Control":     'no-cache, no-store, must-revalidate',
-						"If-Modified-Since": 'Mon, 26 Jul 1997 05:00:00 GMT',
-						"Pragma":            'no-cache'
-					}
-				})
-				.map(function(re) {
-					return re.json() || {};
-				})
-				.catch();
-		};
-		return HTTPService;
+		return HTTPServiceG;
 	})();
 })(window.app || (window.app = {}));

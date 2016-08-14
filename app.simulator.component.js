@@ -7,12 +7,14 @@
                        providers: [
                            ng.http.HTTP_PROVIDERS,
                            ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS,
-                           app.HTTPService,
+                           app.HTTPServiceG,
+                           app.HTTPServiceP,
                            app.LiveRedisService,
                            app.LoadService,
                            app.StatsService,
                            app.ChartsService,
-                           app.ReferenceService
+                           app.ReferenceService,
+                           app.RefDataService
                        ],
                        directives: [nvD3, ng.common.FORM_DIRECTIVES]
                    })
@@ -138,10 +140,8 @@
                    //// Component constructor
                    constructor: [app.LiveRedisService,
                                  app.LoadService,
-                                 app.StatsService,
-                                 app.ChartsService,
                                  app.ReferenceService,
-                                 function(LRService, LOService, STService, CTService, RLService) {
+                                 function(LRService, LOService, RLService) {
                        //// Constants
                        this._s_SIM = 'S';
                        this._s_CFG = 'C';
@@ -195,8 +195,6 @@
                        //
                        this.leS = LRService;
                        this.loS = LOService;
-                       this.stS = STService;
-                       this.ctS = CTService;
                        this.rlS = RLService;
                        //
                        // View execution parameters

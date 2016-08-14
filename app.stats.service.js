@@ -1,8 +1,9 @@
 "use strict";
 (function(app) {
     app.StatsService = (function() {
-        var StatsService = function(RefData, HTTPService) {
-            this.hS = HTTPService;
+        var StatsService = function(RefData, HTTPServiceP, ChartsService) {
+            this.hS = HTTPServiceP;
+            this.ctS = ChartsService;
             this._s_PI = RefData._s_PI;
             this._s_STG = ['-redis',
                            '-node',
@@ -13,7 +14,8 @@
         };
         StatsService.parameters = [
             app.RefDataService,
-            app.HTTPService
+            app.HTTPServiceP,
+            app.ChartsService
         ];
         //// startStatistics
         StatsService.prototype.sSt = function(t, rqEx, dur, cnEr, rq, rs, cc, cn) {

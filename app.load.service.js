@@ -1,8 +1,8 @@
 "use strict";
 (function(app) {
     app.LoadService = (function() {
-        var LoadService = function(RefData, HTTPService, StatsService) {
-            this.hS = HTTPService;
+        var LoadService = function(RefData, HTTPServiceG, StatsService) {
+            this.hS = HTTPServiceG;
             this.stS = StatsService;
             this._s_PI = RefData._s_PI;
             this._s_AURL = '/api';
@@ -35,7 +35,7 @@
         };
         LoadService.parameters = [
             app.RefDataService,
-            app.HTTPService,
+            app.HTTPServiceG,
             app.StatsService
         ];
         //// [ok] helper functions

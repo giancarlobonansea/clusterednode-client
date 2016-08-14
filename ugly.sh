@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 echo Minify app.charts.service.js
 uglifyjs app.charts.service.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o app.charts.service.js --source-map app.charts.service.js.map --source-map-include-sources
-echo Minify app.http.service.js
-uglifyjs app.http.service.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o app.http.service.js --source-map app.http.service.js.map --source-map-include-sources
+echo Minify app.httpg.service.js
+uglifyjs app.httpg.service.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o app.httpg.service.js --source-map app.httpg.service.js.map --source-map-include-sources
+echo Minify app.httpp.service.js
+uglifyjs app.httpp.service.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o app.httpp.service.js --source-map app.httpp.service.js.map --source-map-include-sources
 echo Minify app.liveredis.service.js
 uglifyjs app.liveredis.service.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o app.liveredis.service.js --source-map app.liveredis.service.js.map --source-map-include-sources
 echo Minify app.load.service.js
@@ -56,7 +58,8 @@ gzip -k9f ./node_modules/@angular/compiler/bundles/compiler.umd.min.js
 gzip -k9f ./node_modules/@angular/platform-browser/bundles/platform-browser.umd.min.js
 gzip -k9f ./node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.min.js
 gzip -k9f ./app.charts.service.js
-gzip -k9f ./app.http.service.js
+gzip -k9f ./app.httpg.service.js
+gzip -k9f ./app.httpp.service.js
 gzip -k9f ./app.liveredis.service.js
 gzip -k9f ./app.load.service.js
 gzip -k9f ./app.module.js
