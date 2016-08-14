@@ -25,8 +25,8 @@
                        this.rER = 0;
                        this.rOK = 0;
                        this.rqCh = 0;
-                       this.clc = false;
                        this.tReq = [];
+                       this.loS.stS.rVEV();
                        this.rlS.rVEV();
                        this.leS.rVEV();
                    },
@@ -62,7 +62,7 @@
                    //// [ok] showRef
                    shR: function() {
                        if (this.rlS.toggleRE()) {
-                           this.leS.lE = false;
+                           this.leS.setLE(false);
                            this.leS.dLE();
                        }
                    },
@@ -70,7 +70,7 @@
                    shL: function() {
                        if (this.leS.toggleLE()) {
                            this.leS.aLE();
-                           this.rlS.sRe = false;
+                           this.rlS.setRE(false);
                        }
                        else {
                            this.leS.dLE();
@@ -131,18 +131,17 @@
                        if (this.iD) {
                            this.rqCt = this.exmR | 0;
                        }
-                       var aR = this.pRS(this);
+                       var aR = this.loS.pRS(this.rqCt);
                        this.oT = aR[1];
-                       this.tHr(this.iD, this, this.rqCt, this.rqCn, this.rqDu, this.rqIn, aR[0], this.clc);
+                       this.loS.tHr(this.iD, this, this.rqCt, this.rqCn, this.rqDu, this.rqIn, aR[0]);
                    },
                    //// Component constructor
-                   constructor: [app.HTTPService,
-                                 app.LiveRedisService,
+                   constructor: [app.LiveRedisService,
                                  app.LoadService,
                                  app.StatsService,
                                  app.ChartsService,
                                  app.ReferenceService,
-                                 function(HTTPService, LRService, LOService, STService, CTService, RLService) {
+                                 function(LRService, LOService, STService, CTService, RLService) {
                        //// Constants
                        this._s_SIM = 'S';
                        this._s_CFG = 'C';
@@ -194,7 +193,6 @@
                        //
                        // Initialize services
                        //
-                       this.hS = HTTPService;
                        this.leS = LRService;
                        this.loS = LOService;
                        this.stS = STService;

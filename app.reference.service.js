@@ -1127,6 +1127,9 @@
 			this.sRe = !this.sRe;
 			return this.sRe;
 		};
+		ReferenceService.prototype.setRE = function(b) {
+			this.sRe = b;
+		};
 		return ReferenceService;
 	})();
 })(window.app || (window.app = {}));

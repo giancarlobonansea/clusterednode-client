@@ -70,6 +70,10 @@
             this.lE = !this.lE;
             return this.lE;
         };
+        //// setLE
+        LiveRedisService.prototype.setLE = function(b) {
+            this.lE = b;
+        };
         return LiveRedisService;
     })();
 })(window.app || (window.app = {}));

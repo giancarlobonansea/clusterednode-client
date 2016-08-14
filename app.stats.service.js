@@ -1,27 +1,30 @@
 "use strict";
 (function(app) {
     app.StatsService = (function() {
-        var StatsService = function(RefData) {
+        var StatsService = function(RefData, HTTPService) {
+            this.hS = HTTPService;
             this._s_PI = RefData._s_PI;
             this._s_STG = ['-redis',
                            '-node',
                            '-nginx',
                            '-angular'];
             this._s_HURL = '/hdr';
+            this.rVEV();
         };
         StatsService.parameters = [
-            app.RefDataService
+            app.RefDataService,
+            app.HTTPService
         ];
         //// startStatistics
-        sSt: function(t, rqEx, dur, cnEr, rq, rs, cc, cn) {
-            t.clc = true;
+        StatsService.prototype.sSt = function(t, rqEx, dur, cnEr, rq, rs, cc, cn) {
+            this.clc = true;
             t.dur = dur;
             t.rqEx = rqEx;
             t.rER = cnEr;
             t.rs = rs;
             t.chRe = cc;
             setTimeout(function() {
-                var aR = t.cH(t, rqEx, dur, rq, cn);
+                var aR = this.cH(t, rqEx, dur, rq, cn);
                 t.bcd = aR[0];
                 t.pcd = aR[1];
                 t.pcd2 = aR[2];
@@ -32,9 +35,9 @@
                 t.hg = aR[7];
                 t.tReq = aR[8];
             });
-        },
+        };
         //// calculateHistogram
-        cH: function(t, rqEx, dur, rq, cn) {
+        StatsService.prototype.cH = function(t, rqEx, dur, rq, cn) {
             t.lE = false;
             //// resetChartsData
             var cBC = function(k1, k2) {
@@ -249,7 +252,7 @@
             //
             // Calculating HDR Histogram
             //
-            var oRT = t.hS.post(this._s_HURL, JSON.stringify(hdPD)).subscribe(
+            var oRT = this.hS.post(this._s_HURL, JSON.stringify(hdPD)).subscribe(
                 function(re) {
                     for (var n = 0; n < re.chart.length; n++) {
                         var idx = ((re.chart[n].percentile * t.rOK / 100) | 0) - 1;
@@ -268,7 +271,7 @@
                 function() {
                     t.lcd = lcd;
                     oRT.unsubscribe();
-                    t.clc = false;
+                    this.clc = false;
                     t.run = false;
                     t.lE = false;
                 }
@@ -286,7 +289,10 @@
                     tpR,
                     hg,
                     tReq];
-        },
+        };
+        StatsService.prototype.rVEV = function() {
+            this.clc = false;
+        };
         return StatsService;
     })();
 })(window.app || (window.app = {}));

@@ -1,7 +1,9 @@
 "use strict";
 (function(app) {
     app.LoadService = (function() {
-        var LoadService = function(RefData) {
+        var LoadService = function(RefData, HTTPService, StatsService) {
+            this.hS = HTTPService;
+            this.stS = StatsService;
             this._s_PI = RefData._s_PI;
             this._s_AURL = '/api';
             this._j_ERE = {
@@ -32,14 +34,16 @@
                            3];
         };
         LoadService.parameters = [
-            app.RefDataService
+            app.RefDataService,
+            app.HTTPService,
+            app.StatsService
         ];
-        //// helper functions
-        mR: function(v) {
+        //// [ok] helper functions
+        LoadService.prototype.mR = function(v) {
             return (Math.random() * v) | 0;
-        },
-        //// resetExecutionScopeVariables
-        cRS: function() {
+        };
+        //// [ok] resetExecutionScopeVariables
+        LoadService.prototype.cRS = function() {
             var j = [];
             for (var i = 0; i < 4; i++) {
                 j.push([this._s_PI[i],
@@ -47,24 +51,25 @@
                         0]);
             }
             return j;
-        },
-        //// createPIX
-        cPIX: function() {
+        };
+        //// [ok] createPIX
+        LoadService.prototype.cPIX = function() {
             var j = {};
             for (var i = 0; i < 4; i++) {
                 j[this._s_PI[i]] = [i,
                     {}];
             }
             return j;
-        },
+        };
         //// observableResponses
-        oR: function(t, re, rs, rq, cc, pix) {
+        LoadService.prototype.oRD = function(t, re, rs, rq, cc, pix) {
             for (var k = 0; k < re.length; k++) {
                 rq[3][re[k].Q] = k;
-                this.oR1(t, re[k], rs, rq, cc, pix);
+                this.oRR(t, re[k], rs, rq, cc, pix);
             }
-        },
-        oR1: function(t, re, rs, rq, cc, pix) {
+        };
+        //// observableResponses1
+        LoadService.prototype.oRR = function(t, re, rs, rq, cc, pix) {
             var res = re,
                 req = res.Q,
                 hst = res.json.h,
@@ -97,16 +102,17 @@
                 rs[ndx][1][pix[hst][1][pid]][1][o].push(++t.rOK);
                 rs[ndx][2]++;
             }
-        },
+        };
         //// throwHTTP
-        tHr: function(tHt, t, tRqCt, tRqCn, tRqDu, tRqIn, rq, tClc) {
+        LoadService.prototype.tHr = function(tHt, t, tRqCt, tRqCn, tRqDu, tRqIn, rq) {
             var cnRq = 0,
                 cnRe = 0,
                 cnEr = 0,
                 cc = [],
                 pix = this.cPIX(),
                 rs = this.cRS(),
-                iniTime = Date.now();
+                iniTime = Date.now(),
+                tls = this;
             if (!tHt) {
                 // STRESS
                 var ev = [],
@@ -117,7 +123,7 @@
                             rq[3][proReq] = eid;
                             rq[1][proReq].subscribe(
                                 function(r) {
-                                    t.oR1(t, r, rs, rq, cc, pix);
+                                    tls.oRR(t, r, rs, rq, cc, pix);
                                 },
                                 function() {
                                     cnEr++;
@@ -125,7 +131,7 @@
                                 function() {
                                     if (++cnRe >= tRqCt) {
                                         ev[eid].unsubscribe();
-                                        t.sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc, tRqCn);
+                                        tls.stS.sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc, tRqCn);
                                     }
                                     else {
                                         ev[eid].emit(eid);
@@ -151,14 +157,14 @@
                         if (inH) {
                             clearInterval(inH);
                         }
-                        t.sSt(t, cnRe, Date.now() - iniTime, cnEr, rq, rs, cc, tRqCn);
+                        tls.stS.sSt(t, cnRe, Date.now() - iniTime, cnEr, rq, rs, cc, tRqCn);
                     },
                     inF = function() {
                         if (tmR && cnRq < tRqCt) {
                             cnRq += tRqCn;
                             var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - tRqCn, cnRq < tRqCt ? cnRq : tRqCt)).subscribe(
                                 function(r) {
-                                    t.oR(t, r, rs, rq, cc, pix);
+                                    tls.oRD(t, r, rs, rq, cc, pix);
                                 },
                                 function() {
                                     cnEr += tRqCn;
@@ -166,14 +172,14 @@
                                 function() {
                                     cnRe += tRqCn;
                                     oRA.unsubscribe();
-                                    if (!tmR && !tClc && cnRq === cnRe) {
+                                    if (!tmR && !tls.stS.clc && cnRq === cnRe) {
                                         sHd();
                                     }
                                 }
                             );
                         }
                         else {
-                            if (!tClc && cnRq === cnRe) {
+                            if (!tls.stS.clc && cnRq === cnRe) {
                                 sHd();
                             }
                         }
@@ -184,9 +190,9 @@
                 setTimeout(function() {inF();});
                 var inH = setInterval(function() {inF();}, tRqIn);
             }
-        },
-        //// populateRequestSamples
-        pRS: function(t) {
+        };
+        //// [ok] populateRequestSamples
+        LoadService.prototype.pRS = function(rqCt) {
             var rq = [[],
                     [],
                     [],
@@ -195,18 +201,17 @@
                       0,
                       0,
                       0];
-            for (var q = 0; q < t.rqCt; q++) {
+            for (var q = 0; q < rqCt; q++) {
                 var o = this._a_OPE[this.mR(10)];
                 oT[o]++;
                 rq[0].push(this._j_ERE);
-                rq[1].push(t.hS.get(q, this._s_AURL, o, this.mR(16384)));
+                rq[1].push(this.hS.get(q, this._s_AURL, o, this.mR(16384)));
                 rq[2].push(o);
                 rq[3].push(0);
             }
             return [rq,
                     oT];
-        },
-
+        };
         return LoadService;
     })();
 })(window.app || (window.app = {}));
