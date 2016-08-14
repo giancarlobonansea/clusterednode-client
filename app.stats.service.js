@@ -19,11 +19,12 @@
             t.rER = cnEr;
             t.rs = rs;
             t.chRe = cc;
+            var th = this;
             setTimeout(function() {
-                var aR = this.cH(t, rqEx, dur, rq, cn);
-                this.ctS.bcd = aR[0];
-                this.ctS.pcd = aR[1];
-                this.ctS.pcd2 = aR[2];
+                var aR = th.cH(t, rqEx, dur, rq, cn);
+                th.ctS.bcd = aR[0];
+                th.ctS.pcd = aR[1];
+                th.ctS.pcd2 = aR[2];
                 t.tpA = aR[3];
                 t.tpX = aR[4];
                 t.tpN = aR[5];
