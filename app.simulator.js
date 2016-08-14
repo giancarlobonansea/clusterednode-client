@@ -129,7 +129,7 @@
                        t.rs = rs;
                        t.chRe = cc;
                        setTimeout(function() {
-                           var aR = this.cH(t, rqEx, dur, rq, cn);
+                           var aR = t.cH(t, rqEx, dur, rq, cn);
                            t.bcd = aR[0];
                            t.pcd = aR[1];
                            t.pcd2 = aR[2];
