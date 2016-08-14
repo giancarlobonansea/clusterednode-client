@@ -160,7 +160,7 @@
                                        rq[3][proReq] = eid;
                                        rq[1][proReq].subscribe(
                                            function(r) {
-                                               this.oR1(t, r, rs, rq, cc, pix);
+                                               app.AppSimulator.oR1(t, r, rs, rq, cc, pix);
                                            },
                                            function() {
                                                cnEr++;
