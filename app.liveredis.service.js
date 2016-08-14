@@ -10,7 +10,8 @@
                         'text-muted',
                         'text-danger'];
             this.oleMx = this.cLE();
-            this.o_SIO = io(window.location.protocol + '//' + window.location.hostname + ':33331', {autoConnect: false});
+            //this.o_SIO = io(window.location.protocol + '//' + window.location.hostname + ':33331', {autoConnect: false});
+            this.o_SIO = io('https://raspberrypi8:33331', {autoConnect: false});
             this.e_SIO = undefined;
             this.rVEV();
         };
