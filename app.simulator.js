@@ -800,6 +800,6 @@
                        //
                        this.rVEV();
                        this.run = false;
-                   }
+                   }]
                });
 })(window.app || (window.app = {}));
