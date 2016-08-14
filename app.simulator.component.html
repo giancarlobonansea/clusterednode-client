@@ -100,7 +100,7 @@
 	</div>
 </div>
 <!-- Statistics -->
-<div class="row" *ngIf="!run && rOK!==0 && !lrS.sRe && !leS.lE">
+<div class="row" *ngIf="!run && rOK!==0 && !rlS.sRe && !leS.lE">
 	<div class="col-xs-12 col-sm-4">
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -366,7 +366,7 @@
 	</div>
 </div>
 <!-- Balanced requests tables per node cluster -->
-<div class="row" *ngIf="!run && rOK!==0 && !lrS.sRe && !leS.lE">
+<div class="row" *ngIf="!run && rOK!==0 && !rlS.sRe && !leS.lE">
 	<!-- Processed responses -->
 	<div class="col-xs-12 col-sm-6 col-md-3" *ngFor="let nodes of rs">
 		<div class="panel panel-info">
@@ -455,7 +455,7 @@
 	</div>
 </div>
 <!-- Reference -->
-<div class="row" *ngIf="lrS.sRe">
+<div class="row" *ngIf="rlS.sRe">
 	<!-- Execution architecture static diagram -->
 	<div class="col-xs-12">
 		<div class="panel panel-info">
@@ -567,7 +567,7 @@
 	</div>
 </div>
 <!-- Database Live Events -->
-<div class="row" *ngIf="leS.lE && !lrS.sRe">
+<div class="row" *ngIf="leS.lE && !rlS.sRe">
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
