@@ -110,7 +110,7 @@
             //
             // Populate barchart as processed (no sorting)
             //
-            for (i = 0; i < rqEx; i++) {
+            for (var i = 0; i < rqEx; i++) {
                 var _hst = rq0[i].H,
                     _rid = rq0[i].Q;
                 rtt = [0,
