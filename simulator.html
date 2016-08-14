@@ -100,7 +100,7 @@
 	</div>
 </div>
 <!-- Statistics -->
-<div class="row" *ngIf="!run && rOK!==0 && !sRe && !lE">
+<div class="row" *ngIf="!run && rOK!==0 && !lrS.sRe && !leS.lE">
 	<div class="col-xs-12 col-sm-4">
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -366,7 +366,7 @@
 	</div>
 </div>
 <!-- Balanced requests tables per node cluster -->
-<div class="row" *ngIf="!run && rOK!==0 && !sRe && !lE">
+<div class="row" *ngIf="!run && rOK!==0 && !lrS.sRe && !leS.lE">
 	<!-- Processed responses -->
 	<div class="col-xs-12 col-sm-6 col-md-3" *ngFor="let nodes of rs">
 		<div class="panel panel-info">
@@ -455,7 +455,7 @@
 	</div>
 </div>
 <!-- Reference -->
-<div class="row" *ngIf="sRe">
+<div class="row" *ngIf="lrS.sRe">
 	<!-- Execution architecture static diagram -->
 	<div class="col-xs-12">
 		<div class="panel panel-info">
@@ -567,7 +567,7 @@
 	</div>
 </div>
 <!-- Database Live Events -->
-<div class="row" *ngIf="lE && !sRe">
+<div class="row" *ngIf="leS.lE && !lrS.sRe">
 	<div class="col-xs-12">
 		<div class="panel panel-info">
 			<div class="panel-heading">
@@ -597,9 +597,9 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr *ngFor="let evy of leMx">
+									<tr *ngFor="let evy of leS.leMx">
 										<td *ngFor="let evx of evy">
-											<small [class]="gDS[evx]">
+											<small [class]="leS.gDS[evx]">
 												<i class="fa fa-database" style="margin-right:1px;"></i>
 											</small>
 										</td>

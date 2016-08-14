@@ -2,8 +2,8 @@
     app.AppModule =
         ng.core.NgModule({
                              imports: [ ng.platformBrowser.BrowserModule, ng.common.DeprecatedFormsModule ],
-                             declarations: [ app.AppSimulator ],
-                             bootstrap: [ app.AppSimulator ]
+                             declarations: [ app.SimulatorComponent ],
+                             bootstrap: [ app.SimulatorComponent ]
                          })
             .Class({
                        constructor: function() {}

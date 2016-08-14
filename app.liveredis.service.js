@@ -2,8 +2,17 @@
 (function(app) {
     app.LiveRedisService = (function() {
         var LiveRedisService = function() {
-            this._o_SIO = io(window.location.protocol + '//' + window.location.hostname + ':33331', {autoConnect: false});
-            this._e_SIO = undefined;
+            //
+            // Live Events socket variables and configuration
+            //
+            this.gDS = ['text-muted',
+                        'text-primary',
+                        'text-muted',
+                        'text-danger'];
+            this.oleMx = this.cLE();
+            this.o_SIO = io(window.location.protocol + '//' + window.location.hostname + ':33331', {autoConnect: false});
+            this.e_SIO = undefined;
+            this.rVEV();
         };
         //// Create Live Events matrix
         LiveRedisService.prototype.cLE = function() {
@@ -30,26 +39,36 @@
         };
         //// deactivateLiveEvents
         LiveRedisService.prototype.dLE = function() {
-            if (this._e_SIO) {
-                this._e_SIO.destroy();
-                if (this._o_SIO.connected) {
-                    this._o_SIO.close();
+            if (this.e_SIO) {
+                this.e_SIO.destroy();
+                if (this.o_SIO.connected) {
+                    this.o_SIO.close();
                 }
             }
         };
         //// activateLiveEvents
-        LiveRedisService.prototype.aLE = function(m) {
-            this._o_SIO.connect();
-            this._e_SIO = this._o_SIO.on('redis', function(d) {
-                if (m[d.x][d.y] < 3) {
+        LiveRedisService.prototype.aLE = function() {
+            this.o_SIO.connect();
+            this.e_SIO = this.o_SIO.on('redis', function(d) {
+                if (this.leMx[d.x][d.y] < 3) {
                     var x = d.x,
                         y = d.y;
-                    m[x][y] = 3;
+                    this.leMx[x][y] = 3;
                     setTimeout(function() {
-                        m[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
+                        this.leMx[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
                     }, 750);
                 }
             });
+        };
+        //// resetViewExecVariables
+        LiveRedisService.prototype.rVEV = function() {
+            this.lE = false;
+            this.leMx = this.oleMx.slice(0);
+        };
+        //// toggleLE
+        LiveRedisService.prototype.toggleLE = function() {
+            this.lE = !this.lE;
+            return this.lE;
         };
         return LiveRedisService;
     })();
