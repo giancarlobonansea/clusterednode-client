@@ -72,24 +72,24 @@
 								<!-- STRESS BY REQUESTS: Number of total requests to be fired -->
 								<div class="input-group input-group-sm" *ngIf="!iD">
 									<span class="input-group-addon">Requests</span>
-									<input type="number" class="form-control input-sm" min="1" max="16384" id="numReq" [(ngModel)]="rqCt" [disabled]="run"/>
+									<input type="number" class="form-control input-sm" min="1" max="16384" id="numReq" name="rqCt" [(ngModel)]="rqCt" [disabled]="run"/>
 								</div>
 								<!-- STRESS BY DURATION AND DELAY: Duration in seconds to run -->
 								<div class="input-group input-group-sm" *ngIf="iD">
 									<span class="input-group-addon">Duration</span>
-									<input type="number" class="form-control input-sm" min="5" max="600" id="durReq" [(ngModel)]="rqDu" [disabled]="run"/>
+									<input type="number" class="form-control input-sm" min="5" max="600" id="durReq" name="rqDu" [(ngModel)]="rqDu" [disabled]="run"/>
 									<span class="input-group-addon">s</span>
 								</div>
 								<!-- STRESS BY DURATION AND DELAY: Delay in miliseconds to wait between group of requests -->
 								<div class="input-group input-group-sm" *ngIf="iD">
 									<span class="input-group-addon">Interval</span>
-									<input type="number" class="form-control input-sm" min="5" max="1000" id="intReq" [(ngModel)]="rqIn" [disabled]="run"/>
+									<input type="number" class="form-control input-sm" min="5" max="1000" id="intReq" name="rqIn" [(ngModel)]="rqIn" [disabled]="run"/>
 									<span class="input-group-addon">ms</span>
 								</div>
 								<!-- ALL: Maximum number of concurrent HTTP connections to be fired -->
 								<div class="input-group input-group-sm">
 									<span class="input-group-addon">Connections</span>
-									<input type="number" class="form-control input-sm" min="1" max="128" id="numConn" [(ngModel)]="rqCn" [disabled]="run"/>
+									<input type="number" class="form-control input-sm" min="1" max="128" id="numConn" name="rqCn" [(ngModel)]="rqCn" [disabled]="run"/>
 								</div>
 							</div>
 						</form>
