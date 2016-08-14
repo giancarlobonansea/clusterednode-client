@@ -1,7 +1,12 @@
 "use strict";
 (function(app) {
     app.ChartsService = (function() {
-        var ChartsService = function() {
+        var ChartsService = function(RefData) {
+            this._s_PI = RefData._s_PI;
+            this._s_STG = ['-redis',
+                           '-node',
+                           '-nginx',
+                           '-angular'];
             //
             // Charts configuration and initialization
             //
@@ -63,7 +68,11 @@
             };
             this.pco = this.cP('nginX');
             this.pco2 = this.cP('AngularJS');
+            this.dataInit();
         };
+        ChartsService.parameters = [
+            app.RefDataService
+        ];
         //// initCharts
         ChartsService.prototype.cP = function(t) {
             return {
@@ -81,6 +90,55 @@
                     labelType: function(d) {return d.data.key + ': ' + (d.data.y | 0);},
                     labelsOutside: true,
                     duration: 500
+                }
+            }
+        };
+        ChartsService.prototype.setBcd = function(i, l, v) {
+            this.bcd[i].values.push({
+                                   label: l,
+                                   value: v
+                               });
+        };
+        ChartsService.prototype.dataInit = function() {
+            var cPC = function(k) {
+                return {
+                    key: k,
+                    y: 0
+                };
+            },
+                cBC = function(k1, k2) {
+                    return {
+                        key: k1 + k2,
+                        values: []
+                    };
+                };
+            this.bcd = [];
+            this.pcd = [cPC(this._s_PI[0]),
+                       cPC(this._s_PI[1]),
+                       cPC(this._s_PI[2]),
+                       cPC(this._s_PI[3])];
+            this.pcd2 = [cPC(this._s_PI[0]),
+                        cPC(this._s_PI[1]),
+                        cPC(this._s_PI[2]),
+                        cPC(this._s_PI[3])];
+            this.lcd = [
+                    {
+                        key: 'w/o Coord. Omission',
+                        values: [],
+                        area: false
+                    },
+                    {
+                        key: 'Latency/Percentile',
+                        values: [],
+                        area: true
+                    }
+            ];
+            //
+            // Populate barchart structure
+            //
+            for (var i = 0; i < 4; i++) {
+                for (var j = 0; j < 4; j++) {
+                    this.bcd.push(cBC(this._s_PI[j], this._s_STG[i]));
                 }
             }
         };

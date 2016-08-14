@@ -1,19 +1,13 @@
 "use strict";
 (function(app) {
     app.StatsService = (function() {
-        var StatsService = function(RefData, HTTPServiceP, ChartsService) {
+        var StatsService = function(HTTPServiceP, ChartsService) {
             this.hS = HTTPServiceP;
             this.ctS = ChartsService;
-            this._s_PI = RefData._s_PI;
-            this._s_STG = ['-redis',
-                           '-node',
-                           '-nginx',
-                           '-angular'];
             this._s_HURL = '/hdr';
             this.rVEV();
         };
         StatsService.parameters = [
-            app.RefDataService,
             app.HTTPServiceP,
             app.ChartsService
         ];
@@ -27,9 +21,9 @@
             t.chRe = cc;
             setTimeout(function() {
                 var aR = this.cH(t, rqEx, dur, rq, cn);
-                t.bcd = aR[0];
-                t.pcd = aR[1];
-                t.pcd2 = aR[2];
+                this.ctS.bcd = aR[0];
+                this.ctS.pcd = aR[1];
+                this.ctS.pcd2 = aR[2];
                 t.tpA = aR[3];
                 t.tpX = aR[4];
                 t.tpN = aR[5];
@@ -40,50 +34,12 @@
         };
         //// calculateHistogram
         StatsService.prototype.cH = function(t, rqEx, dur, rq, cn) {
-            t.lE = false;
+            t.leS.setLE(false);
+            this.ctS.dataInit();
             //// resetChartsData
-            var cBC = function(k1, k2) {
-                    return {
-                        key: k1 + k2,
-                        values: []
-                    };
-                },
-                cPC = function(k) {
-                    return {
-                        key: k,
-                        y: 0
-                    };
-                },
-                bcd = [],
-                pcd = [cPC(this._s_PI[0]),
-                       cPC(this._s_PI[1]),
-                       cPC(this._s_PI[2]),
-                       cPC(this._s_PI[3])],
-                pcd2 = [cPC(this._s_PI[0]),
-                        cPC(this._s_PI[1]),
-                        cPC(this._s_PI[2]),
-                        cPC(this._s_PI[3])],
-                lcd = [
-                    {
-                        key: 'w/o Coord. Omission',
-                        values: [],
-                        area: false
-                    },
-                    {
-                        key: 'Latency/Percentile',
-                        values: [],
-                        area: true
-                    }
-                ],
-                dr = ((rqEx * 0.0455) | 0) + 1,
+            var dr = ((rqEx * 0.0455) | 0) + 1,
                 dLo = (dr / 2) | 0,
                 dUp = rqEx - dLo,
-                setBcd = function(i, l, v) {
-                    bcd[i].values.push({
-                                           label: l,
-                                           value: v
-                                       });
-                },
                 rq0 = rq[0],
                 rq1 = rq[0].slice(0),
                 rq2 = rq[0].slice(0),
@@ -151,14 +107,6 @@
                     return ((hl === hv) && (i >= dLo) && (i <= dUp)) ? v : 0;
                 }, rtt = [], tsn = [], exts = [], red = [];
             //
-            // Populate barchart structure
-            //
-            for (var i = 0; i < 4; i++) {
-                for (var j = 0; j < 4; j++) {
-                    bcd.push(cBC(this._s_PI[j], this._s_STG[i]));
-                }
-            }
-            //
             // Populate barchart as processed (no sorting)
             //
             for (i = 0; i < rqEx; i++) {
@@ -185,10 +133,10 @@
                 exts[_hst] = rq0[i].N;
                 red[_hst] = rq0[i].R;
                 for (var j = 0; j < 4; j++) {
-                    setBcd(j, _rid, red[j] | 0);
-                    setBcd(j + 4, _rid, (exts[j] - red[j]) | 0);
-                    setBcd(j + 8, _rid, (tsn[j] - exts[j]) | 0);
-                    setBcd(j + 12, _rid, rtt[j] - tsn[j]);
+                    this.ctS.setBcd(j, _rid, red[j] | 0);
+                    this.ctS.setBcd(j + 4, _rid, (exts[j] - red[j]) | 0);
+                    this.ctS.setBcd(j + 8, _rid, (tsn[j] - exts[j]) | 0);
+                    this.ctS.setBcd(j + 12, _rid, rtt[j] - tsn[j]);
                 }
                 hdPD.arr.push(rq0[i].A);
             }
@@ -206,10 +154,10 @@
                     _tsnT = rq1[i].X;
                 for (j = 0; j < 4; j++) {
                     rtt[j] = byH(_hstR, j, _rttR);
-                    pcd2[j].y += inSD(i, rtt[j]);
+                    this.ctS.pcd2[j].y += inSD(i, rtt[j]);
                     totReqAng[j] += inSDbyH(_hstR, j, i, 1);
                     tsn[j] = byH(_hstT, j, _tsnT);
-                    pcd[j].y += inSD(i, tsn[j]);
+                    this.ctS.pcd[j].y += inSD(i, tsn[j]);
                     totReqNgi[j] += inSDbyH(_hstT, j, i, 1);
                 }
                 toA += inSD(i, _rttR);
@@ -218,8 +166,8 @@
                 toR += inSD(i, rq3[i].R);
             }
             for (i = 0; i < 4; i++) {
-                pcd2[i].y /= totReqAng[i];
-                pcd[i].y /= totReqNgi[i];
+                this.ctS.pcd2[i].y /= totReqAng[i];
+                this.ctS.pcd[i].y /= totReqNgi[i];
             }
             var tpA = ((rqEx / (dur / 1000)) | 0) + 1,
                 tpX = ((tpA * toA / toX) | 0) + 1,
@@ -271,11 +219,11 @@
                 function(e) {
                 },
                 function() {
-                    t.lcd = lcd;
+                    this.ctS.lcd = lcd;
                     oRT.unsubscribe();
                     this.clc = false;
                     t.run = false;
-                    t.lE = false;
+                    t.leS.setLE(false);
                 }
             );
             //
@@ -294,6 +242,7 @@
         };
         StatsService.prototype.rVEV = function() {
             this.clc = false;
+            this.ctS.dataInit();
         };
         return StatsService;
     })();
