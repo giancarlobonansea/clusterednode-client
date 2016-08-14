@@ -168,7 +168,7 @@
                                            function() {
                                                if (++cnRe >= tRqCt) {
                                                    ev[eid].unsubscribe();
-                                                   this.sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc, tRqCn);
+                                                   t.sSt(t, tRqCt, Date.now() - iniTime, cnEr, rq, rs, cc, tRqCn);
                                                }
                                                else {
                                                    ev[eid].emit(eid);
@@ -194,14 +194,14 @@
                                    if (inH) {
                                        clearInterval(inH);
                                    }
-                                   this.sSt(t, cnRe, Date.now() - iniTime, cnEr, rq, rs, cc, tRqCn);
+                                   t.sSt(t, cnRe, Date.now() - iniTime, cnEr, rq, rs, cc, tRqCn);
                                },
                                inF = function() {
                                    if (tmR && cnRq < tRqCt) {
                                        cnRq += tRqCn;
                                        var oRA = Rx.Observable.forkJoin(rq[1].slice(cnRq - tRqCn, cnRq < tRqCt ? cnRq : tRqCt)).subscribe(
                                            function(r) {
-                                               this.oR(t, r, rs, rq, cc, pix);
+                                               t.oR(t, r, rs, rq, cc, pix);
                                            },
                                            function() {
                                                cnEr += tRqCn;
