@@ -492,7 +492,7 @@
                        //
                        // Set Angular view variables
                        //
-                       this.sGA(_s_SIM, 'E', 'T', tpA);
+                       this.sGA(this._s_SIM, 'E', 'T', tpA);
                        return [bcd,
                                pcd,
                                pcd2,
