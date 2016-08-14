@@ -1,8 +1,8 @@
 "use strict";
 (function(app) {
     app.LiveRedisService = function() {
-        var _o_SIO = io(window.location.protocol + '//' + window.location.hostname + ':33331', {autoConnect: false}),
-            _e_SIO = undefined;
+        this._o_SIO = io(window.location.protocol + '//' + window.location.hostname + ':33331', {autoConnect: false});
+        this._e_SIO = undefined;
         //// Create Live Events matrix
         this.cLE = function() {
             var lva = [], a0 = [], a01 = [], a1 = [], a12 = [], a2 = [];

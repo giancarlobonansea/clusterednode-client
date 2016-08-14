@@ -48,8 +48,10 @@ gzip -k9fv ./node_modules/@angular/platform-browser-dynamic/bundles/platform-bro
 gzip -k9fv ./http_profile.umd.js
 gzip -k9fv ./ng2-nvd3.js
 gzip -k9fv ./app.reference.js
-gzip -k9fv ./app.httpservice.js
+gzip -k9fv ./app.http.service.js
+gzip -k9fv ./app.liveredis.service.js
 gzip -k9fv ./app.simulator.js
+gzip -k9fv ./app.module.js
 gzip -k9fv ./main.js
 gzip -k9fv ./execution-arch.png
 gzip -k9fv ./sequence-diagram.png
