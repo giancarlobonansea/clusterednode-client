@@ -17,8 +17,8 @@
                            app.RefDataService,
                            app.GAService
                        ],
-                       //directives: [nvD3, ng.common.FORM_DIRECTIVES]
-                       directives: [nvD3]
+                       directives: [nvD3, ng.common.FORM_DIRECTIVES]
+                       //directives: [nvD3]
                    })
         .Class({
                    //
