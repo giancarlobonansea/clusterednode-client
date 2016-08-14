@@ -526,7 +526,7 @@
                        this.rqDu = this._a_PRE[p][m][1];
                        this.rqIn = this._a_PRE[p][m][2];
                        this.rqCn = this._a_PRE[p][m][3];
-                       sGA(this._s_SIM, this._s_CFG, this._a_PRE[p][2], 0);
+                       this.sGA(this._s_SIM, this._s_CFG, this._a_PRE[p][2], 0);
                    },
                    //// setDuration or setRequests
                    sD: function(m) {
