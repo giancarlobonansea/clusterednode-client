@@ -24,15 +24,12 @@
             var th = this;
             setTimeout(function() {
                 var aR = th.cH(t, rqEx, dur, rq, cn);
-                th.ctS.bcd = aR[0];
-                th.ctS.pcd = aR[1];
-                th.ctS.pcd2 = aR[2];
-                t.tpA = aR[3];
-                t.tpX = aR[4];
-                t.tpN = aR[5];
-                t.tpR = aR[6];
-                t.hg = aR[7];
-                t.tReq = aR[8];
+                t.tpA = aR[0];
+                t.tpX = aR[1];
+                t.tpN = aR[2];
+                t.tpR = aR[3];
+                t.hg = aR[4];
+                t.tReq = aR[5];
             });
         };
         //// calculateHistogram
@@ -233,10 +230,7 @@
             // Set Angular view variables
             //
             this.gaS.sGA('S', 'E', 'T', tpA);
-            return [bcd,
-                    pcd,
-                    pcd2,
-                    tpA,
+            return [tpA,
                     tpX,
                     tpN,
                     tpR,
