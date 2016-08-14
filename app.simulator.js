@@ -9,7 +9,7 @@
                            ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS,
                            app.LiveRedisService
                        ],
-                       directives: [nvD3]
+                       directives: [nvD3, ng.common.FORM_DIRECTIVES]
                    })
         .Class({
                    //// helper functions
