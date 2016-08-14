@@ -1,15 +1,17 @@
 "use strict";
 (function(app) {
     app.StatsService = (function() {
-        var StatsService = function(HTTPServiceP, ChartsService) {
+        var StatsService = function(HTTPServiceP, ChartsService, GAService) {
             this.hS = HTTPServiceP;
             this.ctS = ChartsService;
+            this.gaS = GAService;
             this._s_HURL = '/hdr';
             this.rVEV();
         };
         StatsService.parameters = [
             app.HTTPServiceP,
-            app.ChartsService
+            app.ChartsService,
+            app.GAService
         ];
         //// startStatistics
         StatsService.prototype.sSt = function(t, rqEx, dur, cnEr, rq, rs, cc, cn) {
@@ -230,7 +232,7 @@
             //
             // Set Angular view variables
             //
-            this.sGA(this._s_SIM, 'E', 'T', tpA);
+            this.gaS.sGA('S', 'E', 'T', tpA);
             return [bcd,
                     pcd,
                     pcd2,

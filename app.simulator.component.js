@@ -14,7 +14,8 @@
                            app.StatsService,
                            app.ChartsService,
                            app.ReferenceService,
-                           app.RefDataService
+                           app.RefDataService,
+                           app.GAService
                        ],
                        directives: [nvD3, ng.common.FORM_DIRECTIVES]
                    })
@@ -35,10 +36,6 @@
                    //
                    // UI related methods
                    //
-                   //// [ok] Google Analytics
-                   sGA: function(a, b, c, d) {
-                       ga('send', 'event', a, b, c, d);
-                   },
                    //// [ok] setMethodParameters
                    sMP: function(p) {
                        var m = this.iD ? 0 : 1;
@@ -46,7 +43,7 @@
                        this.rqDu = this._a_PRE[p][m][1];
                        this.rqIn = this._a_PRE[p][m][2];
                        this.rqCn = this._a_PRE[p][m][3];
-                       this.sGA(this._s_SIM, this._s_CFG, this._a_PRE[p][2], 0);
+                       this.gaS.sGA('S', 'C', this._a_PRE[p][2], 0);
                    },
                    //// [ok] setDuration or setRequests
                    sD: function(m) {
@@ -59,7 +56,7 @@
                    },
                    //// [ok] onRefLinkClick
                    oRLC: function(t, d) {
-                       this.sGA('R', t, d, 0);
+                       this.gaS.sGA('R', t, d, 0);
                    },
                    //// [ok] showRef
                    shR: function() {
@@ -141,10 +138,9 @@
                    constructor: [app.LiveRedisService,
                                  app.LoadService,
                                  app.ReferenceService,
-                                 function(LRService, LOService, RLService) {
+                                 app.GAService,
+                                 function(LRService, LOService, RLService, GAService) {
                        //// Constants
-                       this._s_SIM = 'S';
-                       this._s_CFG = 'C';
                        this._s_STA = 'STABILITY';
                        this._s_STR = 'STRESS';
                        this._a_PRE = [
@@ -186,16 +182,16 @@
                                              'Huge']
                                      ];
                        //
-                       // Google Analytics setup
-                       //
-                       ga('create', 'UA-79558369-1', 'auto');
-                       ga('send', 'pageview');
-                       //
                        // Initialize services
                        //
                        this.leS = LRService;
                        this.loS = LOService;
                        this.rlS = RLService;
+                       this.gaS = GAService;
+                       //
+                       // Setup Google Analytics
+                       //
+                       this.gaS.setup();
                        //
                        // View execution parameters
                        //
