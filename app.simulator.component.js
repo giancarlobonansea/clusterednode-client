@@ -102,6 +102,7 @@
                        //// Initialize execution variables - once for each execution
                        //// all first time initialization performed on constructor function
                        ////
+                       var aRq = [];
                        //
                        // Save execution parameters & Reset Live Events socket variables
                        //
@@ -131,9 +132,8 @@
                        if (this.iD) {
                            this.rqCt = this.exmR | 0;
                        }
-                       var aR = this.loS.pRS(this.rqCt);
-                       this.oT = aR[1];
-                       this.loS.tHr(this.iD, this, this.rqCt, this.rqCn, this.rqDu, this.rqIn, aR[0]);
+                       [aRq, this.oT] = this.loS.pRS(this.rqCt);
+                       this.loS.tHr(this.iD, this, this.rqCt, this.rqCn, this.rqDu, this.rqIn, aRq);
                    },
                    //// Component constructor
                    constructor: [app.LiveRedisService,
