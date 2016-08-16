@@ -40,19 +40,19 @@
         ];
         //// throwHTTP
         LoadService.prototype.tHr = function(tHt, t, tRqCt, tRqCn, tRqDu, tRqIn, rq) {
-            var cRS = function() {
+            var cRS = function(t) {
                     var j = [];
                     for (var i = 0; i < 4; i++) {
-                        j.push([this._s_PI[i],
+                        j.push([t._s_PI[i],
                                    [],
                                 0]);
                     }
                     return j;
                 },
-                cPIX = function() {
+                cPIX = function(t) {
                     var j = {};
                     for (var i = 0; i < 4; i++) {
-                        j[this._s_PI[i]] = [i,
+                        j[t._s_PI[i]] = [i,
                             {}];
                     }
                     return j;
@@ -101,8 +101,8 @@
                 cnRe = 0,
                 cnEr = 0,
                 cc = [],
-                pix = cPIX(),
-                rs = cRS(),
+                pix = cPIX(this),
+                rs = cRS(this),
                 iniTime = Date.now(),
                 tls = this;
             if (!tHt) {
