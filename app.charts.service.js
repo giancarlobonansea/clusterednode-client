@@ -2,6 +2,25 @@
 (function(app) {
     app.ChartsService = (function() {
         var ChartsService = function(RefData) {
+            var cP = function(t) {
+                return {
+                    chart: {
+                        type: 'pieChart',
+                        height: 299,
+                        showLegend: false,
+                        donut: true,
+                        padAngle: 0.08,
+                        cornerRadius: 5,
+                        title: t,
+                        x: function(d) {return d.key;},
+                        y: function(d) {return d.y;},
+                        showLabels: true,
+                        labelType: function(d) {return d.data.key + ': ' + (d.data.y | 0);},
+                        labelsOutside: true,
+                        duration: 500
+                    }
+                }
+            };
             this._s_PI = RefData._s_PI;
             this._s_STG = ['-redis',
                            '-node',
@@ -66,33 +85,13 @@
                                   100]
                 }
             };
-            this.pco = this.cP('nginX');
-            this.pco2 = this.cP('AngularJS');
+            this.pco = cP('nginX');
+            this.pco2 = cP('AngularJS');
             this.dataInit();
         };
         ChartsService.parameters = [
             app.RefDataService
         ];
-        //// initCharts
-        ChartsService.prototype.cP = function(t) {
-            return {
-                chart: {
-                    type: 'pieChart',
-                    height: 299,
-                    showLegend: false,
-                    donut: true,
-                    padAngle: 0.08,
-                    cornerRadius: 5,
-                    title: t,
-                    x: function(d) {return d.key;},
-                    y: function(d) {return d.y;},
-                    showLabels: true,
-                    labelType: function(d) {return d.data.key + ': ' + (d.data.y | 0);},
-                    labelsOutside: true,
-                    duration: 500
-                }
-            }
-        };
         ChartsService.prototype.setBcd = function(i, l, v) {
             this.bcd[i].values.push({
                                    label: l,
@@ -101,11 +100,11 @@
         };
         ChartsService.prototype.dataInit = function() {
             var cPC = function(k) {
-                return {
-                    key: k,
-                    y: 0
-                };
-            },
+                    return {
+                        key: k,
+                        y: 0
+                    };
+                },
                 cBC = function(k1, k2) {
                     return {
                         key: k1 + k2,

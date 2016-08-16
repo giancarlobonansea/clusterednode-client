@@ -2,6 +2,29 @@
 (function(app) {
     app.LiveRedisService = (function() {
         var LiveRedisService = function() {
+            //// Create Live Events matrix
+            var cLE = function() {
+                var lva = [], a0 = [], a01 = [], a1 = [], a12 = [], a2 = [];
+                for (var i = 0; i < 32; i++) {
+                    a0[i] = 0;
+                    a01[i] = i < 11 ? 0 : 1;
+                    a1[i] = 1;
+                    a12[i] = i < 22 ? 1 : 2;
+                    a2[i] = 2;
+                }
+                for (i = 0; i < 5; i++) {
+                    lva.push(a0.slice(0));
+                }
+                lva.push(a01);
+                for (i = 0; i < 4; i++) {
+                    lva.push(a1.slice(0));
+                }
+                lva.push(a12);
+                for (i = 0; i < 5; i++) {
+                    lva.push(a2.slice(0));
+                }
+                return lva;
+            };
             //
             // Live Events socket variables and configuration
             //
@@ -9,34 +32,11 @@
                         'text-primary',
                         'text-muted',
                         'text-danger'];
-            this.oleMx = this.cLE();
+            this.oleMx = cLE();
             //this.o_SIO = io(window.location.protocol + '//' + window.location.hostname + ':33331', {autoConnect: false});
             this.o_SIO = io('https://192.168.69.233:33331', {autoConnect: false});
             this.e_SIO = undefined;
             this.rVEV();
-        };
-        //// Create Live Events matrix
-        LiveRedisService.prototype.cLE = function() {
-            var lva = [], a0 = [], a01 = [], a1 = [], a12 = [], a2 = [];
-            for (var i = 0; i < 32; i++) {
-                a0[i] = 0;
-                a01[i] = i < 11 ? 0 : 1;
-                a1[i] = 1;
-                a12[i] = i < 22 ? 1 : 2;
-                a2[i] = 2;
-            }
-            for (i = 0; i < 5; i++) {
-                lva.push(a0.slice(0));
-            }
-            lva.push(a01);
-            for (i = 0; i < 4; i++) {
-                lva.push(a1.slice(0));
-            }
-            lva.push(a12);
-            for (i = 0; i < 5; i++) {
-                lva.push(a2.slice(0));
-            }
-            return lva;
         };
         //// deactivateLiveEvents
         LiveRedisService.prototype.dLE = function() {
@@ -49,14 +49,15 @@
         };
         //// activateLiveEvents
         LiveRedisService.prototype.aLE = function() {
+            var t = this;
             this.o_SIO.connect();
             this.e_SIO = this.o_SIO.on('redis', function(d) {
-                if (this.leMx[d.x][d.y] < 3) {
+                if (t.leMx[d.x][d.y] < 3) {
                     var x = d.x,
                         y = d.y;
-                    this.leMx[x][y] = 3;
+                    t.leMx[x][y] = 3;
                     setTimeout(function() {
-                        this.leMx[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
+                        t.leMx[x][y] = ((((x << 5) + y) << 4) / 2731) | 0;
                     }, 750);
                 }
             });

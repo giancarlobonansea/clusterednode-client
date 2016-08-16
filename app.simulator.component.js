@@ -140,7 +140,7 @@
                                  app.LoadService,
                                  app.ReferenceService,
                                  app.GAService,
-                                 function(LRService, LOService, RLService, GAService) {
+                                 function(LEService, LOService, RLService, GAService) {
                        //// Constants
                        this._s_STA = 'STABILITY';
                        this._s_STR = 'STRESS';
@@ -185,22 +185,14 @@
                        //
                        // Initialize services
                        //
-                       this.leS = LRService;
+                       this.leS = LEService;
                        this.loS = LOService;
                        this.rlS = RLService;
                        this.gaS = GAService;
                        //
-                       // Setup Google Analytics
-                       //
-                       this.gaS.setup();
-                       //
                        // View execution parameters
                        //
                        this.sD(false);
-                       //
-                       // View presentation variables - reference links
-                       //
-                       this.links = this.rlS.iRL();
                        //
                        // View execution variables
                        //

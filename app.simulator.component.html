@@ -483,7 +483,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-xs-12 col-sm-6">
-						<blockquote *ngFor="let grpLinks of links['l0']">
+						<blockquote *ngFor="let grpLinks of rlS.links['l0']">
 							<dl>
 								<dt>{{grpLinks.t}}</dt>
 								<dd>
@@ -495,7 +495,7 @@
 						</blockquote>
 					</div>
 					<div class="col-xs-12 col-sm-6">
-						<blockquote *ngFor="let grpLinks of links['l1']">
+						<blockquote *ngFor="let grpLinks of rlS.links['l1']">
 							<dl>
 								<dt>{{grpLinks.t}}</dt>
 								<dd>
@@ -511,7 +511,7 @@
 		</div>
 	</div>
 	<!-- Video Galery -->
-	<div class="col-xs-12" *ngFor="let grpLinks of links['v']">
+	<div class="col-xs-12" *ngFor="let grpLinks of rlS.links['v']">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-youtube"></i>&nbsp;Video Gallery - {{grpLinks.t}}</h4>
