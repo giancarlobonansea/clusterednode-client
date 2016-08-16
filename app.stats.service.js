@@ -23,13 +23,7 @@
             t.chRe = cc;
             var th = this;
             setTimeout(function() {
-                var aR = th.cH(t, rqEx, dur, rq, cn);
-                t.tpA = aR[0];
-                t.tpX = aR[1];
-                t.tpN = aR[2];
-                t.tpR = aR[3];
-                t.hg = aR[4];
-                t.tReq = aR[5];
+                [t.tpA,t.tpX,t.tpN,t.tpR,t.hg,t.tReq] = th.cH(t, rqEx, dur, rq, cn);
             });
         };
         //// calculateHistogram
