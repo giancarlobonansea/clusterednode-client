@@ -5,7 +5,7 @@
                        selector: 'n-c-s',
                        templateUrl: 'app.simulator.component.html',
                        providers: [
-                           ng.http.HTTP_PROVIDERS,
+                           //ng.http.HTTP_PROVIDERS,
                            ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS,
                            ng.forms.FORM_PROVIDERS,
                            app.HTTPServiceG,
