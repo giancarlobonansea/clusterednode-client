@@ -3,7 +3,7 @@
     app.SimulatorComponent = ng.core
         .Component({
                        selector: 'n-c-s',
-                       templateUrl: 'app.simulator.component.html',
+                       template: app.appSimulatorComponentHtml,
                        providers: [
                            app.HTTPServiceG,
                            app.HTTPServiceP,

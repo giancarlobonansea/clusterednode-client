@@ -1,4 +1,7 @@
-<!-- Application menu -->
+"use strict";
+(function(app) {
+	app.appSimulatorComponentHtml = `
+	<!-- Application menu -->
 <nav class="navbar navbar-inverse navbar-static-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -124,8 +127,8 @@
 				</thead>
 				<tbody>
 					<tr>
-						<td class="text-center"><span class="label label-info">{{exR | number:'1.0-0'}}</span></td>
-						<td class="text-center"><span class="label label-info">{{exC | number:'1.0-0'}}</span></td>
+						<td class="text-center"><span class="label label-info">{{exR | number:"1.0-0"}}</span></td>
+						<td class="text-center"><span class="label label-info">{{exC | number:"1.0-0"}}</span></td>
 					</tr>
 				</tbody>
 			</table>
@@ -151,12 +154,12 @@
 				<tbody>
 					<tr>
 						<td class="text-center">
-							<span class="label label-info">{{exD | number:'1.0-0'}} s</span>
+							<span class="label label-info">{{exD | number:"1.0-0"}} s</span>
 						</td>
 						<td class="text-center">
-							<span class="label label-info">{{exI | number:'1.0-0'}} ms</span>
+							<span class="label label-info">{{exI | number:"1.0-0"}} ms</span>
 						</td>
-						<td class="text-center"><span class="label label-info">{{exC | number:'1.0-0'}}</span></td>
+						<td class="text-center"><span class="label label-info">{{exC | number:"1.0-0"}}</span></td>
 					</tr>
 				</tbody>
 			</table>
@@ -192,17 +195,17 @@
 				<tbody>
 					<tr>
 						<td class="text-center">
-							<span class="label label-primary">{{dur | number:'1.0-0'}} ms</span>
+							<span class="label label-primary">{{dur | number:"1.0-0"}} ms</span>
 						</td>
-						<td class="text-center"><span class="label label-info">{{rqEx | number:'1.0-0'}}</span>
+						<td class="text-center"><span class="label label-info">{{rqEx | number:"1.0-0"}}</span>
 						</td>
-						<td class="text-center"><span class="label label-info">{{rqCh | number:'1.0-0'}}</span>
+						<td class="text-center"><span class="label label-info">{{rqCh | number:"1.0-0"}}</span>
 						</td>
 						<td class="text-center">
-							<span class="label label-default">GET {{oT[0] | number:'1.0-0'}}</span>&nbsp;
-							<span class="label label-default">SET {{oT[1] | number:'1.0-0'}}</span>&nbsp;
-							<span class="label label-default">PPL {{oT[2] | number:'1.0-0'}}</span>&nbsp;
-							<span class="label label-default">TRN {{oT[3] | number:'1.0-0'}}</span>
+							<span class="label label-default">GET {{oT[0] | number:"1.0-0"}}</span>&nbsp;
+							<span class="label label-default">SET {{oT[1] | number:"1.0-0"}}</span>&nbsp;
+							<span class="label label-default">PPL {{oT[2] | number:"1.0-0"}}</span>&nbsp;
+							<span class="label label-default">TRN {{oT[3] | number:"1.0-0"}}</span>
 						</td>
 					</tr>
 				</tbody>
@@ -235,19 +238,19 @@
 				<tbody>
 					<tr>
 						<td class="text-center">
-							<span class="label label-primary">{{dur | number:'1.0-0'}} ms</span>
+							<span class="label label-primary">{{dur | number:"1.0-0"}} ms</span>
 						</td>
-						<td class="text-center"><span class="label label-info">{{exmR | number:'1.0-0'}}</span>
+						<td class="text-center"><span class="label label-info">{{exmR | number:"1.0-0"}}</span>
 						</td>
-						<td class="text-center"><span class="label label-info">{{rqEx | number:'1.0-0'}}</span>
+						<td class="text-center"><span class="label label-info">{{rqEx | number:"1.0-0"}}</span>
 						</td>
-						<td class="text-center"><span class="label label-info">{{rqCh | number:'1.0-0'}}</span>
+						<td class="text-center"><span class="label label-info">{{rqCh | number:"1.0-0"}}</span>
 						</td>
 						<td class="text-center">
-							<span class="label label-default">GET {{oT[0] | number:'1.0-0'}}</span>&nbsp;
-							<span class="label label-default">SET {{oT[1] | number:'1.0-0'}}</span>&nbsp;
-							<span class="label label-default">PPL {{oT[2] | number:'1.0-0'}}</span>&nbsp;
-							<span class="label label-default">TRN {{oT[3] | number:'1.0-0'}}</span>
+							<span class="label label-default">GET {{oT[0] | number:"1.0-0"}}</span>&nbsp;
+							<span class="label label-default">SET {{oT[1] | number:"1.0-0"}}</span>&nbsp;
+							<span class="label label-default">PPL {{oT[2] | number:"1.0-0"}}</span>&nbsp;
+							<span class="label label-default">TRN {{oT[3] | number:"1.0-0"}}</span>
 						</td>
 					</tr>
 				</tbody>
@@ -284,16 +287,16 @@
 							<small><strong>{{hst[0]}}% <i>(up to {{cPo(rOK,hst[0])}})</i></strong></small>
 						</td>
 						<td class="text-center">
-							<small>{{hst[1] | number:'1.0-0'}} ms</small>
+							<small>{{hst[1] | number:"1.0-0"}} ms</small>
 						</td>
 						<td class="text-center">
-							<small>{{hst[2] | number:'1.0-0'}} ms</small>
+							<small>{{hst[2] | number:"1.0-0"}} ms</small>
 						</td>
 						<td class="text-center">
-							<small>{{hst[3] | number:'1.1-1'}} ms</small>
+							<small>{{hst[3] | number:"1.1-1"}} ms</small>
 						</td>
 						<td class="text-center">
-							<small>{{hst[4] | number:'1.1-1'}} ms</small>
+							<small>{{hst[4] | number:"1.1-1"}} ms</small>
 						</td>
 					</tr>
 					<tr class="info">
@@ -301,16 +304,16 @@
 							<small><i>Throughput &#956;&#177;2&#963;</i></small>
 						</th>
 						<th class="text-center">
-							<small>{{tpA | number:'1.0-0'}} req/s</small>
+							<small>{{tpA | number:"1.0-0"}} req/s</small>
 						</th>
 						<th class="text-center">
-							<small>{{tpX | number:'1.0-0'}} req/s</small>
+							<small>{{tpX | number:"1.0-0"}} req/s</small>
 						</th>
 						<th class="text-center">
-							<small>{{tpN | number:'1.0-0'}} req/s</small>
+							<small>{{tpN | number:"1.0-0"}} req/s</small>
 						</th>
 						<th class="text-center">
-							<small>{{tpR | number:'1.0-0'}} req/s</small>
+							<small>{{tpR | number:"1.0-0"}} req/s</small>
 						</th>
 					</tr>
 				</tbody>
@@ -483,7 +486,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-xs-12 col-sm-6">
-						<blockquote *ngFor="let grpLinks of rlS.links['l0']">
+						<blockquote *ngFor="let grpLinks of rlS.links["l0"]">
 							<dl>
 								<dt>{{grpLinks.t}}</dt>
 								<dd>
@@ -495,7 +498,7 @@
 						</blockquote>
 					</div>
 					<div class="col-xs-12 col-sm-6">
-						<blockquote *ngFor="let grpLinks of rlS.links['l1']">
+						<blockquote *ngFor="let grpLinks of rlS.links["l1"]">
 							<dl>
 								<dt>{{grpLinks.t}}</dt>
 								<dd>
@@ -511,7 +514,7 @@
 		</div>
 	</div>
 	<!-- Video Galery -->
-	<div class="col-xs-12" *ngFor="let grpLinks of rlS.links['v']">
+	<div class="col-xs-12" *ngFor="let grpLinks of rlS.links["v"]">
 		<div class="panel panel-info">
 			<div class="panel-heading">
 				<h4 class="panel-title"><i class="fa fa-youtube"></i>&nbsp;Video Gallery - {{grpLinks.t}}</h4>
@@ -612,4 +615,5 @@
 			</div>
 		</div>
 	</div>
-</div>
+</div>`;
+})(window.app || (window.app = {}));
