@@ -16,11 +16,10 @@
                            app.ReferenceService,
                            app.RefDataService,
                            app.GAService
-                       ],
-                       directives: [
-                           nvD3
-                           //,ng.forms.FORM_DIRECTIVES
                        ]
+                       // ,directives: [
+                       //     ng.forms.FORM_DIRECTIVES
+                       // ]
                    })
         .Class({
                    //
