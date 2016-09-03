@@ -76,5 +76,5 @@ gzip -k9f ./execution-arch.png
 gzip -k9f ./index.html
 gzip -k9f ./main.js
 gzip -k9f ./sequence-diagram.png
-gzip -k9f ./app.simulator.component.html
+gzip -k9f ./app.simulator.component.html.js
 echo Finished gzipping static files
