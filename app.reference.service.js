@@ -356,7 +356,7 @@
 						                 ]
 					                 },
 					                 {
-						                 t: "OpenSSL (v1.0.2h)",
+						                 t: "OpenSSL (v1.1.0)",
 						                 a: [
 							                 {
 								                 h: "https://www.openssl.org/",
@@ -474,7 +474,7 @@
 				                 ],
 				                 "l1": [
 					                 {
-						                 t: "Javascript, V8 & AngularJS 2 (v2.0.0-rc5)",
+						                 t: "Javascript, V8 & AngularJS 2 (v2.0.0-rc6)",
 						                 a: [
 							                 {
 								                 h: "https://angular.io",
@@ -714,7 +714,7 @@
 						                 ]
 					                 },
 					                 {
-						                 t: "Node.js (v6.3.1)",
+						                 t: "Node.js (v6.5.0)",
 						                 a: [
 							                 {
 								                 h: "https://nodejs.org/en/",
@@ -771,7 +771,7 @@
 						                 ]
 					                 },
 					                 {
-						                 t: "Keymetrics pm2 (v2.0.3)",
+						                 t: "Keymetrics pm2 (v2.0.7)",
 						                 a: [
 							                 {
 								                 h: "http://pm2.keymetrics.io/",
