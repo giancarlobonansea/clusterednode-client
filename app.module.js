@@ -1,7 +1,7 @@
 (function(app) {
     app.AppModule =
         ng.core.NgModule({
-                             imports: [ ng.platformBrowser.BrowserModule ],
+                             imports: [ ng.platformBrowser.BrowserModule, ng.http.HttpModule, ng.forms.FormsModule ],
                              declarations: [ app.SimulatorComponent ],
                              bootstrap: [ app.SimulatorComponent ]
                          })
