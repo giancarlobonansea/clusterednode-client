@@ -5,8 +5,6 @@
                        selector: 'n-c-s',
                        templateUrl: 'app.simulator.component.html',
                        providers: [
-                           //ng.platformBrowser.BROWSER_SANITIZATION_PROVIDERS,
-                           //ng.forms.FORM_PROVIDERS,
                            app.HTTPServiceG,
                            app.HTTPServiceP,
                            app.LiveRedisService,
@@ -17,9 +15,6 @@
                            app.RefDataService,
                            app.GAService
                        ]
-                       // ,directives: [
-                       //     ng.forms.FORM_DIRECTIVES
-                       // ]
                    })
         .Class({
                    //
