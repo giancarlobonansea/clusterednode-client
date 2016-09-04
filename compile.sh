@@ -2,7 +2,6 @@
 echo "---> Compiling"
 uglifyjs ./node_modules/jquery/dist/jquery.min.js \
 		 ./node_modules/bootstrap/dist/js/bootstrap.min.js \
-		 ./node_modules/d3/d3.min.js \
 		 ./node_modules/nvd3/build/nv.d3.min.js \
 		 ./node_modules/socket.io-client/socket.io.js \
 		 ./node_modules/intl/dist/Intl.min.js \
@@ -33,7 +32,7 @@ uglifyjs ./node_modules/jquery/dist/jquery.min.js \
 		 ./main.js \
 		 --screw-ie8 \
 		 --compress sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 \
-		 --mangle eval \
+		 --mangle toplevel,eval \
 		 --reserved '$,require,exports' \
 		 --output compiled.js \
 		 --source-map compiled.js.map \
@@ -49,6 +48,7 @@ gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.ttf
 gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.svg
 gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.eot
 gzip -k9f ./font-awesome-4.6.3/fonts/FontAwesome.otf
+gzip -k9f ./node_modules/d3/d3.min.js
 gzip -k9f ./execution-arch.png
 gzip -k9f ./sequence-diagram.png
 gzip -k9f ./index.html
