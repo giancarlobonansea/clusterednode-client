@@ -2,6 +2,8 @@
 echo "---> Compiling"
 uglifyjs ./node_modules/jquery/dist/jquery.min.js \
 		 ./node_modules/bootstrap/dist/js/bootstrap.min.js \
+		 ./node_modules/d3/d3.min.js \
+		 ./node_modules/nvd3/build/nv.d3.min.js \
 		 ./node_modules/socket.io-client/socket.io.js \
 		 ./node_modules/intl/dist/Intl.min.js \
 		 ./node_modules/intl/locale-data/jsonp/en.js \
@@ -47,8 +49,6 @@ gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.ttf
 gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.svg
 gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.eot
 gzip -k9f ./font-awesome-4.6.3/fonts/FontAwesome.otf
-gzip -k9f ./node_modules/d3/d3.min.js
-gzip -k9f ./node_modules/nvd3/build/nv.d3.min.js
 gzip -k9f ./execution-arch.png
 gzip -k9f ./sequence-diagram.png
 gzip -k9f ./index.html
