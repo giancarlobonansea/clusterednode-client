@@ -1,8 +1,8 @@
 'use strict';
 (function(app) {
 	document.addEventListener('DOMContentLoaded', function() {
-		oa.core.enableProdMode();
-		oa.platformBrowserDynamic
+		ng.core.enableProdMode();
+		ng.platformBrowserDynamic
 			.platformBrowserDynamic()
 			.bootstrapModule(app.AppModule);
 	});
