@@ -1117,7 +1117,7 @@
 			                 },DOMSanitizer);
 		};
 		ReferenceService.parameters = [
-			oa.platformBrowser.DomSanitizer
+			ng.platformBrowser.DomSanitizer
 		];
 		ReferenceService.prototype.rVEV = function() {
 			this.sRe = false;

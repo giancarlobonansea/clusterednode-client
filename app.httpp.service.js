@@ -5,7 +5,7 @@
 			this.http = http;
 		};
 		HTTPServiceP.parameters = [
-			oa.http.Http
+			ng.http.Http
 		];
 		HTTPServiceP.prototype.post = function(u, b) {
 			return this.http

@@ -1,6 +1,6 @@
 "use strict";
 (function(app) {
-    app.SimulatorComponent = oa.core
+    app.SimulatorComponent = ng.core
         .Component({
                        selector: 'n-c-s',
                        template: app.appSimulatorComponentHtml,
