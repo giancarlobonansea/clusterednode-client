@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 #echo Minify app.charts.service.js
 #uglifyjs app.charts.service.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o app.charts.service.js --source-map app.charts.service.js.map --source-map-include-sources
-echo Minify app.googleanalytics.service.js
-uglifyjs app.googleanalytics.service.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o app.googleanalytics.service.js --source-map app.googleanalytics.service.js.map --source-map-include-sources
+#echo Minify app.googleanalytics.service.js
+#uglifyjs app.googleanalytics.service.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o app.googleanalytics.service.js --source-map app.googleanalytics.service.js.map --source-map-include-sources
 #echo Minify app.httpg.service.js
 #uglifyjs app.httpg.service.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o app.httpg.service.js --source-map app.httpg.service.js.map --source-map-include-sources
 #echo Minify app.httpp.service.js
@@ -61,7 +61,7 @@ gzip -k9f ./node_modules/reflect-metadata/Reflect.js
 #gzip -k9f ./node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.min.js
 #gzip -k9f ./node_modules/@angular/forms/bundles/forms.umd.min.js
 #gzip -k9f ./app.charts.service.js
-gzip -k9f ./app.googleanalytics.service.js
+#gzip -k9f ./app.googleanalytics.service.js
 #gzip -k9f ./app.http.umd.library.js
 #gzip -k9f ./app.httpg.service.js
 #gzip -k9f ./app.httpp.service.js
@@ -79,4 +79,5 @@ gzip -k9f ./index.html
 gzip -k9f ./sequence-diagram.png
 #gzip -k9f ./app.simulator.component.html.js
 gzip -k9f ./compiled.js
+gzip -k9f ./compiled.js.map
 echo Finished gzipping static files
