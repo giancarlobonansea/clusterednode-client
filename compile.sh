@@ -3,16 +3,16 @@ echo "---> Compiling"
 uglifyjs ./node_modules/jquery/dist/jquery.min.js \
 		 ./node_modules/bootstrap/dist/js/bootstrap.min.js \
 		 ./node_modules/socket.io-client/socket.io.js \
-		 ./app.refdata.service.js \
-		 ./app.googleanalytics.service.js \
 		 ./app.httpg.service.js \
 		 ./app.httpp.service.js \
+		 ./app.googleanalytics.service.js \
+		 ./app.refdata.service.js \
 		 ./app.ng2nvd3.library.js \
 		 ./app.charts.service.js \
-		 ./app.liveredis.service.js \
+		 ./app.stats.service.js \
 		 ./app.load.service.js \
 		 ./app.reference.service.js \
-		 ./app.stats.service.js \
+		 ./app.liveredis.service.js \
 		 ./app.simulator.component.js \
 		 ./app.module.js \
 		 ./main.js \
