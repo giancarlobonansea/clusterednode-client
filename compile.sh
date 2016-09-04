@@ -13,15 +13,13 @@ uglifyjs ./node_modules/jquery/dist/jquery.min.js \
 		 ./app.load.service.js \
 		 ./app.reference.service.js \
 		 ./app.stats.service.js \
-		 ./app.simulator.component.html.js \
 		 ./app.simulator.component.js \
 		 ./app.module.js \
 		 ./main.js \
 		 --screw-ie8 \
 		 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 \
 		 -m toplevel,eval \
-		 -r '$,require,exports,ng,nvD3,app' \
-		 --bare-returns \
+		 -r '$,require,exports' \
 		 -o compiled.js \
 		 --source-map compiled.js.map \
 		 --source-map-include-sources
