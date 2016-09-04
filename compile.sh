@@ -3,6 +3,13 @@ echo "---> Compiling"
 uglifyjs ./node_modules/jquery/dist/jquery.min.js \
 		 ./node_modules/bootstrap/dist/js/bootstrap.min.js \
 		 ./node_modules/socket.io-client/socket.io.js \
+		 ./node_modules/@angular/core/bundles/core.umd.min.js \
+		 ./node_modules/@angular/common/bundles/common.umd.min.js \
+		 ./node_modules/@angular/compiler/bundles/compiler.umd.min.js \
+		 ./node_modules/@angular/platform-browser/bundles/platform-browser.umd.min.js \
+		 ./node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.min.js \
+		 ./node_modules/@angular/forms/bundles/forms.umd.min.js \
+		 ./app.http.umd.library.js \
 		 ./app.httpg.service.js \
 		 ./app.httpp.service.js \
 		 ./app.googleanalytics.service.js \
@@ -42,13 +49,6 @@ gzip -k9f ./node_modules/es6-shim/es6-shim.min.js
 gzip -k9f ./node_modules/zone.js/dist/zone.min.js
 gzip -k9f ./node_modules/reflect-metadata/Reflect.js
 gzip -k9f ./node_modules/rxjs/bundles/Rx.umd.min.js
-gzip -k9f ./node_modules/@angular/core/bundles/core.umd.min.js
-gzip -k9f ./node_modules/@angular/common/bundles/common.umd.min.js
-gzip -k9f ./node_modules/@angular/compiler/bundles/compiler.umd.min.js
-gzip -k9f ./node_modules/@angular/platform-browser/bundles/platform-browser.umd.min.js
-gzip -k9f ./node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.min.js
-gzip -k9f ./node_modules/@angular/forms/bundles/forms.umd.min.js
-gzip -k9f ./app.http.umd.library.js
 gzip -k9f ./execution-arch.png
 gzip -k9f ./sequence-diagram.png
 gzip -k9f ./index.html
