@@ -5,7 +5,7 @@
 			this.http = http;
 		};
 		HTTPServiceG.parameters = [
-			app.ng.http.Http
+			ng.http.Http
 		];
 		HTTPServiceG.prototype.get = function(q, u, o, p) {
 			return this.http
