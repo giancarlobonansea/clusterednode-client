@@ -48,8 +48,8 @@ gzip -k9f ./node_modules/bootstrap/dist/js/bootstrap.min.js
 gzip -k9f ./node_modules/d3/d3.min.js
 gzip -k9f ./node_modules/nvd3/build/nv.d3.min.js
 #gzip -k9f ./node_modules/socket.io-client/socket.io.js
-#gzip -k9f ./node_modules/intl/dist/Intl.min.js
-#gzip -k9f ./node_modules/intl/locale-data/jsonp/en.js
+gzip -k9f ./node_modules/intl/dist/Intl.min.js
+gzip -k9f ./node_modules/intl/locale-data/jsonp/en.js
 #gzip -k9f ./node_modules/es6-shim/es6-shim.min.js
 #gzip -k9f ./node_modules/zone.js/dist/zone.min.js
 #gzip -k9f ./node_modules/reflect-metadata/Reflect.js
