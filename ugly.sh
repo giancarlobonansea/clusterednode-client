@@ -44,8 +44,8 @@ gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.svg
 gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.eot
 gzip -k9f ./font-awesome-4.6.3/fonts/FontAwesome.otf
 gzip -k9f ./node_modules/jquery/dist/jquery.min.js
-#gzip -k9f ./node_modules/bootstrap/dist/js/bootstrap.min.js
-#gzip -k9f ./node_modules/d3/d3.min.js
+gzip -k9f ./node_modules/bootstrap/dist/js/bootstrap.min.js
+gzip -k9f ./node_modules/d3/d3.min.js
 #gzip -k9f ./node_modules/nvd3/build/nv.d3.min.js
 #gzip -k9f ./node_modules/socket.io-client/socket.io.js
 #gzip -k9f ./node_modules/intl/dist/Intl.min.js
