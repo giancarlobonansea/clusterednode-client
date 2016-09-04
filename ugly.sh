@@ -32,21 +32,21 @@
 #echo Minify socket.io.js
 #uglifyjs ./node_modules/socket.io-client/socket.io.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m -r '$,require,exports' -o ./node_modules/socket.io-client/socket.io.js
 #echo Finished minifying files
-echo Gzipping static files
-gzip -k9f ./favicon.png
-gzip -k9f ./node_modules/bootstrap/dist/css/bootstrap.min.css
-gzip -k9f ./node_modules/nvd3/build/nv.d3.min.css
-gzip -k9f ./font-awesome-4.6.3/css/font-awesome.min.css
-gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.woff2
-gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.woff
-gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.ttf
-gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.svg
-gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.eot
-gzip -k9f ./font-awesome-4.6.3/fonts/FontAwesome.otf
+#echo Gzipping static files
+#gzip -k9f ./favicon.png
+#gzip -k9f ./node_modules/bootstrap/dist/css/bootstrap.min.css
+#gzip -k9f ./node_modules/nvd3/build/nv.d3.min.css
+#gzip -k9f ./font-awesome-4.6.3/css/font-awesome.min.css
+#gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.woff2
+#gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.woff
+#gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.ttf
+#gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.svg
+#gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.eot
+#gzip -k9f ./font-awesome-4.6.3/fonts/FontAwesome.otf
 #gzip -k9f ./node_modules/jquery/dist/jquery.min.js
 #gzip -k9f ./node_modules/bootstrap/dist/js/bootstrap.min.js
-gzip -k9f ./node_modules/d3/d3.min.js
-gzip -k9f ./node_modules/nvd3/build/nv.d3.min.js
+#gzip -k9f ./node_modules/d3/d3.min.js
+#gzip -k9f ./node_modules/nvd3/build/nv.d3.min.js
 #gzip -k9f ./node_modules/socket.io-client/socket.io.js
 #gzip -k9f ./node_modules/intl/dist/Intl.min.js
 #gzip -k9f ./node_modules/intl/locale-data/jsonp/en.js
@@ -73,11 +73,11 @@ gzip -k9f ./node_modules/nvd3/build/nv.d3.min.js
 #gzip -k9f ./app.reference.service.js
 #gzip -k9f ./app.simulator.component.js
 #gzip -k9f ./app.stats.service.js
-gzip -k9f ./execution-arch.png
-gzip -k9f ./index.html
+#gzip -k9f ./execution-arch.png
+#gzip -k9f ./index.html
 #gzip -k9f ./main.js
-gzip -k9f ./sequence-diagram.png
+#gzip -k9f ./sequence-diagram.png
 #gzip -k9f ./app.simulator.component.html.js
-gzip -k9f ./compiled.js
-gzip -k9f ./compiled.js.map
-echo Finished gzipping static files
+#gzip -k9f ./compiled.js
+#gzip -k9f ./compiled.js.map
+#echo Finished gzipping static files
