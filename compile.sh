@@ -22,8 +22,6 @@ uglifyjs ./node_modules/jquery/dist/jquery.min.js \
 		 -m \
 		 -r '$,require,exports' \
 		 --bare-returns \
-		 --wrap xxx \
-		 --export-all \
 		 -o compiled.js \
 		 --source-map compiled.js.map \
 		 --source-map-include-sources
