@@ -27,11 +27,11 @@
 #uglifyjs main.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o main.js --source-map main.js.map --source-map-include-sources
 #echo Minify app.ng2nvd3.library.js
 #uglifyjs app.ng2nvd3.library.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m -r '$,require,exports' -o app.ng2nvd3.library.js --source-map app.ng2nvd3.library.js.map --source-map-include-sources
-echo Minify Reflect.js
-uglifyjs ./node_modules/reflect-metadata/Reflect.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m -r '$,require,exports' -o ./node_modules/reflect-metadata/Reflect.js
-echo Minify socket.io.js
-uglifyjs ./node_modules/socket.io-client/socket.io.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m -r '$,require,exports' -o ./node_modules/socket.io-client/socket.io.js
-echo Finished minifying files
+#echo Minify Reflect.js
+#uglifyjs ./node_modules/reflect-metadata/Reflect.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m -r '$,require,exports' -o ./node_modules/reflect-metadata/Reflect.js
+#echo Minify socket.io.js
+#uglifyjs ./node_modules/socket.io-client/socket.io.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m -r '$,require,exports' -o ./node_modules/socket.io-client/socket.io.js
+#echo Finished minifying files
 echo Gzipping static files
 gzip -k9f ./favicon.png
 gzip -k9f ./node_modules/bootstrap/dist/css/bootstrap.min.css
@@ -47,12 +47,12 @@ gzip -k9f ./node_modules/jquery/dist/jquery.min.js
 gzip -k9f ./node_modules/bootstrap/dist/js/bootstrap.min.js
 gzip -k9f ./node_modules/d3/d3.min.js
 gzip -k9f ./node_modules/nvd3/build/nv.d3.min.js
-gzip -k9f ./node_modules/socket.io-client/socket.io.js
+#gzip -k9f ./node_modules/socket.io-client/socket.io.js
 gzip -k9f ./node_modules/intl/dist/Intl.min.js
 gzip -k9f ./node_modules/intl/locale-data/jsonp/en.js
-gzip -k9f ./node_modules/es6-shim/es6-shim.min.js
-gzip -k9f ./node_modules/zone.js/dist/zone.min.js
-gzip -k9f ./node_modules/reflect-metadata/Reflect.js
+#gzip -k9f ./node_modules/es6-shim/es6-shim.min.js
+#gzip -k9f ./node_modules/zone.js/dist/zone.min.js
+#gzip -k9f ./node_modules/reflect-metadata/Reflect.js
 #gzip -k9f ./node_modules/rxjs/bundles/Rx.umd.min.js
 #gzip -k9f ./node_modules/@angular/core/bundles/core.umd.min.js
 #gzip -k9f ./node_modules/@angular/common/bundles/common.umd.min.js
