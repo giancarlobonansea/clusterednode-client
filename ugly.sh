@@ -43,7 +43,7 @@ gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.ttf
 gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.svg
 gzip -k9f ./font-awesome-4.6.3/fonts/fontawesome-webfont.eot
 gzip -k9f ./font-awesome-4.6.3/fonts/FontAwesome.otf
-#gzip -k9f ./node_modules/jquery/dist/jquery.min.js
+gzip -k9f ./node_modules/jquery/dist/jquery.min.js
 #gzip -k9f ./node_modules/bootstrap/dist/js/bootstrap.min.js
 #gzip -k9f ./node_modules/d3/d3.min.js
 #gzip -k9f ./node_modules/nvd3/build/nv.d3.min.js
@@ -59,6 +59,7 @@ gzip -k9f ./font-awesome-4.6.3/fonts/FontAwesome.otf
 #gzip -k9f ./node_modules/@angular/compiler/bundles/compiler.umd.min.js
 #gzip -k9f ./node_modules/@angular/platform-browser/bundles/platform-browser.umd.min.js
 #gzip -k9f ./node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.min.js
+#gzip -k9f ./node_modules/@angular/forms/bundles/forms.umd.min.js
 #gzip -k9f ./app.charts.service.js
 #gzip -k9f ./app.googleanalytics.service.js
 #gzip -k9f ./app.http.umd.library.js
@@ -77,4 +78,5 @@ gzip -k9f ./index.html
 #gzip -k9f ./main.js
 gzip -k9f ./sequence-diagram.png
 #gzip -k9f ./app.simulator.component.html.js
+gzip -k9f ./compiled.js
 echo Finished gzipping static files
