@@ -78,6 +78,5 @@ gzip -k9f ./index.html
 #gzip -k9f ./main.js
 gzip -k9f ./sequence-diagram.png
 #gzip -k9f ./app.simulator.component.html.js
-gzip -k9f ./vendor.js
 gzip -k9f ./compiled.js
 echo Finished gzipping static files
