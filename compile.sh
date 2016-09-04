@@ -19,8 +19,8 @@ uglifyjs ./node_modules/jquery/dist/jquery.min.js \
 		 ./main.js \
 		 --screw-ie8 \
 		 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 \
-		 -m \
-		 -r '$,require,exports' \
+		 -m toplevel,eval \
+		 -r '$,require,exports,ng,nvD3,app' \
 		 --bare-returns \
 		 -o compiled.js \
 		 --source-map compiled.js.map \
