@@ -33,7 +33,7 @@ uglifyjs ./node_modules/jquery/dist/jquery.min.js \
 		 ./main.js \
 		 --screw-ie8 \
 		 --compress sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 \
-		 --mangle toplevel,eval \
+		 --mangle eval \
 		 --reserved '$,require,exports' \
 		 --output compiled.js \
 		 --source-map compiled.js.map \
