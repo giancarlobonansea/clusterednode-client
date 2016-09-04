@@ -3,6 +3,8 @@ echo "---> Compiling"
 uglifyjs ./node_modules/jquery/dist/jquery.min.js \
 		 ./node_modules/bootstrap/dist/js/bootstrap.min.js \
 		 ./node_modules/socket.io-client/socket.io.js \
+		 ./node_modules/reflect-metadata/Reflect.js \
+		 ./node_modules/rxjs/bundles/Rx.umd.min.js \
 		 ./node_modules/@angular/core/bundles/core.umd.min.js \
 		 ./node_modules/@angular/common/bundles/common.umd.min.js \
 		 ./node_modules/@angular/compiler/bundles/compiler.umd.min.js \
@@ -47,8 +49,6 @@ gzip -k9f ./node_modules/intl/dist/Intl.min.js
 gzip -k9f ./node_modules/intl/locale-data/jsonp/en.js
 gzip -k9f ./node_modules/es6-shim/es6-shim.min.js
 gzip -k9f ./node_modules/zone.js/dist/zone.min.js
-gzip -k9f ./node_modules/reflect-metadata/Reflect.js
-gzip -k9f ./node_modules/rxjs/bundles/Rx.umd.min.js
 gzip -k9f ./execution-arch.png
 gzip -k9f ./sequence-diagram.png
 gzip -k9f ./index.html
