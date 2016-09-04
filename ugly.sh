@@ -21,8 +21,8 @@ uglifyjs app.googleanalytics.service.js --screw-ie8 -c sequences,dead_code,condi
 #uglifyjs app.simulator.component.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o app.simulator.component.js --source-map app.simulator.component.js.map --source-map-include-sources
 #echo Minify app.stats.service.js
 #uglifyjs app.stats.service.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o app.stats.service.js --source-map app.stats.service.js.map --source-map-include-sources
-echo Minify app.http.umd.library.js
-uglifyjs app.http.umd.library.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o app.http.umd.library.js --source-map app.http.umd.library.js.map --source-map-include-sources
+#echo Minify app.http.umd.library.js
+#uglifyjs app.http.umd.library.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o app.http.umd.library.js --source-map app.http.umd.library.js.map --source-map-include-sources
 #echo Minify main.js
 #uglifyjs main.js --screw-ie8 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 -m toplevel,eval -r '$,require,exports' -o main.js --source-map main.js.map --source-map-include-sources
 #echo Minify app.ng2nvd3.library.js
@@ -53,16 +53,16 @@ gzip -k9f ./node_modules/intl/locale-data/jsonp/en.js
 gzip -k9f ./node_modules/es6-shim/es6-shim.min.js
 gzip -k9f ./node_modules/zone.js/dist/zone.min.js
 gzip -k9f ./node_modules/reflect-metadata/Reflect.js
-gzip -k9f ./node_modules/rxjs/bundles/Rx.umd.min.js
-gzip -k9f ./node_modules/@angular/core/bundles/core.umd.min.js
-gzip -k9f ./node_modules/@angular/common/bundles/common.umd.min.js
-gzip -k9f ./node_modules/@angular/compiler/bundles/compiler.umd.min.js
-gzip -k9f ./node_modules/@angular/platform-browser/bundles/platform-browser.umd.min.js
-gzip -k9f ./node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.min.js
-gzip -k9f ./node_modules/@angular/forms/bundles/forms.umd.min.js
+#gzip -k9f ./node_modules/rxjs/bundles/Rx.umd.min.js
+#gzip -k9f ./node_modules/@angular/core/bundles/core.umd.min.js
+#gzip -k9f ./node_modules/@angular/common/bundles/common.umd.min.js
+#gzip -k9f ./node_modules/@angular/compiler/bundles/compiler.umd.min.js
+#gzip -k9f ./node_modules/@angular/platform-browser/bundles/platform-browser.umd.min.js
+#gzip -k9f ./node_modules/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.min.js
+#gzip -k9f ./node_modules/@angular/forms/bundles/forms.umd.min.js
 #gzip -k9f ./app.charts.service.js
 gzip -k9f ./app.googleanalytics.service.js
-gzip -k9f ./app.http.umd.library.js
+#gzip -k9f ./app.http.umd.library.js
 #gzip -k9f ./app.httpg.service.js
 #gzip -k9f ./app.httpp.service.js
 #gzip -k9f ./app.liveredis.service.js
