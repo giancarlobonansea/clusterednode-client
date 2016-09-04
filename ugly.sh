@@ -51,7 +51,7 @@ gzip -k9f ./node_modules/nvd3/build/nv.d3.min.js
 gzip -k9f ./node_modules/intl/dist/Intl.min.js
 gzip -k9f ./node_modules/intl/locale-data/jsonp/en.js
 #gzip -k9f ./node_modules/es6-shim/es6-shim.min.js
-#gzip -k9f ./node_modules/zone.js/dist/zone.min.js
+gzip -k9f ./node_modules/zone.js/dist/zone.min.js
 #gzip -k9f ./node_modules/reflect-metadata/Reflect.js
 #gzip -k9f ./node_modules/rxjs/bundles/Rx.umd.min.js
 #gzip -k9f ./node_modules/@angular/core/bundles/core.umd.min.js
