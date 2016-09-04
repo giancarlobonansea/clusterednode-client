@@ -3,6 +3,7 @@ echo "---> Compiling"
 uglifyjs ./node_modules/jquery/dist/jquery.min.js \
 		 ./node_modules/bootstrap/dist/js/bootstrap.min.js \
 		 ./node_modules/socket.io-client/socket.io.js \
+		 ./node_modules/zone.js/dist/zone.min.js \
 		 ./node_modules/reflect-metadata/Reflect.js \
 		 ./node_modules/rxjs/bundles/Rx.umd.min.js \
 		 ./node_modules/@angular/core/bundles/core.umd.min.js \
@@ -26,10 +27,10 @@ uglifyjs ./node_modules/jquery/dist/jquery.min.js \
 		 ./app.module.js \
 		 ./main.js \
 		 --screw-ie8 \
-		 -c sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 \
-		 -m toplevel,eval \
-		 -r '$,require,exports' \
-		 -o compiled.js \
+		 --compress sequences,dead_code,conditionals,comparisons,unsafe_comps,evaluate,booleans,loops,unused,if_return,join_vars,collapse_vars,cascade,passes=5 \
+		 --mangle toplevel,eval \
+		 --reserved '$,require,exports' \
+		 --output compiled.js \
 		 --source-map compiled.js.map \
 		 --source-map-include-sources
 echo "---> Gzipping static files"
@@ -48,7 +49,6 @@ gzip -k9f ./node_modules/nvd3/build/nv.d3.min.js
 gzip -k9f ./node_modules/intl/dist/Intl.min.js
 gzip -k9f ./node_modules/intl/locale-data/jsonp/en.js
 gzip -k9f ./node_modules/es6-shim/es6-shim.min.js
-gzip -k9f ./node_modules/zone.js/dist/zone.min.js
 gzip -k9f ./execution-arch.png
 gzip -k9f ./sequence-diagram.png
 gzip -k9f ./index.html
