@@ -1,6 +1,5 @@
 ./node_modules/socket.io-client/socket.io.js
 ./node_modules/es6-shim/es6-shim.min.js
-./node_modules/zone.js/dist/zone.min.js
 ./node_modules/reflect-metadata/Reflect.js
 ./node_modules/rxjs/bundles/Rx.umd.min.js
 ./node_modules/@angular/core/bundles/core.umd.min.js
