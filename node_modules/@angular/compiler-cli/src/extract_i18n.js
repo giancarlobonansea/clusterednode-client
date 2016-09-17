@@ -66,10 +66,10 @@ var Extractor = (function () {
             var staticType = this_1.reflectorHost.findDeclaration(absSourcePath, symbol, absSourcePath);
             var annotations = this_1.staticReflector.annotations(staticType);
             annotations.forEach(function (annotation) {
-                if (annotation instanceof core_1.NgModuleMetadata) {
+                if (annotation instanceof core_1.NgModule) {
                     result.ngModules.push(staticType);
                 }
-                else if (annotation instanceof core_1.ComponentMetadata) {
+                else if (annotation instanceof core_1.Component) {
                     result.components.push(staticType);
                 }
             });
@@ -112,8 +112,7 @@ var Extractor = (function () {
                 });
             }));
         }))
-            .then(function (_) { return _this.messageBundle; })
-            .catch(function (e) { console.error(e.stack); });
+            .then(function (_) { return _this.messageBundle; });
         if (errors.length) {
             throw new Error(errors.map(function (e) { return e.toString(); }).join('\n'));
         }

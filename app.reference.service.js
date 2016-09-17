@@ -474,7 +474,7 @@
 				                 ],
 				                 "l1": [
 					                 {
-						                 t: "Javascript, V8 & AngularJS 2 (v2.0.0-rc6)",
+						                 t: "Javascript, V8 & AngularJS 2 (v2.0.0)",
 						                 a: [
 							                 {
 								                 h: "https://angular.io",
@@ -637,7 +637,7 @@
 						                 ]
 					                 },
 					                 {
-						                 t: "nginX (v1.11.3)",
+						                 t: "nginX (v1.11.4)",
 						                 a: [
 							                 {
 								                 h: "https://www.nginx.com/blog/7-tips-for-faster-http2-performance/",
@@ -714,7 +714,7 @@
 						                 ]
 					                 },
 					                 {
-						                 t: "Node.js (v6.5.0)",
+						                 t: "Node.js (v6.6.0)",
 						                 a: [
 							                 {
 								                 h: "https://nodejs.org/en/",
@@ -771,7 +771,7 @@
 						                 ]
 					                 },
 					                 {
-						                 t: "Keymetrics pm2 (v2.0.7)",
+						                 t: "Keymetrics pm2 (v2.0.12)",
 						                 a: [
 							                 {
 								                 h: "http://pm2.keymetrics.io/",

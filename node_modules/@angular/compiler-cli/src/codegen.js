@@ -52,10 +52,10 @@ var CodeGenerator = (function () {
             var staticType = this_1.reflectorHost.findDeclaration(absSourcePath, symbol, absSourcePath);
             var annotations = this_1.staticReflector.annotations(staticType);
             annotations.forEach(function (annotation) {
-                if (annotation instanceof core_1.NgModuleMetadata) {
+                if (annotation instanceof core_1.NgModule) {
                     result.ngModules.push(staticType);
                 }
-                else if (annotation instanceof core_1.ComponentMetadata) {
+                else if (annotation instanceof core_1.Component) {
                     result.components.push(staticType);
                 }
             });
@@ -103,17 +103,17 @@ var CodeGenerator = (function () {
             return ngModules;
         }, []);
         var analyzedNgModules = this.compiler.analyzeModules(ngModules);
-        return Promise
-            .all(fileMetas.map(function (fileMeta) { return _this.compiler
-            .compile(fileMeta.fileUrl, analyzedNgModules, fileMeta.components, fileMeta.ngModules)
-            .then(function (generatedModules) {
-            generatedModules.forEach(function (generatedModule) {
-                var sourceFile = _this.program.getSourceFile(fileMeta.fileUrl);
-                var emitPath = _this.calculateEmitPath(generatedModule.moduleUrl);
-                _this.host.writeFile(emitPath, PREAMBLE + generatedModule.source, false, function () { }, [sourceFile]);
+        return Promise.all(fileMetas.map(function (fileMeta) {
+            return _this.compiler
+                .compile(fileMeta.fileUrl, analyzedNgModules, fileMeta.components, fileMeta.ngModules)
+                .then(function (generatedModules) {
+                generatedModules.forEach(function (generatedModule) {
+                    var sourceFile = _this.program.getSourceFile(fileMeta.fileUrl);
+                    var emitPath = _this.calculateEmitPath(generatedModule.moduleUrl);
+                    _this.host.writeFile(emitPath, PREAMBLE + generatedModule.source, false, function () { }, [sourceFile]);
+                });
             });
-        }); }))
-            .catch(function (e) { console.error(e.stack); });
+        }));
     };
     CodeGenerator.create = function (options, cliOptions, program, compilerHost, reflectorHostContext, resourceLoader) {
         resourceLoader = resourceLoader || {
